@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# the here delimiter may contain quoting at its introducing occurrence 
+
+if true
+then cat <<'E'"O"\F
+contents of the here document
+EOF
+fi
