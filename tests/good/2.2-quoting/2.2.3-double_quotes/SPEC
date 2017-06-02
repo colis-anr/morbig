@@ -1,0 +1,51 @@
+2.2.3 Double-Quotes
+
+Enclosing characters in double-quotes ( "" ) shall preserve the
+literal value of all characters within the double-quotes, with the
+exception of the characters backquote, <dollar-sign>, and <backslash>,
+as follows:
+
+$
+
+  The <dollar-sign> shall retain its special meaning introducing
+  parameter expansion (see Parameter Expansion), a form of command
+  substitution (see Command Substitution), and arithmetic expansion
+  (see Arithmetic Expansion).
+
+  The input characters within the quoted string that are also enclosed
+  between "$(" and the matching ')' shall not be affected by the
+  double-quotes, but rather shall define that command whose output
+  replaces the "$(...)" when the word is expanded. The tokenizing
+  rules in Token Recognition, not including the alias substitutions in
+  Alias Substitution, shall be applied recursively to find the
+  matching ')'.
+
+  Within the string of characters from an enclosed "${" to the
+  matching '}', an even number of unescaped double-quotes or
+  single-quotes, if any, shall occur. A preceding <backslash>
+  character shall be used to escape a literal '{' or '}'. The rule in
+  Parameter Expansion shall be used to determine the matching '}'.
+
+`
+  The backquote shall retain its special meaning introducing the other
+  form of command substitution (see Command Substitution). The portion
+  of the quoted string from the initial backquote and the characters
+  up to the next backquote that is not preceded by a <backslash>,
+  having escape characters removed, defines that command whose output
+  replaces "`...`" when the word is expanded. Either of the following
+  cases produces undefined results:
+
+        A single-quoted or double-quoted string that begins, but does
+        not end, within the "`...`" sequence
+
+        A "`...`" sequence that begins, but does not end, within the
+        same double-quoted string
+
+\
+
+  The <backslash> shall retain its special meaning as an escape
+  character (see Escape Character (Backslash)) only when followed by
+  one of the following characters when considered special:
+
+    $   `   "   \   <newline>
+
