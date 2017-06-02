@@ -1,4 +1,3 @@
+true: package(menhirLib),package(str)
 <src>: include
-<analyzers>: include
-<src/*>: package(menhirLib),package(str)
-true : use_menhir, package(menhirLib), package(str), package(ppx_deriving_yojson)
+true: use_menhir, package(menhirLib), package(str), package(ppx_deriving_yojson)

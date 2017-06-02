@@ -1,3 +1,4 @@
+# -*- makefile -*-
 .PHONY: all clean debug
 
 OCAMLBUILD=ocamlbuild -use-ocamlfind
@@ -24,23 +25,13 @@ else
  OCAMLBUILDFLAGS = $(OCAMLBUILDFLAGS_COMMON)
 endif
 
-OCAMLBUILD = ocamlbuild -use-ocamlfind -use-menhir $(OCAMLBUILDFLAGS)
+OCAMLBUILD = ocamlbuild -use-ocamlfind $(OCAMLBUILDFLAGS)
 
 all:
-	$(OCAMLBUILD) morbig.native
-
-dump:
-	$(OCAMLBUILD) shdump.native
-
-test:
-	$(OCAMLBUILD) -lib unix shtest.native
-	$(OCAMLBUILD) shjson.native
-
-prelex.native: CST.ml prelexer.mll prelexer.mli parser.mly prelex.ml
-	$(OCAMLBUILD) $@
+	$(OCAMLBUILD) morbig.native libmorbig.cma libmorbig.cmxa libmorbig.cmxs
 
 debug:
-	$(OCAMLBUILD) -tag debug shparser.byte shstats.byte
+	$(OCAMLBUILD) -tag debug morbig.byte libmorbig.cma
 
 clean:
 	$(OCAMLBUILD) -clean

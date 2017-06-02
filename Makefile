@@ -2,8 +2,9 @@
 
 all:
 	$(MAKE) -C src
-	mkdir -p bin
+	mkdir -p bin lib
 	cp src/morbig.native bin/morbig
+	cp _build/src/libmorbig.* _build/src/dllmorbig.so lib
 
 debug:
 	DEBUGPARSING=yes $(MAKE) -C src
@@ -25,5 +26,5 @@ install:
 
 clean:
 	$(MAKE) -C src clean
-	rm -f bin/shparser
-	[ ! -d bin ] || rmdir bin
+	[ ! -d bin ] || rm -fr bin
+	[ ! -d lib ] || rm -fr lib
