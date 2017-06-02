@@ -1,14 +1,15 @@
 .PHONY: all debug clean
+MAIN=morbigparser
 
 all:
 	$(MAKE) -C src
 	mkdir -p bin
-	cp src/morbig.native bin/morbig
+	cp src/$(MAIN).native bin/$(MAIN)
 
 debug:
 	DEBUGPARSING=yes $(MAKE) -C src
 	mkdir -p bin
-	cp src/morbig.native bin/morbig
+	cp src/(MAIN).native bin/(MAIN)
 
 install:
 	@ if [ x$(PREFIX) = x ]; then			\
@@ -17,11 +18,11 @@ install:
 	  echo;						\
 	  echo % PREFIX=... make install;		\
 	  echo ;					\
-          echo 'to install morbig at $$PREFIX/bin';	\
+          echo 'to install (MAIN) at $$PREFIX/bin';	\
 	  echo ;					\
 	  exit 1;					\
 	fi
-	cp bin/morbig $(PREFIX)/bin
+	cp bin/(MAIN) $(PREFIX)/bin
 
 clean:
 	$(MAKE) -C src clean

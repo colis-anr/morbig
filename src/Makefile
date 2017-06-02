@@ -27,7 +27,7 @@ endif
 OCAMLBUILD = ocamlbuild -use-ocamlfind -use-menhir $(OCAMLBUILDFLAGS)
 
 all:
-	$(OCAMLBUILD) morbig.native
+	$(OCAMLBUILD) morbigparser.native
 
 dump:
 	$(OCAMLBUILD) shdump.native

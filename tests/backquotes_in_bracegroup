@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Specification 2.9.4 Compound Commands - Grouping Commands
+#
+#  { compound-list ; }
+#
+# Execute compound-list in the current process environment. The
+# semicolon shown here is an example of a control operator delimiting
+# the } reserved word. Other delimiters are possible, as shown in
+# Shell Grammar; a <newline> is frequently used.
+
+{
+    echo "`echo foo`"
+    echo "`echo bar`"
+}
