@@ -513,7 +513,7 @@ let save_as_json cout csts =
   Yojson.Safe.to_channel cout
 
 let save filename (cst : CST.complete_command list) =
-  let cout = open_out (Options.output_file ()) in
+  let cout = open_out (Options.output_file_of_input_file filename) in
   Options.(begin match backend () with
   | Bin -> output_value cout (filename, cst)
   | Json -> save_as_json cout cst
