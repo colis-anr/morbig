@@ -202,9 +202,6 @@ let recognize_reserved_word_if_relevant checkpoint (pretoken, pstart, pstop) w =
    Assignment to the NAME shall occur as specified in Simple Commands.
 
 *)
-(** Forward declaration for a parser for complete command list from
-    string. This declaration is set at the end of this module. *)
-let parse_assignment_word = ref (fun _ -> assert false)
 
 let recognize_assignment checkpoint pretoken w = FirstSuccessMonad.(
   match Str.(split_delim (regexp "=") w) with
@@ -554,13 +551,3 @@ let parse_file filename =
   let cst = parse (ExtPervasives.string_of_channel cin) in
   close_in cin;
   cst
-
-let _ =
-  parse_assignment_word := (
-    function (AssignmentWord (name, s)) ->
-      try
-        AssignmentWord (name, parse s)
-      with _ ->
-        Printf.eprintf "Syntax error:\n%s\n" s;
-        exit 1
-  );

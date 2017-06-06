@@ -5,5 +5,6 @@ exception SyntaxError of Position.t * string
 
 (** [parse_file filename] performs the syntactic analysis of
    [filename] and returns a concrete syntax tree if [filename] content
-   is syntactically correct. Raise {SyntaxError msg} otherwise. *)
+   is syntactically correct. Raise {SyntaxError (pos, msg)}
+   otherwise. *)
 val parse_file : string -> CST.complete_command_list
