@@ -264,11 +264,10 @@ and lexing_position = {
   pos_cnum : int ;
 }
 
-and 'a located =
-    {
-      value    : 'a;
-      position : position;
-    }
+and 'a located = {
+  value    : 'a;
+  position : position;
+}
 
 and clist' = clist located
 and and_or' = and_or located
@@ -318,7 +317,15 @@ and name' = name located
 and complete_command_list = complete_command list
 
 and complete_command_list' = complete_command_list located
-[@@deriving yojson, visitors { variety = "iter"; polymorphic = true }]
+[@@deriving
+   yojson,
+   visitors { variety = "iter";    polymorphic = true },
+   visitors { variety = "map";     polymorphic = true },
+   visitors { variety = "reduce";  polymorphic = true },
+   visitors { variety = "iter2";   polymorphic = true },
+   visitors { variety = "map2";    polymorphic = true },
+   visitors { variety = "reduce2"; polymorphic = true }
+]
 
 let complete_command_to_json c =
   complete_command_to_yojson c
