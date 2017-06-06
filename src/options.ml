@@ -21,7 +21,7 @@ let output_file_of_input_file s =
 
 let _skip_nosh = ref false
 let skip_nosh () = !_skip_nosh
-                 
+
 let usage_msg = "\
 Usage: morbig [options] file...
 "
