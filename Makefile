@@ -23,6 +23,8 @@ install:
 	  exit 1;					\
 	fi
 	cp bin/morbig $(PREFIX)/bin
+	cp lib/* `ocamlfind printconf destdir`/libmorbig
+	ocamlfind install libmorbig META || true
 
 clean:
 	$(MAKE) -C src clean

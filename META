@@ -1,0 +1,7 @@
+name="libmorbig"
+version="0.1"
+description="API of Morbig, a POSIX shell parser"
+requires=""
+archive(byte)="libmorbig.cma"
+archive(native)="libmorbig.cmxa"
+archive(native,plugin)="libmorbig.cmxs"
