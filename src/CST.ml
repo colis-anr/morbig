@@ -9,7 +9,7 @@
     with the names of producers appearing in the right-hand-side of
     the production rule.
 
-    We do not need types for operators and reserved word.
+    We do not need types for operators and reserved words.
  *)
 type complete_command =
   | CompleteCommand_CList_Separator of clist' * separator'
