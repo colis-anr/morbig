@@ -1,4 +1,3 @@
 true: package(menhirLib),package(str)
-<src>: include
 true: use_menhir, package(menhirLib), package(str), package(ppx_deriving_yojson)
 true : package(visitors.ppx), package(visitors.runtime)
