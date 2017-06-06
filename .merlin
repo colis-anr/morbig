@@ -2,3 +2,5 @@ S src
 B _build/src
 PKG yojson
 PKG ppx_deriving_yojson
+PKG visitors.ppx
+PKG visitors.runtime

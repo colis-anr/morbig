@@ -1,12 +1,21 @@
-type word = Word of string  [@@deriving yojson]
-type name = Name of string  [@@deriving yojson]
-type 'a assignment_word = AssignmentWord of name * 'a  [@@deriving yojson]
-type io_number = IONumber of string  [@@deriving yojson]
+open Position
+
+type word = Word of string
+[@@deriving yojson]
+
+type name = Name of string
+[@@deriving yojson]
+
+type 'a assignment_word = AssignmentWord of name * 'a
+[@@deriving yojson]
+
+type io_number = IONumber of string
+[@@deriving yojson]
 
 let unWord (Word s) = s
 
 let unName (Name s) = s
-                    
+
 let word_of_name (Name w) = Word w
 
 let word_of_assignment_word (AssignmentWord (Name n, s)) =
@@ -22,7 +31,7 @@ end)
 let pp_word ppf = function
   | Word s ->
      Format.fprintf ppf "%s" s
-    
+
 let pp_name ppf = function
   | Name s ->
      Format.fprintf ppf "%s" s
