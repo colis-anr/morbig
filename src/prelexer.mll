@@ -1,10 +1,10 @@
-(**
+(** -*- tuareg -*-
 
    This module implements the token recognizer when it is not in the mode
    that recognizes here-documents as specified by:
 
-	      http://pubs.opengroup.org/onlinepubs/9699919799/
-	      2.3 Token Recognition
+              http://pubs.opengroup.org/onlinepubs/9699919799/
+              2.3 Token Recognition
 
 *)
 
@@ -54,11 +54,11 @@ let return ?(with_newline=false) lexbuf current tokens =
     (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
   in let buffered = flush_word current
   in let tokens = if with_newline
-		  then tokens @ [NEWLINE]
-		  else tokens
+                  then tokens @ [NEWLINE]
+                  else tokens
   in let tokens = if buffered <> ""
-		  then (Word buffered) :: tokens
-		  else tokens
+                  then (Word buffered) :: tokens
+                  else tokens
   in List.map produce tokens
 
 let operators = Hashtbl.create 17     ;;
@@ -109,9 +109,9 @@ let blank   = [' ' '\009' '\012']
 let digit = ['0'-'9']
 
 let operator = "&&" | "||" | ";;" |
-	       "<<" | ">>" | "<&" | ">&" | "<>" | "<<-" |
-	       ">|" |
-	       "|" | "(" | ")" | "<" | ">" | ";" | "&"
+               "<<" | ">>" | "<&" | ">&" | "<>" | "<<-" |
+               ">|" |
+               "|" | "(" | ")" | "<" | ">" | ";" | "&"
 
 
 
@@ -177,7 +177,7 @@ rule token current = parse
 *)
   | '\\' newline {
     token current lexbuf
-	 }
+         }
   | '\\' _  {
     token (push_string current (Lexing.lexeme lexbuf)) lexbuf
   }
@@ -406,9 +406,9 @@ and after_equal level current = parse
     let current = push_character current '`' in
     match level with
       | Backquotes :: level ->
-	after_equal level current lexbuf
+        after_equal level current lexbuf
       | level ->
-	after_equal (Backquotes :: level) current lexbuf
+        after_equal (Backquotes :: level) current lexbuf
   }
   | "("|"{" as op {
     let current = push_character current op in
@@ -418,9 +418,9 @@ and after_equal level current = parse
     let current = push_character current op in
     match level with
       | nestop :: level when nestop=nesting_of_closing op ->
-	after_equal level current lexbuf
+        after_equal level current lexbuf
       | _ ->
-	failwith "Lexing error: unbalanced parantheses"
+        failwith "Lexing error: unbalanced parantheses"
   }
   | "\"" {
     let current = push_character current '"' in
@@ -449,7 +449,7 @@ and after_equal level current = parse
       let current = push_character current ' ' in
       after_equal level current lexbuf
     )
-      }
+  }
   (* FIXME: which other operators shall be accepted as delimiters here ?*)
   | ";;" as s {
     return lexbuf current [optoken_of_string s]
