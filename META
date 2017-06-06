@@ -1,7 +1,7 @@
 name="libmorbig"
 version="0.1"
 description="API of Morbig, a POSIX shell parser"
-requires=""
+requires="str,menhirLib,visitors.ppx,visitors.runtime,ppx_deriving_yojson,yojson"
 archive(byte)="libmorbig.cma"
 archive(native)="libmorbig.cmxa"
 archive(native,plugin)="libmorbig.cmxs"

@@ -510,14 +510,6 @@ let save_as_json cout csts =
   CST.complete_command_list_to_json csts |>
   Yojson.Safe.pretty_to_channel cout
 
-let save filename (cst : CST.complete_command list) =
-  let cout = open_out (Options.output_file_of_input_file filename) in
-  Options.(begin match backend () with
-  | Bin -> output_value cout (filename, cst)
-  | Json -> save_as_json cout cst
-  end);
-  close_out cout
-
 let other_scripts_magic_strings =
   List.map Str.regexp [
              "#![ ]*/usr/bin/perl.*";
