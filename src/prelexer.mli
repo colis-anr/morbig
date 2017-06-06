@@ -29,3 +29,13 @@ val token :
  *)
 val readline :
   Lexing.lexbuf -> (string  * Lexing.position * Lexing.position) option
+
+  
+(** {6 Undocumented functions} *)
+
+type nesting =
+  | Backquotes
+  | Parentheses
+  | Braces
+
+val next_nesting : nesting -> int -> Buffer.t -> Lexing.lexbuf -> Buffer.t
