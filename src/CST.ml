@@ -15,6 +15,8 @@ type complete_command =
   | CompleteCommand_CList_Separator of clist' * separator'
   | CompleteCommand_CList of clist'
 
+and complete_command_list = complete_command list
+
 and clist =
   (* called [list] in the grammar *)
   | CList_CList_SeparatorOp_AndOr of clist' * separator_op' * and_or'
@@ -313,10 +315,8 @@ and separator' = separator located
 and sequential_sep' = sequential_sep located
 and word' = word located
 and name' = name located
-
-and complete_command_list = complete_command list
-
 and complete_command_list' = complete_command_list located
+
 [@@deriving
    yojson,
    visitors { variety = "iter";    polymorphic = true },
