@@ -510,7 +510,7 @@ let parse contents =
 
 let save_as_json cout csts =
   CST.complete_command_list_to_json csts |>
-  Yojson.Safe.to_channel cout
+  Yojson.Safe.pretty_to_channel cout
 
 let save filename (cst : CST.complete_command list) =
   let cout = open_out (Options.output_file_of_input_file filename) in
