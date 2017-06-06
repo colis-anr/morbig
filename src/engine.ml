@@ -95,26 +95,26 @@ let remove_quotes s =
   while !i<n do
     if s.[!i] = '\''
     then begin
-	(* skip the initial single quote *)
-	skip ();
-	(* scan and push on the buffer until next single quote *)
-	while (!i<n && s.[!i] <> '\'') do
-	  keep ()
-	done;
-	(* skip the final single quote *)
-	if !i<n then skip ()
+        (* skip the initial single quote *)
+        skip ();
+        (* scan and push on the buffer until next single quote *)
+        while (!i<n && s.[!i] <> '\'') do
+          keep ()
+        done;
+        (* skip the final single quote *)
+        if !i<n then skip ()
       end
     else if s.[!i] = '"'
     then
       (* just skip any double quote if we see it here (that is, not escaped
-	   and not inside single quotes *)
+           and not inside single quotes *)
       skip ()
     else if s.[!i] = '\\'
     then begin
-	(* skip the backslash *)
-	skip ();
-	(* and push the next symbol on the buffer *)
-	if !i<n then keep ()
+        (* skip the backslash *)
+        skip ();
+        (* and push the next symbol on the buffer *)
+        if !i<n then keep ()
       end
     else keep ()
   done;
@@ -166,14 +166,14 @@ let recognize_reserved_word_if_relevant checkpoint (pretoken, pstart, pstop) w =
     try
       let kwd = keyword_of_string w in
       if accepted_token checkpoint (kwd, pstart, pstop) then
-	return kwd
+        return kwd
       else
-	raise Not_found
+        raise Not_found
     with Not_found ->
       if is_name w then
-	return (NAME (SemanticValues.Name w))
+        return (NAME (SemanticValues.Name w))
       else
-	return (WORD (SemanticValues.Word w))
+        return (WORD (SemanticValues.Word w))
   )
 
 (**specification
@@ -214,16 +214,16 @@ let recognize_assignment checkpoint pretoken w = FirstSuccessMonad.(
     | name :: rhs ->
       let rhs = String.concat "=" rhs in
       if is_name name then
-	let aword = SemanticValues.(AssignmentWord (Name name, Word rhs)) in
-	let (_, pstart, pstop) = pretoken in
-	let token = ASSIGNMENT_WORD aword in
-	if accepted_token checkpoint (token, pstart, pstop) then
-	  return token
-	else
-	  return (WORD (SemanticValues.Word rhs))
+        let aword = SemanticValues.(AssignmentWord (Name name, Word rhs)) in
+        let (_, pstart, pstop) = pretoken in
+        let token = ASSIGNMENT_WORD aword in
+        if accepted_token checkpoint (token, pstart, pstop) then
+          return token
+        else
+          return (WORD (SemanticValues.Word rhs))
       else
-	(* We choose to return a WORD. *)
-	return (WORD (SemanticValues.Word w))
+        (* We choose to return a WORD. *)
+        return (WORD (SemanticValues.Word w))
     | _ ->
       return (WORD (SemanticValues.Word w))
 )
@@ -287,16 +287,16 @@ let parse contents =
     let pretokenizer = Prelexer.token buffer in
 
     (** The pretokenizer may produce several pretokens, we
-	use an intermediate queue to synchronize pretokens'
-	consumption with their production. *)
+        use an intermediate queue to synchronize pretokens'
+        consumption with their production. *)
     let q = Queue.create () in
     let push x = Queue.push x q in
     let rec aux () =
       try
-	Queue.take q
+        Queue.take q
       with Queue.Empty ->
-	List.iter (fun x -> Queue.push x q) (pretokenizer lexbuf);
-	aux ()
+        List.iter (fun x -> Queue.push x q) (pretokenizer lexbuf);
+        aux ()
     in
     aux, push
   in
@@ -357,45 +357,45 @@ let parse contents =
     else
       let (pretoken, pstart, pstop) as p = next_pretoken () in
       let return token =
-	if token = EOF then eof := true;
-	let token = if !eof then EOF else token in
-	(token, pstart, pstop)
+        if token = EOF then eof := true;
+        let token = if !eof then EOF else token in
+        (token, pstart, pstop)
       in
       match pretoken with
-	| Prelexer.Word w ->
+        | Prelexer.Word w ->
 
-	(**specification
+        (**specification
 
-	   [Command Name]
+           [Command Name]
 
-	   When the TOKEN is exactly a reserved word, the token
-	   identifier for that reserved word shall result. Otherwise,
-	   the token WORD shall be returned. Also, if the parser is in
-	   any state where only a reserved word could be the next
-	   correct token, proceed as above.
+           When the TOKEN is exactly a reserved word, the token
+           identifier for that reserved word shall result. Otherwise,
+           the token WORD shall be returned. Also, if the parser is in
+           any state where only a reserved word could be the next
+           correct token, proceed as above.
 
-	   Note: Because at this point <quotation-mark> characters are
-	   retained in the token, quoted strings cannot be recognized
-	   as reserved words. This rule also implies that reserved
-	   words are not recognized except in certain positions in the
-	   input, such as after a <newline> or <semicolon>; the
-	   grammar presumes that if the reserved word is intended, it
-	   is properly delimited by the user, and does not attempt to
-	   reflect that requirement directly. Also note that line
-	   joining is done before tokenization, as described in Escape
-	   Character (Backslash), so escaped <newline> characters are
-	   already removed at this point.  Rule 1 is not directly
-	   referenced in the grammar, but is referred to by other
-	   rules, or applies globally.
+           Note: Because at this point <quotation-mark> characters are
+           retained in the token, quoted strings cannot be recognized
+           as reserved words. This rule also implies that reserved
+           words are not recognized except in certain positions in the
+           input, such as after a <newline> or <semicolon>; the
+           grammar presumes that if the reserved word is intended, it
+           is properly delimited by the user, and does not attempt to
+           reflect that requirement directly. Also note that line
+           joining is done before tokenization, as described in Escape
+           Character (Backslash), so escaped <newline> characters are
+           already removed at this point.  Rule 1 is not directly
+           referenced in the grammar, but is referred to by other
+           rules, or applies globally.
 
-	*)
-	  let token = FirstSuccessMonad.(
-	    (recognize_assignment checkpoint p w)
-	    +> (recognize_reserved_word_if_relevant checkpoint p w)
-	    +> return (WORD (SemanticValues.Word w))
-	  )
-	  in
-	  if !here_document_find_delimiter then (
+        *)
+          let token = FirstSuccessMonad.(
+            (recognize_assignment checkpoint p w)
+            +> (recognize_reserved_word_if_relevant checkpoint p w)
+            +> return (WORD (SemanticValues.Word w))
+          )
+          in
+          if !here_document_find_delimiter then (
             (** specification
 
                 2.7.4 Here-Document
@@ -405,53 +405,53 @@ let parse contents =
                 here-document lines shall not be expanded. Otherwise,
                 the delimiter shall be the word itself.
              *)
-	    here_document_delimiters :=
+            here_document_delimiters :=
               (remove_quotes w) :: !here_document_delimiters;
-	    here_document_find_delimiter := false
-	  );
-	  return (FirstSuccessMonad.should_succeed token)
+            here_document_find_delimiter := false
+          );
+          return (FirstSuccessMonad.should_succeed token)
 
-	| Prelexer.EOF ->
-	  real_eof := true;
-	  return EOF
+        | Prelexer.EOF ->
+          real_eof := true;
+          return EOF
 
-	| Prelexer.Operator ((DLESS r | DLESSDASH r) as token) ->
-	  here_document_on_next_line := true;
-	  here_document_find_delimiter := true;
-	  let dashed = match token with DLESSDASH _ -> true | _ -> false in
+        | Prelexer.Operator ((DLESS r | DLESSDASH r) as token) ->
+          here_document_on_next_line := true;
+          here_document_find_delimiter := true;
+          let dashed = match token with DLESSDASH _ -> true | _ -> false in
           here_document_skip_tabs := dashed :: !here_document_skip_tabs;
-	  return token
+          return token
 
-	| Prelexer.Operator token ->
-	  return token
+        | Prelexer.Operator token ->
+          return token
 
-	| Prelexer.NEWLINE ->
-	(** The interpretation of the pretoken [NEWLINE] depends
-	    on the parsing context: *)
+        | Prelexer.NEWLINE ->
+        (** The interpretation of the pretoken [NEWLINE] depends
+            on the parsing context: *)
 
-	(** If we are to recognize a here-document, [NEWLINE] triggers
-	    the here-document lexing mode. *)
-	  if !here_document_on_next_line then (
-	    here_document_on_next_line := false;
-	    here_document_lexing := true;
-	    here_document_delimiters := List.rev !here_document_delimiters;
-	    here_document_skip_tabs := List.rev !here_document_skip_tabs;
-	    next_token checkpoint
-	  )
+        (** If we are to recognize a here-document, [NEWLINE] triggers
+            the here-document lexing mode. *)
+          if !here_document_on_next_line then (
+            here_document_on_next_line := false;
+            here_document_lexing := true;
+            here_document_delimiters := List.rev !here_document_delimiters;
+            here_document_skip_tabs := List.rev !here_document_skip_tabs;
+            next_token checkpoint
+          )
 
         (** If the input is completed, [NEWLINE] is interpreted
-	    as the end-of-file marker. *)
-	  else if finished (offer checkpoint (EOF, pstart, pstop)) then
-	    return EOF
+            as the end-of-file marker. *)
+          else if finished (offer checkpoint (EOF, pstart, pstop)) then
+            return EOF
 
-	(** If the input is not completed but [NEWLINE] as a meaning
-	    from the point of view of the grammar, it is promoted as a
-	    token and communicated to the parser. *)
-	  else if accepted_token checkpoint (NEWLINE, pstart, pstop) then
-	    return NEWLINE
+        (** If the input is not completed but [NEWLINE] as a meaning
+            from the point of view of the grammar, it is promoted as a
+            token and communicated to the parser. *)
+          else if accepted_token checkpoint (NEWLINE, pstart, pstop) then
+            return NEWLINE
 
-	(** Otherwise, a [NEWLINE] is simply layout and is ignored. *)
-	  else next_token checkpoint
+        (** Otherwise, a [NEWLINE] is simply layout and is ignored. *)
+          else next_token checkpoint
   in
 
     (**--------------**)
@@ -462,14 +462,14 @@ let parse contents =
     match checkpoint with
       (**
 
-	 If the parser requires some extra input to continue
-	 the analyze, [next_token] is called with the current
-	 parsing state as argument.
+         If the parser requires some extra input to continue
+         the analyze, [next_token] is called with the current
+         parsing state as argument.
 
       *)
       | InputNeeded parsing_state ->
-	let (token, ps, pe) = next_token checkpoint in
-	parse (offer checkpoint (token, ps, pe))
+        let (token, ps, pe) = next_token checkpoint in
+        parse (offer checkpoint (token, ps, pe))
 
     (**
 
@@ -479,11 +479,11 @@ let parse contents =
 
     *)
       | Accepted cst ->
-	eof := false;
-	if !real_eof then
-	  [cst]
-	else
-	  cst :: parse (complete_command lexbuf.Lexing.lex_curr_p)
+        eof := false;
+        if !real_eof then
+          [cst]
+        else
+          cst :: parse (complete_command lexbuf.Lexing.lex_curr_p)
 
     (**
 
@@ -492,10 +492,10 @@ let parse contents =
     *)
     (* FIXME: Generate a better error message. *)
       | Rejected ->
-	if !real_eof then
-	  []
-	else
-	  raise ParseError
+        if !real_eof then
+          []
+        else
+          raise ParseError
 
     (**
 
@@ -503,7 +503,7 @@ let parse contents =
 
     *)
       | Shifting (_, _, _) | HandlingError _ | AboutToReduce (_, _) ->
-	parse (resume checkpoint)
+        parse (resume checkpoint)
 
   in
   parse (complete_command lexbuf.Lexing.lex_curr_p)
