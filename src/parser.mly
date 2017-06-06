@@ -86,22 +86,21 @@
 
 %{
 
-  open SemanticValues
   open CST
 
   type here_document_content =
-      SemanticValues.word ref
+      CST.word ref
 
 %}
 
 (* -------------------------------------------------------
    The grammar symbols
    ------------------------------------------------------- *)
-%token<SemanticValues.word>  WORD
-%token<SemanticValues.word SemanticValues.assignment_word>  ASSIGNMENT_WORD
-%token<SemanticValues.name>  NAME
+%token<CST.word>  WORD
+%token<CST.word CST.assignment_word>  ASSIGNMENT_WORD
+%token<CST.name>  NAME
 %token NEWLINE
-%token<SemanticValues.io_number>  IO_NUMBER
+%token<CST.io_number>  IO_NUMBER
 
 (* The following are the operators mentioned above. *)
 
@@ -109,7 +108,7 @@
 %token  AND_IF    OR_IF    DSEMI
 (*      '&&'      '||'     ';;'    *)
 
-%token<SemanticValues.word ref> DLESS DLESSDASH
+%token<CST.word ref> DLESS DLESSDASH
 (*                              '<<'  '<<-' *)
 
 %token  DGREAT  LESSAND  GREATAND  LESSGREAT
@@ -275,27 +274,27 @@ for_clause: For n=located(name) l=located(linebreak) d=located(do_group) {
 }
 ;
 name: n=NAME                    /* Apply rule 5 */ {
-  Name n
+  n
 }
 ;
 cin              : In                       /* Apply rule 6 */ {
   ()
 }
 ;
-wordlist         : wl=located(wordlist) w=word {
+wordlist         : wl=located(wordlist) w=located(word) {
   WordList_WordList_Word (wl, w)
 }
-|          w=word {
+|          w=located(word) {
   WordList_Word w
 }
 ;
-case_clause: Case w=word l1=located(linebreak) cin l2=located(linebreak) c=located(case_list) Esac {
+case_clause: Case w=located(word) l1=located(linebreak) cin l2=located(linebreak) c=located(case_list) Esac {
   CaseClause_Case_Word_LineBreak_In_LineBreak_CaseList_Esac (w, l1, l2, c)
 }
-| Case w=word l1=located(linebreak) cin l2=located(linebreak) c=located(case_list_ns) Esac {
+| Case w=located(word) l1=located(linebreak) cin l2=located(linebreak) c=located(case_list_ns) Esac {
   CaseClause_Case_Word_LineBreak_In_LineBreak_CaseListNS_Esac (w, l1, l2, c)
 }
-| Case w=word l1=located(linebreak) cin l2=located(linebreak) Esac {
+| Case w=located(word) l1=located(linebreak) cin l2=located(linebreak) Esac {
   CaseClause_Case_Word_LineBreak_In_LineBreak_Esac (w, l1, l2)
 }
 ;
@@ -339,10 +338,10 @@ case_item        : p=located(pattern) Rparen l1=located(linebreak) DSEMI l2=loca
   CaseItem_Lparen_Pattern_Rparen_CompoundList_Dsemi_LineBreak (p, c, l)
 }
 ;
-pattern          : w=word       /* Apply rule 4 */ {
+pattern          : w=located(word)       /* Apply rule 4 */ {
   Pattern_Word w
 }
-| p=located(pattern) Pipe w=word         /* Do not apply rule 4 */ {
+| p=located(pattern) Pipe w=located(word)         /* Do not apply rule 4 */ {
   Pattern_Pattern_Pipe_Word (p, w)
 }
 ;
@@ -410,11 +409,11 @@ simple_command   : cp=located(cmd_prefix) cw=located(cmd_word) cs=located(cmd_su
   SimpleCommand_CmdName cn
 }
 ;
-cmd_name         : w=word                   /* Apply rule 7a */ {
+cmd_name         : w=located(word)                   /* Apply rule 7a */ {
   CmdName_Word w
 }
 ;
-cmd_word         : w=word                   /* Apply rule 7b */ {
+cmd_word         : w=located(word)                   /* Apply rule 7b */ {
   CmdWord_Word w
 }
 ;
@@ -424,10 +423,10 @@ cmd_prefix       : i=located(io_redirect) {
 | cp=located(cmd_prefix) i=located(io_redirect) {
   CmdPrefix_CmdPrefix_IoRedirect (cp, i)
 }
-| a=ASSIGNMENT_WORD {
+| a=located(ASSIGNMENT_WORD) {
   CmdPrefix_AssignmentWord a
 }
-| cp=located(cmd_prefix) a=ASSIGNMENT_WORD {
+| cp=located(cmd_prefix) a=located(ASSIGNMENT_WORD) {
   CmdPrefix_CmdPrefix_AssignmentWord (cp, a)
 }
 ;
@@ -437,10 +436,10 @@ cmd_suffix       : i=located(io_redirect) {
 | cs=located(cmd_suffix) i=located(io_redirect) {
   CmdSuffix_CmdSuffix_IoRedirect (cs, i)
 }
-| w=word {
+| w=located(word) {
   CmdSuffix_Word w
 }
-| cs=located(cmd_suffix) w=word {
+| cs=located(cmd_suffix) w=located(word) {
   CmdSuffix_CmdSuffix_Word (cs, w)
 }
 ;
@@ -486,7 +485,7 @@ io_file          : LESS f=located(filename) {
   IoFile_Clobber_FileName f
 }
 ;
-filename         : w=word                      /* Apply rule 2 */ {
+filename         : w=located(word)                      /* Apply rule 2 */ {
   Filename_Word w
 }
 ;
@@ -497,7 +496,7 @@ io_here          : DLESS he=located(here_end) {
   IoHere_DLessDash_HereEnd he
 }
 ;
-here_end         : w=word                      /* Apply rule 3 */ {
+here_end         : w=located(word)                      /* Apply rule 3 */ {
   HereEnd_Word w
 }
 ;
@@ -541,9 +540,9 @@ sequential_sep : Semicolon l=located(linebreak) {
   w
 }
 | n=NAME {
-  SemanticValues.word_of_name n
+  CST.word_of_name n
 }
 
 %inline located(X): x=X {
-  Position.with_poss $startpos $endpos x
+  with_poss $startpos $endpos x
 }

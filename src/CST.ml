@@ -11,8 +11,6 @@
 
     We do not need types for operators and reserved word.
  *)
-open Position
-
 type complete_command =
   | CompleteCommand_CList_Separator of clist' * separator'
   | CompleteCommand_CList of clist'
@@ -72,20 +70,17 @@ and for_clause =
   | ForClause_For_Name_LineBreak_In_WordList_SequentialSep_DoGroup of
       name' * linebreak' * wordlist' * sequential_sep' * do_group'
 
-and name =
-  | Name of SemanticValues.name
-
 and wordlist =
-  | WordList_WordList_Word of wordlist' * SemanticValues.word
-  | WordList_Word of SemanticValues.word
+  | WordList_WordList_Word of wordlist' * word'
+  | WordList_Word of word'
 
 and case_clause =
   | CaseClause_Case_Word_LineBreak_In_LineBreak_CaseList_Esac of
-      SemanticValues.word * linebreak' * linebreak' * case_list'
+      word' * linebreak' * linebreak' * case_list'
   | CaseClause_Case_Word_LineBreak_In_LineBreak_CaseListNS_Esac of
-      SemanticValues.word * linebreak' * linebreak' * case_list_ns'
+      word' * linebreak' * linebreak' * case_list_ns'
   | CaseClause_Case_Word_LineBreak_In_LineBreak_Esac of
-      SemanticValues.word * linebreak' * linebreak'
+      word' * linebreak' * linebreak'
 
 and case_list_ns =
   | CaseListNS_CaseList_CaseItemNS of case_list' * case_item_ns'
@@ -116,8 +111,8 @@ and case_item =
       pattern' * compound_list' * linebreak'
 
 and pattern =
-  | Pattern_Word of SemanticValues.word
-  | Pattern_Pattern_Pipe_Word of pattern' * SemanticValues.word
+  | Pattern_Word of word'
+  | Pattern_Pattern_Pipe_Word of pattern' * word'
 
 and if_clause =
   | IfClause_If_CompoundList_Then_CompoundList_ElsePart_Fi of
@@ -152,7 +147,7 @@ and function_body =
       compound_command' * redirect_list'
 
 and fname =
-  | Fname_Name of SemanticValues.name
+  | Fname_Name of name
 
 and brace_group =
   | BraceGroup_LBrace_CompoundList_RBrace of compound_list'
@@ -173,10 +168,10 @@ and simple_command =
       cmd_name'
 
 and cmd_name =
-  | CmdName_Word of SemanticValues.word
+  | CmdName_Word of word'
 
 and cmd_word =
-  | CmdWord_Word of SemanticValues.word
+  | CmdWord_Word of word'
 
 and cmd_prefix =
   | CmdPrefix_IoRedirect of
@@ -184,15 +179,15 @@ and cmd_prefix =
   | CmdPrefix_CmdPrefix_IoRedirect of
       cmd_prefix' * io_redirect'
   | CmdPrefix_AssignmentWord of
-      SemanticValues.word SemanticValues.assignment_word
+      word assignment_word'
   | CmdPrefix_CmdPrefix_AssignmentWord of
-      cmd_prefix' * SemanticValues.word SemanticValues.assignment_word
+      cmd_prefix' * word assignment_word'
 
 and cmd_suffix =
   | CmdSuffix_IoRedirect of io_redirect'
   | CmdSuffix_CmdSuffix_IoRedirect of cmd_suffix' * io_redirect'
-  | CmdSuffix_Word of SemanticValues.word
-  | CmdSuffix_CmdSuffix_Word of cmd_suffix' * SemanticValues.word
+  | CmdSuffix_Word of word'
+  | CmdSuffix_CmdSuffix_Word of cmd_suffix' * word'
 
 and redirect_list =
   | RedirectList_IoRedirect of io_redirect'
@@ -200,9 +195,9 @@ and redirect_list =
 
 and io_redirect =
   | IoRedirect_IoFile of io_file'
-  | IoRedirect_IoNumber_IoFile of SemanticValues.io_number * io_file'
+  | IoRedirect_IoNumber_IoFile of io_number * io_file'
   | IoRedirect_IoHere of io_here'
-  | IoRedirect_IoNumber_IoHere of SemanticValues.io_number * io_here'
+  | IoRedirect_IoNumber_IoHere of io_number * io_here'
 
 and io_file =
   | IoFile_Less_FileName of filename'
@@ -214,14 +209,14 @@ and io_file =
   | IoFile_Clobber_FileName of filename'
 
 and filename =
-  | Filename_Word of SemanticValues.word
+  | Filename_Word of word'
 
 and io_here =
   | IoHere_DLess_HereEnd of here_end'
   | IoHere_DLessDash_HereEnd of here_end'
 
 and here_end =
-  | HereEnd_Word of SemanticValues.word
+  | HereEnd_Word of word'
 
 and newline_list =
   | NewLineList_NewLine
@@ -247,6 +242,34 @@ and sequential_sep =
   | SequentialSep_NewLineList of
       newline_list'
 
+and word = Word of string
+
+and name = Name of string
+
+and 'a assignment_word = AssignmentWord of name * 'a
+
+and 'a assignment_word' = 'a assignment_word located
+
+and io_number = IONumber of string
+
+and position = {
+  start_p : lexing_position;
+  end_p   : lexing_position
+}
+
+and lexing_position = {
+  pos_fname : string ;
+  pos_lnum : int ;
+  pos_bol : int ;
+  pos_cnum : int ;
+}
+
+and 'a located =
+    {
+      value    : 'a;
+      position : position;
+    }
+
 and clist' = clist located
 and and_or' = and_or located
 and pipeline' = pipeline located
@@ -257,7 +280,6 @@ and subshell' = subshell located
 and compound_list' = compound_list located
 and term' = term located
 and for_clause' = for_clause located
-and name' = name located
 and wordlist' = wordlist located
 and case_clause' = case_clause located
 and case_list_ns' = case_list_ns located
@@ -290,17 +312,55 @@ and linebreak' = linebreak located
 and separator_op' = separator_op located
 and separator' = separator located
 and sequential_sep' = sequential_sep located
+and word' = word located
+and name' = name located
 
-[@@deriving yojson]
+and complete_command_list = complete_command list
 
-type complete_command_list = complete_command list
-[@@deriving yojson]
-
-type complete_command_list' = complete_command_list located
-[@@deriving yojson]
+and complete_command_list' = complete_command_list located
+[@@deriving yojson, visitors { variety = "iter"; polymorphic = true }]
 
 let complete_command_to_json c =
   complete_command_to_yojson c
 
 let complete_command_list_to_json cl =
   complete_command_list_to_yojson cl
+
+let unWord (Word s) = s
+
+let unName (Name s) = s
+
+let word_of_name (Name w) = Word w
+
+let word_of_assignment_word (AssignmentWord (Name n, s)) =
+  Word (n ^ "=" ^ s)
+
+let string_of_word (Word s) = s
+
+let with_pos p v =
+  {
+    value     = v;
+    position  = p;
+  }
+
+let internalize p = {
+  pos_fname = p.Lexing.pos_fname;
+  pos_lnum  = p.Lexing.pos_lnum;
+  pos_bol   = p.Lexing.pos_bol;
+  pos_cnum  = p.Lexing.pos_cnum;
+}
+
+let externalize p = {
+  Lexing.pos_fname = p.pos_fname;
+  pos_lnum  = p.pos_lnum;
+  pos_bol   = p.pos_bol;
+  pos_cnum  = p.pos_cnum;
+}
+
+let with_poss p1 p2 v =
+  with_pos { start_p = internalize p1; end_p = internalize p2 } v
+
+module NameSet = Set.Make (struct
+  type t = name
+  let compare (Name s1) (Name s2) = String.compare s1 s2
+end)

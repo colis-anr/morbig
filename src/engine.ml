@@ -3,6 +3,7 @@ open Parser.Incremental
 open Parser.MenhirInterpreter
 open MenhirLib.General
 open ExtPervasives
+open CST
 
 (** Raise in case of parsing error. *)
 exception ParseError
@@ -171,9 +172,9 @@ let recognize_reserved_word_if_relevant checkpoint (pretoken, pstart, pstop) w =
         raise Not_found
     with Not_found ->
       if is_name w then
-        return (NAME (SemanticValues.Name w))
+        return (NAME (CST.Name w))
       else
-        return (WORD (SemanticValues.Word w))
+        return (WORD (CST.Word w))
   )
 
 (**specification
@@ -210,22 +211,22 @@ let recognize_assignment checkpoint pretoken w = FirstSuccessMonad.(
     | [w] ->
       fail
     | [""; w] ->
-      return (WORD (SemanticValues.Word ("=" ^ w)))
+      return (WORD (CST.Word ("=" ^ w)))
     | name :: rhs ->
       let rhs = String.concat "=" rhs in
       if is_name name then
-        let aword = SemanticValues.(AssignmentWord (Name name, Word rhs)) in
+        let aword = CST.(AssignmentWord (Name name, Word rhs)) in
         let (_, pstart, pstop) = pretoken in
         let token = ASSIGNMENT_WORD aword in
         if accepted_token checkpoint (token, pstart, pstop) then
           return token
         else
-          return (WORD (SemanticValues.Word rhs))
+          return (WORD (CST.Word rhs))
       else
         (* We choose to return a WORD. *)
-        return (WORD (SemanticValues.Word w))
+        return (WORD (Word w))
     | _ ->
-      return (WORD (SemanticValues.Word w))
+      return (WORD (Word w))
 )
 
 (** [finished checkpoint] is [true] if the current [checkpoint] can
@@ -349,7 +350,7 @@ let parse contents =
       pos_bol  = !pstop.pos_bol  - 1;
     }) in
     push_pretoken (Prelexer.NEWLINE, before_stop, !pstop);
-    (WORD (SemanticValues.Word (Buffer.contents doc)), !pstart, !pstop)
+    (WORD (Word (Buffer.contents doc)), !pstart, !pstop)
   in
   let rec next_token checkpoint =
     if !here_document_lexing then
@@ -392,7 +393,7 @@ let parse contents =
           let token = FirstSuccessMonad.(
             (recognize_assignment checkpoint p w)
             +> (recognize_reserved_word_if_relevant checkpoint p w)
-            +> return (WORD (SemanticValues.Word w))
+            +> return (WORD (Word w))
           )
           in
           if !here_document_find_delimiter then (
@@ -555,7 +556,7 @@ let parse_file filename =
   cst
 
 let _ =
-  parse_assignment_word := SemanticValues.(
+  parse_assignment_word := (
     function (AssignmentWord (name, s)) ->
       try
         AssignmentWord (name, parse s)

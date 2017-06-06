@@ -98,7 +98,7 @@ let nesting_of_closing c =
   else failwith "Unrecognized nesting."
 
 let here_document_placeholder () =
-  ref (SemanticValues.Word "<you should not see this>")
+  ref (CST.Word "<you should not see this>")
 
 }
 
