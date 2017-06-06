@@ -8,7 +8,8 @@ let main =
   );
   List.iter
     (function input ->
-              if Engine.is_elf input || Engine.is_other_script input
+              if Options.skip_nosh () &&
+                   Engine.is_elf input || Engine.is_other_script input
               then begin
                   Printf.eprintf "Skipping: %s.\n" input;
                   exit 0

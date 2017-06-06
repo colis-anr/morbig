@@ -19,6 +19,9 @@ let output_file_of_input_file s =
   | Json -> s ^ ".json"
   | Bin -> s ^ ".morbig"
 
+let _skip_nosh = ref false
+let skip_nosh () = !_skip_nosh
+                 
 let usage_msg = "\
 Usage: morbig [options] file...
 "
@@ -26,8 +29,10 @@ Usage: morbig [options] file...
 let analyze_command_line_arguments () = Arg.(
     let options = [
       "--as", Symbol ([ "json"; "bin" ], set_backend),
-      " Set the output format. (default is json.)";
+      "Set the output format. (default is json.)";
 
+      "--skip-nosh", Set _skip_nosh,
+      "Skip input files that are ELF, or have a bash or perl magic string" 
     ]
     in
     parse (align options) append_file usage_msg
