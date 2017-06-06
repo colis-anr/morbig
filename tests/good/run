@@ -1,0 +1,4 @@
+#!/bin/sh
+morbig=../../bin/morbig
+
+find . -name "*.sh" | xargs ${morbig}
