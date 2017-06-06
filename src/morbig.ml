@@ -2,7 +2,7 @@ open API
 
 let main =
   Options.analyze_command_line_arguments ();
-  if List.length (Options.input_files ()) <= 1 then (
+  if List.length (Options.input_files ()) <= 0 then (
     Printf.eprintf "morbig: no input files.\n";
     exit 1
   );
