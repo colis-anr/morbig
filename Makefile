@@ -4,7 +4,8 @@ all:
 	$(MAKE) -C src
 	mkdir -p bin lib
 	cp src/morbig.native bin/morbig
-	cp _build/src/libmorbig.* _build/src/dllmorbig.so lib
+	cp src/_build/libmorbig.* lib
+	# cp src/_build/dllmorbig.so lib
 
 debug:
 	DEBUGPARSING=yes $(MAKE) -C src
