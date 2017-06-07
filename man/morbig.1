@@ -1,0 +1,34 @@
+.TH MORBIG 1
+
+.SH NAME
+morbig \- POSIX shell script parser
+
+.SH SYNOPSIS
+.B morbig
+[
+.I option
+]...
+[
+.I script-file
+]...
+.SH DESCRIPTION
+
+The
+.BR morbig (1)
+command is a parser for shell scripts written in the POSIX shell
+script language. The parser processes input files in order, and stops
+at the first error encountered.
+
+.SH OPTIONS
+
+The following command-line options are recognized:
+
+.TP
+.B \-\-skip-nosh
+Skip input files which either are ELF executables, or which start with
+a magic string indicating a bash or perl script.
+.TP
+.B \-\-as \fIformat\fR
+Produce for each input file that has been successfully parsed a file
+containing the concrete syntax tree of the script. The format may be one
+of \fIbin\fR (default) for a binary format, or \fIjson\fR for JSON output.
