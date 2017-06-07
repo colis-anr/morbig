@@ -1,3 +1,3 @@
-exception SyntaxError of Position.t * string
+exception SyntaxError of CST.position * string
 
 let parse_file = Engine.parse_file
