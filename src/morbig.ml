@@ -25,7 +25,6 @@ let main =
          (Engine.is_elf input || Engine.is_other_script input)
       then begin
         Printf.eprintf "Skipping: %s.\n" input;
-        exit 0
       end
       else
         try
