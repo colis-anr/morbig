@@ -1,7 +1,7 @@
 (* Handling of command line options *)
 
 (* different types of output *)
-type backend = Json | Bin
+type backend = Json | Bin | SimpleJson
 
 (* the output type chose on the command line *)
 val backend : unit -> backend

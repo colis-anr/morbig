@@ -4,7 +4,8 @@ let save filename (cst : CST.complete_command list) =
   let cout = open_out (Options.output_file_of_input_file filename) in
   Options.(begin match backend () with
   | Bin -> output_value cout (filename, cst)
-  | Json -> Engine.save_as_json cout cst
+  | Json -> Engine.save_as_json false cout cst
+  | SimpleJson -> Engine.save_as_json true cout cst
   end);
   close_out cout
 

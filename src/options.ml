@@ -1,11 +1,13 @@
 type backend =
   | Json
   | Bin
+  | SimpleJson
 
 let _backend = ref Json
 let backend_of_string = function
   | "json" -> Json
   | "bin" -> Bin
+  | "simple" -> SimpleJson
   | _ -> assert false
 let set_backend x = x |> backend_of_string |> (( := ) _backend)
 let backend () = !_backend
@@ -18,6 +20,7 @@ let output_file_of_input_file s =
   match backend () with
   | Json -> s ^ ".json"
   | Bin -> s ^ ".morbig"
+  | SimpleJson -> s ^ ".sjson"
 
 let _skip_nosh = ref false
 let skip_nosh () = !_skip_nosh
@@ -31,7 +34,7 @@ Usage: morbig [options] file...
 
 let analyze_command_line_arguments () = Arg.(
     let options = [
-      "--as", Symbol ([ "json"; "bin" ], set_backend),
+      "--as", Symbol ([ "json"; "bin"; "simple" ], set_backend),
       "Set the output format. (default is json.)";
 
       "--skip-nosh", Set _skip_nosh,

@@ -527,9 +527,9 @@ let rec json_filter_positions =
   | `Variant (s, None) -> `Variant (s, None)
   | `Variant (s, Some j) -> `Variant (s, Some (json_filter_positions j))
   
-let save_as_json cout csts =
+let save_as_json simplified cout csts =
   CST.complete_command_list_to_json csts
-  |> json_filter_positions
+  |> (if simplified then json_filter_positions else function x-> x)
   |> Yojson.Safe.pretty_to_channel cout
 
 let other_scripts_magic_strings =

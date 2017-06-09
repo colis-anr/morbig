@@ -30,8 +30,19 @@ a magic string indicating a bash or perl script.
 .TP
 .B \-\-as \fIformat\fR
 Produce for each input file that has been successfully parsed a file
-containing the concrete syntax tree of the script. The format may be one
-of \fIbin\fR (default) for a binary format, or \fIjson\fR for JSON output.
+containing the concrete syntax tree of the script. The format may be
+one of the following:
+.RS 7
+.TP
+.I bin
+for a binary format
+.TP
+.I json
+for complete JSON output, including position information
+.TP
+.I simple
+for simplified JSON output.
+.RE
 .TP
 .B \-\-continue-after-error
 If parsing of input \fIfile\fR fails, then write the error message in
