@@ -400,3 +400,6 @@ let string_of_position p =
       Printf.sprintf "Line %d, characters %d-%d" l c1 c2
     else
       Printf.sprintf "File \"%s\", line %d, characters %d-%d" filename l c1 c2
+
+let compare_positions p1 p2 =
+  compare p1.start_p.pos_cnum p2.start_p.pos_cnum
