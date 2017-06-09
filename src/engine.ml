@@ -83,7 +83,8 @@ let terminal_of_keyword k =
    The quote characters ( <backslash>, single-quote, and double-quote)
    that were present in the original word shall be removed unless they
    have themselves been quoted.
- *)
+
+*)
 
 (** [remove_quote s] yields a copy of string [s], with all quotes removed
     as described in the specification. *)

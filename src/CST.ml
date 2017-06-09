@@ -371,3 +371,32 @@ module NameSet = Set.Make (struct
   type t = name
   let compare (Name s1) (Name s2) = String.compare s1 s2
 end)
+
+let start_of_position p = p.start_p
+
+let end_of_position p = p.end_p
+
+let filename_of_position p =
+  p.start_p.pos_fname
+
+let line p =
+  p.pos_lnum
+
+let column p =
+  p.pos_cnum - p.pos_bol
+
+let characters p1 p2 =
+  (column p1, p2.pos_cnum - p1.pos_bol) (* intentionally [p1.pos_bol] *)
+
+let string_of_lexing_position p =
+  let c = p.pos_cnum - p.pos_bol in
+  (string_of_int p.pos_lnum)^":"^(string_of_int c)
+
+let string_of_position p =
+  let filename = filename_of_position p in
+  let l = line p.start_p in
+  let c1, c2 = characters p.start_p p.end_p in
+    if filename = "" then
+      Printf.sprintf "Line %d, characters %d-%d" l c1 c2
+    else
+      Printf.sprintf "File \"%s\", line %d, characters %d-%d" filename l c1 c2
