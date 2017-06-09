@@ -30,11 +30,11 @@ let main =
         try
           parse_file input |> save input
         with e -> if Options.continue_after_error ()
-                  then 
+                  then
                       let eout = open_out (input ^ ".morbigerror")
                       in begin
                           output_string eout (string_of_exn e);
-                          output_string eout "\n"; 
+                          output_string eout "\n";
                           close_out eout
                         end
                   else raise e
