@@ -97,7 +97,7 @@
    The grammar symbols
    ------------------------------------------------------- *)
 %token<CST.word>  WORD
-%token<CST.word CST.assignment_word>  ASSIGNMENT_WORD
+%token<CST.assignment_word>  ASSIGNMENT_WORD
 %token<CST.name>  NAME
 %token NEWLINE
 %token<CST.io_number>  IO_NUMBER

@@ -181,9 +181,9 @@ and cmd_prefix =
   | CmdPrefix_CmdPrefix_IoRedirect of
       cmd_prefix' * io_redirect'
   | CmdPrefix_AssignmentWord of
-      word assignment_word'
+      assignment_word'
   | CmdPrefix_CmdPrefix_AssignmentWord of
-      cmd_prefix' * word assignment_word'
+      cmd_prefix' * assignment_word'
 
 and cmd_suffix =
   | CmdSuffix_IoRedirect of io_redirect'
@@ -248,9 +248,9 @@ and word = Word of string
 
 and name = Name of string
 
-and 'a assignment_word = AssignmentWord of name * 'a
+and assignment_word = AssignmentWord of name * word
 
-and 'a assignment_word' = 'a assignment_word located
+and assignment_word' = assignment_word located
 
 and io_number = IONumber of string
 
@@ -339,7 +339,7 @@ let unName (Name s) = s
 
 let word_of_name (Name w) = Word w
 
-let word_of_assignment_word (AssignmentWord (Name n, s)) =
+let word_of_assignment_word (AssignmentWord (Name n, Word s)) =
   Word (n ^ "=" ^ s)
 
 let string_of_word (Word s) = s
