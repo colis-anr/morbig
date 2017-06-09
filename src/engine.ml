@@ -565,6 +565,10 @@ let is_elf filename =
 let parse_file filename =
   (** We assume that scripts are no longer than 16M. *)
   let cin = open_in filename in
-  let cst = parse (ExtPervasives.string_of_channel cin) in
+  let cst =
+    try parse (ExtPervasives.string_of_channel cin)
+    with e -> close_in cin;
+              raise e
+  in
   close_in cin;
   cst
