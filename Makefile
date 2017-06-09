@@ -24,6 +24,8 @@ install:
 	  exit 1;					\
 	fi
 	cp bin/morbig $(PREFIX)/bin
+	mkdir -p $(PREFIX)/share/man/man1
+	cp man/morbig.1 $(PREFIX)/share/man/man1
 	ocamlfind install libmorbig META || true
 	cp lib/* src/_build/CST.cmi src/_build/CST.ml src/_build/API.cmi src/_build/API.mli \
             `ocamlfind printconf destdir`/libmorbig
