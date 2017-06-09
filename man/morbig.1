@@ -32,3 +32,8 @@ a magic string indicating a bash or perl script.
 Produce for each input file that has been successfully parsed a file
 containing the concrete syntax tree of the script. The format may be one
 of \fIbin\fR (default) for a binary format, or \fIjson\fR for JSON output.
+.TP
+.B \-\-continue-after-error
+If parsing of input \fIfile\fR fails, then write the error message in
+file \fIfile\fR.morbigerror instead of stderr, and continue with the
+next input file.

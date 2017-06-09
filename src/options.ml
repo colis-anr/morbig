@@ -22,6 +22,9 @@ let output_file_of_input_file s =
 let _skip_nosh = ref false
 let skip_nosh () = !_skip_nosh
 
+let _continue_after_error = ref false
+let continue_after_error () = !_continue_after_error
+
 let usage_msg = "\
 Usage: morbig [options] file...
 "
@@ -32,7 +35,10 @@ let analyze_command_line_arguments () = Arg.(
       "Set the output format. (default is json.)";
 
       "--skip-nosh", Set _skip_nosh,
-      "Skip input files that are ELF, or have a bash or perl magic string" 
+      "Skip input files that are ELF, or have a bash or perl magic string";
+
+      "--continue-after-error", Set _continue_after_error,
+      "Continue after error with the next script";
     ]
     in
     parse (align options) append_file usage_msg

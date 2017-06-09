@@ -8,6 +8,11 @@ let save filename (cst : CST.complete_command list) =
   end);
   close_out cout
 
+let string_of_exn = function
+  | Engine.ParseError -> "parse error"
+  | Failure s -> "failure: " ^ s
+  | e -> raise e
+
 let main =
   Options.analyze_command_line_arguments ();
   if List.length (Options.input_files ()) <= 0 then (
@@ -21,5 +26,17 @@ let main =
         Printf.eprintf "Skipping: %s.\n" input;
         exit 0
       end
-      else parse_file input |> save input
-    ) (Options.input_files ())
+      else
+        try
+          parse_file input |> save input
+        with e -> if Options.continue_after_error ()
+                  then 
+                      let eout = open_out (input ^ ".morbigerror")
+                      in begin
+                          output_string eout (string_of_exn e);
+                          output_string eout "\n"; 
+                          close_out eout
+                        end
+                  else raise e
+            )
+            (Options.input_files ())
