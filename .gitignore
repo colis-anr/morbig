@@ -1,6 +1,7 @@
 bin/
 lib/
 *.json
+*.sjson
 
 ## Emacs files
 *~
