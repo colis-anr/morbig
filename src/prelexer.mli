@@ -10,7 +10,8 @@
 *)
 
 type pretoken =
-  | Word of string (* never an empty string *)
+  | Word of string
+  | IoNumber of string
   | Operator of Parser.token
   | EOF
   | NEWLINE

@@ -18,8 +18,10 @@
 *)
 open Parser
 
+(* FIXME: The name "Word" is confusing here. It must be changed. *)
 type pretoken =
   | Word of string
+  | IoNumber of string
   | Operator of Parser.token
   | EOF
   | NEWLINE
@@ -34,13 +36,18 @@ let push_string b s =
 
 (** [(return ?with_newline lexbuf current tokens)] returns a list of
     pretokens consisting of, in that order:
+
     - WORD(w), where w is the contents of the buffer [current] in case the
       buffer [current] is non-empty;
+
     - all the elements of [tokens];
+
     - NEWLINE, in case ?with_newline is true (default: false).
+
     We know that [tokens] does not contain any Word pretokens. In fact, the
     prelexer produces Word pretokens only from contents he has collected in
     the buffer.
+
     Side effect: the buffer [current] is reset to empty.
  *)
 let return ?(with_newline=false) lexbuf current tokens =
@@ -52,14 +59,49 @@ let return ?(with_newline=false) lexbuf current tokens =
   and produce token =
     (* FIXME: Positions are not updated properly. *)
     (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
-  in let buffered = flush_word current
-  in let tokens = if with_newline
-                  then tokens @ [NEWLINE]
-                  else tokens
-  in let tokens = if buffered <> ""
-                  then (Word buffered) :: tokens
-                  else tokens
-  in List.map produce tokens
+  in
+  let is_digit d =
+    Str.(string_match (regexp "^[0-9]+$") d 0)
+  in
+  let followed_by_redirection = function
+    | Operator (LESSAND |  GREATAND | DGREAT | CLOBBER | LESS | GREAT) :: _ ->
+      true
+    | _ ->
+      false
+  in
+  (*specification
+
+    2.10.1 Shell Grammar Lexical Conventions
+
+    The input language to the shell must be first recognized at the
+    character level. The resulting tokens shall be classified by
+    their immediate context according to the following rules (applied
+    in order). These rules shall be used to determine what a "token"
+    is that is subject to parsing at the token level. The rules for
+    token recognition in Token Recognition shall apply.
+
+    If the token is an operator, the token identifier for that
+    operator shall result.
+
+    If the string consists solely of digits and the delimiter character is
+    one of '<' or '>', the token identifier IO_NUMBER shall be
+    returned.
+
+    Otherwise, the token identifier TOKEN results.
+
+  *)
+  let buffered =
+    match flush_word current with
+    | "" ->
+      []
+    | w when is_digit w && followed_by_redirection tokens ->
+      [IoNumber w]
+    | w ->
+      [Word w]
+  in
+  let tokens = if with_newline then tokens @ [NEWLINE] else tokens in
+  let tokens = buffered @ tokens in
+  List.map produce tokens
 
 let operators = Hashtbl.create 17     ;;
 Hashtbl.add operators "&&"  AND_IF    ;;

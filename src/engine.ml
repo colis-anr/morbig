@@ -361,6 +361,9 @@ let parse contents =
         (token, pstart, pstop)
       in
       match pretoken with
+        | Prelexer.IoNumber i ->
+          return (IO_NUMBER (IONumber i))
+
         | Prelexer.Word w ->
 
         (**specification
