@@ -140,7 +140,10 @@ let nesting_of_closing c =
   else failwith "Unrecognized nesting."
 
 let here_document_placeholder () =
-  ref (CST.Word "<you should not see this>")
+  ref (CST.({
+      value = Word "<you should not see this>";
+      position = dummy_position
+  }))
 
 }
 

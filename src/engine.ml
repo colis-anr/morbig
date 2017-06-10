@@ -318,6 +318,13 @@ let parse contents =
   and here_document_delimiters     = ref []
   and here_document_skip_tabs      = ref []
   and here_document_find_delimiter = ref false
+  and here_document_placeholders   = ref []
+  in
+
+  let fill_next_here_document_placeholder here_document =
+    assert (!here_document_placeholders <> []);
+    (List.hd !here_document_placeholders) := here_document;
+    here_document_placeholders := List.tl !here_document_placeholders
   in
 
   let next_here_document () =
@@ -348,11 +355,17 @@ let parse contents =
       pos_bol  = !pstop.pos_bol  - 1;
     }) in
     push_pretoken (Prelexer.NEWLINE, before_stop, !pstop);
-    (WORD (Word (Buffer.contents doc)), !pstart, !pstop)
+    fill_next_here_document_placeholder (CST.{
+        value = Word (Buffer.contents doc);
+        position = { start_p = CST.internalize !pstart;
+                     end_p = CST.internalize!pstop }
+    })
   in
   let rec next_token checkpoint =
-    if !here_document_lexing then
-      next_here_document ()
+    if !here_document_lexing then (
+      next_here_document ();
+      next_token checkpoint
+    )
     else
       let (pretoken, pstart, pstop) as p = next_pretoken () in
       let return token =
@@ -420,6 +433,7 @@ let parse contents =
         | Prelexer.Operator ((DLESS r | DLESSDASH r) as token) ->
           here_document_on_next_line := true;
           here_document_find_delimiter := true;
+          here_document_placeholders := r :: !here_document_placeholders;
           let dashed = match token with DLESSDASH _ -> true | _ -> false in
           here_document_skip_tabs := dashed :: !here_document_skip_tabs;
           return token
@@ -438,6 +452,7 @@ let parse contents =
             here_document_lexing := true;
             here_document_delimiters := List.rev !here_document_delimiters;
             here_document_skip_tabs := List.rev !here_document_skip_tabs;
+            here_document_placeholders := List.rev !here_document_placeholders;
             next_token checkpoint
           )
 

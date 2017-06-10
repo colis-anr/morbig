@@ -214,8 +214,8 @@ and filename =
   | Filename_Word of word'
 
 and io_here =
-  | IoHere_DLess_HereEnd of here_end'
-  | IoHere_DLessDash_HereEnd of here_end'
+  | IoHere_DLess_HereEnd of here_end' * word' ref
+  | IoHere_DLessDash_HereEnd of here_end' * word' ref
 
 and here_end =
   | HereEnd_Word of word'
@@ -349,6 +349,18 @@ let with_pos p v =
     value     = v;
     position  = p;
   }
+
+let dummy_lexing_position = {
+  pos_fname = "";
+  pos_lnum  = -1;
+  pos_bol   = -1;
+  pos_cnum  = -1;
+}
+
+let dummy_position = {
+  start_p = dummy_lexing_position;
+  end_p = dummy_lexing_position;
+}
 
 let internalize p = {
   pos_fname = p.Lexing.pos_fname;

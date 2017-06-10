@@ -108,7 +108,7 @@
 %token  AND_IF    OR_IF    DSEMI
 (*      '&&'      '||'     ';;'    *)
 
-%token<CST.word ref> DLESS DLESSDASH
+%token<CST.word' ref> DLESS DLESSDASH
 (*                              '<<'  '<<-' *)
 
 %token  DGREAT  LESSAND  GREATAND  LESSGREAT
@@ -489,11 +489,11 @@ filename         : w=located(word)                      /* Apply rule 2 */ {
   Filename_Word w
 }
 ;
-io_here          : DLESS he=located(here_end) {
-  IoHere_DLess_HereEnd he
+io_here          : heredocument_placeholder=DLESS he=located(here_end) {
+  IoHere_DLess_HereEnd (he, heredocument_placeholder)
 }
-| DLESSDASH he=located(here_end) {
-  IoHere_DLessDash_HereEnd he
+| heredocument_placeholder=DLESSDASH he=located(here_end) {
+  IoHere_DLessDash_HereEnd (he, heredocument_placeholder)
 }
 ;
 here_end         : w=located(word)                      /* Apply rule 3 */ {
