@@ -496,7 +496,7 @@ and after_equal level current = parse
     )
   }
   (* FIXME: which other operators shall be accepted as delimiters here ?*)
-  | ";;" as s {
+  | (";;" | ";") as s {
     return lexbuf current [optoken_of_string s]
   }
   | _ as c {
