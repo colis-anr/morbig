@@ -497,7 +497,11 @@ and after_equal level current = parse
   }
   (* FIXME: which other operators shall be accepted as delimiters here ?*)
   | (";;" | ";") as s {
-    return lexbuf current [optoken_of_string s]
+    if level = [] then
+      return lexbuf current [optoken_of_string s]
+    else
+      let current = push_string current s in
+      after_equal level current lexbuf
   }
   | _ as c {
     after_equal level (push_character current c) lexbuf
