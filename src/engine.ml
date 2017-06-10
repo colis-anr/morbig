@@ -411,7 +411,7 @@ let parse contents =
           )
           in
           if !here_document_find_delimiter then (
-            (** specification
+            (**specification
 
                 2.7.4 Here-Document
 
