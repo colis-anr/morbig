@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# derived from the postinst of monotone-server
-# each nested shell (2, here) invocation does a backslash escape
-# so executing this should print a " on stdout
-
-echo `echo "\\""`
