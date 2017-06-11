@@ -13,14 +13,18 @@ echo "==============================="
 echo -n "Should fail:    "
 echo -n "OK: "
 echo -n $(find bad -name "$kopat" | wc -l)
-badsuccess=$(find bad -name  "$okpat" | wc -l)
-echo " KO: $badsuccess"
+nrbadsuccess=$(find bad -name  "$okpat" | wc -l)
+echo " KO: $nrbadsuccess"
 
 echo -n "Should succeed: "
 echo -n "OK: "
 echo -n $(find good -name  "$okpat" | wc -l)
-goodfailure=$(find good -name  "$kopat" | wc -l)
-echo " KO: $goodfailure "
+nrgoodfailures=$(find good -name  "$kopat" | wc -l)
+echo " KO: $nrgoodfailures "
 echo "==============================="
+if [ $nrgoodfailures -gt 0 ]; then
+    echo "Failing tests:"
+    find good -name  "$kopat"
+fi
 
 
