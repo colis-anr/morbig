@@ -23,8 +23,10 @@ nrgoodfailures=$(find good -name  "$kopat" | wc -l)
 echo " KO: $nrgoodfailures "
 echo "==============================="
 if [ $nrgoodfailures -gt 0 ]; then
-    echo "Failing tests:"
+    echo "** Failing tests that should succeed:"
     find good -name  "$kopat"
 fi
-
-
+if [ $nrbadsuccess -gt 0 ]; then
+    echo "** Succeeding tests that should fail:"
+    find bad -name  "$okpat"
+fi
