@@ -547,7 +547,7 @@ and after_equal level current = parse
     after_equal level current lexbuf
   }
   | eof {
-    failwith "Unterminated assignment."
+    return lexbuf current []
   }
 
 and next_nesting level current = parse
