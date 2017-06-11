@@ -1,5 +1,12 @@
 (* FIXME: Naive implementation. *)
 
+let rec nat_exp k n =
+  assert (n >= 0);
+  if n = 0 then
+    1
+  else
+    k * nat_exp k (n - 1)
+
 let comment f message =
   let y = f () in
   message y;
@@ -150,7 +157,7 @@ end
 
 let pp_string ppf s =
   Format.fprintf ppf "%s" s
-    
+
 (** [pp_to_print pp] is the pretty-printer [pp] that, instead of
     taking any formatter, uses the std_formatter. *)
 let pp_to_print pp =

@@ -8,7 +8,7 @@ all:
 	# cp src/_build/dllmorbig.so lib
 
 debug:
-	DEBUGPARSING=yes $(MAKE) -C src
+	DEBUGPARSING=yes $(MAKE) -C src debug
 	mkdir -p bin
 	cp src/morbig.native bin/morbig
 
