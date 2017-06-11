@@ -571,7 +571,9 @@ and next_nesting level current = parse
         current
       else
         next_nesting level current lexbuf
-    | [] | _ :: _ ->
+    | _ :: _ ->
+      failwith ("Unterminated " ^ string_of_nesting (List.hd level))
+    | [] ->
       assert false
       (* Because we maintain the invariant that [level] is non empty. *)
 

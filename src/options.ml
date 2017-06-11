@@ -35,13 +35,13 @@ Usage: morbig [options] file...
 let analyze_command_line_arguments () = Arg.(
     let options = [
       "--as", Symbol ([ "json"; "bin"; "simple" ], set_backend),
-      "Set the output format. (default is json.)";
+      " Set the output format. (default is json.)";
 
       "--skip-nosh", Set _skip_nosh,
-      "Skip input files that are ELF, or have a bash or perl magic string";
+      " Skip input files that are ELF, or have a bash or perl magic string";
 
       "--continue-after-error", Set _continue_after_error,
-      "Continue after error with the next script";
+      " Continue after error with the next script";
     ]
     in
     parse (align options) append_file usage_msg
