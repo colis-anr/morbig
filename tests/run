@@ -1,4 +1,26 @@
 #!/bin/sh
-morbig=../bin/morbig
+okpat=*.sjson
+kopat=*.morbigerror
 
-find . -name "*.sh" | xargs ${morbig} --continue-after-error
+# cleanup
+find . -name "$okpat" -o -name "$kopat" -delete
+
+# run
+find . -name "*.sh" | xargs morbig --continue-after-error --as simple
+
+# summarize
+echo "==============================="
+echo -n "Should fail:    "
+echo -n "OK: "
+echo -n $(find bad -name "$kopat" | wc -l)
+badsuccess=$(find bad -name  "$okpat" | wc -l)
+echo " KO: $badsuccess"
+
+echo -n "Should succeed: "
+echo -n "OK: "
+echo -n $(find good -name  "$okpat" | wc -l)
+goodfailure=$(find good -name  "$kopat" | wc -l)
+echo " KO: $goodfailure "
+echo "==============================="
+
+
