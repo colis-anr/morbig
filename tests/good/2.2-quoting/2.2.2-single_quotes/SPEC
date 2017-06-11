@@ -1,5 +1,0 @@
-2.2.2 Single-Quotes
-
-Enclosing characters in single-quotes ( '' ) shall preserve the
-literal value of each character within the single-quotes. A
-single-quote cannot occur within single-quotes.
