@@ -33,10 +33,10 @@ nrgoodfailures=$(find good -name "$kopat" | wc -l)
 nrunexpected=$(find good -name "*.expected" -exec $PROGDIR/checkexpectation {} \; | wc -l)
 
 # Summarize
-printf '============================================================
+printf '=============================================================
 Should fail:    OK: %3d  KO: %3d
 Should succeed: OK: %3d  KO: %3d  OK but not as expected: %3d  
-==============================================================\n' \
+=============================================================\n' \
        "$(find bad -name "$kopat" | wc -l)" \
        "$nrbadsuccess" \
        "$(find good -name "$okpat" | wc -l)" \
