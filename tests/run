@@ -4,23 +4,25 @@ readonly PROGDIR=$(dirname "$0")
 readonly OLDDIR=$PWD
 cd "$PROGDIR"
 
-if which morbig 2>/dev/null
-then
-    morbig=morbig
-elif [ -e ../bin/morbig ]
-then
-    morbig=../bin/morbig
-else
-    printf 'Could not find morbig. Did you compile it?\n'
-    exit 1
-fi
-
 okpat=*.sjson
 kopat=*.morbigerror
 
 # cleanup
-find . -name "$okpat" -o -name "$kopat" -delete
+find . \( -name "$okpat" -o -name "$kopat" \) -print -delete
 [ "$1" = 'clean' ] && exit 0
+
+# Find morbig; either in this directory, or in the $PATH
+if [ -e ../bin/morbig ]
+then
+    morbig=../bin/morbig
+elif which morbig 2>/dev/null
+then
+    printf 'Warning: Could not find morbig in this directory. Using the one in the PATH.\n'
+    morbig=morbig
+else
+    printf 'Could not find morbig. Did you compile it?\n'
+    exit 1
+fi
 
 # run
 find . -name '*.sh' -exec "$morbig" --continue-after-error --as simple {} +
@@ -40,12 +42,14 @@ Should succeed: OK: %3d  KO: %3d
        "$nrgoodfailures"
 
 # Report the exact problematic tests
-if [ $nrgoodfailures -gt 0 ]; then
+if [ $nrgoodfailures -gt 0 ]
+then
     printf '** Failing tests that should succeed:\n'
     find good -name "$kopat" \
 	| sed "s|\(.*\).morbigerror|$PROGDIR/\1|"
 fi
-if [ $nrbadsuccess -gt 0 ]; then
+if [ $nrbadsuccess -gt 0 ]
+then
     printf '** Succeeding tests that should fail:\n'
     find bad -name "$okpat" \
 	| sed "s|\(.*\).sjson|$PROGDIR/\1|"
