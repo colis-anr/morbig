@@ -25,27 +25,35 @@ else
 fi
 
 # run
-find . -name '*.sh' -exec "$morbig" --continue-after-error --as simple {} +
+find . -name '*.sh' | xargs "$morbig" --continue-after-error --as simple
 
 # Count bad successes and good failures
 nrbadsuccess=$(find bad -name "$okpat" | wc -l)
 nrgoodfailures=$(find good -name "$kopat" | wc -l)
+nrunexpected=$(find good -name "*.expected" -exec $PROGDIR/checkexpectation {} \; | wc -l)
 
 # Summarize
-printf '================================
+printf '============================================================
 Should fail:    OK: %3d  KO: %3d
-Should succeed: OK: %3d  KO: %3d
-================================\n' \
+Should succeed: OK: %3d  KO: %3d  OK but not as expected: %3d  
+==============================================================\n' \
        "$(find bad -name "$kopat" | wc -l)" \
        "$nrbadsuccess" \
        "$(find good -name "$okpat" | wc -l)" \
-       "$nrgoodfailures"
+       "$nrgoodfailures" \
+       "$nrunexpected"
 
 # Report the exact problematic tests
 if [ $nrgoodfailures -gt 0 ]
 then
     printf '** Failing tests that should succeed:\n'
     find good -name "$kopat" \
+	| sed "s|\(.*\).morbigerror|$PROGDIR/\1|"
+fi
+if [ $nrunexpected -gt 0 ]
+then
+    printf '** Succeded test with unexpected output:\n'
+    find good -name "*.expected" -exec $PROGDIR/checkexpectation {} \; \
 	| sed "s|\(.*\).morbigerror|$PROGDIR/\1|"
 fi
 if [ $nrbadsuccess -gt 0 ]
