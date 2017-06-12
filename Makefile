@@ -1,4 +1,4 @@
-.PHONY: all debug clean
+.PHONY: all debug clean tests
 
 all:
 	$(MAKE) -C src
@@ -30,7 +30,11 @@ install:
 	cp lib/* src/_build/CST.cmi src/_build/CST.ml src/_build/API.cmi src/_build/API.mli \
             `ocamlfind printconf destdir`/libmorbig
 
+tests:
+	tests/run
+
 clean:
 	$(MAKE) -C src clean
+	tests/run clean
 	[ ! -d bin ] || rm -fr bin
 	[ ! -d lib ] || rm -fr lib

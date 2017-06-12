@@ -10,4 +10,16 @@
     - menhir              (>= 20170509)
     - yojson              (>= 1.3.3)
     - ppx_deriving_yojson (>= 3.0)
-    - visitors		  (>= 
+    - visitors	          (>=
+
+### Building
+
+    make
+
+### Installing
+
+    make install
+
+### Testing
+
+    make tests

@@ -1,32 +1,52 @@
 #!/bin/sh
+
+readonly PROGDIR=$(dirname "$0")
+readonly OLDDIR=$PWD
+cd "$PROGDIR"
+
+if which morbig 2>/dev/null
+then
+    morbig=morbig
+elif [ -e ../bin/morbig ]
+then
+    morbig=../bin/morbig
+else
+    printf 'Could not find morbig. Did you compile it?\n'
+    exit 1
+fi
+
 okpat=*.sjson
 kopat=*.morbigerror
 
 # cleanup
 find . -name "$okpat" -o -name "$kopat" -delete
+[ "$1" = 'clean' ] && exit 0
 
 # run
-find . -name "*.sh" | xargs morbig --continue-after-error --as simple
+find . -name '*.sh' -exec "$morbig" --continue-after-error --as simple {} +
 
-# summarize
-echo "==============================="
-echo -n "Should fail:    "
-echo -n "OK: "
-echo -n $(find bad -name "$kopat" | wc -l)
-nrbadsuccess=$(find bad -name  "$okpat" | wc -l)
-echo " KO: $nrbadsuccess"
+# Count bad successes and good failures
+nrbadsuccess=$(find bad -name "$okpat" | wc -l)
+nrgoodfailures=$(find good -name "$kopat" | wc -l)
 
-echo -n "Should succeed: "
-echo -n "OK: "
-echo -n $(find good -name  "$okpat" | wc -l)
-nrgoodfailures=$(find good -name  "$kopat" | wc -l)
-echo " KO: $nrgoodfailures "
-echo "==============================="
+# Summarize
+printf '================================
+Should fail:    OK: %3d  KO: %3d
+Should succeed: OK: %3d  KO: %3d
+================================\n' \
+       "$(find bad -name "$kopat" | wc -l)" \
+       "$nrbadsuccess" \
+       "$(find good -name "$okpat" | wc -l)" \
+       "$nrgoodfailures"
+
+# Report the exact problematic tests
 if [ $nrgoodfailures -gt 0 ]; then
-    echo "** Failing tests that should succeed:"
-    find good -name  "$kopat"
+    printf '** Failing tests that should succeed:\n'
+    find good -name "$kopat" \
+	| sed "s|\(.*\).morbigerror|$PROGDIR/\1|"
 fi
 if [ $nrbadsuccess -gt 0 ]; then
-    echo "** Succeeding tests that should fail:"
-    find bad -name  "$okpat"
+    printf '** Succeeding tests that should fail:\n'
+    find bad -name "$okpat" \
+	| sed "s|\(.*\).sjson|$PROGDIR/\1|"
 fi
