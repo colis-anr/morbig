@@ -8,7 +8,7 @@ okpat=*.sjson
 kopat=*.morbigerror
 
 # cleanup
-find . \( -name "$okpat" -o -name "$kopat" \) -print -delete
+find . \( -name "$okpat" -o -name "$kopat" \) -delete
 [ "$1" = 'clean' ] && exit 0
 
 # Find morbig; either in this directory, or in the $PATH
