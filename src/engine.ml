@@ -585,24 +585,22 @@ let parse contents =
 
       *)
       | AboutToReduce (env, production) ->
-        let continue () =
-          parse previous_state (resume checkpoint)
-        in
-        if lhs production = X (N N_cmd_word)
-        || lhs production = X (N N_cmd_name) then
-           (match top env with
+        begin try
+          if lhs production = X (N N_cmd_word)
+          || lhs production = X (N N_cmd_name) then
+            let analyse_top : type a. a symbol * a -> _ = function
+              | T T_NAME, Name w when is_reserved_word w -> raise ParseError
+              | T T_WORD, Word w when is_reserved_word w -> raise ParseError
+              | _ -> raise Not_found
+            in
+            match top env with
             | Some (Element (state, v, _, _)) ->
-              (match incoming_symbol state, v with
-               | T T_NAME, Name w ->
-                 if is_reserved_word w then
-                   raise ParseError
-                 else
-                   continue ()
-               | _ -> continue ())
+              analyse_top (incoming_symbol state, v)
             | _ ->
-              continue ())
-        else
-          continue ()
+              raise Not_found
+          else raise Not_found
+        with Not_found -> parse previous_state (resume checkpoint)
+      end
     (**
 
        The other intermediate steps of the parser are ignored.
