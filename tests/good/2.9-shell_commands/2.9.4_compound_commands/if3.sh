@@ -3,7 +3,7 @@
 if a
 then
     true
-elif false; then
+elif false; then a
                 else if b; then c
      else
 	 d
