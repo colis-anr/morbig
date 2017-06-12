@@ -475,7 +475,7 @@ let parse contents =
     (** Parsing loop. *)
     (**--------------**)
 
-  let rec parse checkpoint =
+  let rec parse previous_state checkpoint =
     match checkpoint with
       (**
 
@@ -485,8 +485,8 @@ let parse contents =
 
       *)
       | InputNeeded parsing_state ->
-        let (token, ps, pe) = next_token checkpoint in
-        parse (offer checkpoint (token, ps, pe))
+        let (token, ps, pe) as input = next_token checkpoint in
+        parse (Some (input, checkpoint)) (offer checkpoint (token, ps, pe))
 
     (**
 
@@ -500,7 +500,7 @@ let parse contents =
         if !real_eof then
           [cst]
         else
-          cst :: parse (complete_command lexbuf.Lexing.lex_curr_p)
+          cst :: parse None (complete_command lexbuf.Lexing.lex_curr_p)
 
     (**
 
@@ -509,21 +509,55 @@ let parse contents =
     *)
     (* FIXME: Generate a better error message. *)
       | Rejected ->
-        if !real_eof then
+        raise ParseError
+
+      (**
+
+         The specification grammar has two incompleteness problems:
+         some rules are missing to denote the usage of semicolons as
+         <newline> separators and the start symbol should have an
+         extra rule to accept an empty input.
+
+         Indeed, semicolons are overloaded in the specification: they
+         are legit tokens appearing in the grammar and they also are
+         equivalent to newline characters at some specific
+         points. Instead of polluting the official grammar to handle
+         this second case, we use speculative parsing to try to
+         replace a semicolon with a newline when a syntax error is
+         raised.
+
+         To deal with the second incompleteness of the grammar, we
+         detect parsing errors that are raised when an empty input
+         is provided to the parser. In that case, we simply accept
+         the program.
+
+         FIXME: Is that clear that we do not introduce more scripts in
+         the language?
+
+    *)
+
+      | HandlingError env ->
+        begin match previous_state with
+        | Some ((Semicolon, ps, es), checkpoint) ->
+          parse None (offer checkpoint (NEWLINE, ps, es))
+        | Some ((EOF, _, _), _)
+          when MenhirInterpreter.current_state_number env = 0 ->
           []
-        else
-          raise ParseError
+        | _ ->
+          parse None (resume checkpoint)
+        end
 
     (**
 
        The other intermediate steps of the parser are ignored.
 
     *)
-      | Shifting (_, _, _) | HandlingError _ | AboutToReduce (_, _) ->
-        parse (resume checkpoint)
+
+      | Shifting (_, _, _) | AboutToReduce (_, _) ->
+        parse previous_state (resume checkpoint)
 
   in
-  parse (complete_command lexbuf.Lexing.lex_curr_p)
+  parse None (complete_command lexbuf.Lexing.lex_curr_p)
 
 let rec json_filter_positions =
   let open Yojson.Safe in

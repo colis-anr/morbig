@@ -420,13 +420,20 @@ rule token current = parse
     word.
 
 *)
-  | '#' [^'\n''\r']* newline {
-    return ~with_newline:true lexbuf current []
-  }
-  | '#' [^'\n''\r']* eof {
-    return ~with_newline:false lexbuf current []
-  }
+  | '#' as c
+  {
+    (**
 
+       There two cases depending on the characters on the left of '#':
+       If '#' is preceded by a separator, it is starting a comment.
+       otherwise, '#' is part of a word.
+
+    *)
+    if current = [] then
+      comment lexbuf
+    else
+      token (push_character current c) lexbuf
+  }
 
 (**specification
 
@@ -481,6 +488,15 @@ rule token current = parse
   | _ as c {
     token (push_character current c) lexbuf
   }
+
+and comment = parse
+| [^'\n''\r']* newline {
+    return ~with_newline:true lexbuf [] []
+  }
+| '#' [^'\n''\r']* eof {
+    return ~with_newline:false lexbuf [] []
+  }
+
 
 and after_equal level current = parse
   | "`" {
