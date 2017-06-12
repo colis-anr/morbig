@@ -282,7 +282,6 @@ let parse contents =
   (**--------------------------**)
 
   let next_pretoken, push_pretoken =
-    let buffer = Buffer.create 13 in
     let pretokenizer = Prelexer.token [] in
 
     (** The pretokenizer may produce several pretokens, we
