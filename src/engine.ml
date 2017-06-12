@@ -72,6 +72,9 @@ let keyword_of_string =
   List.iter (fun (s, kwd, _) -> Hashtbl.add t s kwd) keywords;
   Hashtbl.find t
 
+let is_reserved_word w =
+  try ignore (keyword_of_string w); true with _ -> false
+
 let terminal_of_keyword k =
   let (_, _, t) = List.find (fun (_, k', _) -> k = k') keywords in
   t
@@ -546,13 +549,67 @@ let parse contents =
           parse None (resume checkpoint)
         end
 
+      (**
+
+         The shell grammar follows a parsing-dependent lexical
+         analysis: they are some places where a reserved word must be
+         recognized as a simple word when it cannot be written at a
+         given place of the input (see
+         [recognize_reserved_word_if_relevant] defined
+         earlier). However, they are some other places where this
+         conversion from reserved words to simple words is forbidden.
+
+         For instance, while the input
+
+         `` echo else ``
+
+         is syntactically correct, the input
+
+         `` else echo ``
+
+         is not.
+
+         Instead of complicating
+         [recognize_reserved_word_if_relevant], we decided to detect a
+         posteriori when the conversion from reserved words to simple
+         words should not have been made. This detection is easily
+         feasible because there is actually only one place in the
+         grammar where this conversion is forbidden: a reserved word
+         can never be converted to a simple word where a [cmd_word] is
+         expected.
+
+         Fortunately, menhir gives us the control back when it is
+         about to reduce a nonterminal. Therefore, it is possible to
+         detect when a simple word, which is also a reserved word, has
+         been reduced to a [cmd_word].
+
+      *)
+      | AboutToReduce (env, production) ->
+        let continue () =
+          parse previous_state (resume checkpoint)
+        in
+        if lhs production = X (N N_cmd_word)
+        || lhs production = X (N N_cmd_name) then
+           (match top env with
+            | Some (Element (state, v, _, _)) ->
+              (match incoming_symbol state, v with
+               | T T_NAME, Name w ->
+                 if is_reserved_word w then
+                   raise ParseError
+                 else
+                   continue ()
+               | _ -> continue ())
+            | _ ->
+              continue ())
+        else
+          continue ()
     (**
 
        The other intermediate steps of the parser are ignored.
 
     *)
 
-      | Shifting (_, _, _) | AboutToReduce (_, _) ->
+      | Shifting (_, _, _) ->
         parse previous_state (resume checkpoint)
 
   in
