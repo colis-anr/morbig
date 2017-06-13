@@ -4,4 +4,4 @@
 # to be terminated by a separator. However, this seems to be bug in the
 # posix shell grammar (!)
 
-until a; do b done
+while a do b; done
