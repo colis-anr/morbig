@@ -222,7 +222,7 @@ let recognize_assignment checkpoint pretoken w = FirstSuccessMonad.(
         if accepted_token checkpoint (token, pstart, pstop) then
           return token
         else
-          return (WORD (CST.Word rhs))
+          return (WORD (CST.Word w))
       else
         (* We choose to return a WORD. *)
         return (WORD (Word w))
@@ -413,6 +413,7 @@ let parse contents =
           )
           in
           if !here_document_find_delimiter then (
+
             (**specification
 
                 2.7.4 Here-Document
