@@ -1,0 +1,86 @@
+[
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_CList_SeparatorOp_AndOr",
+      [
+        "CList_AndOr",
+        [
+          "AndOr_Pipeline",
+          [
+            "Pipeline_PipeSequence",
+            [
+              "PipeSequence_Command",
+              [
+                "Command_SimpleCommand",
+                [
+                  "SimpleCommand_CmdName_CmdSuffix",
+                  [ "CmdName_Word", [ "Word", "cat" ] ],
+                  [
+                    "CmdSuffix_CmdSuffix_IoRedirect",
+                    [
+                      "CmdSuffix_IoRedirect",
+                      [
+                        "IoRedirect_IoFile",
+                        [
+                          "IoFile_Great_FileName",
+                          [ "Filename_Word", [ "Word", "toJohn" ] ]
+                        ]
+                      ]
+                    ],
+                    [
+                      "IoRedirect_IoHere",
+                      [
+                        "IoHere_DLess_HereEnd",
+                        [ "HereEnd_Word", [ "Word", "EOF1" ] ],
+                        [ "Word", "Hi John!\n" ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [ "SeparatorOp_Semicolon" ],
+      [
+        "AndOr_Pipeline",
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_SimpleCommand",
+              [
+                "SimpleCommand_CmdName_CmdSuffix",
+                [ "CmdName_Word", [ "Word", "cat" ] ],
+                [
+                  "CmdSuffix_CmdSuffix_IoRedirect",
+                  [
+                    "CmdSuffix_IoRedirect",
+                    [
+                      "IoRedirect_IoFile",
+                      [
+                        "IoFile_Great_FileName",
+                        [ "Filename_Word", [ "Word", "toJane" ] ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "IoRedirect_IoHere",
+                    [
+                      "IoHere_DLessDash_HereEnd",
+                      [ "HereEnd_Word", [ "Word", "EOF2" ] ],
+                      [ "Word", "    Hi Jane!\n" ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]

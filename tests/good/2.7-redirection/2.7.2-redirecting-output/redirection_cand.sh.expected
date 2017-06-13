@@ -1,0 +1,53 @@
+[
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_CList_SeparatorOp_AndOr",
+      [
+        "CList_AndOr",
+        [
+          "AndOr_Pipeline",
+          [
+            "Pipeline_PipeSequence",
+            [
+              "PipeSequence_Command",
+              [
+                "Command_SimpleCommand",
+                [
+                  "SimpleCommand_CmdName",
+                  [ "CmdName_Word", [ "Word", "echo" ] ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [ "SeparatorOp_Uppersand" ],
+      [
+        "AndOr_Pipeline",
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_SimpleCommand",
+              [
+                "SimpleCommand_CmdPrefix",
+                [
+                  "CmdPrefix_IoRedirect",
+                  [
+                    "IoRedirect_IoFile",
+                    [
+                      "IoFile_Great_FileName",
+                      [ "Filename_Word", [ "Word", "foo" ] ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
