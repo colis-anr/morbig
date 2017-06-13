@@ -156,15 +156,16 @@ let current_items parsing_state =
     | Cons (Element (s, _, _, _), _) ->
       items s
 
-let rec accepted_token checkpoint token =
-  match checkpoint with
-    | InputNeeded _ -> close (offer checkpoint token)
-    | _ -> close checkpoint
-and close checkpoint =
+let rec close checkpoint =
   match checkpoint with
     | AboutToReduce (_, _) -> close (resume checkpoint)
     | Rejected | HandlingError _ -> false
     | Accepted _ | InputNeeded _ | Shifting (_, _, _) -> true
+
+let accepted_token checkpoint token =
+  match checkpoint with
+    | InputNeeded _ -> close (offer checkpoint token)
+    | _ -> false
 
 let recognize_reserved_word_if_relevant checkpoint (pretoken, pstart, pstop) w =
   FirstSuccessMonad.(
@@ -633,7 +634,7 @@ let rec json_filter_positions =
   | `Tuple jl -> `Tuple (List.map json_filter_positions jl)
   | `Variant (s, None) -> `Variant (s, None)
   | `Variant (s, Some j) -> `Variant (s, Some (json_filter_positions j))
-  
+
 let save_as_json simplified cout csts =
   CST.complete_command_list_to_json csts
   |> (if simplified then json_filter_positions else function x-> x)
