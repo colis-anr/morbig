@@ -261,9 +261,9 @@ and position = {
 
 and lexing_position = {
   pos_fname : string ;
-  pos_lnum : int ;
-  pos_bol : int ;
-  pos_cnum : int ;
+  pos_lnum  : int ;
+  pos_bol   : int ;
+  pos_cnum  : int ;
 }
 
 and 'a located = {

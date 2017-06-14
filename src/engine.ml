@@ -160,7 +160,7 @@ let rec close checkpoint =
   match checkpoint with
     | AboutToReduce (_, _) -> close (resume checkpoint)
     | Rejected | HandlingError _ -> false
-    | Accepted _ | InputNeeded _ | Shifting (_, _, _) -> true
+    | Accepted _ | InputNeeded _ | Shifting _ -> true
 
 let accepted_token checkpoint token =
   match checkpoint with
