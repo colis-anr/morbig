@@ -69,7 +69,7 @@ then
     rc=2
 fi
 
-no_expected=$(find good -name '*.sh' \( \! -exec test -f {}.expected \; \) -print)
+no_expected=$(find good -name '*.sh' \( \! -exec test -f {}.expected \; \) -print | sed "s|.*|$PROGDIR/\0|")
 if [ -n "$no_expected" ]
 then
     printf '** Good tests whose expected output has not been given:\n%s\n' "$no_expected"
