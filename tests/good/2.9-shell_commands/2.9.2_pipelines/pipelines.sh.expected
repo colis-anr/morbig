@@ -1,0 +1,143 @@
+[
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_CList_SeparatorOp_AndOr",
+      [
+        "CList_CList_SeparatorOp_AndOr",
+        [
+          "CList_AndOr",
+          [
+            "AndOr_AndOr_AndIf_LineBreak_Pipeline",
+            [
+              "AndOr_AndOr_OrIf_LineBreak_Pipeline",
+              [
+                "AndOr_Pipeline",
+                [
+                  "Pipeline_Bang_PipeSequence",
+                  [
+                    "PipeSequence_Command",
+                    [
+                      "Command_SimpleCommand",
+                      [
+                        "SimpleCommand_CmdName",
+                        [ "CmdName_Word", [ "Word", "a" ] ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [ "LineBreak_Empty" ],
+              [
+                "Pipeline_PipeSequence",
+                [
+                  "PipeSequence_Command",
+                  [
+                    "Command_SimpleCommand",
+                    [
+                      "SimpleCommand_CmdName",
+                      [ "CmdName_Word", [ "Word", "b" ] ]
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [ "LineBreak_Empty" ],
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName",
+                    [ "CmdName_Word", [ "Word", "c" ] ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [ "SeparatorOp_Uppersand" ],
+        [
+          "AndOr_Pipeline",
+          [
+            "Pipeline_PipeSequence",
+            [
+              "PipeSequence_PipeSequence_Pipe_LineBreak_Command",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName",
+                    [ "CmdName_Word", [ "Word", "d" ] ]
+                  ]
+                ]
+              ],
+              [ "LineBreak_Empty" ],
+              [
+                "Command_SimpleCommand",
+                [
+                  "SimpleCommand_CmdName",
+                  [ "CmdName_Word", [ "Word", "e" ] ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [ "SeparatorOp_Semicolon" ],
+      [
+        "AndOr_AndOr_OrIf_LineBreak_Pipeline",
+        [
+          "AndOr_AndOr_AndIf_LineBreak_Pipeline",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName",
+                    [ "CmdName_Word", [ "Word", "f" ] ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [ "LineBreak_Empty" ],
+          [
+            "Pipeline_PipeSequence",
+            [
+              "PipeSequence_Command",
+              [
+                "Command_SimpleCommand",
+                [
+                  "SimpleCommand_CmdName",
+                  [ "CmdName_Word", [ "Word", "g" ] ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [ "LineBreak_Empty" ],
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_SimpleCommand",
+              [
+                "SimpleCommand_CmdName",
+                [ "CmdName_Word", [ "Word", "h" ] ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]

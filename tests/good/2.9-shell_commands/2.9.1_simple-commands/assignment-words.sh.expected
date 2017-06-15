@@ -1,0 +1,105 @@
+[
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_AndOr",
+      [
+        "AndOr_Pipeline",
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_SimpleCommand",
+              [
+                "SimpleCommand_CmdPrefix_CmdWord",
+                [
+                  "CmdPrefix_AssignmentWord",
+                  [ "AssignmentWord", [ "Name", "CC" ], [ "Word", "gcc" ] ]
+                ],
+                [ "CmdWord_Word", [ "Word", "make" ] ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_AndOr",
+      [
+        "AndOr_Pipeline",
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_SimpleCommand",
+              [
+                "SimpleCommand_CmdName_CmdSuffix",
+                [ "CmdName_Word", [ "Word", "make" ] ],
+                [ "CmdSuffix_Word", [ "Word", "CC=cc" ] ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_AndOr",
+      [
+        "AndOr_Pipeline",
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_SimpleCommand",
+              [
+                "SimpleCommand_CmdName_CmdSuffix",
+                [ "CmdName_Word", [ "Word", "ln" ] ],
+                [
+                  "CmdSuffix_CmdSuffix_Word",
+                  [
+                    "CmdSuffix_CmdSuffix_Word",
+                    [ "CmdSuffix_Word", [ "Word", "-s" ] ],
+                    [ "Word", "/bin/ls" ]
+                  ],
+                  [ "Word", "\"X=1\"" ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_AndOr",
+      [
+        "AndOr_Pipeline",
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_SimpleCommand",
+              [
+                "SimpleCommand_CmdName_CmdSuffix",
+                [ "CmdName_Word", [ "Word", "\"./X\"=1" ] ],
+                [ "CmdSuffix_Word", [ "Word", "echo" ] ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
