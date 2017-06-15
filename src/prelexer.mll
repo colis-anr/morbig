@@ -81,7 +81,8 @@ let return ?(with_newline=false) lexbuf current tokens =
     Str.(string_match (regexp "^[0-9]+$") d 0)
   in
   let followed_by_redirection = function
-    | Operator (LESSAND |  GREATAND | DGREAT | CLOBBER | LESS | GREAT) :: _ ->
+    | Operator (LESSAND |  GREATAND | DGREAT | CLOBBER |
+                LESS | GREAT | LESSGREAT) :: _ ->
       true
     | _ ->
       false
