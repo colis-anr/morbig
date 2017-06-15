@@ -1,0 +1,120 @@
+[
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_AndOr",
+      [
+        "AndOr_Pipeline",
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_FunctionDefinition",
+              [
+                "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
+                [ "Fname_Name", [ "Name", "a" ] ],
+                [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                [
+                  "FunctionBody_CompoundCommand",
+                  [
+                    "CompoundCommand_IfClause",
+                    [
+                      "IfClause_If_CompoundList_Then_CompoundList_ElsePart_Fi",
+                      [
+                        "CompoundList_Term_Separator",
+                        [
+                          "Term_AndOr",
+                          [
+                            "AndOr_Pipeline",
+                            [
+                              "Pipeline_PipeSequence",
+                              [
+                                "PipeSequence_Command",
+                                [
+                                  "Command_SimpleCommand",
+                                  [
+                                    "SimpleCommand_CmdName",
+                                    [ "CmdName_Word", [ "Word", "true" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        [
+                          "Separator_SeparatorOp_LineBreak",
+                          [ "SeparatorOp_Semicolon" ],
+                          [ "LineBreak_Empty" ]
+                        ]
+                      ],
+                      [
+                        "CompoundList_Term_Separator",
+                        [
+                          "Term_AndOr",
+                          [
+                            "AndOr_Pipeline",
+                            [
+                              "Pipeline_PipeSequence",
+                              [
+                                "PipeSequence_Command",
+                                [
+                                  "Command_SimpleCommand",
+                                  [
+                                    "SimpleCommand_CmdName_CmdSuffix",
+                                    [ "CmdName_Word", [ "Word", "echo" ] ],
+                                    [ "CmdSuffix_Word", [ "Word", "true" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        [
+                          "Separator_SeparatorOp_LineBreak",
+                          [ "SeparatorOp_Uppersand" ],
+                          [ "LineBreak_Empty" ]
+                        ]
+                      ],
+                      [
+                        "ElsePart_Else_CompoundList",
+                        [
+                          "CompoundList_NewLineList_Term_Separator",
+                          [ "NewLineList_NewLine" ],
+                          [
+                            "Term_AndOr",
+                            [
+                              "AndOr_Pipeline",
+                              [
+                                "Pipeline_PipeSequence",
+                                [
+                                  "PipeSequence_Command",
+                                  [
+                                    "Command_SimpleCommand",
+                                    [
+                                      "SimpleCommand_CmdName",
+                                      [ "CmdName_Word", [ "Word", "false" ] ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ],
+                          [
+                            "Separator_SeparatorOp_LineBreak",
+                            [ "SeparatorOp_Semicolon" ],
+                            [ "LineBreak_Empty" ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
