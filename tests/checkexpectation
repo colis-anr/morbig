@@ -4,7 +4,7 @@ expected=$1
 sjson=${expected%.expected}.sjson
 
 # silently exit when the sjson does not exist
-[ -e ${sjson} ] || exit 0
+[ -e "$sjson" ] || exit 0
 
 # echo the sjson when it differs from the expected
-diff ${sjson} ${expected} 2>&1 > /dev/null || echo ${sjson}
+diff "$sjson" "$expected" 2>&1 > /dev/null || echo "$expected"
