@@ -16,7 +16,7 @@
                 [ "CmdName_Word", [ "Word", "echo" ] ],
                 [
                   "CmdSuffix_CmdSuffix_IoRedirect",
-                  [ "CmdSuffix_Word", [ "Word", "2" ] ],
+                  [ "CmdSuffix_Word", [ "Word", "\\2" ] ],
                   [
                     "IoRedirect_IoFile",
                     [
