@@ -69,4 +69,10 @@ then
     rc=2
 fi
 
+no_expected=$(find good -name '*.sh' \( \! -exec test -f {}.expected \; \) -print)
+if [ -n "$no_expected" ]
+then
+    printf '** Good tests whose expected output has not been given:\n%s\n' "$no_expected"
+fi
+
 exit $rc
