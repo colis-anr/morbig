@@ -1,5 +1,5 @@
 # -*- makefile -*-
-.PHONY: all clean debug
+.PHONY: all clean debug .headers
 
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
@@ -35,3 +35,7 @@ debug:
 
 clean:
 	$(OCAMLBUILD) -clean
+
+headers:
+	headache -h .header *.ml *.mli *.mll *.mly
+
