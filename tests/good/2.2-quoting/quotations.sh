@@ -1,4 +1,4 @@
 #!/bin/sh
 
-BAR=’foo’"ba"r
+BAR='fo o'"ba"r
 X=0 echo x$BAR" "$(echo $(date))
