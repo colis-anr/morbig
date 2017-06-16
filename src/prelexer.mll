@@ -53,6 +53,7 @@ let rec preceded_by n c buffer =
 let push_string b s =
   s :: b
 
+
 (** [(return ?with_newline lexbuf current tokens)] returns a list of
     pretokens consisting of, in that order:
 
@@ -501,6 +502,7 @@ rule token current = parse
 
 and comment = parse
 | [^'\n''\r']* newline {
+    Lexing.new_line lexbuf;
     return ~with_newline:true lexbuf [] []
   }
 | '#' [^'\n''\r']* eof {
@@ -545,12 +547,16 @@ and after_equal level current = parse
   }
   (* FIXME: Factorize the following two rules. *)
   | newline {
-    if level = [] then
-      return ~with_newline:true lexbuf current []
-    else (
-      let current = push_character current ' ' in
-      after_equal level current lexbuf
-    )
+    let result =
+      if level = [] then
+        return ~with_newline:true lexbuf current []
+      else (
+        let current = push_character current ' ' in
+        after_equal level current lexbuf
+      )
+    in
+    Lexing.new_line lexbuf;
+    result
   }
   | blank {
     if level = [] then
@@ -792,6 +798,10 @@ and readline = parse
     None
   }
   | [^ '\n' '\r']* (newline | eof) {
-    Some((Lexing.lexeme lexbuf),
-	  lexbuf.Lexing.lex_start_p,lexbuf.Lexing.lex_curr_p)
+      let result =
+        Some((Lexing.lexeme lexbuf),
+	     lexbuf.Lexing.lex_start_p,lexbuf.Lexing.lex_curr_p)
+      in
+      Lexing.new_line lexbuf;
+      result
   }

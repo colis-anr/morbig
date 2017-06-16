@@ -250,6 +250,32 @@ let rec finished = function
     finished (resume checkpoint)
   | _ -> false
 
+(** [about_to_reduce_cmd_name checkpoint] *)
+let rec about_to_reduce_cmd_name checkpoint =
+  match checkpoint with
+  | AboutToReduce (_, production) ->
+    lhs production = X (N N_cmd_name)
+  | InputNeeded _ ->
+    let dummy = Lexing.dummy_pos in
+    let token = NAME (Name "a_word"), dummy, dummy in
+    about_to_reduce_cmd_name (offer checkpoint token)
+  | Shifting _ ->
+    about_to_reduce_cmd_name (resume checkpoint)
+  | _ ->
+    false
+
+
+(** [alias_substitution aliases checkpoint word] substitutes an
+    alias by its definition if word is not a reserved word and
+    if the parsing context is about to reduce a [cmd_name]. *)
+let alias_substitution aliases checkpoint word = FirstSuccessMonad.(
+    if about_to_reduce_cmd_name checkpoint then (
+      if not (is_reserved_word word) then
+        Aliases.substitute aliases word
+      else
+        word
+    ) else word)
+
 (**
 
    [parse filename] parses each complete shell command of
@@ -282,13 +308,16 @@ let rec finished = function
    and the end-of-line is removed from the input.
 
 *)
-let parse contents =
+let parse filename contents =
 
-  (**-----------------------------------------------**)
-  (** Preprocessing step: line continuation removal. *)
-  (**-----------------------------------------------**)
+  (**---------------------**)
+  (** Initialize prelexer. *)
+  (**---------------------**)
 
   let lexbuf = Lexing.from_string contents in
+  Lexing.(lexbuf.lex_curr_p <- {
+    lexbuf.lex_curr_p with pos_fname = filename
+  });
 
   (**--------------------------**)
   (** {!Prelexer} pretokenizer. *)
@@ -373,10 +402,10 @@ let parse contents =
                      end_p = CST.internalize!pstop }
     })
   in
-  let rec next_token checkpoint =
+  let rec next_token aliases checkpoint =
     if !here_document_lexing then (
       next_here_document ();
-      next_token checkpoint
+      next_token aliases checkpoint
     )
     else
       let (pretoken, pstart, pstop) as p = next_pretoken () in
@@ -416,6 +445,8 @@ let parse contents =
            rules, or applies globally.
 
         *)
+          let w = alias_substitution aliases checkpoint w in
+
           let token = FirstSuccessMonad.(
             (recognize_assignment checkpoint p w)
             +> (recognize_reserved_word_if_relevant checkpoint p w)
@@ -466,7 +497,7 @@ let parse contents =
             here_document_delimiters := List.rev !here_document_delimiters;
             here_document_skip_tabs := List.rev !here_document_skip_tabs;
             here_document_placeholders := List.rev !here_document_placeholders;
-            next_token checkpoint
+            next_token aliases checkpoint
           )
 
         (** If the input is completed, [NEWLINE] is interpreted
@@ -481,14 +512,14 @@ let parse contents =
             return NEWLINE
 
         (** Otherwise, a [NEWLINE] is simply layout and is ignored. *)
-          else next_token checkpoint
+          else next_token aliases checkpoint
   in
 
     (**--------------**)
     (** Parsing loop. *)
     (**--------------**)
 
-  let rec parse previous_state checkpoint =
+  let rec parse aliases previous_state checkpoint =
     match checkpoint with
       (**
 
@@ -498,8 +529,9 @@ let parse contents =
 
       *)
       | InputNeeded parsing_state ->
-        let (token, ps, pe) as input = next_token checkpoint in
-        parse (Some (input, checkpoint)) (offer checkpoint (token, ps, pe))
+        let (token, ps, pe) as input = next_token aliases checkpoint in
+        let new_state = Some (input, checkpoint) in
+        parse aliases new_state (offer checkpoint (token, ps, pe))
 
     (**
 
@@ -509,11 +541,12 @@ let parse contents =
 
     *)
       | Accepted cst ->
+        let aliases = Aliases.interpret aliases cst in
         eof := false;
         if !real_eof then
           [cst]
         else
-          cst :: parse None (complete_command lexbuf.Lexing.lex_curr_p)
+          cst :: parse aliases None (complete_command lexbuf.Lexing.lex_curr_p)
 
     (**
 
@@ -552,12 +585,12 @@ let parse contents =
       | HandlingError env ->
         begin match previous_state with
         | Some ((Semicolon, ps, es), checkpoint) ->
-          parse None (offer checkpoint (NEWLINE, ps, es))
+          parse aliases None (offer checkpoint (NEWLINE, ps, es))
         | Some ((EOF, _, _), _)
           when MenhirInterpreter.current_state_number env = 0 ->
           []
         | _ ->
-          parse None (resume checkpoint)
+          parse aliases None (resume checkpoint)
         end
 
       (**
@@ -610,7 +643,7 @@ let parse contents =
             | _ ->
               raise Not_found
           else raise Not_found
-        with Not_found -> parse previous_state (resume checkpoint)
+        with Not_found -> parse aliases previous_state (resume checkpoint)
       end
     (**
 
@@ -619,10 +652,10 @@ let parse contents =
     *)
 
       | Shifting (_, _, _) ->
-        parse previous_state (resume checkpoint)
+        parse aliases previous_state (resume checkpoint)
 
   in
-  parse None (complete_command lexbuf.Lexing.lex_curr_p)
+  parse Aliases.empty None (complete_command lexbuf.Lexing.lex_curr_p)
 
 let rec json_filter_positions =
   let open Yojson.Safe in
@@ -632,7 +665,9 @@ let rec json_filter_positions =
        let (_, j) = List.find (fun (s, _) -> s = "value") sjl in
        json_filter_positions j
      else
-       `Assoc (List.map (fun (s, j) -> Format.printf "%s@." s; (s, json_filter_positions j)) sjl)
+       `Assoc (List.map (fun (s, j) ->
+           Format.printf "%s@." s; (s, json_filter_positions j)) sjl
+         )
   | `Bool b -> `Bool b
   | `Float f -> `Float f
   | `Int i -> `Int i
@@ -680,7 +715,7 @@ let parse_file filename =
   (** We assume that scripts are no longer than 16M. *)
   let cin = open_in filename in
   let cst =
-    try parse (ExtPervasives.string_of_channel cin)
+    try parse filename (ExtPervasives.string_of_channel cin)
     with e -> close_in cin;
               raise e
   in
