@@ -2,19 +2,15 @@
 
 readonly PROGDIR=$(dirname "$0")
 readonly OLDDIR=$PWD
-cd "$PROGDIR"
-
-okpat=*.sjson
-kopat=*.morbigerror
 
 # cleanup
-find . \( -name "$okpat" -o -name "$kopat" \) -delete
+find "$PROGDIR" \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
 [ "$1" = 'clean' ] && exit 0
 
 # Find morbig; either in this directory, or in the $PATH
-if [ -e ../bin/morbig ]
+if [ -e "$PROGDIR"/../bin/morbig ]
 then
-    morbig=../bin/morbig
+    morbig="$PROGDIR"/../bin/morbig
 elif which morbig 2>/dev/null
 then
     printf 'Warning: Could not find morbig in this directory. Using the one in the PATH.\n'
@@ -24,55 +20,88 @@ else
     exit 1
 fi
 
-# run
-find . -name '*.sh' -exec "$morbig" --continue-after-error --as simple {} +
+# Define counters
+good_total=0
+good_accepted=0
+good_rejected=0
+good_unexpected=0
+bad_total=0
+bad_accepted=0
+bad_rejected=0
 
-# Count bad successes and good failures
-nrbadsuccess=$(find bad -name "$okpat" | wc -l)
-nrgoodfailures=$(find good -name "$kopat" | wc -l)
-nrunexpected=$(find good -name "*.expected" -exec ./checkexpectation {} \; | wc -l)
+# Test loop
+for category in good bad
+do
+    for test in $(find "$PROGDIR"/"$category" -type f -name '*.sh' | sort -n)
+    do
+	test=${test%.sh}
 
-# Summarize
-printf '=============================================================
-Should fail:    OK: %3d  KO: %3d
-Should succeed: OK: %3d  KO: %3d  OK but not as expected: %3d  
-=============================================================\n' \
-       "$(find bad -name "$kopat" | wc -l)" \
-       "$nrbadsuccess" \
-       "$(find good -name "$okpat" | wc -l)" \
-       "$nrgoodfailures" \
-       "$nrunexpected"
+	if [ \! -f "$test.sh" ]
+	then
+	    printf 'Warning: File `%s` does not exist or is not a file.
+         Did you create a test whose name contains a space?\n' "$test"
+	    continue
+	fi
 
-# Return code. By default, success
-rc=0
+	case "$category" in
+	    'good') good_total=$((good_total + 1)) ;;
+	    'bad') bad_total=$((bad_total + 1)) ;;
+	esac
+	
+	if "$morbig" --as simple "$test.sh" 2>/dev/null
+	then
+	    case "$category" in
+		'bad')
+		    printf 'Error: Test `%s` should have been rejected.\n' "$test"
+		    bad_accepted=$((bad_accepted + 1))
+		    ;;
+		'good')
+		    if [ \! -f "$test.sh.expected" ]
+		    then
+			printf 'Warning: Test `%s` does not have an .expected file.\n' "$test"
+			good_unexpected=$((good_unexpected + 1))
+		    elif ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null
+		    then
+			printf 'Error: Test `%s` does not have the expected output.\n' "$test"
+			good_unexpected=$((good_unexpected + 1))
+		    else
+			good_accepted=$((good_accepted + 1))
+		    fi
+	    esac
+	else
+	    case "$category" in
+		'bad') bad_rejected=$((bad_rejected + 1)) ;;
+		'good')
+		    good_rejected=$((good_rejected + 1))
+		    printf 'Error: Test `%s` should have been accepted.\n' "$test"
+	    esac
+	fi
+    done
+done
 
-# Report the exact problematic tests
-if [ $nrgoodfailures -gt 0 ]
+passed=$((good_accepted + bad_rejected))
+failed=$((good_unexpected + good_rejected + bad_accepted))
+total=$((good_total + bad_total))
+
+if [ "$((passed + failed))" -ne "$total" ]
 then
-    printf '** Failing tests that should succeed:\n'
-    find good -name "$kopat" \
-	| sed "s|\(.*\).morbigerror|$PROGDIR/\1|"
-    rc=2
-fi
-if [ $nrunexpected -gt 0 ]
-then
-    printf '** Succeded test with unexpected output:\n'
-    find good -name "*.expected" -exec ./checkexpectation {} \; \
-	| sed "s|\(.*\).expected|$PROGDIR/\1|"
-    rc=2
-fi
-if [ $nrbadsuccess -gt 0 ]
-then
-    printf '** Succeeding tests that should fail:\n'
-    find bad -name "$okpat" \
-	| sed "s|\(.*\).sjson|$PROGDIR/\1|"
-    rc=2
+    printf 'Erk... there must be a problem in this test script.\n'
 fi
 
-no_expected=$(find good -name '*.sh' \( \! -exec test -f {}.expected \; \) -print | sed "s|.*|$PROGDIR/\0|")
-if [ -n "$no_expected" ]
-then
-    printf '** Good tests whose expected output has not been given:\n%s\n' "$no_expected"
-fi
+printf '\nSummary:
+| Tests | Passed | Failed | Total |
+|-------|--------|--------|-------|
+| good  |    %3d |    %3d |   %3d | %s
+| bad   |    %3d |    %3d |   %3d |
+| all   |    %3d |    %3d |   %3d |\n' \
+       "$good_accepted" "$((good_unexpected + good_rejected))" "$good_total" \
+       "$([ "$good_unexpected" -ne 0 ] && printf '(inc. %d tests with wrong output)' "$good_unexpected")" \
+       "$bad_rejected" "$bad_accepted" "$bad_total" \
+       "$passed" "$failed" "$total"
 
-exit $rc
+if [ "$failed" -gt 0 ]
+then
+    exit 2
+else
+    exit 0
+fi
