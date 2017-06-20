@@ -1,3 +1,4 @@
+(* -*- tuareg -*- *)
 (**************************************************************************)
 (*  Copyright (C) 2017 Yann Régis-Gianas, Nicolas Jeannerod,              *)
 (*  Ralf Treinen.                                                         *)
@@ -7,7 +8,7 @@
 (*  The complete license terms can be found in the file COPYING.          *)
 (**************************************************************************)
 
-(** -*- tuareg -*-
+(**
 
    This module implements the token recognizer when it is not in the mode
    that recognizes here-documents as specified by:
