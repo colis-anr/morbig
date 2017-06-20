@@ -621,16 +621,19 @@ let parse filename contents =
         begin try
           if lhs production = X (N N_cmd_word)
           || lhs production = X (N N_cmd_name) then
-            let analyse_top : type a. a symbol * a -> _ = function
-              | T T_NAME, Name w when is_reserved_word w -> raise ParseError
-              | T T_WORD, Word w when is_reserved_word w -> raise ParseError
-              | _ -> raise Not_found
-            in
             match top env with
             | Some (Element (state, v, _, _)) ->
+              let analyse_top : type a. a symbol * a -> _ = function
+                | T T_NAME, Name w when is_reserved_word w -> raise ParseError
+                | T T_WORD, Word w when is_reserved_word w -> raise ParseError
+                | _ ->
+                  (* By correction of the underlying LR automaton. *)
+                  assert false
+              in
               analyse_top (incoming_symbol state, v)
             | _ ->
-              raise Not_found
+              (* By correction of the underlying LR automaton. *)
+              assert false
           else raise Not_found
         with Not_found -> parse aliases previous_state (resume checkpoint)
       end
