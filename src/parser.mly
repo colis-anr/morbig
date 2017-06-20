@@ -1,3 +1,5 @@
+(** -*- tuareg -*-
+
 /**************************************************************************/
 /*  Copyright (C) 2017 Yann Régis-Gianas, Nicolas Jeannerod,              */
 /*  Ralf Treinen.                                                         */
@@ -6,8 +8,6 @@
 /*  under the terms of the GNU General Public License, version 3.         */
 /*  The complete license terms can be found in the file COPYING.          */
 /**************************************************************************/
-
-(** -*- tuareg -*-
 
    This grammar specification is almost a verbatim copy of the one of
    the official specification:
@@ -159,9 +159,11 @@
 %token EOF
 
 (*changes: Conflicts resolution via precedence directives. *)
+
 %left compound_list_newline_list_prec separator_newline_list_prec
       linebreak_empty_prec
 %left NEWLINE
+
 
 (* -------------------------------------------------------
    The Grammar
@@ -269,8 +271,11 @@ term             : t=located(term) s=located(separator) a=located(and_or) {
   Term_AndOr a
 }
 ;
-for_clause: For n=located(name) l=located(linebreak) d=located(do_group) {
-  ForClause_For_Name_LineBreak_DoGroup (n, l, d)
+for_clause: For n=located(name) d=located(do_group) {
+  ForClause_For_Name_DoGroup (n, d)
+}
+| For n=located(name) s=located(sequential_sep) d=located(do_group) {
+  ForClause_For_Name_SequentialSep_DoGroup (n, s, d)
 }
 | For n=located(name)
   l=located(linebreak) cin s=located(sequential_sep) d=located(do_group) {

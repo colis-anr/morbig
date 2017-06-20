@@ -75,7 +75,9 @@ and term =
   | Term_AndOr of and_or'
 
 and for_clause =
-  | ForClause_For_Name_LineBreak_DoGroup of name' * linebreak' * do_group'
+  | ForClause_For_Name_DoGroup of name' * do_group'
+  | ForClause_For_Name_SequentialSep_DoGroup of
+      name' * sequential_sep' * do_group'
   | ForClause_For_Name_LineBreak_In_SequentialSep_DoGroup of
       name' * linebreak' * sequential_sep' * do_group'
   | ForClause_For_Name_LineBreak_In_WordList_SequentialSep_DoGroup of

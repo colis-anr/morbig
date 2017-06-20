@@ -14,9 +14,12 @@
               [
                 "CompoundCommand_ForClause",
                 [
-                  "ForClause_For_Name_LineBreak_DoGroup",
+                  "ForClause_For_Name_SequentialSep_DoGroup",
                   [ "Name", "i" ],
-                  [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                  [
+                    "SequentialSep_Semicolon_LineBreak",
+                    [ "LineBreak_Empty" ]
+                  ],
                   [
                     "DoGroup_Do_CompoundList_Done",
                     [

@@ -564,7 +564,7 @@ let parse filename contents =
          the start symbol should have an extra rule to accept an empty
          input.
 
-         To deal with the second incompleteness of the grammar, we
+         To deal with this incompleteness of the grammar, we
          detect parsing errors that are raised when an empty input is
          provided to the parser. In that case, we simply accept the
          program.
