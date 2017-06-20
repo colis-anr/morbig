@@ -314,6 +314,7 @@ let parse filename contents =
   (** Initialize prelexer. *)
   (**---------------------**)
 
+  let contents = RemoveLineContinuation.transform contents in
   let lexbuf = Lexing.from_string contents in
   Lexing.(lexbuf.lex_curr_p <- {
     lexbuf.lex_curr_p with pos_fname = filename
@@ -628,7 +629,7 @@ let parse filename contents =
                 | T T_WORD, Word w when is_reserved_word w -> raise ParseError
                 | _ ->
                   (* By correction of the underlying LR automaton. *)
-                  assert false
+                  raise Not_found
               in
               analyse_top (incoming_symbol state, v)
             | _ ->
