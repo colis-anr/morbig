@@ -148,6 +148,9 @@ type nesting =
   | Braces
   | DQuotes
 
+let under_backquoted_style_command_substitution level =
+  List.mem Backquotes level
+
 (** A double quote can be escaped if we are already inside (at least)
    two levels of quotation. For instance, if the input is <dquote>
    <dquote> <backslash><backslash> <dquote> <dquote> <dquote>, the
@@ -162,9 +165,18 @@ let escaped_double_quote level current =
   let number_of_nested_double_quotes =
     List.fold_left (fun a -> function DQuotes -> a + 1 | _ -> a) 0 level
   in
-  (number_of_nested_double_quotes >= 2) &&
+  let backquoted_style_offset =
+    if under_backquoted_style_command_substitution level then
+      1
+    else
+      0
+  in
+  let nesting_level =
+    number_of_nested_double_quotes + backquoted_style_offset
+  in
+  (nesting_level >= 2) &&
   (let number_of_backslashes_to_escape =
-    ExtPervasives.nat_exp 2 (number_of_nested_double_quotes - 2)
+    ExtPervasives.nat_exp 2 (nesting_level - 2)
    in
    preceded_by number_of_backslashes_to_escape '\\' current)
 
@@ -625,8 +637,35 @@ and next_nesting level current = parse
       let current = double_quotes level' current' lexbuf in
       next_nesting level current lexbuf
   }
-  | '\\' _ {
-    let current = push_string current (Lexing.lexeme lexbuf) in
+
+(**specification
+
+  Within the backquoted style of command substitution,
+  <backslash> shall retain its literal meaning, except when followed
+  by: '$', '`', or <backslash>.
+
+*)
+  | "\\\\" (_ as c) {
+    let current =
+      if under_backquoted_style_command_substitution level then
+        push_character current c
+      else
+        push_string current (Lexing.lexeme lexbuf)
+    in
+    push_string current (Lexing.lexeme lexbuf)
+  }
+
+  | '\\' (_ as c) {
+    let current =
+      if under_backquoted_style_command_substitution level then
+          match c with
+            | '$' | '\\' | '`' ->
+              push_character current c
+            | c ->
+              push_string current (Lexing.lexeme lexbuf)
+      else
+        push_string current (Lexing.lexeme lexbuf)
+    in
     next_nesting level current lexbuf
   }
   (* FIXME: do we have to handle "\<newline" here ? *)
