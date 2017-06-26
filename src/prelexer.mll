@@ -192,18 +192,11 @@ let escaped_double_quote level current =
   let nesting_level =
     number_of_nested_double_quotes + backquoted_style_offset
   in
-  let r = (nesting_level >= 2) &&
+  (nesting_level >= 2) &&
   (let number_of_backslashes_to_escape =
      ExtPervasives.nat_exp 2 (nesting_level - 2)
    in
    preceded_by number_of_backslashes_to_escape '\\' current)
-  in
-  (* Printf.eprintf  *)
-  (*   "Under %s\nContext:%s\n => %B, %d\n" *)
-  (*   (string_of_level level) *)
-  (*   (String.concat "|" current) *)
-  (*   r nesting_level; *)
-  r
 
 let escaped_single_quote = escaped_double_quote
 
@@ -682,7 +675,7 @@ and next_nesting level current = parse
       else
         push_string current (Lexing.lexeme lexbuf)
     in
-    push_string current (Lexing.lexeme lexbuf);
+    let current = push_string current (Lexing.lexeme lexbuf) in
     next_nesting level current lexbuf
   }
 
