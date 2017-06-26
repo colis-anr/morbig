@@ -45,10 +45,17 @@ let contents b =
 let string_last_char s =
   String.(s.[length s - 1])
 
+let string_minus_last_char s =
+  String.(sub s 0 (length s - 1))
+
 let rec preceded_by n c buffer =
   n = 0 ||
   (match buffer with
-   | s :: buffer -> string_last_char s = c && preceded_by (n - 1) c buffer
+   | s :: buffer' ->
+     let s' = string_minus_last_char s in
+     let buffer = if s' = "" then buffer' else s' :: buffer in
+     string_last_char s = c &&
+     preceded_by (n - 1) c buffer
    | _ -> false)
 
 let push_string b s =
@@ -148,6 +155,17 @@ type nesting =
   | Braces
   | DQuotes
 
+let string_of_nesting = function
+  | Backquotes -> "`"
+  | Parentheses -> "("
+  | Braces -> "{"
+  | DQuotes -> "\""
+
+let string_of_level l = String.concat " : " (List.map string_of_nesting l)
+
+let under_double_quotes level =
+  List.mem DQuotes level
+
 let under_backquoted_style_command_substitution level =
   List.mem Backquotes level
 
@@ -174,11 +192,20 @@ let escaped_double_quote level current =
   let nesting_level =
     number_of_nested_double_quotes + backquoted_style_offset
   in
-  (nesting_level >= 2) &&
+  let r = (nesting_level >= 2) &&
   (let number_of_backslashes_to_escape =
-    ExtPervasives.nat_exp 2 (nesting_level - 2)
+     ExtPervasives.nat_exp 2 (nesting_level - 2)
    in
    preceded_by number_of_backslashes_to_escape '\\' current)
+  in
+  (* Printf.eprintf  *)
+  (*   "Under %s\nContext:%s\n => %B, %d\n" *)
+  (*   (string_of_level level) *)
+  (*   (String.concat "|" current) *)
+  (*   r nesting_level; *)
+  r
+
+let escaped_single_quote = escaped_double_quote
 
 let string_of_nesting = function
   | Backquotes -> "`"
@@ -624,16 +651,19 @@ and next_nesting level current = parse
 
   }
   | '\'' {
-    let current = push_character current '\'' in
-    let current = single_quotes current lexbuf in
-    next_nesting level current lexbuf
+    let current' = push_character current '\'' in
+    if under_double_quotes level || escaped_single_quote level current then (
+      next_nesting level current' lexbuf
+    ) else
+      let current = single_quotes current' lexbuf in
+      next_nesting level current lexbuf
   }
   | '"' {
     let current' = push_character current '"' in
-    let level' = DQuotes :: level in
     if escaped_double_quote level current then (
        next_nesting level current' lexbuf
      ) else
+      let level' = DQuotes :: level in
       let current = double_quotes level' current' lexbuf in
       next_nesting level current lexbuf
   }
@@ -645,14 +675,15 @@ and next_nesting level current = parse
   by: '$', '`', or <backslash>.
 
 *)
-  | "\\\\" (_ as c) {
+  | "\\" (_ as c) {
     let current =
       if under_backquoted_style_command_substitution level then
         push_character current c
       else
         push_string current (Lexing.lexeme lexbuf)
     in
-    push_string current (Lexing.lexeme lexbuf)
+    push_string current (Lexing.lexeme lexbuf);
+    next_nesting level current lexbuf
   }
 
   | '\\' (_ as c) {
@@ -840,7 +871,7 @@ and readline = parse
   | [^ '\n' '\r']* (newline | eof) {
       let result =
         Some((Lexing.lexeme lexbuf),
-	     lexbuf.Lexing.lex_start_p,lexbuf.Lexing.lex_curr_p)
+             lexbuf.Lexing.lex_start_p,lexbuf.Lexing.lex_curr_p)
       in
       Lexing.new_line lexbuf;
       result
