@@ -1,6 +1,10 @@
 # Morbig
 ## A trustworthy parser for POSIX shell
 
+## Download
+
+    git clone https://gitlab.inria.fr/regisgia/morbig.git
+
 ## Building instructions
 
 ### Dependencies
