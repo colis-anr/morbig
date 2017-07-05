@@ -16,8 +16,16 @@ morbig \- POSIX shell script parser
 The
 .BR morbig (1)
 command is a parser for shell scripts written in the POSIX shell
-script language. The parser processes input files in order, and stops
-at the first error encountered.
+script language. It parses the scripts statically, that
+is without executing them, and constructs a concrete syntax tree for each of
+them.
+The concrete syntax trees are built using constructors according
+to the shell grammar of the POSIX standard.
+
+The parser processes input files in order, and stops
+at the first error encountered. This behavior may be changed by using the
+.I \-\-continue-after-error
+option.
 
 .SH OPTIONS
 
@@ -29,22 +37,30 @@ Skip input files which either are ELF executables, or which start with
 a magic string indicating a bash or perl script.
 .TP
 .B \-\-as \fIformat\fR
-Produce for each input file that has been successfully parsed a file
+Write for each input file that has been successfully parsed a file
 containing the concrete syntax tree of the script. The format may be
 one of the following:
 .RS 7
 .TP
 .I bin
-for a binary format
+binary format. This format can be read by applications using the
+morbig OCaml library. This is the default.
 .TP
 .I json
-for complete JSON output, including position information
+complete JSON output, including position information.
 .TP
 .I simple
-for simplified JSON output.
+simplified JSON output. Use this for human-readable output.
 .RE
 .TP
 .B \-\-continue-after-error
 If parsing of input \fIfile\fR fails, then write the error message in
 file \fIfile\fR.morbigerror instead of stderr, and continue with the
-next input file.
+next input file. This may be used to parse a large number of scripts
+without creating a new UNIX process for each of them, like this:
+
+	find . -name "*.sh" | xargs morbig --continue-after-error
+
+.SH AUTHORS
+morbig has been written for the project CoLiS by
+Yann Régis-Gianas, Nicolas Jeannerod and Ralf Treinen.
