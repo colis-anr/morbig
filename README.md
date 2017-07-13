@@ -5,6 +5,10 @@
 
     git clone https://gitlab.inria.fr/regisgia/morbig.git
 
+## License and Copyright
+
+   please see the file COPYING
+
 ## Building instructions
 
 ### Dependencies
