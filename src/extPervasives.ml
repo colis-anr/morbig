@@ -9,14 +9,12 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-(* FIXME: Naive implementation. *)
-
-let rec nat_exp k n =
-  assert (n >= 0);
-  if n = 0 then
-    1
-  else
-    k * nat_exp k (n - 1)
+let rec nat_exp k = function
+  | -1 -> assert false
+  | 0 -> 1
+  | 1 -> k
+  | n -> let l = nat_exp k (n / 2) in
+        l * l * (if n mod 2 = 0 then 1 else k)
 
 let comment f message =
   let y = f () in
