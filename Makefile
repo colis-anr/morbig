@@ -27,8 +27,7 @@ install:
 	mkdir -p $(PREFIX)/share/man/man1
 	cp man/morbig.1 $(PREFIX)/share/man/man1
 	ocamlfind install -destdir $(PREFIX)/lib libmorbig META || true
-	cp lib/* src/_build/CST.cmi src/_build/CST.ml src/_build/API.cmi src/_build/API.mli \
-            $(PREFIX)/lib/libmorbig
+	cp lib/* $(PREFIX)/lib/libmorbig
 
 tests:
 	tests/run
