@@ -1,5 +1,7 @@
 (**************************************************************************)
-(*  Copyright (C) 2017 Yann Régis-Gianas, Nicolas Jeannerod,              *)
+(*  -*- tuareg -*-                                                        *)
+(*                                                                        *)
+(*  Copyright (C) 2017 Yann Régis-Gianas, Nicolas Jeannerod,             *)
 (*  Ralf Treinen.                                                         *)
 (*                                                                        *)
 (*  This is free software: you can redistribute it and/or modify it       *)
