@@ -1,4 +1,4 @@
-(** -*- tuareg -*-
+(** -*- tuareg -*- *)
 /**************************************************************************/
 /*  Copyright (C) 2017 Yann Régis-Gianas, Nicolas Jeannerod,              */
 /*  Ralf Treinen.                                                         */
