@@ -13,21 +13,20 @@ debug:
 	cp src/morbig.native bin/morbig
 
 install:
-	@ if [ x$(PREFIX) = x ]; then			\
-	  echo ;					\
-	  echo Please use the following command:;	\
-	  echo;						\
-	  echo % PREFIX=... make install;		\
-	  echo ;					\
-          echo 'to install morbig at $$PREFIX/bin';	\
-	  echo ;					\
-	  exit 1;					\
-	fi
-	cp bin/morbig $(PREFIX)/bin
-	mkdir -p $(PREFIX)/share/man/man1
-	cp man/morbig.1 $(PREFIX)/share/man/man1
-	ocamlfind install -destdir $(PREFIX)/lib libmorbig META || true
-	cp lib/* $(PREFIX)/lib/libmorbig
+	@ if [ x$(PREFIX) = x ]; then								\
+	  echo "Selecting OPAM based install. Specify PREFIX=... for system-wide install.";	\
+	  cp bin/morbig `opam config var bin`;							\
+	  cp man/morbig.1 `opam config var man`;						\
+	  ocamlfind install libmorbig META || true;						\
+	  cp lib/* `ocamlfind printconf destdir`/libmorbig;					\
+	else											\
+	  echo "Selecting system-wide install. PREFIX is $(PREFIX)";				\
+	  cp bin/morbig $(PREFIX)/bin;								\
+	  mkdir -p $(PREFIX)/share/man/man1;							\
+	  cp man/morbig.1 $(PREFIX)/share/man/man1;						\
+	  ocamlfind install -destdir $(PREFIX)/lib libmorbig META || true;			\
+	  cp lib/* $(PREFIX)/lib/libmorbig;							\
+         fi
 
 tests:
 	tests/run
