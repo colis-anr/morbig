@@ -56,5 +56,16 @@ module Lexer (U : sig end) = struct
     placeholders := r :: !placeholders;
     skip_tabs := dashed :: !skip_tabs
 
+  let next_line_is_here_document () =
+    !on_next_line
+
+  let start_here_document_lexing () =
+    on_next_line := false;
+    lexing := true;
+    delimiters := List.rev !delimiters;
+    skip_tabs := List.rev !skip_tabs;
+    placeholders := List.rev !placeholders;
+
+
 
 end

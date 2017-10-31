@@ -414,12 +414,8 @@ let parse filename contents =
 
         (** If we are to recognize a here-document, [NEWLINE] triggers
             the here-document lexing mode. *)
-          if !HDL.on_next_line then (
-            HDL.on_next_line := false;
-            HDL.lexing := true;
-            HDL.delimiters := List.rev !HDL.delimiters;
-            HDL.skip_tabs := List.rev !HDL.skip_tabs;
-            HDL.placeholders := List.rev !HDL.placeholders;
+          if HDL.next_line_is_here_document () then (
+            HDL.start_here_document_lexing ();
             next_token aliases checkpoint
           )
 
