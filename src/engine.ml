@@ -478,7 +478,7 @@ let parse filename contents =
                 | T T_NAME, Name w when is_reserved_word w -> raise ParseError
                 | T T_WORD, Word w when is_reserved_word w -> raise ParseError
                 | _ ->
-                  (* By correction of the underlying LR automaton. *)
+                  (* By correctness of the underlying LR automaton. *)
                   raise Not_found
               in
               analyse_top (incoming_symbol state, v)
