@@ -389,9 +389,9 @@ let parse filename contents =
                 formed by performing quote removal on word, and the
                 here-document lines shall not be expanded. Otherwise,
                 the delimiter shall be the word itself.
-             *)
-            HDL.delimiters :=
-              (remove_quotes w) :: !HDL.delimiters;
+
+            *)
+            HDL.delimiters := (remove_quotes w) :: !HDL.delimiters;
             HDL.find_delimiter := false
           );
           return (FirstSuccessMonad.should_succeed token)
