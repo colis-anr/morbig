@@ -1,5 +1,5 @@
 # -*- makefile -*-
-.PHONY: all clean debug .headers
+.PHONY: all clean debug doc .headers
 
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
@@ -35,6 +35,9 @@ debug:
 
 clean:
 	$(OCAMLBUILD) -clean
+
+doc:
+	$(OCAMLBUILD) libmorbig.docdir/index.html
 
 headers:
 	headache -h .header *.ml *.mli *.mll *.mly
