@@ -1,4 +1,4 @@
-.PHONY: all debug clean tests
+.PHONY: all debug clean tests uninstall
 
 EXPORTED_SOURCES=				\
 	src/CST.ml				\
@@ -30,6 +30,17 @@ install:
 	  cp man/morbig.1 $(PREFIX)/share/man/man1;						\
 	  ocamlfind remove -destdir $(PREFIX)/lib libmorbig;					\
 	  ocamlfind install -destdir $(PREFIX)/lib libmorbig META $(EXPORTED_SOURCES) lib/*;	\
+         fi
+
+uninstall:
+	@ if [ x$(PREFIX) = x ]; then								\
+	  echo "Selecting OPAM based uninstall. Specify PREFIX=... for system-wide install.";	\
+	  rm -f `opam config var bin`/morbig `opam config var man`/morbig.1		\
+	  ocamlfind remove libmorbig;								\
+	else											\
+	  echo "Selecting system-wide install. PREFIX is $(PREFIX)";				\
+	  rm -f $(PREFIX)/bin/morbig $(PREFIX)/share/man/man1/morbig.1;				\
+	  ocamlfind remove -destdir $(PREFIX)/lib libmorbig;					\
          fi
 
 tests:
