@@ -1,5 +1,9 @@
 .PHONY: all debug clean tests
 
+EXPORTED_SOURCES=				\
+	src/CST.ml				\
+	src/API.mli
+
 all:
 	$(MAKE) -C src
 	mkdir -p bin lib
@@ -18,14 +22,14 @@ install:
 	  cp bin/morbig `opam config var bin`;							\
 	  cp man/morbig.1 `opam config var man`;						\
 	  ocamlfind install libmorbig META || true;						\
-	  cp lib/* `ocamlfind printconf destdir`/libmorbig;					\
+	  cp $(EXPORTED_SOURCES) lib/* `ocamlfind printconf destdir`/libmorbig;			\
 	else											\
 	  echo "Selecting system-wide install. PREFIX is $(PREFIX)";				\
 	  cp bin/morbig $(PREFIX)/bin;								\
 	  mkdir -p $(PREFIX)/share/man/man1;							\
 	  cp man/morbig.1 $(PREFIX)/share/man/man1;						\
 	  ocamlfind install -destdir $(PREFIX)/lib libmorbig META || true;			\
-	  cp lib/* $(PREFIX)/lib/libmorbig;							\
+	  cp $(EXPORTED_SOURCES) lib/* $(PREFIX)/lib/libmorbig;					\
          fi
 
 tests:
