@@ -240,10 +240,7 @@ let parse filename contents =
   (** Initialize prelexer. *)
   (**---------------------**)
 
-  let lexbuf = Lexing.from_string contents in
-  Lexing.(lexbuf.lex_curr_p <- {
-    lexbuf.lex_curr_p with pos_fname = filename
-  });
+  let lexbuf = lexing_make filename contents in
 
   (**--------------------------**)
   (** {!Prelexer} pretokenizer. *)

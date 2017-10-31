@@ -202,3 +202,9 @@ let pp_to_string pp arg =
   pp ppf arg;
   Format.pp_print_flush ppf ();
   Buffer.contents b
+
+let lexing_make filename contents = Lexing.(
+  let lexbuf = Lexing.from_string contents in
+  lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_fname = filename };
+  lexbuf
+)
