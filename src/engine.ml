@@ -212,8 +212,8 @@ let alias_substitution aliases checkpoint word = FirstSuccessMonad.(
 
 (**
 
-   [parse filename] parses each complete shell command of
-   [filename] and returns a list of concrete syntax trees that
+   [parse lexbuf] parses each complete shell command of
+   [lexbuf] and returns a list of concrete syntax trees that
    represent them.
 
    Contrary to what is found in textbooks about parser architecture,
@@ -237,10 +237,6 @@ let alias_substitution aliases checkpoint word = FirstSuccessMonad.(
 
 *)
 let parse lexbuf =
-
-  (**---------------------**)
-  (** Initialize prelexer. *)
-  (**---------------------**)
 
   (**--------------------------**)
   (** {!Prelexer} pretokenizer. *)
