@@ -1,7 +1,18 @@
 open ExtPervasives
 open CST
+open Prelexer
+open Lexing
 
-module Lexer (U : sig end) = struct
+module Lexer (U : sig end) : sig
+  val fill_next_here_document_placeholder : word located -> unit
+  val inside_here_document : unit -> bool
+  val next_here_document : lexbuf -> pretoken * position * position
+  val next_word_is_here_document_delimiter : unit -> bool
+  val push_next_word_as_here_document_delimiter : string -> unit
+  val here_document_lexing_on_next_line: bool -> (word located ref) -> unit
+  val next_line_is_here_document: unit -> bool
+  val start_here_document_lexing: unit -> unit
+end = struct
 
   let on_next_line   = ref false
   let lexing         = ref false
@@ -50,7 +61,7 @@ module Lexer (U : sig end) = struct
     });
     (Prelexer.NEWLINE, before_stop, !pstop)
 
-  let initiate_here_document_lexing_on_next_line dashed r =
+  let here_document_lexing_on_next_line dashed r =
     on_next_line := true;
     find_delimiter := true;
     placeholders := r :: !placeholders;
@@ -73,5 +84,7 @@ module Lexer (U : sig end) = struct
     delimiters := (QuoteRemoval.on_string w) :: !delimiters;
     find_delimiter := false
 
+  let inside_here_document () =
+    !lexing
 
 end

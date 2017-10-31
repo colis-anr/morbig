@@ -283,7 +283,7 @@ let parse filename contents =
   let module HDL = HereDocument.Lexer (struct end) in
 
   let rec next_token aliases checkpoint =
-    if !HDL.lexing then (
+    if HDL.inside_here_document () then (
       push_pretoken (HDL.next_here_document lexbuf);
       next_token aliases checkpoint
     )
@@ -353,7 +353,7 @@ let parse filename contents =
 
         | Prelexer.Operator ((DLESS r | DLESSDASH r) as token) ->
           let dashed = match token with DLESSDASH _ -> true | _ -> false in
-          HDL.initiate_here_document_lexing_on_next_line dashed r;
+          HDL.here_document_lexing_on_next_line dashed r;
           return token
 
         | Prelexer.Operator token ->
