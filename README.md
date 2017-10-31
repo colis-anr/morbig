@@ -26,7 +26,8 @@
 
 ### Installing
 
-    make install
+    make install            # for opam-based environments
+    PREFIX=... make install # for system-wide install
 
 ### Testing
 
