@@ -236,13 +236,11 @@ let alias_substitution aliases checkpoint word = FirstSuccessMonad.(
    [next_token].
 
 *)
-let parse filename contents =
+let parse lexbuf =
 
   (**---------------------**)
   (** Initialize prelexer. *)
   (**---------------------**)
-
-  let lexbuf = lexing_make filename contents in
 
   (**--------------------------**)
   (** {!Prelexer} pretokenizer. *)
@@ -560,7 +558,10 @@ let parse_file filename =
   (** We assume that scripts are no longer than 16M. *)
   let cin = open_in filename in
   let cst =
-    try parse filename (ExtPervasives.string_of_channel cin)
+    try
+      let contents = ExtPervasives.string_of_channel cin in
+      let lexbuf = lexing_make filename contents in
+      parse lexbuf
     with e -> close_in cin;
               raise e
   in
