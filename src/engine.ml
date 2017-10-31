@@ -404,7 +404,7 @@ let parse filename contents =
        The parser has rejected the input.
 
     *)
-    (* FIXME: Generate a better error message. *)
+      (* FIXME: Generate a better error message. *)
       | Rejected ->
         raise ParseError
 
