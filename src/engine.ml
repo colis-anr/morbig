@@ -236,7 +236,7 @@ let alias_substitution aliases checkpoint word = FirstSuccessMonad.(
    [next_token].
 
 *)
-let parse lexbuf =
+let parse partial lexbuf =
 
   (**--------------------------**)
   (** {!Prelexer} pretokenizer. *)
@@ -414,7 +414,7 @@ let parse lexbuf =
            command.
 
         *)
-        begin match previous_state with
+        if partial then begin match previous_state with
         | None | Some ((EOF, _, _), _) ->
            (** No possible rollback. *)
            raise ParseError
@@ -422,7 +422,7 @@ let parse lexbuf =
            let input = (EOF, Lexing.dummy_pos, Lexing.dummy_pos) in
            let new_state = Some (input, checkpoint) in
            parse aliases new_state (offer checkpoint input)
-        end
+        end else raise ParseError
 
       (**
 
@@ -516,6 +516,8 @@ let parse lexbuf =
   in
   parse Aliases.empty None (complete_command lexbuf.Lexing.lex_curr_p)
 
+let close_knot = RecursiveParser.parse := (parse true)
+
 let rec json_filter_positions =
   let open Yojson.Safe in
   function
@@ -577,10 +579,7 @@ let parse_file filename =
     try
       let contents = ExtPervasives.string_of_channel cin in
       let lexbuf = lexing_make filename contents in
-      let csts = parse lexbuf in
-      if not lexbuf.Lexing.lex_eof_reached then
-        raise ParseError;
-      csts
+      parse false lexbuf
     with e -> close_in cin;
               raise e
   in

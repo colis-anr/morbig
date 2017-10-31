@@ -5,6 +5,7 @@ Parser
 Prelexer
 Pretokenizer
 HereDocument
+RecursiveParser
 Engine
 Aliases
 API
