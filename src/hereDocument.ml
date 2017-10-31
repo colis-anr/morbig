@@ -56,6 +56,9 @@ module Lexer (U : sig end) = struct
     placeholders := r :: !placeholders;
     skip_tabs := dashed :: !skip_tabs
 
+  let next_word_is_here_document_delimiter () =
+    !find_delimiter
+
   let next_line_is_here_document () =
     !on_next_line
 
@@ -64,8 +67,11 @@ module Lexer (U : sig end) = struct
     lexing := true;
     delimiters := List.rev !delimiters;
     skip_tabs := List.rev !skip_tabs;
-    placeholders := List.rev !placeholders;
+    placeholders := List.rev !placeholders
 
+  let push_next_word_as_here_document_delimiter w =
+    delimiters := (QuoteRemoval.on_string w) :: !delimiters;
+    find_delimiter := false
 
 
 end

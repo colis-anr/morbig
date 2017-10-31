@@ -90,52 +90,6 @@ let terminal_of_keyword k =
   let (_, _, t) = List.find (fun (_, k', _) -> k = k') keywords in
   t
 
-(**specification
-
-   2.6.7 Quote Removal
-
-   The quote characters ( <backslash>, single-quote, and double-quote)
-   that were present in the original word shall be removed unless they
-   have themselves been quoted.
-
-*)
-
-(** [remove_quote s] yields a copy of string [s], with all quotes removed
-    as described in the specification. *)
-let remove_quotes s =
-  let n = String.length s in
-  let b = Buffer.create n in
-  let i = ref 0 in
-  let keep () = Buffer.add_char b s.[!i]; incr i
-  and skip () = incr i in
-  while !i<n do
-    if s.[!i] = '\''
-    then begin
-        (* skip the initial single quote *)
-        skip ();
-        (* scan and push on the buffer until next single quote *)
-        while (!i<n && s.[!i] <> '\'') do
-          keep ()
-        done;
-        (* skip the final single quote *)
-        if !i<n then skip ()
-      end
-    else if s.[!i] = '"'
-    then
-      (* just skip any double quote if we see it here (that is, not escaped
-           and not inside single quotes *)
-      skip ()
-    else if s.[!i] = '\\'
-    then begin
-        (* skip the backslash *)
-        skip ();
-        (* and push the next symbol on the buffer *)
-        if !i<n then keep ()
-      end
-    else keep ()
-  done;
-  Buffer.contents b
-
 let current_items parsing_state =
   match Lazy.force (stack parsing_state) with
     | Nil ->
@@ -379,8 +333,7 @@ let parse filename contents =
             +> return (WORD (Word w))
           )
           in
-          if !HDL.find_delimiter then (
-
+          if HDL.next_word_is_here_document_delimiter () then
             (**specification
 
                 2.7.4 Here-Document
@@ -391,9 +344,7 @@ let parse filename contents =
                 the delimiter shall be the word itself.
 
             *)
-            HDL.delimiters := (remove_quotes w) :: !HDL.delimiters;
-            HDL.find_delimiter := false
-          );
+            HDL.push_next_word_as_here_document_delimiter w;
           return (FirstSuccessMonad.should_succeed token)
 
         | Prelexer.EOF ->
