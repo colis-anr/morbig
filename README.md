@@ -3,7 +3,7 @@
 
 ## Download
 
-    git clone https://gitlab.inria.fr/regisgia/morbig.git
+    git clone git@github.com:colis-anr/morbig.git
 
 ## License and Copyright
 
