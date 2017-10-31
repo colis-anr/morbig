@@ -50,4 +50,11 @@ module Lexer (U : sig end) = struct
     });
     (Prelexer.NEWLINE, before_stop, !pstop)
 
+  let initiate_here_document_lexing_on_next_line dashed r =
+    on_next_line := true;
+    find_delimiter := true;
+    placeholders := r :: !placeholders;
+    skip_tabs := dashed :: !skip_tabs
+
+
 end

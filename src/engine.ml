@@ -401,11 +401,8 @@ let parse filename contents =
           return EOF
 
         | Prelexer.Operator ((DLESS r | DLESSDASH r) as token) ->
-          HDL.on_next_line := true;
-          HDL.find_delimiter := true;
-          HDL.placeholders := r :: !HDL.placeholders;
           let dashed = match token with DLESSDASH _ -> true | _ -> false in
-          HDL.skip_tabs := dashed :: !HDL.skip_tabs;
+          HDL.initiate_here_document_lexing_on_next_line dashed r;
           return token
 
         | Prelexer.Operator token ->
