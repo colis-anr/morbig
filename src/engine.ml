@@ -350,25 +350,19 @@ let parse filename contents =
   (** The lexer works in two modes: either it is recognizing a
       here-document, or it is recognizing tokens as defined in
       the shell grammar. *)
-  let here_document_on_next_line   = ref false
-  and here_document_lexing         = ref false
-  and here_document_delimiters     = ref []
-  and here_document_skip_tabs      = ref []
-  and here_document_find_delimiter = ref false
-  and here_document_placeholders   = ref []
-  in
+  let module HDL = HereDocument.Lexer (struct end) in
 
   let fill_next_here_document_placeholder here_document =
-    assert (!here_document_placeholders <> []);
-    (List.hd !here_document_placeholders) := here_document;
-    here_document_placeholders := List.tl !here_document_placeholders
+    assert (!HDL.placeholders <> []);
+    (List.hd !HDL.placeholders) := here_document;
+    HDL.placeholders := List.tl !HDL.placeholders
   in
 
   let next_here_document () =
-    assert (!here_document_delimiters <> []);
-    assert (!here_document_skip_tabs <> []);
-    let delimiter = List.hd !here_document_delimiters
-    and skip_tabs = List.hd !here_document_skip_tabs
+    assert (!HDL.delimiters <> []);
+    assert (!HDL.skip_tabs <> []);
+    let delimiter = List.hd !HDL.delimiters
+    and skip_tabs = List.hd !HDL.skip_tabs
     and doc = Buffer.create 1000
     and nextline, pstart, pstop =
       match Prelexer.readline lexbuf with
@@ -384,9 +378,9 @@ let parse filename contents =
         | Some (l,b,e) -> nextline := l;
           pstop := e
     done;
-    here_document_delimiters := List.tl !here_document_delimiters;
-    here_document_skip_tabs := List.tl !here_document_skip_tabs;
-    if !here_document_delimiters = [] then here_document_lexing := false;
+    HDL.delimiters := List.tl !HDL.delimiters;
+    HDL.skip_tabs := List.tl !HDL.skip_tabs;
+    if !HDL.delimiters = [] then HDL.lexing := false;
     let before_stop = Lexing.({ !pstop with
       pos_cnum = !pstop.pos_cnum - 1;
       pos_bol  = !pstop.pos_bol  - 1;
@@ -399,7 +393,7 @@ let parse filename contents =
     })
   in
   let rec next_token aliases checkpoint =
-    if !here_document_lexing then (
+    if !HDL.lexing then (
       next_here_document ();
       next_token aliases checkpoint
     )
@@ -449,7 +443,7 @@ let parse filename contents =
             +> return (WORD (Word w))
           )
           in
-          if !here_document_find_delimiter then (
+          if !HDL.find_delimiter then (
 
             (**specification
 
@@ -460,9 +454,9 @@ let parse filename contents =
                 here-document lines shall not be expanded. Otherwise,
                 the delimiter shall be the word itself.
              *)
-            here_document_delimiters :=
-              (remove_quotes w) :: !here_document_delimiters;
-            here_document_find_delimiter := false
+            HDL.delimiters :=
+              (remove_quotes w) :: !HDL.delimiters;
+            HDL.find_delimiter := false
           );
           return (FirstSuccessMonad.should_succeed token)
 
@@ -471,11 +465,11 @@ let parse filename contents =
           return EOF
 
         | Prelexer.Operator ((DLESS r | DLESSDASH r) as token) ->
-          here_document_on_next_line := true;
-          here_document_find_delimiter := true;
-          here_document_placeholders := r :: !here_document_placeholders;
+          HDL.on_next_line := true;
+          HDL.find_delimiter := true;
+          HDL.placeholders := r :: !HDL.placeholders;
           let dashed = match token with DLESSDASH _ -> true | _ -> false in
-          here_document_skip_tabs := dashed :: !here_document_skip_tabs;
+          HDL.skip_tabs := dashed :: !HDL.skip_tabs;
           return token
 
         | Prelexer.Operator token ->
@@ -487,12 +481,12 @@ let parse filename contents =
 
         (** If we are to recognize a here-document, [NEWLINE] triggers
             the here-document lexing mode. *)
-          if !here_document_on_next_line then (
-            here_document_on_next_line := false;
-            here_document_lexing := true;
-            here_document_delimiters := List.rev !here_document_delimiters;
-            here_document_skip_tabs := List.rev !here_document_skip_tabs;
-            here_document_placeholders := List.rev !here_document_placeholders;
+          if !HDL.on_next_line then (
+            HDL.on_next_line := false;
+            HDL.lexing := true;
+            HDL.delimiters := List.rev !HDL.delimiters;
+            HDL.skip_tabs := List.rev !HDL.skip_tabs;
+            HDL.placeholders := List.rev !HDL.placeholders;
             next_token aliases checkpoint
           )
 

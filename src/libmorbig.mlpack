@@ -4,5 +4,6 @@ ExtPervasives
 Parser
 Prelexer
 API
+HereDocument
 Engine
 Aliases
