@@ -303,12 +303,6 @@ let alias_substitution aliases checkpoint word = FirstSuccessMonad.(
    its current state (represented by [checkpoint]) to the function
    [next_token].
 
-   To complete the description of [parse_file], we must say that
-   a preprocessing is applied to the input. This preprocessing
-   is dedicated to the handling of line continuation. When a
-   <backslash> is the last character of a line, this <backslash>
-   and the end-of-line is removed from the input.
-
 *)
 let parse filename contents =
 
