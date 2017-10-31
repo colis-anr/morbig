@@ -232,7 +232,7 @@ let nesting_of_closing c =
 let here_document_placeholder () =
   ref (CST.({
       value = Word "<you should not see this>";
-      position = dummy_position
+      position = CSTHelpers.dummy_position
   }))
 
 }

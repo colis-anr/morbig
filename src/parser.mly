@@ -565,9 +565,9 @@ sequential_sep : Semicolon l=located(linebreak) {
   w
 }
 | n=NAME {
-  CST.word_of_name n
+  CSTHelpers.word_of_name n
 }
 
 %inline located(X): x=X {
-  with_poss $startpos $endpos x
+  CSTHelpers.with_poss $startpos $endpos x
 }
