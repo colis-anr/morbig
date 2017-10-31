@@ -406,7 +406,27 @@ let parse lexbuf =
     *)
       (* FIXME: Generate a better error message. *)
       | Rejected ->
-        raise ParseError
+        (**
+
+           We want to recognize a *prefix* of the input stream.
+
+           Therefore, if a token produces a parse error, it might
+           be possible that the currently read prefix of the input
+           already is a valid shell script. To check that, we roll
+           back to the previous and we inject EOF to check if the
+           fragment of the input already read can be seen as a complete
+           command.
+
+        *)
+        begin match previous_state with
+        | None | Some ((EOF, _, _), _) ->
+           (** No possible rollback. *)
+           raise ParseError
+        | Some (input, checkpoint) ->
+           let input = (EOF, Lexing.dummy_pos, Lexing.dummy_pos) in
+           let new_state = Some (input, checkpoint) in
+           parse aliases new_state (offer checkpoint input)
+        end
 
       (**
 
@@ -561,7 +581,10 @@ let parse_file filename =
     try
       let contents = ExtPervasives.string_of_channel cin in
       let lexbuf = lexing_make filename contents in
-      parse lexbuf
+      let csts = parse lexbuf in
+      if not lexbuf.Lexing.lex_eof_reached then
+        raise ParseError;
+      csts
     with e -> close_in cin;
               raise e
   in
