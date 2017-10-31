@@ -8,5 +8,6 @@
 if true
 then cat <<'E'"O"\F
 Here document not expanded, may be unbalanced ' " $(
+and a backslash at the end of the line is NOT removed \
 EOF
 fi
