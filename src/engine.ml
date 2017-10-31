@@ -136,30 +136,6 @@ let remove_quotes s =
   done;
   Buffer.contents b
 
-(** [untab s] returns a copy of s, without any leading TABs *)
-let untab s =
-  let len = String.length s in
-  let rec number_tabs_from i s =
-    if i >= len
-    then len
-    else
-      if String.get s i = '\t'
-      then number_tabs_from (i+1) s
-      else i
-  in
-  let nt = number_tabs_from 0 s in
-  String.sub s nt (len-nt)
-
-(** [strip s] returns a copy of s, without any final newline *)
-let strip s =
-  let n = String.length s in
-  if n > 0
-  then let lastchar = s.[n-1] in
-       if lastchar = '\n' || lastchar = '\r'
-       then String.sub s 0 (n-1)
-       else s
-  else s
-
 let current_items parsing_state =
   match Lazy.force (stack parsing_state) with
     | Nil ->
@@ -352,49 +328,9 @@ let parse filename contents =
       the shell grammar. *)
   let module HDL = HereDocument.Lexer (struct end) in
 
-  let fill_next_here_document_placeholder here_document =
-    assert (!HDL.placeholders <> []);
-    (List.hd !HDL.placeholders) := here_document;
-    HDL.placeholders := List.tl !HDL.placeholders
-  in
-
-  let next_here_document () =
-    assert (!HDL.delimiters <> []);
-    assert (!HDL.skip_tabs <> []);
-    let delimiter = List.hd !HDL.delimiters
-    and skip_tabs = List.hd !HDL.skip_tabs
-    and doc = Buffer.create 1000
-    and nextline, pstart, pstop =
-      match Prelexer.readline lexbuf with
-        | None -> failwith "Unterminated here document."
-        | Some (l, b, e) -> (ref l, ref b, ref e)
-    in
-    while (strip (if skip_tabs then untab !nextline else !nextline)
-           <> delimiter)
-    do
-      Buffer.add_string doc !nextline;
-      match Prelexer.readline lexbuf with
-        | None -> failwith "Unterminated here document."
-        | Some (l,b,e) -> nextline := l;
-          pstop := e
-    done;
-    HDL.delimiters := List.tl !HDL.delimiters;
-    HDL.skip_tabs := List.tl !HDL.skip_tabs;
-    if !HDL.delimiters = [] then HDL.lexing := false;
-    let before_stop = Lexing.({ !pstop with
-      pos_cnum = !pstop.pos_cnum - 1;
-      pos_bol  = !pstop.pos_bol  - 1;
-    }) in
-    push_pretoken (Prelexer.NEWLINE, before_stop, !pstop);
-    fill_next_here_document_placeholder (CST.{
-        value = Word (Buffer.contents doc);
-        position = { start_p = CSTHelpers.internalize !pstart;
-                     end_p = CSTHelpers.internalize !pstop }
-    })
-  in
   let rec next_token aliases checkpoint =
     if !HDL.lexing then (
-      next_here_document ();
+      push_pretoken (HDL.next_here_document lexbuf);
       next_token aliases checkpoint
     )
     else

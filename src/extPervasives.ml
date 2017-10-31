@@ -92,6 +92,30 @@ let string_cut_at k s = String.(
     s
 )
 
+(** [untab s] returns a copy of s, without any leading TABs *)
+let string_untab s =
+  let len = String.length s in
+  let rec number_tabs_from i s =
+    if i >= len
+    then len
+    else
+      if String.get s i = '\t'
+      then number_tabs_from (i+1) s
+      else i
+  in
+  let nt = number_tabs_from 0 s in
+  String.sub s nt (len-nt)
+
+(** [strip s] returns a copy of s, without any final newline *)
+let string_strip s =
+  let n = String.length s in
+  if n > 0
+  then let lastchar = s.[n-1] in
+       if lastchar = '\n' || lastchar = '\r'
+       then String.sub s 0 (n-1)
+       else s
+  else s
+
 let repeat n f =
   let rec aux i =
   if i = n then
