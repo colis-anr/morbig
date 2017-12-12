@@ -198,7 +198,6 @@ let rec about_to_reduce_cmd_name checkpoint =
   | _ ->
     false
 
-
 (** [alias_substitution aliases checkpoint word] substitutes an
     alias by its definition if word is not a reserved word and
     if the parsing context is about to reduce a [cmd_name]. *)
@@ -259,6 +258,7 @@ let parse partial lexbuf =
       the shell grammar. *)
   let module HDL = HereDocument.Lexer (struct end) in
 
+  let tokens = ref [] in
   let rec next_token aliases checkpoint =
     if HDL.inside_here_document () then (
       push_pretoken (HDL.next_here_document lexbuf);
@@ -349,8 +349,9 @@ let parse partial lexbuf =
 
         (** If the input is completed, [NEWLINE] is interpreted
             as the end-of-file marker. *)
-          else if finished (offer checkpoint (EOF, pstart, pstop)) then
+          else if finished (offer checkpoint (EOF, pstart, pstop)) then (
             return EOF
+          )
 
         (** If the input is not completed but [NEWLINE] as a meaning
             from the point of view of the grammar, it is promoted as a
@@ -361,12 +362,17 @@ let parse partial lexbuf =
         (** Otherwise, a [NEWLINE] is simply layout and is ignored. *)
           else next_token aliases checkpoint
   in
+  let next_token aliases checkpoint =
+    let (raw, _, _) as token = next_token aliases checkpoint in
+    tokens := raw :: !tokens;
+    token
+  in
 
     (**--------------**)
     (** Parsing loop. *)
     (**--------------**)
 
-  let rec parse aliases previous_state checkpoint =
+  let rec parse aliases checkpoint =
     match checkpoint with
       (**
 
@@ -377,8 +383,7 @@ let parse partial lexbuf =
       *)
       | InputNeeded parsing_state ->
         let (token, ps, pe) as input = next_token aliases checkpoint in
-        let new_state = Some (input, checkpoint) in
-        parse aliases new_state (offer checkpoint (token, ps, pe))
+        parse aliases (offer checkpoint (token, ps, pe))
 
     (**
 
@@ -390,10 +395,12 @@ let parse partial lexbuf =
       | Accepted cst ->
         let aliases = Aliases.interpret aliases cst in
         eof := false;
-        if !real_eof then
+        if !real_eof || partial then
           [cst]
-        else
-          cst :: parse aliases None (complete_command lexbuf.Lexing.lex_curr_p)
+        else (
+          tokens := [];
+          cst :: parse aliases (complete_command lexbuf.Lexing.lex_curr_p)
+        )
 
     (**
 
@@ -406,23 +413,19 @@ let parse partial lexbuf =
 
            We want to recognize a *prefix* of the input stream.
 
-           Therefore, if a token produces a parse error, it might
-           be possible that the currently read prefix of the input
+           Therefore, if a token produces a parse error, it might be
+           possible that the currently read prefix of the input
            already is a valid shell script. To check that, we roll
-           back to the previous and we inject EOF to check if the
-           fragment of the input already read can be seen as a complete
-           command.
+           back to the previous state and we inject EOF to check if
+           the fragment of the input already read can be recognized as
+           a complete command.
 
-        *)
-        if partial then begin match previous_state with
-        | None | Some ((EOF, _, _), _) ->
-           (** No possible rollback. *)
+         *)
+         if !tokens = [EOF] then
+           []
+         else
+           (* FIXME: To be reimplemented. *)
            raise ParseError
-        | Some (input, checkpoint) ->
-           let input = (EOF, Lexing.dummy_pos, Lexing.dummy_pos) in
-           let new_state = Some (input, checkpoint) in
-           parse aliases new_state (offer checkpoint input)
-        end else raise ParseError
 
       (**
 
@@ -441,13 +444,12 @@ let parse partial lexbuf =
     *)
 
       | HandlingError env ->
-        begin match previous_state with
-        | Some ((EOF, _, _), _)
-          when MenhirInterpreter.current_state_number env = 0 ->
-          []
-        | _ ->
-          parse aliases None (resume checkpoint)
-        end
+         if MenhirInterpreter.current_state_number env = 0
+            && !tokens = [EOF]
+         then
+           []
+         else
+           parse aliases (resume checkpoint)
 
       (**
 
@@ -502,8 +504,10 @@ let parse partial lexbuf =
               (* By correction of the underlying LR automaton. *)
               assert false
           else raise Not_found
-        with Not_found -> parse aliases previous_state (resume checkpoint)
+        with Not_found ->
+          parse aliases (resume checkpoint)
       end
+
     (**
 
        The other intermediate steps of the parser are ignored.
@@ -511,10 +515,10 @@ let parse partial lexbuf =
     *)
 
       | Shifting (_, _, _) ->
-        parse aliases previous_state (resume checkpoint)
+        parse aliases (resume checkpoint)
 
   in
-  parse Aliases.empty None (complete_command lexbuf.Lexing.lex_curr_p)
+  parse Aliases.empty (complete_command lexbuf.Lexing.lex_curr_p)
 
 let close_knot = RecursiveParser.parse := (parse true)
 

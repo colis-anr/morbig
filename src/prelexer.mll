@@ -239,6 +239,8 @@ let operator = "&&" | "||" | ";;" |
                ">|" |
                "|" | "(" | ")" | "<" | ">" | ";" | "&"
 
+
+
 (**specification:
 
    When it is not processing an io_here, the shell shall break its
@@ -420,6 +422,11 @@ rule token current = parse
   (* FIXME: Handle nesting *)
   | '`' as op | "$" ( ['{' '('] as op) {
     let current = push_string current (Lexing.lexeme lexbuf) in
+    (* Printf.eprintf "Starting recursive parsing\n"; *)
+    (* ignore ((!RecursiveParser.parse) lexbuf); *)
+    (* Printf.eprintf "Recursive parsing done!\n"; *)
+    (* close op lexbuf; *)
+    (* return lexbuf current [] *)
     let current = next_nesting [nesting_of_opening op] current lexbuf in
     token current lexbuf
   }
@@ -532,6 +539,18 @@ rule token current = parse
   | _ as c {
     token (push_character current c) lexbuf
   }
+
+and close op = parse
+| "`" {
+  if op <> '`' then failwith "Lexing error: unbalanced backquotes."
+}
+| "$" (")" | "}" as op') {
+  if (op = '(' && op' <> ')') || (op = '{' && op' <> '}') then
+    failwith (Printf.sprintf "Lexing error: unbalanced $%c." op)
+}
+| _ as c {
+  failwith (Printf.sprintf "Unclosed %c (got %c)." op c)
+}
 
 and comment = parse
 | [^'\n''\r']* newline {

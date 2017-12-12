@@ -17,7 +17,7 @@ doc:
 debug:
 	DEBUGPARSING=yes $(MAKE) -C src debug
 	mkdir -p bin
-	cp src/morbig.native bin/morbig
+	cp src/morbig.byte bin/morbig
 
 install:
 	@ if [ x$(PREFIX) = x ]; then								\
