@@ -38,7 +38,7 @@ module type Lexer =
     val eof : bool ref
     val real_eof : bool ref
     val tokens : token list ref
-    val lexbuf : unit -> Lexing.lexbuf
+    val current_position : unit -> Lexing.position
   end
 
 let parse partial (module Lexer : Lexer) =
@@ -74,7 +74,7 @@ let parse partial (module Lexer : Lexer) =
           [cst]
         else (
           Lexer.tokens := [];
-          let checkpoint = complete_command (Lexer.lexbuf ()).Lexing.lex_curr_p in
+          let checkpoint = complete_command (Lexer.current_position ()) in
           cst :: parse { aliases; checkpoint }
         )
 
@@ -196,7 +196,7 @@ let parse partial (module Lexer : Lexer) =
   in
   parse {
       aliases = Aliases.empty;
-      checkpoint = complete_command (Lexer.lexbuf ()).Lexing.lex_curr_p
+      checkpoint = complete_command (Lexer.current_position ())
     }
 
 module Lexer : Lexer = struct
@@ -348,6 +348,10 @@ module Lexer : Lexer = struct
     let (raw, _, _) as token = next_token { aliases; checkpoint } in
     tokens := raw :: !tokens;
     token
+
+  let current_position () =
+    (lexbuf ()).Lexing.lex_curr_p
+
 end
 
 let parse partial lexbuf =
