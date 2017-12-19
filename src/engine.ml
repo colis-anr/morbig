@@ -55,7 +55,9 @@ let parse partial (module Lexer : Lexer) =
 
       *)
       | InputNeeded parsing_state ->
-        let (token, ps, pe) as input = Lexer.next_token { aliases; checkpoint } in
+        let (token, ps, pe) as input = 
+          Lexer.next_token { aliases; checkpoint } 
+        in
         parse { aliases; checkpoint = offer checkpoint (token, ps, pe) }
 
     (**
