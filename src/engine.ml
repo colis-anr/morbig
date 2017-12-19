@@ -26,7 +26,7 @@ open Aliases
 (** Raise in case of parsing error. *)
 exception ParseError
 
-type 'a parser_state = {
+type 'a state = {
     checkpoint : 'a checkpoint;
     aliases    : Aliases.t;
   }
@@ -34,7 +34,7 @@ type 'a parser_state = {
 module type Lexer =
   sig
     val initialize : Lexing.lexbuf -> unit
-    val next_token : 'a parser_state -> token * Lexing.position * Lexing.position
+    val next_token : 'a state -> token * Lexing.position * Lexing.position
     val eof : bool ref
     val real_eof : bool ref
     val tokens : token list ref
