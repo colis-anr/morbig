@@ -26,17 +26,18 @@ open Aliases
 (** Raise in case of parsing error. *)
 exception ParseError
 
-type 'a state = {
-    checkpoint : 'a checkpoint;
+type state = {
+    checkpoint : complete_command checkpoint;
     aliases    : Aliases.t;
   }
 
 module type Lexer =
   sig
     val initialize : Lexing.lexbuf -> unit
-    val next_token : _ state -> token * Lexing.position * Lexing.position
+    val next_token : state -> token * Lexing.position * Lexing.position
     val at_eof : unit -> bool option
     val current_position : unit -> Lexing.position
+    val last_parsing_state : unit -> state
   end
 
 let parse partial (module Lexer : Lexer) =
@@ -358,10 +359,19 @@ module Lexer : Lexer = struct
         (** Otherwise, a [NEWLINE] is simply layout and is ignored. *)
           else next_token { aliases; checkpoint }
 
-  let next_token { aliases; checkpoint } =
+  let last_state = ref None
+
+  let next_token ({ aliases; checkpoint } as state) =
     let (raw, _, _) as token = next_token { aliases; checkpoint } in
     tokens := raw :: !tokens;
+    last_state := Some state;
     token
+
+  (** Precondition: must be called after at least one call to [next_token]. *)
+  let last_parsing_state () =
+    match !last_state with
+    | None -> assert false (** By precondition. *)
+    | Some state -> state
 
   let current_position () =
     (lexbuf ()).Lexing.lex_curr_p
