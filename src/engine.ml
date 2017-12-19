@@ -11,203 +11,20 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+open ExtPervasives
+open ExtMenhirLib
 open Parser
 open Parser.Incremental
 open Parser.MenhirInterpreter
 open MenhirLib.General
-open ExtPervasives
 open CST
+open Names
+open Keywords
+open Assignments
+open Aliases
 
 (** Raise in case of parsing error. *)
 exception ParseError
-
-(**specification
-
-   3.231 Name
-
-   In the shell command language, a word consisting solely of
-   underscores, digits, and alphabetics from the portable character
-   set. The first character of a name is not a digit.
-
-   Note:
-   The Portable Character Set is defined in detail in Portable Character Set.
-
-*)
-let is_name s =
-  Str.(string_match (
-    regexp "^\\([a-zA-Z]\\|_\\)\\([a-zA-Z]\\|_\\|[0-9]\\)*$") s 0)
-
-(**specification
-
-   /* The following are the reserved words. */
-
-
-   %token  If    Then    Else    Elif    Fi    Do    Done
-   /*      'if'  'then'  'else'  'elif'  'fi'  'do'  'done'   */
-
-
-   %token  Case    Esac    While    Until    For
-   /*      'case'  'esac'  'while'  'until'  'for'   */
-
-   /* These are reserved words, not operator tokens, and are
-      recognized when reserved words are recognized. */
-
-
-   %token  Lbrace    Rbrace    Bang
-   /*      '{'       '}'       '!'   */
-
-
-   %token  In
-   /*      'in'   */
-
-*)
-let keywords = [
-    "if",    If,     X (T T_If);
-    "then",  Then,   X (T T_Then);
-    "else",  Else,   X (T T_Else);
-    "elif",  Elif,   X (T T_Elif);
-    "fi",    Fi,     X (T T_Fi);
-    "do",    Do,     X (T T_Do);
-    "done",  Done,   X (T T_Done);
-    "case",  Case,   X (T T_Case);
-    "esac",  Esac,   X (T T_Esac);
-    "while", While,  X (T T_While);
-    "until", Until,  X (T T_Until);
-    "for",   For,    X (T T_For);
-    "{",     Lbrace, X (T T_Lbrace);
-    "}",     Rbrace, X (T T_Rbrace);
-    "!",     Bang,   X (T T_Bang);
-    "in",    In,     X (T T_In);
-]
-
-let keyword_of_string =
-  let t = Hashtbl.create 13 in
-  List.iter (fun (s, kwd, _) -> Hashtbl.add t s kwd) keywords;
-  Hashtbl.find t
-
-let is_reserved_word w =
-  try ignore (keyword_of_string w); true with _ -> false
-
-let terminal_of_keyword k =
-  let (_, _, t) = List.find (fun (_, k', _) -> k = k') keywords in
-  t
-
-let current_items parsing_state =
-  match Lazy.force (stack parsing_state) with
-    | Nil ->
-      []
-    | Cons (Element (s, _, _, _), _) ->
-      items s
-
-let rec close checkpoint =
-  match checkpoint with
-    | AboutToReduce (_, _) -> close (resume checkpoint)
-    | Rejected | HandlingError _ -> false
-    | Accepted _ | InputNeeded _ | Shifting _ -> true
-
-let accepted_token checkpoint token =
-  match checkpoint with
-    | InputNeeded _ -> close (offer checkpoint token)
-    | _ -> false
-
-let recognize_reserved_word_if_relevant checkpoint (pretoken, pstart, pstop) w =
-  FirstSuccessMonad.(
-    try
-      let kwd = keyword_of_string w in
-      if accepted_token checkpoint (kwd, pstart, pstop) then
-        return kwd
-      else
-        raise Not_found
-    with Not_found ->
-      if is_name w then
-        return (NAME (CST.Name w))
-      else
-        return (WORD (CST.Word w))
-  )
-
-(**specification
-
-   [Assignment preceding command name]
-
-   [When the first word]
-
-   If the TOKEN does not contain the character '=', rule 1 is
-   applied. Otherwise, 7b shall be applied.
-
-   [Not the first word]
-
-   If the TOKEN contains the <equals-sign> character:
-
-   If it begins with '=', the token WORD shall be returned.
-
-   If all the characters preceding '=' form a valid name (see XBD
-   Name), the token ASSIGNMENT_WORD shall be returned. (Quoted
-   characters cannot participate in forming a valid name.)
-
-   Otherwise, it is unspecified whether it is ASSIGNMENT_WORD or WORD
-   that is returned.
-
-   Assignment to the NAME shall occur as specified in Simple Commands.
-
-*)
-
-let recognize_assignment checkpoint pretoken w = FirstSuccessMonad.(
-  match Str.(split_delim (regexp "=") w) with
-    | [w] ->
-      fail
-    | [""; w] ->
-      return (WORD (CST.Word ("=" ^ w)))
-    | name :: rhs ->
-      let rhs = String.concat "=" rhs in
-      if is_name name then
-        let aword = CST.(AssignmentWord (Name name, Word rhs)) in
-        let (_, pstart, pstop) = pretoken in
-        let token = ASSIGNMENT_WORD aword in
-        if accepted_token checkpoint (token, pstart, pstop) then
-          return token
-        else
-          return (WORD (CST.Word w))
-      else
-        (* We choose to return a WORD. *)
-        return (WORD (Word w))
-    | _ ->
-      return (WORD (Word w))
-)
-
-(** [finished checkpoint] is [true] if the current [checkpoint] can
-    move the LR(1) automaton to an accepting state with no extra
-    input.
-*)
-let rec finished = function
-  | Accepted _ -> true
-  | (AboutToReduce (_, _) | Shifting (_, _, _)) as checkpoint ->
-    finished (resume checkpoint)
-  | _ -> false
-
-(** [about_to_reduce_cmd_name checkpoint] *)
-let rec about_to_reduce_cmd_name checkpoint =
-  match checkpoint with
-  | AboutToReduce (_, production) ->
-    lhs production = X (N N_cmd_name)
-  | InputNeeded _ ->
-    let dummy = Lexing.dummy_pos in
-    let token = NAME (Name "a_word"), dummy, dummy in
-    about_to_reduce_cmd_name (offer checkpoint token)
-  | Shifting _ ->
-    about_to_reduce_cmd_name (resume checkpoint)
-  | _ ->
-    false
-
-(** [alias_substitution aliases checkpoint word] substitutes an
-    alias by its definition if word is not a reserved word and
-    if the parsing context is about to reduce a [cmd_name]. *)
-let alias_substitution aliases checkpoint word = FirstSuccessMonad.(
-    if about_to_reduce_cmd_name checkpoint then (
-      if not (is_reserved_word word) then
-        Aliases.substitute aliases word
-      else
-        word
-    ) else word)
 
 (**
 

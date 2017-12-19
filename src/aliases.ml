@@ -11,6 +11,14 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+open ExtPervasives
+open ExtMenhirLib
+open Parser
+open Parser.Incremental
+open Parser.MenhirInterpreter
+open MenhirLib.General
+open CST
+
 (**
 
    A shell script can define aliases with the following command:
@@ -123,3 +131,28 @@ let substitute aliases w =
     List.assoc w aliases
   with Not_found ->
     w
+
+(** [about_to_reduce_cmd_name checkpoint] *)
+let rec about_to_reduce_cmd_name checkpoint =
+  match checkpoint with
+  | AboutToReduce (_, production) ->
+    lhs production = X (N N_cmd_name)
+  | InputNeeded _ ->
+    let dummy = Lexing.dummy_pos in
+    let token = NAME (Name "a_word"), dummy, dummy in
+    about_to_reduce_cmd_name (offer checkpoint token)
+  | Shifting _ ->
+    about_to_reduce_cmd_name (resume checkpoint)
+  | _ ->
+    false
+
+(** [alias_substitution aliases checkpoint word] substitutes an
+    alias by its definition if word is not a reserved word and
+    if the parsing context is about to reduce a [cmd_name]. *)
+let alias_substitution aliases checkpoint word = FirstSuccessMonad.(
+    if about_to_reduce_cmd_name checkpoint then (
+      if not (Keywords.is_reserved_word word) then
+        substitute aliases word
+      else
+        word
+    ) else word)
