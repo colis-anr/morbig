@@ -52,6 +52,18 @@ exception ParseError
    [next_token].
 
 *)
+
+type 'a parser_state = {
+    checkpoint : 'a checkpoint;
+    aliases    : Aliases.t;
+  }
+
+module type Lexer =
+  sig
+    val initialize : Lexing.lexbuf -> unit
+    val next_token : 'a parser_state -> token
+  end
+
 let parse partial lexbuf =
 
   (**--------------------------**)
@@ -76,10 +88,10 @@ let parse partial lexbuf =
   let module HDL = HereDocument.Lexer (struct end) in
 
   let tokens = ref [] in
-  let rec next_token aliases checkpoint =
+  let rec next_token { aliases; checkpoint } =
     if HDL.inside_here_document () then (
       push_pretoken (HDL.next_here_document lexbuf);
-      next_token aliases checkpoint
+      next_token { aliases; checkpoint }
     )
     else
       let (pretoken, pstart, pstop) as p = next_pretoken () in
@@ -161,7 +173,7 @@ let parse partial lexbuf =
             the here-document lexing mode. *)
           if HDL.next_line_is_here_document () then (
             HDL.start_here_document_lexing ();
-            next_token aliases checkpoint
+            next_token { aliases; checkpoint }
           )
 
         (** If the input is completed, [NEWLINE] is interpreted
@@ -177,10 +189,10 @@ let parse partial lexbuf =
             return NEWLINE
 
         (** Otherwise, a [NEWLINE] is simply layout and is ignored. *)
-          else next_token aliases checkpoint
+          else next_token { aliases; checkpoint }
   in
   let next_token aliases checkpoint =
-    let (raw, _, _) as token = next_token aliases checkpoint in
+    let (raw, _, _) as token = next_token { aliases; checkpoint } in
     tokens := raw :: !tokens;
     token
   in
@@ -189,7 +201,7 @@ let parse partial lexbuf =
     (** Parsing loop. *)
     (**--------------**)
 
-  let rec parse aliases checkpoint =
+  let rec parse { aliases; checkpoint } =
     match checkpoint with
       (**
 
@@ -200,7 +212,7 @@ let parse partial lexbuf =
       *)
       | InputNeeded parsing_state ->
         let (token, ps, pe) as input = next_token aliases checkpoint in
-        parse aliases (offer checkpoint (token, ps, pe))
+        parse { aliases; checkpoint = offer checkpoint (token, ps, pe) }
 
     (**
 
@@ -216,7 +228,7 @@ let parse partial lexbuf =
           [cst]
         else (
           tokens := [];
-          cst :: parse aliases (complete_command lexbuf.Lexing.lex_curr_p)
+          cst :: parse { aliases; checkpoint = complete_command lexbuf.Lexing.lex_curr_p }
         )
 
     (**
@@ -266,7 +278,7 @@ let parse partial lexbuf =
          then
            []
          else
-           parse aliases (resume checkpoint)
+           parse { aliases; checkpoint = resume checkpoint }
 
       (**
 
@@ -322,7 +334,7 @@ let parse partial lexbuf =
               assert false
           else raise Not_found
         with Not_found ->
-          parse aliases (resume checkpoint)
+          parse { aliases; checkpoint = resume checkpoint }
       end
 
     (**
@@ -332,9 +344,12 @@ let parse partial lexbuf =
     *)
 
       | Shifting (_, _, _) ->
-        parse aliases (resume checkpoint)
+        parse { aliases; checkpoint = resume checkpoint }
 
   in
-  parse Aliases.empty (complete_command lexbuf.Lexing.lex_curr_p)
+  parse {
+      aliases = Aliases.empty;
+      checkpoint = complete_command lexbuf.Lexing.lex_curr_p
+    }
 
 let close_knot = RecursiveParser.parse := (parse true)
