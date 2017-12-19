@@ -13,4 +13,4 @@
 
 exception SyntaxError of CST.position * string
 
-let parse_file = Engine.parse_file
+let parse_file = Scripts.parse_file

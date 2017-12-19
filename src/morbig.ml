@@ -17,8 +17,8 @@ let save filename (cst : CST.complete_command list) =
   let cout = open_out (Options.output_file_of_input_file filename) in
   Options.(begin match backend () with
   | Bin -> output_value cout (filename, cst)
-  | Json -> Engine.save_as_json false cout cst
-  | SimpleJson -> Engine.save_as_json true cout cst
+  | Json -> Scripts.save_as_json false cout cst
+  | SimpleJson -> Scripts.save_as_json true cout cst
   end);
   close_out cout
 
@@ -35,7 +35,7 @@ let main =
   );
   List.iter (function input ->
       if Options.skip_nosh () &&
-         (Engine.is_elf input || Engine.is_other_script input)
+         (Scripts.is_elf input || Scripts.is_other_script input)
       then begin
         Printf.eprintf "Skipping: %s.\n" input;
       end
