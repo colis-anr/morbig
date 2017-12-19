@@ -34,7 +34,7 @@ type 'a state = {
 module type Lexer =
   sig
     val initialize : Lexing.lexbuf -> unit
-    val next_token : 'a state -> token * Lexing.position * Lexing.position
+    val next_token : _ state -> token * Lexing.position * Lexing.position
     val at_eof : unit -> bool option
     val current_position : unit -> Lexing.position
   end
