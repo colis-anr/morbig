@@ -55,8 +55,8 @@ let parse partial (module Lexer : Lexer) =
 
       *)
       | InputNeeded parsing_state ->
-        let (token, ps, pe) as input = 
-          Lexer.next_token { aliases; checkpoint } 
+        let (token, ps, pe) as input =
+          Lexer.next_token { aliases; checkpoint }
         in
         parse { aliases; checkpoint = offer checkpoint (token, ps, pe) }
 
@@ -106,7 +106,7 @@ let parse partial (module Lexer : Lexer) =
          *)
          if Lexer.at_eof () <> None then
            []
-         else if partial then 
+         else if partial then
            (** 1. Rollback to the state preceding the last token insertion. *)
            (** 2. Put back EOF, see if the prefix is accepted. *)
            (** 2.a No? It is a syntax error. *)
@@ -228,7 +228,7 @@ module Lexer : Lexer = struct
   exception UninitializeLexer
 
   let lexbuf () =
-    match !global_lexbuf with 
+    match !global_lexbuf with
     | None -> raise UninitializeLexer
     | Some lexbuf -> lexbuf
 
