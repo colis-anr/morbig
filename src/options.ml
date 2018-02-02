@@ -45,6 +45,11 @@ let usage_msg = "\
 Usage: morbig [options] file...
 "
 
+let show_version_and_exit () =
+  Printf.printf "morbig %s (compiled from %s, %s)\n"
+    Version.current Version.commit Version.timestamp;
+  exit 0
+
 let analyze_command_line_arguments () = Arg.(
     let options = [
       "--as", Symbol ([ "json"; "bin"; "simple" ], set_backend),
@@ -55,6 +60,9 @@ let analyze_command_line_arguments () = Arg.(
 
       "--continue-after-error", Set _continue_after_error,
       " Continue after error with the next script";
+
+      "--version", Unit show_version_and_exit,
+      " Show version number and exit."
     ]
     in
     parse (align options) append_file usage_msg

@@ -48,9 +48,9 @@ let split_list is_delim l =
       List.(rev (rev acc2 :: acc1))
     | x :: xs ->
       if is_delim x then
-	aux (List.rev acc2 :: acc1) [] xs
+        aux (List.rev acc2 :: acc1) [] xs
       else
-	aux acc1 (x :: acc2) xs
+        aux acc1 (x :: acc2) xs
   in
   List.filter (fun x -> x <> []) (aux [] [] l)
 
@@ -73,10 +73,10 @@ let histogram projector l =
     | x :: xs ->
       let x' = projector x in
       if similar prec (Some (x, x')) then
-	count (c + 1) prec xs
+        count (c + 1) prec xs
       else match prec with
-	| None -> count 1 (Some (x, x')) xs
-	| Some (y, _) -> (y, c) :: count 1 (Some (x, x')) xs
+        | None -> count 1 (Some (x, x')) xs
+        | Some (y, _) -> (y, c) :: count 1 (Some (x, x')) xs
   in
   let compare_options a b =
     compare (projector a) (projector b)
@@ -93,6 +93,17 @@ let string_cut_at k s = String.(
   else
     s
 )
+
+(** [string_to_char_list s] turns a [string s] into a list of [char]. *)
+let string_to_char_list s =
+  let r = ref [] in
+  String.iter (fun c -> r := c :: !r) s;
+  List.rev !r
+
+let string_of_char_list s =
+  let b = Buffer.create 13 in
+  List.iter (Buffer.add_char b) s;
+  Buffer.contents b
 
 (** [untab s] returns a copy of s, without any leading TABs *)
 let string_untab s =
@@ -131,10 +142,10 @@ let rec take n l =
   if n = 0 then [], l else
     match l with
       | [] ->
-	[], []
+        [], []
       | x :: xs ->
-	let ys, xs = take (n - 1) xs in
-	x :: ys, xs
+        let ys, xs = take (n - 1) xs in
+        x :: ys, xs
 
 let rec take_until pred = function
   | [] -> [], []
@@ -149,6 +160,10 @@ let hashtbl_to_list h =
   let l = ref [] in
   Hashtbl.iter (fun k v -> l := (k, v) :: !l) h;
   !l
+
+let list_hd_opt = function
+  | [] -> None
+  | x :: _ -> Some x
 
 module FirstSuccessMonad : sig
   type 'a t

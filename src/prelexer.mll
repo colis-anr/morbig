@@ -28,6 +28,8 @@
    Token Recognition.
 
 *)
+open Lexing
+open ExtPervasives
 open Parser
 
 (* FIXME: The name "Word" is confusing here. It must be changed. *)
@@ -37,6 +39,13 @@ type pretoken =
   | Operator of Parser.token
   | EOF
   | NEWLINE
+
+let string_of_pretoken = function
+  | Word s -> Printf.sprintf "WORD(%s)" s
+  | IoNumber s -> Printf.sprintf "IONUM(%s)" s
+  | Operator t -> Printf.sprintf "OPERATOR(%s)" (Token.string_of_token t)
+  | EOF -> "EOF"
+  | NEWLINE -> "NEWLINE"
 
 let push_character b c =
   String.make 1 c :: b
@@ -50,19 +59,14 @@ let string_last_char s =
 let string_minus_last_char s =
   String.(sub s 0 (length s - 1))
 
-let rec preceded_by n c buffer =
-  n = 0 ||
-  (match buffer with
-   | s :: buffer' ->
-     let s' = string_minus_last_char s in
-     let buffer = if s' = "" then buffer' else s' :: buffer in
-     string_last_char s = c &&
-     preceded_by (n - 1) c buffer
-   | _ -> false)
+(* FIXME: Probably incorrect: Must split buffer into character first. *)
+let rec preceded_by n c cs =
+  n = 0 || match cs with
+           | [] -> n = 0
+           | c' :: cs -> c' = c && preceded_by (n - 1) c cs
 
 let push_string b s =
   s :: b
-
 
 (** [(return ?with_newline lexbuf current tokens)] returns a list of
     pretokens consisting of, in that order:
@@ -98,6 +102,7 @@ let return ?(with_newline=false) lexbuf current tokens =
     | _ ->
       false
   in
+
   (*specification
 
     2.10.1 Shell Grammar Lexical Conventions
@@ -119,6 +124,7 @@ let return ?(with_newline=false) lexbuf current tokens =
     Otherwise, the token identifier TOKEN results.
 
   *)
+
   let buffered =
     match flush_word current with
     | "" ->
@@ -149,27 +155,29 @@ Hashtbl.add operators ">"   GREAT     ;;
 Hashtbl.add operators ";"   Semicolon ;;
 Hashtbl.add operators "&"   Uppersand ;;
 
-let optoken_of_string s = Operator (Hashtbl.find operators s)
+let optoken_of_string s =
+  try
+    Operator (Hashtbl.find operators s)
+  with Not_found ->
+    Printf.eprintf
+      "Internal error: `%s' is not a valid operator token.\n"
+       s;
+    assert false
 
-type nesting =
-  | Backquotes
-  | Parentheses
-  | Braces
-  | DQuotes
-
-let string_of_nesting = function
-  | Backquotes -> "`"
-  | Parentheses -> "("
-  | Braces -> "{"
-  | DQuotes -> "\""
-
-let string_of_level l = String.concat " : " (List.map string_of_nesting l)
+let string_of_level l = String.concat " : " (List.map Nesting.to_string l)
 
 let under_double_quotes level =
-  List.mem DQuotes level
+  match level with
+  | Nesting.DQuotes :: _ -> true
+  | _ -> false
+(*  List.mem Nesting.DQuotes level *)
 
-let under_backquoted_style_command_substitution level =
-  List.mem Backquotes level
+
+let rec under_backquoted_style_command_substitution = function
+  | [] -> false
+  | Nesting.Backquotes '`' :: _ -> true
+  | Nesting.Backquotes '(' :: _ -> false
+  | _ :: level -> under_backquoted_style_command_substitution level
 
 (** A double quote can be escaped if we are already inside (at least)
    two levels of quotation. For instance, if the input is <dquote>
@@ -182,49 +190,71 @@ let under_backquoted_style_command_substitution level =
    FIXME: Check this statement.
 *)
 let escaped_double_quote level current =
-  let number_of_nested_double_quotes =
-    List.fold_left (fun a -> function DQuotes -> a + 1 | _ -> a) 0 level
+  let number_of_backslashes_to_escape = Nesting.(
+    match level with
+    | DQuotes :: Backquotes '`' :: DQuotes :: _ -> 2
+    | DQuotes :: Backquotes '`' :: _ :: DQuotes :: _ -> 2
+    | DQuotes :: Backquotes '`' :: _ -> 1
+    | Backquotes '`' :: DQuotes :: _ -> 2
+    | Backquotes '`' :: _ :: DQuotes :: _ -> 2
+    | _ -> 1
+  ) in
+  let escape_sequence =
+    repeat number_of_backslashes_to_escape (fun _ -> '\\')
   in
-  let backquoted_style_offset =
-    if under_backquoted_style_command_substitution level then
-      1
+
+  let remove_escaped_backslashes current =
+    let rec trim = function
+      | [] ->
+         []
+      | '\\' :: cs ->
+         let cs' = trim cs in
+         if fst (take number_of_backslashes_to_escape cs')
+            = escape_sequence
+         then
+           snd (take number_of_backslashes_to_escape cs')
+         else
+           '\\' :: cs'
+      | c :: cs ->
+         c :: trim cs
+    in
+    trim current
+  in
+  let current' = List.(concat (map rev (map string_to_char_list current))) in
+  let current' =
+    (* FIXME: Justify this! *)
+    if not (under_backquoted_style_command_substitution level) then
+      remove_escaped_backslashes current'
     else
-      0
+      current'
   in
-  let nesting_level =
-    number_of_nested_double_quotes + backquoted_style_offset
-  in
-  (nesting_level >= 2) &&
-  (let number_of_backslashes_to_escape =
-     ExtPervasives.nat_exp 2 (nesting_level - 2)
-   in
-   preceded_by number_of_backslashes_to_escape '\\' current)
+  preceded_by number_of_backslashes_to_escape '\\' current'
 
 let escaped_single_quote = escaped_double_quote
-
-let string_of_nesting = function
-  | Backquotes -> "`"
-  | Parentheses -> "("
-  | Braces -> "{"
-  | DQuotes -> "\""
-
-let nesting_of_opening c =
-  if c = '(' then Parentheses
-  else if c = '{' then Braces
-  else if c = '`' then Backquotes
-  else failwith "Unrecognized nesting."
-
-let nesting_of_closing c =
-  if c = ')' then Parentheses
-  else if c = '}' then Braces
-  else if c = '`' then Backquotes
-  else failwith "Unrecognized nesting."
 
 let here_document_placeholder () =
   ref (CST.({
       value = Word "<you should not see this>";
       position = CSTHelpers.dummy_position
   }))
+
+let subshell_parsing op level lexbuf =
+    let copy_position p =
+      Lexing.{ p with pos_fname = p.pos_fname }
+    in
+
+    let lexbuf' =
+      Lexing.{ lexbuf with
+          lex_buffer = Bytes.copy lexbuf.lex_buffer;
+          lex_mem = Array.copy lexbuf.lex_mem;
+          lex_start_p = copy_position lexbuf.lex_start_p;
+          lex_curr_p = copy_position lexbuf.lex_curr_p;
+      }
+    in
+    let level = Nesting.Backquotes op :: level in
+    ignore ((!RecursiveParser.parse) level lexbuf');
+    lexbuf'.Lexing.lex_curr_p.Lexing.pos_cnum
+    - lexbuf.Lexing.lex_curr_p.Lexing.pos_cnum
 
 }
 
@@ -258,7 +288,7 @@ let operator = "&&" | "||" | ";;" |
     that a tool like lex can be used to implement the token
     recognition pass. *)
 
-rule token current = parse
+rule token level current = parse
 
 (**specification:
 
@@ -268,7 +298,11 @@ rule token current = parse
 
 *)
   | eof {
-    return lexbuf current [EOF]
+    if level = [] then
+      return lexbuf current [EOF]
+    else (
+      failwith "Unterminated nesting!"
+    )
   }
 
 (** Quotations *)
@@ -302,10 +336,27 @@ rule token current = parse
 
 *)
   | '\\' newline {
-    token current lexbuf
-         }
-  | '\\' _  {
-    token (push_string current (Lexing.lexeme lexbuf)) lexbuf
+    token level current lexbuf
+  }
+
+  | '\\' (_ as c) {
+    let current =
+      if under_backquoted_style_command_substitution level then
+          match c with
+            | '$' | '\\' | '`' ->
+              push_character current c
+            | '"' ->
+               let current = push_character current '\\' in
+               if escaped_double_quote level current then
+                 push_character current c
+               else
+                 double_quotes (Nesting.DQuotes :: level) current lexbuf
+            | c ->
+              push_string current (Lexing.lexeme lexbuf)
+      else
+        push_string current (Lexing.lexeme lexbuf)
+    in
+    token level current lexbuf
   }
 
 (**specification
@@ -314,8 +365,12 @@ rule token current = parse
 
 *)
   | '\'' {
-    let current = push_character current '\'' in
-    token (single_quotes current lexbuf) lexbuf
+    let current' = push_character current '\'' in
+    if (* under_double_quotes level || *) escaped_single_quote level current then (
+      token level (push_character current '\'') lexbuf
+    ) else
+      let current = single_quotes current' lexbuf in
+      token level current lexbuf
   }
 
 
@@ -325,9 +380,15 @@ rule token current = parse
 
 *)
   | '"' {
+    let is_escaped = escaped_double_quote level current in
     let current = push_character current '"' in
-    let current = double_quotes [DQuotes] current lexbuf in
-    token current lexbuf
+    let current =
+      if not is_escaped then
+        double_quotes (Nesting.DQuotes :: level) current lexbuf
+      else
+        current
+    in
+    token level current lexbuf
   }
 
 (**
@@ -388,9 +449,6 @@ rule token current = parse
   | "<<-" {
     return lexbuf current [Operator (DLESSDASH (here_document_placeholder ()))]
   }
-  | operator as s {
-    return lexbuf current [optoken_of_string s]
-  }
 
 (**specification
 
@@ -416,24 +474,66 @@ rule token current = parse
   (* $# is a special parameter, that is a # after an $ does not start a
      comment *)
   | ("$" "#"?) as s {
-    token (push_string current s) lexbuf
+    token level (push_string current s) lexbuf
   }
 
   (* FIXME: Handle nesting *)
-  | '`' as op | "$" ( ['{' '('] as op) {
-    let current = push_string current (Lexing.lexeme lexbuf) in
-    (* Printf.eprintf "Starting recursive parsing\n"; *)
-    (* ignore ((!RecursiveParser.parse) lexbuf); *)
-    (* Printf.eprintf "Recursive parsing done!\n"; *)
-    (* close op lexbuf; *)
-    (* return lexbuf current [] *)
-    let current = next_nesting [nesting_of_opening op] current lexbuf in
-    token current lexbuf
+  | '`' as op | "$" ('(' as op) {
+    if op = '`' && list_hd_opt level = Some (Nesting.Backquotes op) then begin
+        let pos = lexbuf.lex_curr_p.pos_cnum in 
+        lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_cnum = pos - 1 };
+    (*
+
+        If the last nesting symbol of [level] is a Backquote, the
+        current backquote is the closing symbol.
+
+    *)
+        return lexbuf current [EOF]
+    end else
+    (*
+
+        Otherwise, we have to invoke a recursive parser to parse a prefix
+        of the remaining input.
+
+    *)
+      let current = push_string current (Lexing.lexeme lexbuf) in
+      let current = subshell op level current lexbuf in
+      let current = close_subshell current lexbuf in
+      token level current lexbuf
   }
-  | "$((" {
+
+  | ")" {
+      return lexbuf current [Operator Rparen]
+  }
+
+  | "(" {
+      return lexbuf current [Operator Lparen]
+  }
+
+  | operator as s {
+    let operator = optoken_of_string s in
+    return lexbuf current [operator]
+  }
+
+| "$((" {
     let current = push_string current "$((" in
-    let current = next_double_rparen 1 current lexbuf in
-    token current lexbuf
+    let current = next_double_rparen level 1 current lexbuf in
+    token level current lexbuf
+  }
+
+(**specification
+
+   Within the string of characters from an enclosed "${" to the
+   matching '}', an even number of unescaped double-quotes or
+   single-quotes, if any, shall occur. A preceding <backslash>
+   character shall be used to escape a literal '{' or '}'. The rule in
+   Parameter Expansion shall be used to determine the matching '}'.
+
+*)
+  | "${" {
+    let current = push_string current "${" in
+    let current = next_nesting (Nesting.Braces :: level) current lexbuf in
+    token level current lexbuf
   }
 
 (**specification:
@@ -483,7 +583,7 @@ rule token current = parse
     if current = [] then
       comment lexbuf
     else
-      token (push_character current c) lexbuf
+      token level (push_character current c) lexbuf
   }
 
 (**specification
@@ -511,7 +611,7 @@ rule token current = parse
   | '=' as c {
     (** Most of the work is done in the lexer.*)
     let current = push_character current c in
-    after_equal [] current lexbuf
+    after_equal level current lexbuf
   }
 
     (* FIXME: next comment incomprehensible *)
@@ -537,14 +637,20 @@ rule token current = parse
 *)
     (* FIXME: can we really accept *anything* here ? *)
   | _ as c {
-    token (push_character current c) lexbuf
+    token level (push_character current c) lexbuf
   }
+
+and skip k current = parse
+| _ as c {
+  let current = push_character current c in
+  if k <= 1 then current else skip (k - 1) current lexbuf
+}
 
 and close op = parse
 | "`" {
   if op <> '`' then failwith "Lexing error: unbalanced backquotes."
 }
-| "$" (")" | "}" as op') {
+| (")" | "}" as op') {
   if (op = '(' && op' <> ')') || (op = '{' && op' <> '}') then
     failwith (Printf.sprintf "Lexing error: unbalanced $%c." op)
 }
@@ -562,30 +668,90 @@ and comment = parse
   }
 
 
-and after_equal level current = parse
-  | "`" {
-    let current = push_character current '`' in
-    match level with
-      | Backquotes :: level ->
-        after_equal level current lexbuf
-      | level ->
-        after_equal (Backquotes :: level) current lexbuf
+and subshell op level current = parse
+  | "" {
+    let consumed = subshell_parsing op level lexbuf in
+    if consumed > 0 then skip (consumed) current lexbuf else current
   }
+
+and close_subshell current = parse
+  | (")" | "`") as c {
+     push_character current c
+  }
+  | (blank | newline) as c {
+     let current = push_string current c in
+     close_subshell current lexbuf
+  }
+  | ("\\" newline) as c {
+     let current = push_string current c in
+     close_subshell current lexbuf
+  }
+  | _ as c {
+     failwith (Printf.sprintf "Unclosed subshell (got '%c')." c)
+  }
+
+and return_subshell op level current = parse
+ | "" {
+    let current = subshell op level current lexbuf in
+    let current = close_subshell current lexbuf in
+    return lexbuf current []
+ }
+
+and after_equal level current = parse
+  | '`' as op | "$" ( '(' as op) {
+    if op = '`' && list_hd_opt level = Some (Nesting.Backquotes op) then
+    (*
+
+        If the last nesting symbol of [level] is a Backquote, the
+        current backquote is the closing symbol.
+
+    *)
+      return lexbuf current [EOF]
+    else
+      let current =
+        subshell op level (push_string current (Lexing.lexeme lexbuf)) lexbuf
+      in
+      let current =
+        close_subshell current lexbuf
+      in
+      after_equal level current lexbuf
+  }
+
+  | "$((" {
+    let current = push_string current "$((" in
+    let current = next_double_rparen level 1 current lexbuf in
+    token level current lexbuf
+  }
+
   | "(" | "{" as op {
     let current = push_character current op in
-    after_equal (nesting_of_opening op :: level) current lexbuf
+    after_equal (Nesting.of_opening op :: level) current lexbuf
   }
+
   | ")" | "}" as op {
-    let current = push_character current op in
-    match level with
-      | nestop :: level when nestop = nesting_of_closing op ->
-        after_equal level current lexbuf
+    begin match level with
+      | Nesting.Backquotes '(' :: level when op = ')' ->
+         return lexbuf current [Operator Rparen] (* to provoke an error. *)
+      | Nesting.Backquotes '`' :: level when op = '`' ->
+         return lexbuf current [Operator Rparen] (* to provoke an error. *)
+      | nestop :: level when nestop = Nesting.of_closing op ->
+         let current = push_character current op in
+         after_equal level current lexbuf
       | _ ->
-        failwith "Lexing error: unbalanced parentheses"
+         (* FIXME *)
+         let x = 
+           match level with 
+           | [] -> "X" 
+           | n :: level -> Nesting.to_string n 
+         in
+         failwith (Printf.sprintf 
+                     "Lexing error: unbalanced parentheses (%c <> %s)"
+                   op x)
+    end
   }
   | "\"" {
     let current = push_character current '"' in
-    let current = double_quotes (DQuotes :: level) current lexbuf in
+    let current = double_quotes (Nesting.DQuotes :: level) current lexbuf in
     after_equal level current lexbuf
   }
   | "\'" {
@@ -600,7 +766,8 @@ and after_equal level current = parse
   (* FIXME: Factorize the following two rules. *)
   | newline {
     let result =
-      if level = [] then
+      (* FIXME: See next fixme, this is not the right condition. *)
+      if not (under_double_quotes level) then
         return ~with_newline:true lexbuf current []
       else (
         let current = push_character current ' ' in
@@ -611,9 +778,19 @@ and after_equal level current = parse
     result
   }
   | blank {
-    if level = [] then
+    (* FIXME: Probably not the right condition to consider this blank as a 
+       separator given the current nesting context. *)
+    let is_blank_separator = 
+      not (
+          under_double_quotes level 
+          || (match level with 
+              | (Nesting.Braces | Nesting.Parentheses) :: _ -> true
+              | _ -> false)
+        )
+    in
+    if is_blank_separator then (
       return ~with_newline:false lexbuf current []
-    else (
+    ) else (
       let current = push_character current ' ' in
       after_equal level current lexbuf
     )
@@ -637,7 +814,7 @@ and after_equal level current = parse
 and next_nesting level current = parse
   | '`' as op {
       match level with
-      | Backquotes :: _ ->
+      | Nesting.Backquotes _ :: _ ->
         push_character current op
       | _ ->
         let current = push_character current op in
@@ -645,18 +822,21 @@ and next_nesting level current = parse
   }
   | "{" | "(" as op {
     let current = push_character current op in
-    next_nesting (nesting_of_opening op :: level) current lexbuf
+    next_nesting (Nesting.of_opening op :: level) current lexbuf
   }
   | "}" | ")" as op {
     let current = push_character current op in
     match level with
-    | nestop :: level when nesting_of_closing op = nestop ->
-      if level = [] || List.hd level = DQuotes then
-        current
-      else
-        next_nesting level current lexbuf
+    | nestop :: level when Nesting.of_closing op = nestop ->
+       begin match level with
+       | [] | (Nesting.DQuotes | Nesting.Backquotes _) :: _ ->
+          current
+       | _ ->
+          next_nesting level current lexbuf 
+       end
     | _ :: _ ->
-      failwith ("Unterminated " ^ string_of_nesting (List.hd level))
+       failwith ("Unterminated " ^ Nesting.to_string (List.hd level) 
+                 ^ " got " ^ String.make 1 op)
     | [] ->
       assert false
       (* Because we maintain the invariant that [level] is non empty. *)
@@ -675,7 +855,7 @@ and next_nesting level current = parse
     if escaped_double_quote level current then (
        next_nesting level current' lexbuf
      ) else
-      let level' = DQuotes :: level in
+      let level' = Nesting.DQuotes :: level in
       let current = double_quotes level' current' lexbuf in
       next_nesting level current lexbuf
   }
@@ -687,16 +867,17 @@ and next_nesting level current = parse
   by: '$', '`', or <backslash>.
 
 *)
-  | "\\" (_ as c) {
-    let current =
-      if under_backquoted_style_command_substitution level then
-        push_character current c
-      else
-        push_string current (Lexing.lexeme lexbuf)
-    in
-    let current = push_string current (Lexing.lexeme lexbuf) in
-    next_nesting level current lexbuf
-  }
+  (* FIXME: The following rule seems redundant with the next one. *)
+  (* | "\\" (_ as c) { *)
+  (*   let current = *)
+  (*     if under_backquoted_style_command_substitution level then *)
+  (*       push_character current c *)
+  (*     else *)
+  (*       push_string current (Lexing.lexeme lexbuf) *)
+  (*   in *)
+  (*   let current = push_string current (Lexing.lexeme lexbuf) in *)
+  (*   next_nesting level current lexbuf *)
+  (* } *)
 
   | '\\' (_ as c) {
     let current =
@@ -720,23 +901,32 @@ and next_nesting level current = parse
     next_nesting level current lexbuf
   }
 
-and next_double_rparen level current = parse
+and next_double_rparen level dplevel current = parse
   | "((" {
     let current = push_string current "((" in
-    next_double_rparen (level+1) current lexbuf
+    next_double_rparen level (dplevel+1) current lexbuf
+  }
+  | '`' as op | "$" ( '(' as op) {
+      let current = 
+        subshell op level (push_string current (Lexing.lexeme lexbuf)) lexbuf
+      in
+      let current =
+        close_subshell current lexbuf
+      in
+      next_double_rparen level dplevel current lexbuf
   }
   | "))" {
     let current = push_string current "))" in
-    if level=1
+    if dplevel = 1
     then current
-    else if level>1 then next_double_rparen (level-1) current lexbuf
+    else if dplevel > 1 then next_double_rparen level (dplevel-1) current lexbuf
     else assert false
   }
   | eof {
     failwith "Unterminated arithmetic expression."
   }
   | _ as c {
-    next_double_rparen level (push_character current c) lexbuf
+    next_double_rparen level dplevel (push_character current c) lexbuf
   }
 
 (**specification
@@ -777,8 +967,9 @@ and double_quotes level current = parse
   | '"' {
     let is_escaped = escaped_double_quote level current in
     let current' = push_character current '"' in
-    if is_escaped then
+    if is_escaped then (
       double_quotes level current' lexbuf
+    )
     else
       current'
   }
@@ -801,11 +992,12 @@ and double_quotes level current = parse
    to find the matching ')'.
 
 *)
-  | "$(" {
-    let current = push_string current "$(" in
-    let current = next_nesting (Parentheses :: level) current lexbuf in
-    double_quotes level current lexbuf
-  }
+  (* | "$(" { *)
+  (*   (\* FIXME We should call a subshell parser here! *\) *)
+  (*   let current = push_string current "$(" in *)
+  (*   let current = next_nesting (Nesting.Parentheses :: level) current lexbuf in *)
+  (*   double_quotes level current lexbuf *)
+  (* } *)
 
 (**specification
 
@@ -818,7 +1010,7 @@ and double_quotes level current = parse
 *)
   | "${" {
     let current = push_string current "${" in
-    let current = next_nesting (Braces :: level) current lexbuf in
+    let current = next_nesting (Nesting.Braces :: level) current lexbuf in
     double_quotes level current lexbuf
   }
 
@@ -840,11 +1032,22 @@ and double_quotes level current = parse
    double-quoted string
 
 *)
-  | "`" {
-    let current = push_string current (Lexing.lexeme lexbuf) in
-    let current = next_nesting (Backquotes :: level) current lexbuf in
+  | '`' as op | "$" ('(' as op) {
+    let current =
+      subshell op level (push_string current (Lexing.lexeme lexbuf)) lexbuf
+    in
+    let current =
+      close_subshell current lexbuf
+    in
     double_quotes level current lexbuf
   }
+
+| "$((" {
+    let current = push_string current "$((" in
+    let current = next_double_rparen level 1 current lexbuf in
+    double_quotes level current lexbuf
+  }
+
 
 (**specification
 
@@ -862,7 +1065,17 @@ and double_quotes level current = parse
    Special Parameters .
 
 *)
-  | "\\" ('$' | '`' | '"' | "\\" | newline) {
+  | "\\" ('$' | '`' | '"' | "\\" | newline as c) {
+    if c = "\"" then begin
+        let current = push_character current '\\' in
+        if escaped_double_quote level current then
+          let current = push_string current c in
+          double_quotes level current lexbuf
+        else
+          let current' = push_string current c in
+          current'
+      end
+    else
     double_quotes level (push_string current (Lexing.lexeme lexbuf)) lexbuf
   }
 

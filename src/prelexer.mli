@@ -33,6 +33,7 @@ type pretoken =
     pretokens from [l], using a queue of symbols in the buffer [b] *)
 (* FIXME: we probably have that [b] is always empty when [token] is called *)
 val token :
+  Nesting.t list ->
   string list -> Lexing.lexbuf ->
   (pretoken * Lexing.position * Lexing.position) list
 
@@ -46,10 +47,4 @@ val readline :
 
 (** {6 Undocumented functions} *)
 
-type nesting =
-  | Backquotes
-  | Parentheses
-  | Braces
-  | DQuotes
-
-val next_nesting : nesting list -> string list -> Lexing.lexbuf -> string list
+val next_nesting : Nesting.t list -> string list -> Lexing.lexbuf -> string list

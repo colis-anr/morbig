@@ -180,6 +180,9 @@ complete_command : l=located(clist) s=located(separator) EOF {
 | l=located(clist) EOF {
   CompleteCommand_CList l
 }
+| EOF {
+  CompleteCommand_Empty
+}
 ;
 clist:
   l=located(clist) s=located(separator_op) a=located(and_or) {

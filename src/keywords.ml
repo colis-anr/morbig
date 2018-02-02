@@ -77,7 +77,7 @@ let recognize_reserved_word_if_relevant checkpoint (pretoken, pstart, pstop) w =
   FirstSuccessMonad.(
     try
       let kwd = keyword_of_string w in
-      if accepted_token checkpoint (kwd, pstart, pstop) then
+      if accepted_token checkpoint (kwd, pstart, pstop) <> Wrong then
         return kwd
       else
         raise Not_found

@@ -31,6 +31,7 @@
 type complete_command =
   | CompleteCommand_CList_Separator of clist' * separator'
   | CompleteCommand_CList of clist'
+  | CompleteCommand_Empty
 
 and complete_command_list = complete_command list
 

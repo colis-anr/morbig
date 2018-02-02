@@ -31,6 +31,7 @@ end = struct
   let lexing         = ref false
   let delimiters     = ref ([] : string list)
   let skip_tabs      = ref ([] : bool list)
+  let expanded       = ref ([] : bool list)
   let find_delimiter = ref false
   let placeholders   = ref ([] : word located ref list)
 
@@ -55,10 +56,12 @@ end = struct
              ) <> delimiter)
     do
       Buffer.add_string doc !nextline;
-      match Prelexer.readline lexbuf with
+      begin match Prelexer.readline lexbuf with
         | None -> failwith "Unterminated here document."
         | Some (l,b,e) -> nextline := l;
           pstop := e
+      end;
+      Printf.eprintf "HDL: |%s|\n" !nextline;
     done;
     delimiters := List.tl !delimiters;
     skip_tabs := List.tl !skip_tabs;
@@ -94,7 +97,9 @@ end = struct
     placeholders := List.rev !placeholders
 
   let push_next_word_as_here_document_delimiter w =
-    delimiters := (QuoteRemoval.on_string w) :: !delimiters;
+    let delimiter = QuoteRemoval.on_string w in
+    delimiters := delimiter :: !delimiters;
+    expanded := (delimiter = w) :: !expanded;
     find_delimiter := false
 
   let inside_here_document () =

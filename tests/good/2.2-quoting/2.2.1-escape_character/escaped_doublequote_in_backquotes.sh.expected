@@ -12,9 +12,15 @@
             [
               "Command_SimpleCommand",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
-                [ "CmdSuffix_Word", [ "Word", "$(echo ')')#" ] ]
+                "SimpleCommand_CmdPrefix",
+                [
+                  "CmdPrefix_AssignmentWord",
+                  [
+                    "AssignmentWord",
+                    [ "Name", "x" ],
+                    [ "Word", "\" ` echo \\\"  \\\\\\\\' \\\"  ` \"" ]
+                  ]
+                ]
               ]
             ]
           ]

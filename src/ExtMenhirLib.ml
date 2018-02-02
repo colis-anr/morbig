@@ -23,16 +23,25 @@ let current_items parsing_state =
     | Cons (Element (s, _, _, _), _) ->
       items s
 
+type 'a status =
+  | AcceptedNow of 'a
+  | Fine
+  | Wrong
+
 let rec close checkpoint =
   match checkpoint with
-    | AboutToReduce (_, _) -> close (resume checkpoint)
-    | Rejected | HandlingError _ -> false
-    | Accepted _ | InputNeeded _ | Shifting _ -> true
+    | AboutToReduce (_, _) | Shifting _ -> close (resume checkpoint)
+    | Rejected | HandlingError _ -> Wrong
+    | Accepted x -> AcceptedNow x
+    | InputNeeded _ -> Fine
 
 let accepted_token checkpoint token =
   match checkpoint with
     | InputNeeded _ -> close (offer checkpoint token)
-    | _ -> false
+    | _ -> Wrong
+
+let accepted_raw_token checkpoint raw_token =
+  accepted_token checkpoint (raw_token, Lexing.dummy_pos, Lexing.dummy_pos)
 
 (** [finished checkpoint] is [true] if the current [checkpoint] can
     move the LR(1) automaton to an accepting state with no extra

@@ -1,4 +1,4 @@
-.PHONY: all debug clean tests uninstall doc
+.PHONY: all debug clean checks uninstall doc
 
 EXPORTED_SOURCES=				\
 	src/CST.ml				\
@@ -56,7 +56,7 @@ uninstall:
 	  ocamlfind remove -destdir $(PREFIX)/lib libmorbig;		\
          fi
 
-tests:
+check:
 	tests/run
 
 clean:

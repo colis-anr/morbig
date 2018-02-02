@@ -59,7 +59,7 @@ let recognize_assignment checkpoint pretoken w = FirstSuccessMonad.(
         let aword = CST.(AssignmentWord (Name name, Word rhs)) in
         let (_, pstart, pstop) = pretoken in
         let token = ASSIGNMENT_WORD aword in
-        if accepted_token checkpoint (token, pstart, pstop) then
+        if accepted_token checkpoint (token, pstart, pstop) <> Wrong then
           return token
         else
           return (WORD (CST.Word w))

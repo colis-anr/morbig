@@ -85,7 +85,7 @@ let parse_file filename =
     try
       let contents = ExtPervasives.string_of_channel cin in
       let lexbuf = lexing_make filename contents in
-      parse false lexbuf
+      parse false [] lexbuf
     with e -> close_in cin;
               raise e
   in

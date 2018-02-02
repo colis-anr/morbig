@@ -28,6 +28,9 @@ endif
 OCAMLBUILD = ocamlbuild -use-ocamlfind $(OCAMLBUILDFLAGS)
 
 all:
+	echo "let current=\"`cat VERSION`\"" > version.ml
+	echo "let timestamp=\"`date +%Y%m%d`\"" >> version.ml
+	echo "let commit = \"`git log -1 --pretty=format:%H`\"" >> version.ml
 	$(OCAMLBUILD) morbig.native libmorbig.cma libmorbig.cmxa libmorbig.cmxs
 
 debug:

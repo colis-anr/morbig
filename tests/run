@@ -89,11 +89,13 @@ then
 fi
 
 printf '\nSummary:
+-----------------------------------
 | Tests | Passed | Failed | Total |
 |-------|--------|--------|-------|
 | good  |    %3d |    %3d |   %3d | %s
 | bad   |    %3d |    %3d |   %3d |
-| all   |    %3d |    %3d |   %3d |\n' \
+| all   |    %3d |    %3d |   %3d |
+-----------------------------------\n' \
        "$good_accepted" "$((good_unexpected + good_rejected))" "$good_total" \
        "$([ "$good_unexpected" -ne 0 ] && printf '(inc. %d tests with wrong output)' "$good_unexpected")" \
        "$bad_rejected" "$bad_accepted" "$bad_total" \
@@ -103,5 +105,6 @@ if [ "$failed" -gt 0 ]
 then
     exit 2
 else
+    echo "\n         Congratulations!\n"
     exit 0
 fi

@@ -37,7 +37,7 @@
               [
                 "SimpleCommand_CmdName_CmdSuffix",
                 [ "CmdName_Word", [ "Word", "echo" ] ],
-                [ "CmdSuffix_Word", [ "Word", "`echo `echo hello2``" ] ]
+                [ "CmdSuffix_Word", [ "Word", "`echo \\`echo hello2\\``" ] ]
               ]
             ]
           ]
@@ -62,7 +62,7 @@
                 [ "CmdName_Word", [ "Word", "echo" ] ],
                 [
                   "CmdSuffix_Word",
-                  [ "Word", "`echo `echo \\\\\\\\`echo hello3\\\\\\\\```" ]
+                  [ "Word", "`echo \\`echo \\\\\\`echo hello3\\\\\\`\\``" ]
                 ]
               ]
             ]
@@ -90,7 +90,7 @@
                   "CmdSuffix_Word",
                   [
                     "Word",
-                    "`echo `echo \\\\\\\\`echo \\\\\\\\\\\\\\\\`echo hello4\\\\\\\\\\\\\\\\`\\\\\\\\```"
+                    "`echo \\`echo \\\\\\`echo \\\\\\\\\\\\\\`echo hello4\\\\\\\\\\\\\\`\\\\\\`\\``"
                   ]
                 ]
               ]
