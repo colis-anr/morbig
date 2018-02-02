@@ -31,4 +31,4 @@
 
 ### Testing
 
-    make tests
+    make check
