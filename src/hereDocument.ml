@@ -61,7 +61,6 @@ end = struct
         | Some (l,b,e) -> nextline := l;
           pstop := e
       end;
-      Printf.eprintf "HDL: |%s|\n" !nextline;
     done;
     delimiters := List.tl !delimiters;
     skip_tabs := List.tl !skip_tabs;

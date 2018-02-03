@@ -18,7 +18,7 @@
     - menhir              (>= 20170509)
     - yojson              (>= 1.3.3)
     - ppx_deriving_yojson (>= 3.0)
-    - visitors            (>= 20170828)
+    - visitors            (>= 20170725)
 
 ### Building
 
