@@ -45,7 +45,7 @@
 
 ### Dependencies
 
-    ``morbig`` depends on the following software:
+``morbig`` depends on the following software:
 
 ```
     - ocaml               (>= 4.02.1 && <= 4.04.2)
