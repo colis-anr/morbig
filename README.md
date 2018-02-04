@@ -26,7 +26,7 @@
       docker run \
          -v $1:/home/opam/$B \
 	 -v $1.sjson:/home/opam/$B.sjson \
-	 morbig --as simple test.sh
+	 morbig --as simple $B
    }
 ```
 
