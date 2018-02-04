@@ -9,6 +9,39 @@
 
    please see the file COPYING
 
+## Are you in a hurry?
+
+   Yes? Build a docker image from the root of this repository:
+
+```
+   docker build -t morbig # to build a docker image with morbig inside.
+```
+
+   Then, define the following shell function:
+
+```
+   morbig () {
+      B=`basename $1`
+      touch $1.sjson
+      docker run \
+         -v $1:/home/opam/$B \
+	 -v $1.sjson:/home/opam/$B.sjson \
+	 morbig --as simple test.sh
+   }
+```
+
+   After that, you should be able to run ``morbig`` like this:
+
+```
+   morbig my-script.sh
+
+```
+
+   This will create a JSON file named ``my-script.sh.sjson``.
+
+   Now if you want to use more features of ``morbig``, take the time
+   to follow the building instructions of the next section.
+
 ## Building instructions
 
 ### Dependencies
