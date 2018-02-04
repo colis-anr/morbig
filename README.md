@@ -34,7 +34,6 @@
 
 ```
    morbig my-script.sh
-
 ```
 
    This will create a JSON file named ``my-script.sh.sjson``.
