@@ -1,0 +1,7 @@
+#!/bin/sh
+
+f()
+{
+    tempdir=`mktemp --directory --suffix=.aptlc`
+}
+
