@@ -11,7 +11,7 @@ find "$PROGDIR" \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
 if [ -e "$PROGDIR"/../bin/morbig ]
 then
     morbig="$PROGDIR"/../bin/morbig
-elif which morbig 2>/dev/null
+elif which morbig >/dev/null
 then
     printf 'Warning: Could not find morbig in this directory. Using the one in the PATH.\n'
     morbig=morbig
@@ -105,6 +105,6 @@ if [ "$failed" -gt 0 ]
 then
     exit 2
 else
-    echo "\n         Congratulations!\n"
+    printf "\n         Congratulations!\n"
     exit 0
 fi
