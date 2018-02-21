@@ -25,6 +25,7 @@ let save filename (cst : CST.complete_command list) =
 let string_of_exn = function
   | Engine.ParseError -> "parse error"
   | Failure s -> "failure: " ^ s
+  | Sys_error s -> "error: " ^ s
   | e -> raise e
 
 let main =

@@ -31,7 +31,8 @@ let string_of_channel cin =
   in
   try
     aux ()
-  with _ -> Buffer.contents b
+  with
+    End_of_file -> Buffer.contents b
 
 let lines_of_channel cin =
   let lines = ref [] in
