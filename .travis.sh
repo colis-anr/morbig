@@ -1,5 +1,5 @@
 #!/bin/sh
-set -euC
+set -e
 
 fold_start () { printf 'travis_fold:start:%s\r\033[33;1m%s\033[0m\n' "$1" "$2"; }
 fold_end () { printf 'travis_fold:end:%s\r' "$1"; }
@@ -16,7 +16,10 @@ export PATH=~/.local/bin:$PATH
 fold_end   install_opam
 
 fold_start prepare_opam 'Prepare OPAM...'
-#opam init -a
+if [ -z "$OCAML_VERSION" ]; then
+    printf 'No OCaml version provided in $OCAML_VERSION, using system.\n'
+    OCAML_VERSION=system
+fi
 opam switch "$OCAML_VERSION"
 eval $(opam config env)
 fold_end   prepare_opam
@@ -29,6 +32,8 @@ fold_start make 'Run `make`...'
 make
 fold_end   make
 
-fold_start make_check 'Run the tests with `make check`...'
-make check
-fold_end   make_check
+if [ -n "$RUN_TESTS" ]; then
+    fold_start make_check 'Run the tests with `make check`...'
+    make check
+    fold_end   make_check
+fi
