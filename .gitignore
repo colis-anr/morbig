@@ -2,6 +2,7 @@ bin/
 lib/
 *.json
 *.sjson
+src/version.ml
 
 ## Emacs files
 *~

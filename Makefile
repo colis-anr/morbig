@@ -61,6 +61,7 @@ check:
 
 clean:
 	$(MAKE) -C src clean
+	rm -f src/version.ml
 	tests/run clean
 	[ ! -d bin ] || rm -fr bin
 	[ ! -d lib ] || rm -fr lib
