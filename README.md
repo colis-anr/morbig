@@ -14,19 +14,18 @@
    Yes? Build a docker image from the root of this repository:
 
 ```
-   docker build -t morbig # to build a docker image with morbig inside.
+   docker build -t morbig . # to build a docker image with morbig inside.
 ```
 
    Then, define the following shell function:
 
 ```
    morbig () {
-      B=`basename $1`
-      touch $1.sjson
+      D=$(cd "$(dirname "$1")"; pwd)
+      B=$(basename "$1")
       docker run \
-         -v $1:/home/opam/$B \
-	 -v $1.sjson:/home/opam/$B.sjson \
-	 morbig --as simple $B
+         -v "$D":/mnt \
+         morbig --as simple /mnt/"$B"
    }
 ```
 
