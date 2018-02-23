@@ -1,4 +1,4 @@
-.PHONY: all debug clean checks uninstall doc
+.PHONY: all debug clean checks uninstall doc install install-local
 
 EXPORTED_SOURCES=				\
 	src/CST.ml				\
@@ -39,6 +39,9 @@ install:
 	  ocamlfind remove -destdir $(PREFIX)/lib libmorbig;					\
 	  ocamlfind install -destdir $(PREFIX)/lib libmorbig META $(EXPORTED_SOURCES) lib/*;	\
          fi
+
+install-local:
+	PREFIX=/usr/local make install
 
 uninstall:
 	@ if [ x$(PREFIX) = x ]; then					\
