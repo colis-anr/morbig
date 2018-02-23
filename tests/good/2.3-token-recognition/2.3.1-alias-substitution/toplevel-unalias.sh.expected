@@ -60,7 +60,7 @@
               [
                 "SimpleCommand_CmdName_CmdSuffix",
                 [ "CmdName_Word", [ "Word", "unalias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "'ls -l'" ] ]
+                [ "CmdSuffix_Word", [ "Word", "foo" ] ]
               ]
             ]
           ]
@@ -84,7 +84,7 @@
                 "Command_SimpleCommand",
                 [
                   "SimpleCommand_CmdName_CmdSuffix",
-                  [ "CmdName_Word", [ "Word", "'ls -l'" ] ],
+                  [ "CmdName_Word", [ "Word", "foo" ] ],
                   [ "CmdSuffix_Word", [ "Word", "." ] ]
                 ]
               ]
