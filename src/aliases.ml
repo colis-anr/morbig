@@ -21,7 +21,7 @@ open CST
 
 (**
 
-   A shell script can define aliases with the following command:
+   A shell script may define aliases with the following command:
 
    ``` alias x='foo bar' ```
 
@@ -97,9 +97,9 @@ let rec as_aliasing_related_command = function
   | SimpleCommand_CmdPrefix _ ->
     None
 
-(** [interpret aliases cst] traverses [cst] to check that there is no
-    alias or unalias definitions in an nested command, in which case an
-    error is issued. Then, for all alias and unalias toplevel invokation,
+(** [interpret aliases cst] traverses [cst] to check that there are no
+    alias or unalias invocations in a nested command, in which case an
+    error is issued. Then, for any alias and unalias toplevel invocation,
     this function updates [aliases]. *)
 let interpret aliases cst =
   let aliases = ref aliases in
