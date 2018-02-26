@@ -72,13 +72,13 @@ type alias_related_command =
 
 let binder_from_alias (x:CST.cmd_suffix) =
   let wl = CSTHelpers.wordlist_of_cmd_suffix x
-  in if wl = []
-     then raise InvalidAliasArguments
-     else List.map
-            (function a ->
-               let s = Str.(split (regexp "=") (CSTHelpers.unWord a))
-               in List.hd s, String.concat "" (List.tl s))
-            wl
+  in List.map
+       (function a ->
+          let s = Str.(bounded_split (regexp "=") (CSTHelpers.unWord a) 2) 
+          in if List.length s < 2
+             then raise InvalidAliasArguments
+             else List.hd s, List.hd (List.tl s))
+       wl
 
 let unalias_argument (x:CST.cmd_suffix) =
   let wl = CSTHelpers.wordlist_of_cmd_suffix x
