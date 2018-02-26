@@ -63,8 +63,6 @@ let unbind_aliases to_unbind aliases =
   List.filter (fun (x, _) -> not (List.mem x to_unbind)) aliases
 
 exception NestedAliasingCommand
-exception InvalidAliasArguments
-exception InvalidUnaliasArguments
 
 type alias_related_command =
   | Alias of (string * string) list
@@ -72,19 +70,18 @@ type alias_related_command =
 
 let binder_from_alias (x:CST.cmd_suffix) =
   let wl = CSTHelpers.wordlist_of_cmd_suffix x
-  in List.map
-       (function a ->
-          let s = Str.(bounded_split (regexp "=") (CSTHelpers.unWord a) 2) 
-          in if List.length s < 2
-             then raise InvalidAliasArguments
-             else List.hd s, List.hd (List.tl s))
+  in List.fold_right
+       (fun a accu ->
+         let s = Str.(bounded_split (regexp "=") (CSTHelpers.unWord a) 2) 
+         in if List.length s < 2
+            then accu
+            else (List.hd s, List.hd (List.tl s)):: accu)
        wl
+       []
 
 let unalias_argument (x:CST.cmd_suffix) =
   let wl = CSTHelpers.wordlist_of_cmd_suffix x
-  in if wl = []
-     then raise InvalidUnaliasArguments
-     else List.map CSTHelpers.unWord wl
+  in List.map CSTHelpers.unWord wl
 
 let rec as_aliasing_related_command = function
   | SimpleCommand_CmdName_CmdSuffix ({ value = CmdName_Word w }, suffix) ->

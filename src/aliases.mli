@@ -22,12 +22,6 @@ val empty : t
     a composite command. These are allowed in POSIX, but we have to
     refuse them as they cannnot be expanded statically. *)
 exception NestedAliasingCommand
-(** Exception raised in case the argument of an alias invocation is not
-    of the form word=expansion. *)
-exception InvalidAliasArguments
-(** Exception raised in case the argument of an unalias invocation is not
-    a single word. *)
-exception InvalidUnaliasArguments
 
 (** [interpret aliases cst] traverses [cst] to check that there are no
     alias or unalias invocations in a nested command:
