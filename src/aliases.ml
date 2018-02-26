@@ -67,6 +67,7 @@ exception NestedAliasingCommand
 type alias_related_command =
   | Alias of (string * string) list
   | Unalias of string list
+  | Reset
 
 let binder_from_alias (x:CST.cmd_suffix) =
   let wl = CSTHelpers.wordlist_of_cmd_suffix x
@@ -91,7 +92,9 @@ let rec as_aliasing_related_command = function
       Some (Alias l)
     | Word "unalias" ->
       let l = unalias_argument suffix.value in
-      Some (Unalias l)
+      if l=["-a"]
+      then Some Reset
+      else Some (Unalias l)
     | _ ->
       None
     end
@@ -121,6 +124,7 @@ let interpret aliases cst =
           if !level = 0 then match alias_command with
             | Alias x -> aliases := bind_aliases x !aliases
             | Unalias x -> aliases := unbind_aliases x !aliases
+            | Reset -> aliases := empty
           else
             raise NestedAliasingCommand
         | None ->
