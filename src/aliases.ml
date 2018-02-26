@@ -53,41 +53,48 @@ type t = (string * string) list
 
 let empty = []
 
-let bind_alias x v aliases = (x, v) :: aliases
+(** [bind_aliases to_bind aliases] returns an alias table obtained from
+    [aliases] by adding all entries from [to_bind]. *)
+let bind_aliases to_bind aliases = to_bind @ aliases
 
-let unbind_alias x aliases = List.filter (fun (y, _) -> x <> y) aliases
+(** [unbind_aliases to_unbind aliases] returns an alias table obtained from
+    [aliases] by omitting all entries from [to_unbind]. *)
+let unbind_aliases to_unbind aliases =
+  List.filter (fun (x, _) -> not (List.mem x to_unbind)) aliases
 
 exception NestedAliasingCommand
 exception InvalidAliasArguments
 exception InvalidUnaliasArguments
 
 type alias_related_command =
-  | Alias of string * string
-  | Unalias of string
+  | Alias of (string * string) list
+  | Unalias of string list
 
-let binder_from_alias = function
-  | CmdSuffix_Word { value = Word a } ->
-    let s = Str.(split (regexp "=") a) in
-    List.hd s, String.concat "" (List.tl s)
+let binder_from_alias (x:CST.cmd_suffix) =
+  let wl = CSTHelpers.wordlist_of_cmd_suffix x
+  in if wl = []
+     then raise InvalidAliasArguments
+     else List.map
+            (function a ->
+               let s = Str.(split (regexp "=") (CSTHelpers.unWord a))
+               in List.hd s, String.concat "" (List.tl s))
+            wl
 
-  | _ ->
-    raise InvalidAliasArguments
-
-let unalias_argument = function
-  | CmdSuffix_Word { value = Word x } ->
-    x
-  | _ ->
-    raise InvalidUnaliasArguments
+let unalias_argument (x:CST.cmd_suffix) =
+  let wl = CSTHelpers.wordlist_of_cmd_suffix x
+  in if wl = []
+     then raise InvalidUnaliasArguments
+     else List.map CSTHelpers.unWord wl
 
 let rec as_aliasing_related_command = function
   | SimpleCommand_CmdName_CmdSuffix ({ value = CmdName_Word w }, suffix) ->
     begin match w.value with
     | Word "alias" ->
-      let x, v = binder_from_alias suffix.value in
-      Some (Alias (x, v))
+      let l = binder_from_alias suffix.value in
+      Some (Alias l)
     | Word "unalias" ->
-      let x = unalias_argument suffix.value in
-      Some (Unalias x)
+      let l = unalias_argument suffix.value in
+      Some (Unalias l)
     | _ ->
       None
     end
@@ -115,8 +122,8 @@ let interpret aliases cst =
         match as_aliasing_related_command cmd with
         | Some alias_command ->
           if !level = 0 then match alias_command with
-            | Alias (x, value) -> aliases := bind_alias x value !aliases
-            | Unalias x -> aliases := unbind_alias x !aliases
+            | Alias x -> aliases := bind_aliases x !aliases
+            | Unalias x -> aliases := unbind_aliases x !aliases
           else
             raise NestedAliasingCommand
         | None ->

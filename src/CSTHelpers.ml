@@ -105,3 +105,15 @@ let compare_positions p1 p2 =
 let nonempty_complete_command = function
   | CompleteCommand_Empty -> false
   | _ -> true
+
+
+(** [wordlist_of_cmd_suffix] extracts the list of all words from a cmd_sufix *)
+let rec wordlist_of_cmd_suffix = function
+  | CmdSuffix_IoRedirect _io_redirect' ->
+     []
+  | CmdSuffix_CmdSuffix_IoRedirect (cmd_suffix',_io_redirect') ->
+     wordlist_of_cmd_suffix cmd_suffix'.value
+  | CmdSuffix_Word word'->
+     [word'.value]
+  | CmdSuffix_CmdSuffix_Word (cmd_suffix',word') ->
+     (wordlist_of_cmd_suffix cmd_suffix'.value)@[word'.value]
