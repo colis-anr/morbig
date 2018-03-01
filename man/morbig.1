@@ -22,6 +22,18 @@ them.
 The concrete syntax trees are built using constructors according
 to the shell grammar of the POSIX standard.
 
+As required by the POSIX standard, morbig does alias expansion prior to
+syntactic analysis. The
+.BR alias
+and
+.BR unalias
+commands are executed by morbig, allowing for multiple arguments, but
+only when these commands occur at toplevel,
+that is not inside a compound control structure like
+a conditional construct or a loop construct. morbig raises an error
+if an alias or unalias command occurs inside a compound construct since
+these cannot be handled statically.
+
 The parser processes input files in order, and stops
 at the first error encountered. This behavior may be changed by using the
 .I \-\-continue-after-error
