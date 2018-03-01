@@ -358,7 +358,7 @@ module Lexer (U : sig end) : Lexer = struct
         (** If the input is not completed but [NEWLINE] as a meaning
             from the point of view of the grammar, it is promoted as a
             token and communicated to the parser. *)
-          else if accepted_token checkpoint (NEWLINE, pstart, pstop) <> Wrong then
+          else if is_accepted_token checkpoint (NEWLINE, pstart, pstop) then
             return NEWLINE
 
         (** Otherwise, a [NEWLINE] is simply layout and is ignored. *)

@@ -40,6 +40,9 @@ let accepted_token checkpoint token =
     | InputNeeded _ -> close (offer checkpoint token)
     | _ -> Wrong
 
+let is_accepted_token checkpoint token =
+  accepted_token checkpoint token <> Wrong
+
 let accepted_raw_token checkpoint raw_token =
   accepted_token checkpoint (raw_token, Lexing.dummy_pos, Lexing.dummy_pos)
 
