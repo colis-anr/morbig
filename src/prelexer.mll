@@ -700,12 +700,12 @@ and return_subshell op level current = parse
 and after_equal level current = parse
   | '`' as op | "$" ( '(' as op) {
     if op = '`' && list_hd_opt level = Some (Nesting.Backquotes op) then
-    (*
+     (*
 
-        If the last nesting symbol of [level] is a Backquote, the
-        current backquote is the closing symbol.
+         If the last nesting symbol of [level] is a Backquote, the
+         current backquote is the closing symbol.
 
-    *)
+     *)
       return lexbuf current [EOF]
     else
       let current =
