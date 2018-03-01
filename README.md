@@ -49,9 +49,9 @@
 ```
     - ocaml               (>= 4.02.1 && <= 4.04.2)
     - menhir              (>= 20170509)
-    - yojson              (>= 1.3.3)
+    - yojson              (>= 1.3.2)
     - ppx_deriving_yojson (>= 3.0)
-    - visitors            (>= 20170725)
+    - visitors            (>= 20170404)
 ```
 
 ### Building
