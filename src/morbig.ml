@@ -23,9 +23,13 @@ let save filename (cst : CST.complete_command list) =
   close_out cout
 
 let string_of_exn = function
-  | Engine.ParseError pos ->
+  | Errors.ParseError pos ->
      Printf.sprintf "%s: Syntax error."
        CSTHelpers.(string_of_lexing_position (internalize pos))
+  | Errors.LexicalError (pos, msg) ->
+     Printf.sprintf "%s: Lexical error (%s)."
+       CSTHelpers.(string_of_lexing_position (internalize pos))
+       msg
   | Failure s ->
      "Failure: " ^ s ^ "."
   | Sys_error s ->

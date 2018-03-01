@@ -259,10 +259,8 @@ let subshell_parsing op level lexbuf =
     lexbuf'.Lexing.lex_curr_p.Lexing.pos_cnum
     - lexbuf.Lexing.lex_curr_p.Lexing.pos_cnum
 
-exception LexingError of string
-
-let lexing_error msg =
-  raise (LexingError msg)
+let lexing_error lexbuf msg =
+  raise (Errors.LexicalError (lexbuf.Lexing.lex_curr_p, msg))
 
 }
 
@@ -309,7 +307,7 @@ rule token level current = parse
     if level = [] then
       return lexbuf current [EOF]
     else (
-      lexing_error "Unterminated nesting!"
+      lexing_error lexbuf "Unterminated nesting!"
     )
   }
 
@@ -656,14 +654,14 @@ and skip k current = parse
 
 and close op = parse
 | "`" {
-  if op <> '`' then lexing_error "Lexing error: unbalanced backquotes."
+  if op <> '`' then lexing_error lexbuf "Lexing error: unbalanced backquotes."
 }
 | (")" | "}" as op') {
   if (op = '(' && op' <> ')') || (op = '{' && op' <> '}') then
-    lexing_error (Printf.sprintf "Lexing error: unbalanced $%c." op)
+    lexing_error lexbuf (Printf.sprintf "Lexing error: unbalanced $%c." op)
 }
 | _ as c {
-  lexing_error (Printf.sprintf "Unclosed %c (got %c)." op c)
+  lexing_error lexbuf (Printf.sprintf "Unclosed %c (got %c)." op c)
 }
 
 and comment = parse
@@ -695,10 +693,10 @@ and close_subshell current = parse
      close_subshell current lexbuf
   }
   | eof {
-     lexing_error (Printf.sprintf "Unclosed subshell (got EOF).")
+     lexing_error lexbuf (Printf.sprintf "Unclosed subshell (got EOF).")
   }
   | _ as c {
-     lexing_error (Printf.sprintf "Unclosed subshell (got '%c')." c)
+     lexing_error lexbuf (Printf.sprintf "Unclosed subshell (got '%c')." c)
   }
 
 and return_subshell op level current = parse
@@ -755,7 +753,7 @@ and after_equal level current = parse
            | [] -> "X"
            | n :: level -> Nesting.to_string n
          in
-         lexing_error (Printf.sprintf
+         lexing_error lexbuf (Printf.sprintf
                      "Lexing error: unbalanced parentheses (%c <> %s)"
                    op x)
     end
@@ -846,7 +844,7 @@ and next_nesting level current = parse
           next_nesting level current lexbuf
        end
     | _ :: _ ->
-       lexing_error ("Unterminated " ^ Nesting.to_string (List.hd level)
+       lexing_error lexbuf ("Unterminated " ^ Nesting.to_string (List.hd level)
                  ^ " got " ^ String.make 1 op)
     | [] ->
       assert false
@@ -905,7 +903,7 @@ and next_nesting level current = parse
   }
   (* FIXME: do we have to handle "\<newline" here ? *)
   | eof {
-    lexing_error "Unterminated nesting."
+    lexing_error lexbuf "Unterminated nesting."
   }
   | _ as c {
     let current = push_character current c in
@@ -934,7 +932,7 @@ and next_double_rparen level dplevel current = parse
     else assert false
   }
   | eof {
-    lexing_error "Unterminated arithmetic expression."
+    lexing_error lexbuf "Unterminated arithmetic expression."
   }
   | _ as c {
     next_double_rparen level dplevel (push_character current c) lexbuf
@@ -956,7 +954,7 @@ and single_quotes current = parse
 
 (** Single quotes must be terminated before the end of file. *)
   | eof {
-    lexing_error "Unterminated quote."
+    lexing_error lexbuf "Unterminated quote."
   }
 
 (** Otherwise, we simply copy the character. *)
@@ -1092,7 +1090,7 @@ and double_quotes level current = parse
 
 (** Double quotes must be terminated before the end of file. *)
   | eof {
-    lexing_error "Unterminated double quote."
+    lexing_error lexbuf "Unterminated double quote."
   }
 
 (** Otherwise, we simply copy the current character. *)

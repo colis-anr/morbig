@@ -24,9 +24,6 @@ open Keywords
 open Assignments
 open Aliases
 
-(** Raise in case of parsing error. *)
-exception ParseError of Lexing.position
-
 type state = {
     checkpoint : complete_command checkpoint;
     aliases    : Aliases.t;
@@ -215,7 +212,7 @@ let parse partial (module Lexer : Lexer) =
         parse { aliases; checkpoint = resume checkpoint }
 
     and parse_error () =
-      raise (ParseError (Lexer.current_position ()))
+      raise (Errors.ParseError (Lexer.current_position ()))
   in
   parse {
       aliases = Aliases.empty;
