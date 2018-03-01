@@ -73,7 +73,7 @@ let parse partial (module Lexer : Lexer) =
     *)
       | Accepted cst ->
         let aliases = Aliases.interpret aliases cst in
-        (* if partial then [cst] else  *)begin
+        begin
             match Lexer.at_eof () with
             | None ->
                (** The only way for a complete command to be accepted is
@@ -109,9 +109,7 @@ let parse partial (module Lexer : Lexer) =
            a complete command.
 
          *)
-         (* if Lexer.at_eof () = Some true then *)
-         (*   [] *)
-         (* else  *)if partial then (
+         if partial then (
            (** 1. Rollback to the state preceding the last token insertion. *)
            let state = Lexer.roll_back_to_last_parsing_state () in
            (** 2. Put back EOF, see if the prefix is accepted. *)
