@@ -488,7 +488,7 @@ rule token level current = parse
   (* FIXME: Handle nesting *)
   | '`' as op | "$" ('(' as op) {
     if op = '`' && list_hd_opt level = Some (Nesting.Backquotes op) then begin
-        let pos = lexbuf.lex_curr_p.pos_cnum in 
+        let pos = lexbuf.lex_curr_p.pos_cnum in
         lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_cnum = pos - 1 };
     (*
 
@@ -750,12 +750,12 @@ and after_equal level current = parse
          after_equal level current lexbuf
       | _ ->
          (* FIXME *)
-         let x = 
-           match level with 
-           | [] -> "X" 
-           | n :: level -> Nesting.to_string n 
+         let x =
+           match level with
+           | [] -> "X"
+           | n :: level -> Nesting.to_string n
          in
-         lexing_error (Printf.sprintf 
+         lexing_error (Printf.sprintf
                      "Lexing error: unbalanced parentheses (%c <> %s)"
                    op x)
     end
@@ -789,12 +789,12 @@ and after_equal level current = parse
     result
   }
   | blank {
-    (* FIXME: Probably not the right condition to consider this blank as a 
+    (* FIXME: Probably not the right condition to consider this blank as a
        separator given the current nesting context. *)
-    let is_blank_separator = 
+    let is_blank_separator =
       not (
-          under_double_quotes level 
-          || (match level with 
+          under_double_quotes level
+          || (match level with
               | (Nesting.Braces | Nesting.Parentheses) :: _ -> true
               | _ -> false)
         )
@@ -843,10 +843,10 @@ and next_nesting level current = parse
        | [] | (Nesting.DQuotes | Nesting.Backquotes _) :: _ ->
           current
        | _ ->
-          next_nesting level current lexbuf 
+          next_nesting level current lexbuf
        end
     | _ :: _ ->
-       lexing_error ("Unterminated " ^ Nesting.to_string (List.hd level) 
+       lexing_error ("Unterminated " ^ Nesting.to_string (List.hd level)
                  ^ " got " ^ String.make 1 op)
     | [] ->
       assert false
@@ -918,7 +918,7 @@ and next_double_rparen level dplevel current = parse
     next_double_rparen level (dplevel+1) current lexbuf
   }
   | '`' as op | "$" ( '(' as op) {
-      let current = 
+      let current =
         subshell op level (push_string current (Lexing.lexeme lexbuf)) lexbuf
       in
       let current =
