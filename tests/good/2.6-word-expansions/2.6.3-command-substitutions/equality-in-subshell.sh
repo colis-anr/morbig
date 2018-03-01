@@ -1,4 +1,4 @@
-#!/bin/sh
+# excerpt from apt-listchanges postinst
 
 f()
 {
