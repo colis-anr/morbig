@@ -161,6 +161,11 @@
 (*changes: Extra standard tokens. *)
 %token EOF
 
+(* This token does not appear in the grammar.  It is used to trigger
+   parsing error to stop parsers that follow the longest-prefix
+   strategy. *)
+%token INTENDED_ERROR
+
 (*changes: Conflicts resolution via precedence directives. *)
 
 %left compound_list_newline_list_prec separator_newline_list_prec
@@ -172,6 +177,7 @@
    The Grammar
    ------------------------------------------------------- *)
 %start<CST.complete_command>  complete_command
+%start<unit> intented_error
 %%
 complete_command : l=located(clist) s=located(separator) EOF {
   CompleteCommand_CList_Separator (l, s)
@@ -565,4 +571,12 @@ sequential_sep : Semicolon l=located(linebreak) {
 
 %inline located(X): x=X {
   CSTHelpers.with_poss $startpos $endpos x
+}
+
+(*
+   This non terminal is here to avoid Menhir warning
+   about unused terminal INTENDED_ERROR.
+*)
+intented_error: INTENDED_ERROR {
+  ()
 }

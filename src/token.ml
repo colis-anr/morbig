@@ -62,3 +62,4 @@ let string_of_token = function
   | Uppersand -> "Uppersand"
   | Semicolon -> "Semicolon"
   | NEWLINE -> "Newline"
+  | INTENDED_ERROR -> "INTENDED_ERROR"

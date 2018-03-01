@@ -138,6 +138,9 @@ let return ?(with_newline=false) lexbuf current tokens =
   let tokens = buffered @ tokens in
   List.map produce tokens
 
+let provoke_error current lexbuf =
+  return lexbuf current [Operator INTENDED_ERROR]
+
 let operators = Hashtbl.create 17     ;;
 Hashtbl.add operators "&&"  AND_IF    ;;
 Hashtbl.add operators "||"  OR_IF     ;;
@@ -714,7 +717,7 @@ and after_equal level current = parse
          current backquote is the closing symbol.
 
      *)
-      return lexbuf current [Operator Rparen] (* to provoke an error. *)
+      provoke_error current lexbuf
     else
       let current =
         subshell op level (push_string current (Lexing.lexeme lexbuf)) lexbuf
@@ -739,9 +742,9 @@ and after_equal level current = parse
   | ")" | "}" as op {
     begin match level with
       | Nesting.Backquotes '(' :: level when op = ')' ->
-         return lexbuf current [Operator Rparen] (* to provoke an error. *)
+         provoke_error current lexbuf
       | Nesting.Backquotes '`' :: level when op = '`' ->
-         return lexbuf current [Operator Rparen] (* to provoke an error. *)
+         provoke_error current lexbuf
       | nestop :: level when nestop = Nesting.of_closing op ->
          let current = push_character current op in
          after_equal level current lexbuf
