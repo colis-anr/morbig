@@ -686,6 +686,9 @@ and close_subshell current = parse
      let current = push_string current c in
      close_subshell current lexbuf
   }
+  | eof {
+     failwith (Printf.sprintf "Unclosed subshell (got EOF).")
+  }
   | _ as c {
      failwith (Printf.sprintf "Unclosed subshell (got '%c')." c)
   }
