@@ -706,7 +706,7 @@ and after_equal level current = parse
          current backquote is the closing symbol.
 
      *)
-      return lexbuf current [EOF]
+      return lexbuf current [Operator Rparen] (* to provoke an error. *)
     else
       let current =
         subshell op level (push_string current (Lexing.lexeme lexbuf)) lexbuf
