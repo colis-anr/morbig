@@ -47,7 +47,7 @@ do
 	    'good') good_total=$((good_total + 1)) ;;
 	    'bad') bad_total=$((bad_total + 1)) ;;
 	esac
-	
+
 	if "$morbig" --as simple "$test.sh" 2>/dev/null
 	then
 	    case "$category" in
