@@ -86,9 +86,21 @@ let column p =
 let characters p1 p2 =
   (column p1, p2.pos_cnum - p1.pos_bol) (* intentionally [p1.pos_bol] *)
 
+let emacs_position filename linenumber cs =
+  Printf.sprintf "%sine %d%s"
+    (if filename = "" then
+       "L"
+     else
+       Printf.sprintf "File \"%s\", l" filename
+    )
+    linenumber
+    (match cs with
+     | [] -> ""
+     | [c] -> Printf.sprintf ", character %d" c
+     | c1 :: c2 :: _ -> Printf.sprintf ", characters %d-%d" c1 c2)
+
 let string_of_lexing_position p =
-  let c = p.pos_cnum - p.pos_bol in
-  (string_of_int p.pos_lnum)^":"^(string_of_int c)
+  emacs_position p.pos_fname (line p) [column p]
 
 let string_of_position p =
   let filename = filename_of_position p in

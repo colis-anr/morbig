@@ -25,7 +25,7 @@ open Assignments
 open Aliases
 
 (** Raise in case of parsing error. *)
-exception ParseError
+exception ParseError of Lexing.position
 
 type state = {
     checkpoint : complete_command checkpoint;
@@ -123,9 +123,9 @@ let parse partial (module Lexer : Lexer) =
               [cst]
            | status ->
               (** 2.a No? It is a syntax error. *)
-              raise ParseError
+              parse_error ()
          ) else
-           raise ParseError
+           parse_error ()
 
       (**
 
@@ -192,8 +192,8 @@ let parse partial (module Lexer : Lexer) =
             match top env with
             | Some (Element (state, v, _, _)) ->
               let analyse_top : type a. a symbol * a -> _ = function
-                | T T_NAME, Name w when is_reserved_word w -> raise ParseError
-                | T T_WORD, Word w when is_reserved_word w -> raise ParseError
+                | T T_NAME, Name w when is_reserved_word w -> parse_error ()
+                | T T_WORD, Word w when is_reserved_word w -> parse_error ()
                 | _ ->
                   (* By correctness of the underlying LR automaton. *)
                   raise Not_found
@@ -216,6 +216,8 @@ let parse partial (module Lexer : Lexer) =
       | Shifting (_, _, _) ->
         parse { aliases; checkpoint = resume checkpoint }
 
+    and parse_error () =
+      raise (ParseError (Lexer.current_position ()))
   in
   parse {
       aliases = Aliases.empty;

@@ -23,9 +23,13 @@ let save filename (cst : CST.complete_command list) =
   close_out cout
 
 let string_of_exn = function
-  | Engine.ParseError -> "parse error"
-  | Failure s -> "failure: " ^ s
-  | Sys_error s -> "error: " ^ s
+  | Engine.ParseError pos ->
+     Printf.sprintf "%s: Syntax error."
+       CSTHelpers.(string_of_lexing_position (internalize pos))
+  | Failure s ->
+     "Failure: " ^ s ^ "."
+  | Sys_error s ->
+     "Error: " ^ s ^ "."
   | e -> raise e
 
 let main =
@@ -51,6 +55,9 @@ let main =
                           output_string eout "\n";
                           close_out eout
                         end
-                  else raise e
+                  else (
+                    print_endline (string_of_exn e);
+                    exit 1
+                  )
             )
             (Options.input_files ())
