@@ -56,7 +56,7 @@ let main =
                           close_out eout
                         end
                   else (
-                    print_endline (string_of_exn e);
+                    output_string stderr (string_of_exn e ^ "\n");
                     exit 1
                   )
             )
