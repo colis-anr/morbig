@@ -11,19 +11,6 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-open ExtPervasives
-open ExtMenhirLib
-open Parser
-open Parser.Incremental
-open Parser.MenhirInterpreter
-open MenhirLib.General
-open CST
-open Names
-open Keywords
-open Assignments
-open Aliases
-open Engine
-
 let rec json_filter_positions =
   let open Yojson.Safe in
   function
@@ -84,8 +71,8 @@ let parse_file filename =
   let cst =
     try
       let contents = ExtPervasives.string_of_channel cin in
-      let lexbuf = lexing_make filename contents in
-      parse false [] lexbuf
+      let lexbuf = ExtPervasives.lexing_make filename contents in
+      Engine.parse false [] lexbuf
     with e -> close_in cin;
               raise e
   in
