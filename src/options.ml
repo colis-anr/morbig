@@ -46,8 +46,8 @@ Usage: morbig [options] file...
 "
 
 let show_version_and_exit () =
-  Printf.printf "morbig %s (compiled from %s, %s)\n"
-    Version.current Version.commit Version.timestamp;
+  Printf.printf "morbig %s (compiled from commit %s, commited on %s)\n"
+    Version.current Version.commithash Version.commitdate;
   exit 0
 
 let analyze_command_line_arguments () = Arg.(
