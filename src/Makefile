@@ -32,7 +32,14 @@ all:
 	echo "let current=\"`cat VERSION`\"" >> version.ml
 	echo "let commitdate = \"`git log -1 --pretty=format:%ad`\"" >> version.ml
 	echo "let commithash = \"`git log -1 --pretty=format:%H`\"" >> version.ml
-	$(OCAMLBUILD) morbig.native libmorbig.cma libmorbig.cmxa libmorbig.cmxs
+	if (which ocamlopt > /dev/null); then \
+		echo "compilation to native code"; \
+		$(OCAMLBUILD) morbig.native \
+			libmorbig.cma libmorbig.cmxa libmorbig.cmxs; \
+	else \
+		echo "compilation to byte code" ;\
+		$(OCAMLBUILD) morbig.byte libmorbig.cma; \
+	fi
 
 debug:
 	$(OCAMLBUILD) -tag debug morbig.byte libmorbig.cma

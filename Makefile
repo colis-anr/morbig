@@ -7,8 +7,14 @@ EXPORTED_SOURCES=				\
 all:
 	$(MAKE) -C src
 	mkdir -p bin lib
-	cp src/morbig.native bin/morbig
-	cp src/_build/libmorbig.o src/_build/libmorbig.cm* src/_build/libmorbig.a lib
+	if [ -e src/morbig.native ]; then \
+		cp src/morbig.native bin/morbig ;\
+		cp src/_build/libmorbig.o src/_build/libmorbig.cm* \
+			src/_build/libmorbig.a lib; \
+	else \
+		cp src/morbig.byte bin/morbig ;\
+		cp src/_build/libmorbig.cm* lib; \
+	fi
 
 doc:
 	$(MAKE) -C src doc
