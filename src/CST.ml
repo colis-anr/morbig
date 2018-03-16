@@ -279,7 +279,7 @@ and position = {
   end_p   : lexing_position
 }
 
-and lexing_position = {
+and lexing_position = Lexing.position = {
   pos_fname : string ;
   pos_lnum  : int ;
   pos_bol   : int ;
