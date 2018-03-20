@@ -17,8 +17,8 @@ let save filename (cst : CST.complete_command list) =
   let cout = open_out (Options.output_file_of_input_file filename) in
   Options.(begin match backend () with
   | Bin -> output_value cout (filename, cst)
-  | Json -> Scripts.save_as_json false cout cst
-  | SimpleJson -> Scripts.save_as_json true cout cst
+  | Json -> JsonHelpers.save_as_json false cout cst
+  | SimpleJson -> JsonHelpers.save_as_json true cout cst
   end);
   close_out cout
 

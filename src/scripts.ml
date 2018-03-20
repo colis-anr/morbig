@@ -11,33 +11,6 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-let rec json_filter_positions =
-  let open Yojson.Safe in
-  function
-  | `Assoc sjl ->
-     if List.for_all (fun (s, j) -> s = "value" || s = "position") sjl then
-       let (_, j) = List.find (fun (s, _) -> s = "value") sjl in
-       json_filter_positions j
-     else
-       `Assoc (List.map (fun (s, j) ->
-           Format.printf "%s@." s; (s, json_filter_positions j)) sjl
-         )
-  | `Bool b -> `Bool b
-  | `Float f -> `Float f
-  | `Int i -> `Int i
-  | `Intlit s -> `Intlit s
-  | `List jl -> `List (List.map json_filter_positions jl)
-  | `Null -> `Null
-  | `String s -> `String s
-  | `Tuple jl -> `Tuple (List.map json_filter_positions jl)
-  | `Variant (s, None) -> `Variant (s, None)
-  | `Variant (s, Some j) -> `Variant (s, Some (json_filter_positions j))
-
-let save_as_json simplified cout csts =
-  CSTHelpers.complete_command_list_to_json csts
-  |> (if simplified then json_filter_positions else function x-> x)
-  |> Yojson.Safe.pretty_to_channel cout
-
 let other_scripts_magic_strings =
   List.map Str.regexp [
              "#![ ]*/usr/bin/perl.*";
@@ -53,6 +26,8 @@ let is_other_script filename =
     (function r -> Str.string_match r firstline 0)
     other_scripts_magic_strings
 
+let elf_magic_number = Bytes.of_string  "\x7FELF"
+
 let is_elf filename =
   (* check whether [filename] is an ELF executable *)
   let cin = open_in_bin filename
@@ -62,7 +37,7 @@ let is_elf filename =
     close_in cin;
     if number_chars_read < 4
     then false
-    else (Bytes.compare buf (Bytes.of_string  "\x7FELF")) = 0
+    else Bytes.compare buf elf_magic_number = 0
   end
 
 let parse_file filename =
