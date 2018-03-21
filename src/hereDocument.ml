@@ -43,8 +43,10 @@ end = struct
   let next_here_document lexbuf =
     assert (!delimiters <> []);
     assert (!skip_tabs <> []);
+    assert (!expanded <> []);
     let delimiter = List.hd !delimiters
     and skip_tabs_flag = List.hd !skip_tabs
+    and delimiter_expanded = List.hd !expanded
     and doc = Buffer.create 1000
     and nextline, pstart, pstop =
       match Prelexer.readline lexbuf with
@@ -64,13 +66,17 @@ end = struct
     done;
     delimiters := List.tl !delimiters;
     skip_tabs := List.tl !skip_tabs;
+    expanded := List.tl !expanded;
     if !delimiters = [] then lexing := false;
     let before_stop = Lexing.({ !pstop with
       pos_cnum = !pstop.pos_cnum - 1;
       pos_bol  = !pstop.pos_bol  - 1;
     }) in
     fill_next_here_document_placeholder (CST.{
-        value = Word (Buffer.contents doc);
+        value = Word (
+           if delimiter_expanded
+           then QuoteRemoval.backslash_as_in_doublequotes(Buffer.contents doc)
+           else Buffer.contents doc);
         position = { start_p = CSTHelpers.internalize !pstart;
                      end_p = CSTHelpers.internalize !pstop }
     });
@@ -93,6 +99,7 @@ end = struct
     lexing := true;
     delimiters := List.rev !delimiters;
     skip_tabs := List.rev !skip_tabs;
+    expanded := List.rev !expanded;
     placeholders := List.rev !placeholders
 
   let push_next_word_as_here_document_delimiter w =
