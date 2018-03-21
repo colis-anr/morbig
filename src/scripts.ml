@@ -41,12 +41,12 @@ let is_elf filename =
   end
 
 let parse_file filename =
-  (** We assume that scripts are no longer than 16M. *)
   let cin = open_in filename in
   let cst =
     try
-      let contents = ExtPervasives.string_of_channel cin in
-      let lexbuf = ExtPervasives.lexing_make filename contents in
+      let lexbuf = Lexing.from_channel cin in
+      lexbuf.Lexing.lex_curr_p <-
+        { lexbuf.Lexing.lex_curr_p with Lexing.pos_fname = filename };
       Engine.parse false [] lexbuf
     with e -> close_in cin;
               raise e

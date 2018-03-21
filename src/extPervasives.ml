@@ -23,17 +23,6 @@ let comment f message =
   message y;
   y
 
-let string_of_channel cin =
-  let b = Buffer.create 16384 in
-  let rec aux () =
-    Buffer.add_channel b cin 1;
-    aux ()
-  in
-  try
-    aux ()
-  with
-    End_of_file -> Buffer.contents b
-
 let lines_of_channel cin =
   let lines = ref [] in
   let lineno = ref 0 in
@@ -220,9 +209,3 @@ let pp_to_string pp arg =
   pp ppf arg;
   Format.pp_print_flush ppf ();
   Buffer.contents b
-
-let lexing_make filename contents = Lexing.(
-  let lexbuf = Lexing.from_string contents in
-  lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_fname = filename };
-  lexbuf
-)
