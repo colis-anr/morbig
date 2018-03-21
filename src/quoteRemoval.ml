@@ -81,3 +81,26 @@ let backslash_as_in_doublequotes s =
   done;
   if !state = Backslash then pushbackslash (); (* FIXME: can that happen? *)
   Buffer.contents b
+
+type tab_automaton_state = Linestart | Inline
+let remove_tabs_at_linestart s =
+  let n = String.length s in
+  let b = Buffer.create n in
+  let i = ref 0 and
+      state = ref Linestart in
+  let keep () = Buffer.add_char b s.[!i]; incr i
+  and skip () = incr i in
+  while !i<n do
+    match !state with
+    | Linestart ->
+       if s.[!i] = '\t'
+       then skip ()
+       else if s.[!i] = '\n'
+       then keep ()
+       else begin state := Inline; keep () end
+    | Inline -> 
+       if s.[!i] = '\n' then state := Linestart;
+       keep ()
+  done;
+  Buffer.contents b
+                                         

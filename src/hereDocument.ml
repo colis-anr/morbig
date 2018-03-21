@@ -46,7 +46,7 @@ end = struct
     assert (!expanded <> []);
     let delimiter = List.hd !delimiters
     and skip_tabs_flag = List.hd !skip_tabs
-    and delimiter_expanded = List.hd !expanded
+    and expanded_flag = List.hd !expanded
     and doc = Buffer.create 1000
     and nextline, pstart, pstop =
       match Prelexer.readline lexbuf with
@@ -54,7 +54,9 @@ end = struct
         | Some (l, b, e) -> (ref l, ref b, ref e)
     in
     while (string_strip (
-               if skip_tabs_flag then string_untab !nextline else !nextline
+               if skip_tabs_flag
+               then QuoteRemoval.remove_tabs_at_linestart !nextline
+               else !nextline
              ) <> delimiter)
     do
       Buffer.add_string doc !nextline;
@@ -72,11 +74,17 @@ end = struct
       pos_cnum = !pstop.pos_cnum - 1;
       pos_bol  = !pstop.pos_bol  - 1;
     }) in
+    let contents_backslash_treated =
+      if expanded_flag
+      then QuoteRemoval.backslash_as_in_doublequotes(Buffer.contents doc)
+      else Buffer.contents doc
+    in let contents_tabs_treated =
+      if skip_tabs_flag
+      then QuoteRemoval.remove_tabs_at_linestart contents_backslash_treated
+      else contents_backslash_treated
+    in
     fill_next_here_document_placeholder (CST.{
-        value = Word (
-           if delimiter_expanded
-           then QuoteRemoval.backslash_as_in_doublequotes(Buffer.contents doc)
-           else Buffer.contents doc);
+        value = Word contents_tabs_treated;
         position = { start_p = CSTHelpers.internalize !pstart;
                      end_p = CSTHelpers.internalize !pstop }
     });
