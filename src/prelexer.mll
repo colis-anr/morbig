@@ -235,12 +235,6 @@ let escaped_double_quote level current =
 
 let escaped_single_quote = escaped_double_quote
 
-let here_document_placeholder () =
-  ref (CST.({
-      value = Word "<you should not see this>";
-      position = CSTHelpers.dummy_position
-  }))
-
 let subshell_parsing op level lexbuf =
     let copy_position p =
       Lexing.{ p with pos_fname = p.pos_fname }
@@ -450,10 +444,10 @@ rule token level current = parse
 
 *)
   | "<<" {
-    return lexbuf current [Operator (DLESS (here_document_placeholder ()))]
+    return lexbuf current [Operator (DLESS (CSTHelpers.word_placeholder ()))]
   }
   | "<<-" {
-    return lexbuf current [Operator (DLESSDASH (here_document_placeholder ()))]
+    return lexbuf current [Operator (DLESSDASH (CSTHelpers.word_placeholder ()))]
   }
 
 (**specification

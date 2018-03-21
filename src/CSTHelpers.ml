@@ -36,17 +36,22 @@ let with_pos p v =
     position  = p;
   }
 
-let dummy_lexing_position = {
-  pos_fname = "";
-  pos_lnum  = -1;
-  pos_bol   = -1;
-  pos_cnum  = -1;
-}
-
-let dummy_position = {
-  start_p = dummy_lexing_position;
-  end_p = dummy_lexing_position;
-}
+let word_placeholder () =
+  let dummy_lexing_position = {
+      pos_fname = "";
+      pos_lnum  = -1;
+      pos_bol   = -1;
+      pos_cnum  = -1;
+    }
+  in let dummy_position = {
+         start_p = dummy_lexing_position;
+         end_p = dummy_lexing_position;
+       }
+     in
+     ref {
+         value = Word "<you should not see this>";
+         position = dummy_position
+       }
 
 let internalize p = {
   pos_fname = p.Lexing.pos_fname;
