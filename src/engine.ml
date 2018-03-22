@@ -323,7 +323,7 @@ module Lexer (U : sig end) : Lexer = struct
                 the delimiter shall be the word itself.
 
             *)
-            HDL.push_next_word_as_here_document_delimiter w;
+            HDL.push_here_document_delimiter w;
           return (FirstSuccessMonad.should_succeed token)
 
         | Prelexer.EOF ->
@@ -332,7 +332,7 @@ module Lexer (U : sig end) : Lexer = struct
 
         | Prelexer.Operator ((DLESS r | DLESSDASH r) as token) ->
           let dashed = match token with DLESSDASH _ -> true | _ -> false in
-          HDL.here_document_lexing_on_next_line dashed r;
+          HDL.push_here_document_operator dashed r;
           return token
 
         | Prelexer.Operator token ->

@@ -17,12 +17,11 @@ open Prelexer
 open Lexing
 
 module Lexer (U : sig end) : sig
-  val fill_next_here_document_placeholder : word located -> unit
   val inside_here_document : unit -> bool
   val next_here_document : lexbuf -> pretoken * position * position
   val next_word_is_here_document_delimiter : unit -> bool
-  val push_next_word_as_here_document_delimiter : string -> unit
-  val here_document_lexing_on_next_line: bool -> (word located ref) -> unit
+  val push_here_document_delimiter : string -> unit
+  val push_here_document_operator: bool -> (word located ref) -> unit
   val next_line_is_here_document: unit -> bool
   val start_here_document_lexing: unit -> unit
 end = struct
@@ -90,7 +89,7 @@ end = struct
     });
     (Prelexer.NEWLINE, before_stop, !pstop)
 
-  let here_document_lexing_on_next_line dashed r =
+  let push_here_document_operator dashed r =
     on_next_line := true;
     find_delimiter := true;
     placeholders := r :: !placeholders;
@@ -110,7 +109,7 @@ end = struct
     expanded := List.rev !expanded;
     placeholders := List.rev !placeholders
 
-  let push_next_word_as_here_document_delimiter w =
+  let push_here_document_delimiter w =
     let delimiter = QuoteRemoval.on_string w in
     delimiters := delimiter :: !delimiters;
     expanded := (delimiter = w) :: !expanded;
