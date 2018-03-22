@@ -13,50 +13,95 @@
 
 open ExtPervasives
 open CST
-open Prelexer
-open Lexing
 
 module Lexer (U : sig end) : sig
-  val inside_here_document : unit -> bool
-  val next_here_document : lexbuf -> pretoken * position * position
-  val next_word_is_here_document_delimiter : unit -> bool
   val push_here_document_delimiter : string -> unit
   val push_here_document_operator: bool -> (word located ref) -> unit
-  val next_line_is_here_document: unit -> bool
   val start_here_document_lexing: unit -> unit
+  val next_here_document :
+    Lexing.lexbuf -> Prelexer.pretoken * Lexing.position * Lexing.position
+  val inside_here_document : unit -> bool
+  val next_word_is_here_document_delimiter : unit -> bool
+  val next_line_is_here_document: unit -> bool
 end = struct
 
-  let on_next_line   = ref false
-  let lexing         = ref false
-  let delimiters     = ref ([] : string list)
-  let skip_tabs      = ref ([] : bool list)
-  let expanded       = ref ([] : bool list)
-  let find_delimiter = ref false
-  let placeholders   = ref ([] : word located ref list)
+  type delim_info = {
+        (** information about a delimiter of a here document: *)
+      word: string;
+        (** delimiting word, with quotes removed *)
+      quoted: bool;
+        (** parts of delimiting word quoted ? *) 
+      dashed: bool;
+        (** here operator <<- ? *)
+      contents_placeholder: CST.word CST.located ref
+        (** placeholder for the contents of the here document *)
+    }
+  let delimiters_queue = (Queue.create (): delim_info Queue.t)
+  let dashed_tmp = ref (None: bool option)
+  let word_ref_tmp = ref (None: word located ref option)
 
-  let fill_next_here_document_placeholder here_document =
-    assert (!placeholders <> []);
-    (List.hd !placeholders) := here_document;
-    placeholders := List.tl !placeholders
+  type state =
+    | NoHereDocuments
+    (* we are currently not reading any here documents, nor have we seen
+       a here document operator on the current line. *)
+    | HereDocumentsStartOnNextLine
+    (* we have seen a here document operator but we haven't yet finished
+       the line, so reading of here documents has to start on the next line. *)
+    | InsideHereDocuments
+    (* we are currently in the process of reading here documents. *)
+  let state = ref NoHereDocuments
+  
+  let push_here_document_operator dashed word_ref =
+    (* we accept a push of an operator only when the two variables 
+       dashed_tmp and word_ref_tmp hold value None, that is either they
+       have never been assigned a value, or they have been assigned a value
+       which has been used up by push_here_document_delimiter.
+    *)
+    assert (!dashed_tmp = None);
+    dashed_tmp := Some dashed;
+    assert (!word_ref_tmp = None);
+    word_ref_tmp := Some word_ref;
+    state := HereDocumentsStartOnNextLine
+
+  let push_here_document_delimiter w =
+    (* we accept a push of a delimiting word only if we have already received
+       information about an operator which has not yet been used.
+     *) 
+    let dashed = match !dashed_tmp with
+      | Some b -> dashed_tmp:= None; b
+      | None -> assert false
+    and word_ref = match !word_ref_tmp with
+      | Some r -> word_ref_tmp := None; r
+      | None -> assert false
+    and unquoted_w = QuoteRemoval.on_string w
+    in
+    Queue.add {
+        word = unquoted_w;
+        quoted = (unquoted_w = w);
+        dashed = dashed;
+        contents_placeholder = word_ref
+      } delimiters_queue
 
   let next_here_document lexbuf =
-    assert (!delimiters <> []);
-    assert (!skip_tabs <> []);
-    assert (!expanded <> []);
-    let delimiter = List.hd !delimiters
-    and skip_tabs_flag = List.hd !skip_tabs
-    and expanded_flag = List.hd !expanded
+    let delim_info = Queue.take delimiters_queue in
+    let delimiter_word = delim_info.word
+    and delimiter_dashed = delim_info.dashed
+    and delimiter_quoted = delim_info.quoted
+    and contents_placeholder = delim_info.contents_placeholder
     and doc = Buffer.create 1000
     and nextline, pstart, pstop =
       match Prelexer.readline lexbuf with
         | None -> failwith "Unterminated here document."
         | Some (l, b, e) -> (ref l, ref b, ref e)
     in
-    while (string_strip (
-               if skip_tabs_flag
-               then QuoteRemoval.remove_tabs_at_linestart !nextline
-               else !nextline
-             ) <> delimiter)
+    let have_found_delimiter line =
+      let line = string_strip line
+      in delimiter_word =
+           if delimiter_dashed
+           then QuoteRemoval.remove_tabs_at_linestart line
+           else line
+    in
+    while not (have_found_delimiter !nextline)
     do
       Buffer.add_string doc !nextline;
       begin match Prelexer.readline lexbuf with
@@ -65,57 +110,42 @@ end = struct
           pstop := e
       end;
     done;
-    delimiters := List.tl !delimiters;
-    skip_tabs := List.tl !skip_tabs;
-    expanded := List.tl !expanded;
-    if !delimiters = [] then lexing := false;
     let before_stop = Lexing.({ !pstop with
       pos_cnum = !pstop.pos_cnum - 1;
       pos_bol  = !pstop.pos_bol  - 1;
     }) in
-    let contents_backslash_treated =
-      if expanded_flag
+    let contents =
+      if delimiter_quoted
       then QuoteRemoval.backslash_as_in_doublequotes(Buffer.contents doc)
       else Buffer.contents doc
-    in let contents_tabs_treated =
-      if skip_tabs_flag
-      then QuoteRemoval.remove_tabs_at_linestart contents_backslash_treated
-      else contents_backslash_treated
+    in let contents =
+      if delimiter_dashed
+      then QuoteRemoval.remove_tabs_at_linestart contents
+      else contents
     in
-    fill_next_here_document_placeholder (CST.{
-        value = Word contents_tabs_treated;
+    contents_placeholder :=
+      CST.{
+        value = Word contents;
         position = { start_p = CSTHelpers.internalize !pstart;
                      end_p = CSTHelpers.internalize !pstop }
-    });
+      };
+    if Queue.is_empty delimiters_queue then state := NoHereDocuments;
     (Prelexer.NEWLINE, before_stop, !pstop)
 
-  let push_here_document_operator dashed r =
-    on_next_line := true;
-    find_delimiter := true;
-    placeholders := r :: !placeholders;
-    skip_tabs := dashed :: !skip_tabs
-
   let next_word_is_here_document_delimiter () =
-    !find_delimiter
-
+    (* if we have a value in dashed_tmp this means that we have read
+       a here operator for which we have not yet seen the corresponding
+       delimiting word.
+     *)
+    !dashed_tmp <> None
+     
   let next_line_is_here_document () =
-    !on_next_line
+    !state = HereDocumentsStartOnNextLine
 
   let start_here_document_lexing () =
-    on_next_line := false;
-    lexing := true;
-    delimiters := List.rev !delimiters;
-    skip_tabs := List.rev !skip_tabs;
-    expanded := List.rev !expanded;
-    placeholders := List.rev !placeholders
-
-  let push_here_document_delimiter w =
-    let delimiter = QuoteRemoval.on_string w in
-    delimiters := delimiter :: !delimiters;
-    expanded := (delimiter = w) :: !expanded;
-    find_delimiter := false
+    state := InsideHereDocuments
 
   let inside_here_document () =
-    !lexing
+    !state = InsideHereDocuments 
 
 end
