@@ -19,7 +19,7 @@ open Parser.Incremental
 open Parser.MenhirInterpreter
 open MenhirLib.General
 open CST
-open Names
+open Name
 open Keywords
 open Assignments
 open Aliases

@@ -82,7 +82,7 @@ let recognize_reserved_word_if_relevant checkpoint (pretoken, pstart, pstop) w =
       else
         raise Not_found
     with Not_found ->
-      if Names.is_name w then
+      if Name.is_name w then
         return (NAME (CST.Name w))
       else
         return (WORD (Word.parse w))
