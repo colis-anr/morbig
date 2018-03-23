@@ -25,10 +25,10 @@ let save filename (cst : CST.complete_command list) =
 let string_of_exn = function
   | Errors.ParseError pos ->
      Printf.sprintf "%s: Syntax error."
-       CSTHelpers.(string_of_lexing_position (internalize pos))
+       CSTHelpers.(string_of_lexing_position pos)
   | Errors.LexicalError (pos, msg) ->
      Printf.sprintf "%s: Lexical error (%s)."
-       CSTHelpers.(string_of_lexing_position (internalize pos))
+       CSTHelpers.(string_of_lexing_position pos)
        msg
   | Failure s ->
      "Failure: " ^ s ^ "."

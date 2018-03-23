@@ -179,8 +179,8 @@ end = struct
     contents_placeholder :=
       CST.{
         value = Word.parse contents;
-        position = { start_p = CSTHelpers.internalize !pstart;
-                     end_p = CSTHelpers.internalize !pstop }
+        position = { start_p = !pstart;
+                     end_p = !pstop }
       };
     if Queue.is_empty delimiters_queue then state := NoHereDocuments;
     (Prelexer.NEWLINE, before_stop, !pstop)

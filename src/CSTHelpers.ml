@@ -53,22 +53,8 @@ let word_placeholder () =
          position = dummy_position
        }
 
-let internalize p = {
-  pos_fname = p.Lexing.pos_fname;
-  pos_lnum  = p.Lexing.pos_lnum;
-  pos_bol   = p.Lexing.pos_bol;
-  pos_cnum  = p.Lexing.pos_cnum;
-}
-
-let externalize p = {
-  Lexing.pos_fname = p.pos_fname;
-  pos_lnum  = p.pos_lnum;
-  pos_bol   = p.pos_bol;
-  pos_cnum  = p.pos_cnum;
-}
-
 let with_poss p1 p2 v =
-  with_pos { start_p = internalize p1; end_p = internalize p2 } v
+  with_pos { start_p = p1; end_p = p2 } v
 
 module NameSet = Set.Make (struct
   type t = name
