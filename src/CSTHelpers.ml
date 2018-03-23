@@ -36,22 +36,23 @@ let with_pos p v =
     position  = p;
   }
 
+let dummy_lexing_position = {
+    pos_fname = "";
+    pos_lnum  = -1;
+    pos_bol   = -1;
+    pos_cnum  = -1;
+  }
+
+let dummy_position = {
+    start_p = dummy_lexing_position;
+    end_p = dummy_lexing_position;
+  }
+
 let word_placeholder () =
-  let dummy_lexing_position = {
-      pos_fname = "";
-      pos_lnum  = -1;
-      pos_bol   = -1;
-      pos_cnum  = -1;
+  ref {
+      value = Word ("<you should not see this>", WordOther);
+      position = dummy_position
     }
-  in let dummy_position = {
-         start_p = dummy_lexing_position;
-         end_p = dummy_lexing_position;
-       }
-     in
-     ref {
-         value = Word ("<you should not see this>", WordOther);
-         position = dummy_position
-       }
 
 let with_poss p1 p2 v =
   with_pos { start_p = p1; end_p = p2 } v
