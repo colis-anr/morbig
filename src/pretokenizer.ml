@@ -12,7 +12,7 @@
 (**************************************************************************)
 
 let make level lexbuf =
-  let pretokenizer = Prelexer.token level [] in
+  let pretokenizer = Prelexer.token level Prelexer.initial_state in
 
   (**
       The pretokenizer may produce several pretokens, we use an

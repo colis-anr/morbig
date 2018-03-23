@@ -29,12 +29,21 @@ type pretoken =
   | EOF
   | NEWLINE
 
+(** The internal state of the prelexer. The inhabitants of this type
+    contain a buffer which represents a fragment of the input that has
+    been processed but which is not yet long enough to be
+    interpreted as a pretoken. *)
+type prelexer_state
+
+(** The initial state of the prelexer. The buffer is empty. *)
+val initial_state : prelexer_state
+
 (** [token b l] advances in the lexbuf [l], and produces a list of
     pretokens from [l], using a queue of symbols in the buffer [b] *)
 (* FIXME: we probably have that [b] is always empty when [token] is called *)
 val token :
   Nesting.t list ->
-  string list -> Lexing.lexbuf ->
+  prelexer_state -> Lexing.lexbuf ->
   (pretoken * Lexing.position * Lexing.position) list
 
 (** [readline l] returns [None] when the lexbuf is at the end of input,
@@ -47,4 +56,5 @@ val readline :
 
 (** {6 Undocumented functions} *)
 
-val next_nesting : Nesting.t list -> string list -> Lexing.lexbuf -> string list
+val next_nesting :
+  Nesting.t list -> prelexer_state -> Lexing.lexbuf -> prelexer_state

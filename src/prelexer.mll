@@ -32,6 +32,14 @@ open Lexing
 open ExtPervasives
 open Parser
 
+type prelexer_state = {
+    buffer : string list;
+}
+
+let initial_state = {
+    buffer = []
+}
+
 (* FIXME: The name "Word" is confusing here. It must be changed. *)
 type pretoken =
   | Word of string
@@ -48,7 +56,7 @@ let string_of_pretoken = function
   | NEWLINE -> "NEWLINE"
 
 let push_character b c =
-  String.make 1 c :: b
+  { buffer = String.make 1 c :: b.buffer }
 
 let contents b =
   String.concat "" (List.rev b)
@@ -66,7 +74,7 @@ let rec preceded_by n c cs =
            | c' :: cs -> c' = c && preceded_by (n - 1) c cs
 
 let push_string b s =
-  s :: b
+  { buffer = s :: b.buffer }
 
 (** [(return ?with_newline lexbuf current tokens)] returns a list of
     pretokens consisting of, in that order:
@@ -84,10 +92,10 @@ let push_string b s =
 
     Side effect: the buffer [current] is reset to empty.
  *)
-let return ?(with_newline=false) lexbuf current tokens =
+let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (not (List.exists (function (Word _)->true|_->false) tokens));
   let flush_word b =
-    contents b
+    contents b.buffer
   and produce token =
     (* FIXME: Positions are not updated properly. *)
     (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
@@ -193,6 +201,7 @@ let rec under_backquoted_style_command_substitution = function
    FIXME: Check this statement.
 *)
 let escaped_double_quote level current =
+  let current = current.buffer in
   let number_of_backslashes_to_escape = Nesting.(
     match level with
     | DQuotes :: Backquotes '`' :: DQuotes :: _ -> 2
@@ -580,7 +589,7 @@ rule token level current = parse
        otherwise, '#' is part of a word.
 
     *)
-    if current = [] then
+    if current.buffer = [] then
       comment lexbuf
     else
       token level (push_character current c) lexbuf
@@ -661,10 +670,10 @@ and close op = parse
 and comment = parse
 | [^'\n''\r']* newline {
     Lexing.new_line lexbuf;
-    return ~with_newline:true lexbuf [] []
+    return ~with_newline:true lexbuf initial_state []
   }
 | '#' [^'\n''\r']* eof {
-    return ~with_newline:false lexbuf [] []
+    return ~with_newline:false lexbuf initial_state []
   }
 
 
