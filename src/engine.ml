@@ -20,7 +20,7 @@ open Parser.MenhirInterpreter
 open MenhirLib.General
 open CST
 open Name
-open Keywords
+open Keyword
 open Assignments
 open Aliases
 
