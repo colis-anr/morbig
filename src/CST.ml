@@ -233,10 +233,9 @@ and io_file =
 and filename =
   | Filename_Word of word'
 
-(** The two IoHere constructors have three arguments, despite the fact that
-    in the grammar we have only two items on the right hand sides of the
-    grammar rules. In both cases, the third argument is the word holding the
-    contents of the here document, which does not figure in the grammar.
+(** The two IoHere constructors have two arguments. The second argument is
+    the word holding the contents of the here document, which does not figure
+    in the grammar.
  *)
 and io_here =
   | IoHere_DLess_HereEnd of here_end' * word' ref
