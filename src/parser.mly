@@ -1,16 +1,3 @@
-/**************************************************************************/
-/*  -*- tuareg -*-                                                        */
-/*                                                                        */
-/*  Copyright (C) 2017,2018 Yann Régis-Gianas, Nicolas Jeannerod,         */
-/*  Ralf Treinen.                                                         */
-/*                                                                        */
-/*  This is free software: you can redistribute it and/or modify it       */
-/*  under the terms of the GNU General Public License, version 3.         */
-/*                                                                        */
-/*  Additional terms apply, due to the reproduction of portions of        */
-/*  the POSIX standard. Please refer to the file COPYING for details.     */
-/**************************************************************************/
-
 /**  -*- tuareg -*- *******************************************************/
 /*                                                                        */
 /*  Copyright (C) 2017,2018 Yann Régis-Gianas, Nicolas Jeannerod,         */
@@ -49,8 +36,8 @@
    Conflict 1:
 
      Consider "case x in 1) foo
-			    bar
-	       esac"
+                            bar
+               esac"
 
      After reading "case x in 1) foo", when we encounter the new line, is
      it (a) to start a new case_item_ns or (b) to continue with the same case

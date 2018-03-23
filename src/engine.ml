@@ -187,8 +187,10 @@ let parse partial (module Lexer : Lexer) =
             match top env with
             | Some (Element (state, v, _, _)) ->
               let analyse_top : type a. a symbol * a -> _ = function
-                | T T_NAME, Name w when is_reserved_word w -> parse_error ()
-                | T T_WORD, Word w when is_reserved_word w -> parse_error ()
+                | T T_NAME, Name w when is_reserved_word w -> 
+                   parse_error ()
+                | T T_WORD, Word (w, _) when is_reserved_word w -> 
+                   parse_error ()
                 | _ ->
                   (* By correctness of the underlying LR automaton. *)
                   raise Not_found
@@ -309,7 +311,7 @@ module Lexer (U : sig end) : Lexer = struct
           let token = FirstSuccessMonad.(
             (recognize_assignment checkpoint p w)
             +> (recognize_reserved_word_if_relevant checkpoint p w)
-            +> return (WORD (Word w))
+            +> return (WORD (Word.parse w))
           )
           in
           if HDL.next_word_is_here_document_delimiter () then

@@ -87,10 +87,10 @@ let unalias_argument (x:CST.cmd_suffix) =
 let rec as_aliasing_related_command = function
   | SimpleCommand_CmdName_CmdSuffix ({ value = CmdName_Word w }, suffix) ->
     begin match w.value with
-    | Word "alias" ->
+    | Word ("alias", _) ->
       let l = binder_from_alias suffix.value in
       Some (Alias l)
-    | Word "unalias" ->
+    | Word ("unalias", _) ->
       let l = unalias_argument suffix.value in
       if l=["-a"]
       then Some Reset

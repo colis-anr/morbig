@@ -19,16 +19,16 @@ let complete_command_to_json c =
 let complete_command_list_to_json cl =
   complete_command_list_to_yojson cl
 
-let unWord (Word s) = s
+let unWord (Word (s, _)) = s
 
 let unName (Name s) = s
 
-let word_of_name (Name w) = Word w
+let word_of_name (Name w) = Word (w, WordName)
 
-let word_of_assignment_word (AssignmentWord (Name n, Word s)) =
-  Word (n ^ "=" ^ s)
+let word_of_assignment_word (AssignmentWord (Name n, (Word (s, k) as w))) =
+  Word (n ^ "=" ^ s, WordAssignmentWord w)
 
-let string_of_word (Word s) = s
+let string_of_word (Word (s, _)) = s
 
 let with_pos p v =
   {
@@ -49,7 +49,7 @@ let word_placeholder () =
        }
      in
      ref {
-         value = Word "<you should not see this>";
+         value = Word ("<you should not see this>", WordOther);
          position = dummy_position
        }
 

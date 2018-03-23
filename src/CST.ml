@@ -264,7 +264,17 @@ and sequential_sep =
   | SequentialSep_NewLineList of
       newline_list'
 
-and word = Word of string
+and word = Word of string * word_cst
+
+and word_cst =
+  | WordSubshell of subshell_kind * complete_command_list
+  | WordName
+  | WordAssignmentWord of word
+  | WordOther
+
+and subshell_kind =
+  | SubShellKindBackQuote
+  | SubShellKindParentheses
 
 and name = Name of string
 

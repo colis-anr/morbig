@@ -178,7 +178,7 @@ end = struct
     in
     contents_placeholder :=
       CST.{
-        value = Word contents;
+        value = Word.parse contents;
         position = { start_p = CSTHelpers.internalize !pstart;
                      end_p = CSTHelpers.internalize !pstop }
       };
