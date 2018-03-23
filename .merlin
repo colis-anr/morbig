@@ -4,3 +4,4 @@ PKG yojson
 PKG ppx_deriving_yojson
 PKG visitors.ppx
 PKG visitors.runtime
+PKG menhirLib
