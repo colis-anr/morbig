@@ -25,6 +25,14 @@ module Lexer (U : sig end) : sig
   val next_line_is_here_document: unit -> bool
 end = struct
 
+  (** specification:
+
+      If more than one "<<" or "<<-" operator is specified on a line, the
+      here-document associated with the first operator shall be supplied
+      first by the application and shall be read first by the shell.
+
+   *)
+                      
   type delim_info = {
         (** information about a delimiter of a here document: *)
       word: string;
@@ -76,6 +84,13 @@ end = struct
     and unquoted_w = QuoteRemoval.on_string w
     in
     Queue.add {
+      (** specification:
+
+          If any part of word is quoted, the delimiter shall be formed by
+          performing quote removal on word, and the here-document lines shall
+          not be expanded. Otherwise, the delimiter shall be the word itself.
+
+       *)
         word = unquoted_w;
         quoted = (unquoted_w = w);
         dashed = dashed;
@@ -83,6 +98,16 @@ end = struct
       } delimiters_queue
 
   let next_here_document lexbuf =
+
+    (**specification:
+
+       The here-document shall be treated as a single word that begins after
+       the next <newline> and continues until there is a line containing only
+       the delimiter and a <newline>, with no <blank> characters in
+       between. Then the next here-document starts, if there is one.
+     
+     *)
+    
     let delim_info = Queue.take delimiters_queue in
     let delimiter_word = delim_info.word
     and delimiter_dashed = delim_info.dashed
@@ -97,10 +122,19 @@ end = struct
     let have_found_delimiter line =
       let line = string_strip line
       in delimiter_word =
+
+           (** specification:
+
+               If the redirection operator is "<<-", all leading <tab>
+                characters shall be stripped from ... the line containing
+                the trailing delimiter.
+            *)
+           
            if delimiter_dashed
            then QuoteRemoval.remove_tabs_at_linestart line
            else line
     in
+    (* FIXME: this should be replaced by a tail-recursive function *)
     while not (have_found_delimiter !nextline)
     do
       Buffer.add_string doc !nextline;
@@ -115,10 +149,29 @@ end = struct
       pos_bol  = !pstop.pos_bol  - 1;
     }) in
     let contents =
+
+      (** specification:
+
+          If no part of word is quoted ... the <backslash> in the
+          input behaves as the <backslash> inside double-quotes (see
+          Double-Quotes). However, the double-quote character ( ' )' shall
+          not be treated specially within a here-document, except when the
+          double-quote appears within "$()", "``", or "${}".
+
+       *)
+
       if delimiter_quoted
       then QuoteRemoval.backslash_as_in_doublequotes(Buffer.contents doc)
       else Buffer.contents doc
     in let contents =
+
+         (** specification:
+
+             If the redirection operator is "<<-", all leading <tab>
+             characters shall be stripped from input lines ...
+
+          *)
+
       if delimiter_dashed
       then QuoteRemoval.remove_tabs_at_linestart contents
       else contents
@@ -136,7 +189,7 @@ end = struct
     (* if we have a value in dashed_tmp this means that we have read
        a here operator for which we have not yet seen the corresponding
        delimiting word.
-     *)
+          *)
     !dashed_tmp <> None
      
   let next_line_is_here_document () =
