@@ -21,7 +21,7 @@ open MenhirLib.General
 open CST
 open Name
 open Keyword
-open Assignments
+open Assignment
 open Aliases
 
 type state = {
