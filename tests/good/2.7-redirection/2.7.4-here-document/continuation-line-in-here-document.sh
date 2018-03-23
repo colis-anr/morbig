@@ -7,7 +7,7 @@ first line
 second line
 third line with continuation\
 EOF
-forth and last line
+forth and last line ((
 EOF
 else echo "baeh"
 fi

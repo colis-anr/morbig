@@ -63,7 +63,7 @@
                                       [ "HereEnd_Word", [ "Word", "EOF" ] ],
                                       [
                                         "Word",
-                                        "first line\nsecond line\nthird line with continuationEOF\nforth line"
+                                        "first line\nsecond line\nthird line with continuationEOF\nforth line (("
                                       ]
                                     ]
                                   ]
