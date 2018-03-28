@@ -270,11 +270,25 @@ and sequential_sep =
 
 and word = Word of string * word_cst
 
-and word_cst =
+and word_cst = word_component list
+
+and word_component =
   | WordSubshell of subshell_kind * complete_command_list
-  | WordName
-  | WordAssignmentWord of word
+  | WordName of string
+  | WordAssignmentWord of assignment_word
+  | WordDoubleQuoted of word
+  | WordLiteral of string
+  | WordVariable of variable
+  | WordGlobAll
+  | WordGlobAny
+  | WordGlobRange of character_range
   | WordOther
+
+and character_range =
+  | Range of char list
+
+and variable =
+  | VariableAtom of string
 
 and subshell_kind =
   | SubShellKindBackQuote
@@ -282,7 +296,7 @@ and subshell_kind =
 
 and name = Name of string
 
-and assignment_word = AssignmentWord of name * word
+and assignment_word = name * word
 
 and assignment_word' = assignment_word located
 

@@ -47,12 +47,28 @@ open Keyword
 
 *)
 
-let recognize_assignment checkpoint pretoken w = FirstSuccessMonad.(
+let recognize_assignment checkpoint pretoken word_cst = FirstSuccessMonad.(
+    match word_cst with
+    | [WordAssignmentWord ((Name n) as name, w)] ->
+       if is_name n then
+         let (_, pstart, pstop) = pretoken in
+         let token = ASSIGNMENT_WORD (name, w) in
+         if accepted_token checkpoint (token, pstart, pstop) <> Wrong then
+           return token
+         else
+           fail
+       else
+         fail
+    | _ ->
+       fail
+)
+
+(*
   match Str.(split_delim (regexp "=") w) with
     | [w] ->
       fail
     | [""; w] ->
-      return (WORD (Word.parse ("=" ^ w)))
+      return (word_literal ("=" ^ w))
     | name :: rhs ->
       let rhs = String.concat "=" rhs in
       if is_name name then
@@ -69,3 +85,4 @@ let recognize_assignment checkpoint pretoken w = FirstSuccessMonad.(
     | _ ->
       return (WORD (Word.parse w))
 )
+ *)

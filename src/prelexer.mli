@@ -23,7 +23,7 @@
 *)
 
 type pretoken =
-  | Word of string
+  | PreWord of string * CST.word_cst
   | IoNumber of string
   | Operator of Parser.token
   | EOF
@@ -43,3 +43,11 @@ val token :
  *)
 val readline :
   Lexing.lexbuf -> (string  * Lexing.position * Lexing.position) option
+
+(** {6 Undocumented functions} *)
+
+val next_nesting :
+  Nesting.t list -> prelexer_state -> Lexing.lexbuf -> prelexer_state
+
+val string_of_pretoken :
+  pretoken -> string

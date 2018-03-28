@@ -275,11 +275,12 @@ module Lexer (U : sig end) : Lexer = struct
         let token = if !eof then EOF else token in
         (token, pstart, pstop)
       in
+      let show = Printf.eprintf "PRELEXER: %s\n" (Prelexer.string_of_pretoken pretoken) in
       match pretoken with
         | Prelexer.IoNumber i ->
           return (IO_NUMBER (IONumber i))
 
-        | Prelexer.Word w ->
+        | Prelexer.PreWord (w, cst) ->
 
         (**specification
 
@@ -309,9 +310,9 @@ module Lexer (U : sig end) : Lexer = struct
           let w = alias_substitution aliases checkpoint w in
 
           let token = FirstSuccessMonad.(
-            (recognize_assignment checkpoint p w)
+            (recognize_assignment checkpoint p cst)
             +> (recognize_reserved_word_if_relevant checkpoint p w)
-            +> return (WORD (Word.parse w))
+            +> return (WORD (Word (w, cst)))
           )
           in
           if HDL.next_word_is_here_document_delimiter () then

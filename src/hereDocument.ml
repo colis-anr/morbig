@@ -32,13 +32,13 @@ end = struct
       first by the application and shall be read first by the shell.
 
    *)
-                      
+
   type delim_info = {
         (** information about a delimiter of a here document: *)
       word: string;
         (** delimiting word, with quotes removed *)
       quoted: bool;
-        (** parts of delimiting word quoted ? *) 
+        (** parts of delimiting word quoted ? *)
       dashed: bool;
         (** here operator <<- ? *)
       contents_placeholder: CST.word CST.located ref
@@ -58,10 +58,10 @@ end = struct
     | InsideHereDocuments
     (* we are currently in the process of reading here documents. *)
   let state = ref NoHereDocuments
-  
+
   let push_here_document_operator dashed word_ref =
     assert (!state <> InsideHereDocuments);
-    (* we accept a push of an operator only when the two variables 
+    (* we accept a push of an operator only when the two variables
        dashed_tmp and word_ref_tmp hold value None, that is either they
        have never been assigned a value, or they have been assigned a value
        which has been used up by push_here_document_delimiter.
@@ -105,7 +105,16 @@ end = struct
        between. Then the next here-document starts, if there is one.
      *)
     assert (!state = InsideHereDocuments);
-    let delimiter_info = Queue.take delimiters_queue
+    let delim_info = Queue.take delimiters_queue in
+    let delimiter_word = delim_info.word
+    and delimiter_dashed = delim_info.dashed
+    and delimiter_quoted = delim_info.quoted
+    and contents_placeholder = delim_info.contents_placeholder
+    and doc = Buffer.create 1000
+    and nextline, pstart, pstop =
+      match Prelexer.readline lexbuf with
+        | None -> failwith "Unterminated here document."
+        | Some (l, b, e) -> (ref l, ref b, ref e)
     in
     let have_found_delimiter line =
       (* is [line] the current here-docuemnt delimiter ? *)
@@ -155,6 +164,7 @@ end = struct
       | None -> failwith "Missing here document."
       | Some (l, b, e) -> l, b, e
     in
+
     let rec process line line_end =
       if have_found_delimiter line
       then
@@ -186,11 +196,11 @@ end = struct
        delimiting word.
           *)
     !dashed_tmp <> None
-     
+
   let next_line_is_here_document () =
     !state = HereDocumentsStartOnNextLine
 
   let inside_here_document () =
-    !state = InsideHereDocuments 
+    !state = InsideHereDocuments
 
 end

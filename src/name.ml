@@ -23,6 +23,11 @@
    The Portable Character Set is defined in detail in Portable Character Set.
 
 *)
+(**
+    This definition implies that a name is not empty.
+
+*)
 let is_name s =
-  Str.(string_match (
-    regexp "^\\([a-zA-Z]\\|_\\)\\([a-zA-Z]\\|_\\|[0-9]\\)*$") s 0)
+  s <> ""
+  && Str.(string_match (
+              regexp "^\\([a-zA-Z]\\|_\\)\\([a-zA-Z]\\|_\\|[0-9]\\)*$") s 0)
