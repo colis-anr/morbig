@@ -251,11 +251,10 @@ let rec under_backquoted_style_command_substitution = function
    <dquote> <backslash><backslash> <dquote> <dquote> <dquote>, the
    escaped backslash is used to escape the quote character.
 
-   FIXME: Check this statement.
 *)
 let escaped_double_quote level current =
   let current =
-    List.rev_map
+    List.map
       (function
        | WordComponent (s, _) -> s
        | _ -> "")
@@ -1176,7 +1175,7 @@ and double_quotes level current = parse
           current'
       end
     else
-    double_quotes level (LexBuffer.push_lexeme current lexbuf) lexbuf
+      double_quotes level (push_string current (Lexing.lexeme lexbuf)) lexbuf
   }
 
 (** Double quotes must be terminated before the end of file. *)
