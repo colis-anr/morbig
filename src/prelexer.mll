@@ -37,9 +37,6 @@ type atom =
   | WordComponent of (string * word_component)
   | QuotingMark
 
-<<<<<<< HEAD
-(* FIXME: The name "Word" is confusing here. It must be changed. *)
-=======
 type prelexer_state = {
     buffer                : atom list;
 }
@@ -48,7 +45,6 @@ let initial_state = {
     buffer = [];
 }
 
->>>>>>> Build word CST for literal, double quote and subshell.
 type pretoken =
   | PreWord of string * CST.word_cst
   | IoNumber of string
@@ -63,8 +59,6 @@ let string_of_pretoken = function
   | EOF -> "EOF"
   | NEWLINE -> "NEWLINE"
 
-<<<<<<< HEAD
-=======
 let push_character b c =
   let s = String.make 1 c in
   let w = WordLiteral s in
@@ -73,7 +67,6 @@ let push_character b c =
 let contents b =
   String.concat "" (List.rev b)
 
->>>>>>> Build word CST for literal, double quote and subshell.
 let string_last_char s =
   String.(s.[length s - 1])
 
@@ -92,93 +85,6 @@ let rec preceded_by n c cs =
            | [] -> n = 0
            | c' :: cs -> c' = c && preceded_by (n - 1) c cs
 
-<<<<<<< HEAD
-module LexBuffer = struct
-  type t =
-    { start_p : Lexing.position ;
-      end_p : Lexing.position ;
-      buffer : string list }
-
-  let empty =
-    { start_p = CSTHelpers.dummy_lexing_position ;
-      end_p = CSTHelpers.dummy_lexing_position ;
-      buffer = [] }
-
-  let is_empty buf =
-    buf.buffer = []
-
-  let push_character buf char pos =
-    { start_p = if is_empty buf then pos else buf.start_p ;
-      end_p = pos ;
-      buffer = (String.make 1 char) :: buf.buffer }
-
-  let push_string buf str start_p end_p =
-    { start_p = if is_empty buf then start_p else buf.start_p ;
-      end_p = end_p ;
-      buffer = str :: buf.buffer }
-
-  let push_lexeme buf lexbuf =
-    let open Lexing in
-    push_string buf (lexeme lexbuf) lexbuf.lex_start_p lexbuf.lex_curr_p
-
-  let contents buf =
-    (String.concat "" (List.rev buf.buffer), buf.start_p, buf.end_p)
-
-  (** A double quote can be escaped if we are already inside (at least)
-   two levels of quotation. For instance, if the input is <dquote>
-   <dquote> <backslash><backslash> <dquote> <dquote> <dquote>, the
-   escaped backslash is used to escape the quote character.
-
-   More generally, if [level] contains n nested double quotes,
-   2^{n - 2} backslashes are necessary to escape a double quote.
-
-   FIXME: Check this statement.
-   *)
-  let escaped_double_quote level buf =
-    let number_of_backslashes_to_escape = Nesting.(
-        match level with
-        | DQuotes :: Backquotes '`' :: DQuotes :: _ -> 2
-        | DQuotes :: Backquotes '`' :: _ :: DQuotes :: _ -> 2
-        | DQuotes :: Backquotes '`' :: _ -> 1
-        | Backquotes '`' :: DQuotes :: _ -> 2
-        | Backquotes '`' :: _ :: DQuotes :: _ -> 2
-        | _ -> 1
-                                          ) in
-    let escape_sequence =
-      repeat number_of_backslashes_to_escape (fun _ -> '\\')
-    in
-
-    let remove_escaped_backslashes current =
-      let rec trim = function
-        | [] ->
-           []
-        | '\\' :: cs ->
-           let cs' = trim cs in
-           if fst (take number_of_backslashes_to_escape cs')
-              = escape_sequence
-           then
-             snd (take number_of_backslashes_to_escape cs')
-           else
-             '\\' :: cs'
-        | c :: cs ->
-           c :: trim cs
-      in
-      trim current
-    in
-    let current' = List.(concat (map rev (map string_to_char_list buf.buffer))) in
-    let current' =
-      (* FIXME: Justify this! *)
-      if not (under_backquoted_style_command_substitution level) then
-        remove_escaped_backslashes current'
-      else
-        current'
-    in
-    preceded_by number_of_backslashes_to_escape '\\' current'
-
-  let escaped_single_quote = escaped_double_quote
-
-end
-=======
 let push_string b s =
   let cst = WordLiteral s in
   { buffer = (WordComponent (s, cst)) :: b.buffer }
@@ -203,7 +109,6 @@ let pop_quotation b =
   let word = Word (squote, quote) in
   let quote = WordComponent (squote, WordDoubleQuoted word) in
   { buffer = first :: quote :: buffer }
->>>>>>> Build word CST for literal, double quote and subshell.
 
 (** [(return ?with_newline lexbuf current tokens)] returns a list of
     pretokens consisting of, in that order:
@@ -221,12 +126,6 @@ let pop_quotation b =
 
     Side effect: the buffer [current] is reset to empty.
  *)
-<<<<<<< HEAD
-let return ?(with_newline=false) lexbuf current tokens =
-  assert (not (List.exists (function (Word _)->true|_->false) tokens));
-
-  let produce token =
-=======
 let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (not (List.exists (function (PreWord _)->true|_->false) tokens));
   let flush_word b =
@@ -239,7 +138,6 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
     aux "" b.buffer
   and produce token =
     (* FIXME: Positions are not updated properly. *)
->>>>>>> Build word CST for literal, double quote and subshell.
     (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
   in
   let is_digit d =
@@ -275,8 +173,6 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
 
   *)
 
-<<<<<<< HEAD
-=======
   let buffered =
     match flush_word current with
     | "" ->
@@ -292,7 +188,6 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
       in
       [PreWord (w, csts)]
   in
->>>>>>> Build word CST for literal, double quote and subshell.
   let tokens = if with_newline then tokens @ [NEWLINE] else tokens in
   let produced_tokens = List.map produce tokens in
 
@@ -518,14 +413,11 @@ rule token level current = parse
 
 *)
   | '\\' newline {
-<<<<<<< HEAD
     Lexing.new_line lexbuf;
-=======
     (**
         Notice that we do not push <newline> in the prelexer state
         since it must be ignored as specified above.
     *)
->>>>>>> Build word CST for literal, double quote and subshell.
     token level current lexbuf
   }
 
@@ -536,18 +428,11 @@ rule token level current = parse
             | '$' | '\\' | '`' ->
                LexBuffer.push_character current c lexbuf.lex_start_p
             | '"' ->
-<<<<<<< HEAD
-               let current = LexBuffer.push_character current '\\' lexbuf.lex_start_p in
-               if LexBuffer.escaped_double_quote level current then
-                 LexBuffer.push_character current c lexbuf.lex_start_p
-               else
-=======
                let current = push_character current '\\' in
                if escaped_double_quote level current then
                  push_character current c
                else (
                  let current = push_quoting_mark current in
->>>>>>> Build word CST for literal, double quote and subshell.
                  double_quotes (Nesting.DQuotes :: level) current lexbuf
                  |> pop_quotation
                )
@@ -565,15 +450,9 @@ rule token level current = parse
 
 *)
   | '\'' {
-<<<<<<< HEAD
-    let current' = LexBuffer.push_character current '\'' lexbuf.lex_start_p in
-    if LexBuffer.escaped_single_quote level current then (
-      token level current' lexbuf
-=======
     let current' = push_character current '\'' in
     if escaped_single_quote level current then (
       token level (push_character current '\'') lexbuf
->>>>>>> Build word CST for literal, double quote and subshell.
     ) else
       let current = single_quotes current' lexbuf in
       token level current lexbuf
@@ -852,17 +731,11 @@ rule token level current = parse
 
 and skip k current = parse
 | eof {
-  Printf.eprintf "!!!\n";
   assert false (* By subshell_parsing. *)
 }
 
 | _ as c {
-<<<<<<< HEAD
-  let current = LexBuffer.push_character current c lexbuf.lex_start_p in
-=======
-  Printf.eprintf "%c%!" c;
   let current = push_character current c in
->>>>>>> Build word CST for literal, double quote and subshell.
   if k <= 1 then current else skip (k - 1) current lexbuf
 }
 
