@@ -22,6 +22,10 @@
 
 *)
 
+type prelexer_state
+
+val initial_state : prelexer_state
+
 type pretoken =
   | PreWord of string * CST.word_cst
   | IoNumber of string

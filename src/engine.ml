@@ -275,7 +275,6 @@ module Lexer (U : sig end) : Lexer = struct
         let token = if !eof then EOF else token in
         (token, pstart, pstop)
       in
-      let show = Printf.eprintf "PRELEXER: %s\n" (Prelexer.string_of_pretoken pretoken) in
       match pretoken with
         | Prelexer.IoNumber i ->
           return (IO_NUMBER (IONumber i))

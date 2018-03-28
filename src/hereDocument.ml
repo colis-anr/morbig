@@ -105,11 +105,8 @@ end = struct
        between. Then the next here-document starts, if there is one.
      *)
     assert (!state = InsideHereDocuments);
-    let delim_info = Queue.take delimiters_queue in
-    let delimiter_word = delim_info.word
-    and delimiter_dashed = delim_info.dashed
-    and delimiter_quoted = delim_info.quoted
-    and contents_placeholder = delim_info.contents_placeholder
+    let delimiter_info = Queue.take delimiters_queue in
+    let contents_placeholder = delimiter_info.contents_placeholder
     and doc = Buffer.create 1000
     and nextline, pstart, pstop =
       match Prelexer.readline lexbuf with
@@ -153,7 +150,9 @@ end = struct
         else contents in
           delimiter_info.contents_placeholder :=
             CST.{
-              value = Word.parse contents;
+              (* FIXME: This is temporary since HereDocument words *)
+              (* FIXME: enjoy CST too. *)
+              value = Word (contents, []);
               position = { start_p = doc_start;
                            end_p = doc_end }
             }
