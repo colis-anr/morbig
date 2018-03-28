@@ -1,0 +1,3 @@
+(echo) << DATA
+blabla
+DATA
