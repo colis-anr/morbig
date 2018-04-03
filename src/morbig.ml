@@ -75,11 +75,21 @@ let main =
         )
   in
   Options.analyze_command_line_arguments ();
-  if List.length (Options.input_files ()) <= 0 then (
-    Printf.eprintf "morbig: no input files.\n";
-    exit 1
-  );
-  List.iter parse_one_file (Options.input_files ());
+  if (Options.from_stdin ())
+  then begin
+      try
+        while true do
+          parse_one_file (read_line ())
+        done
+      with End_of_file -> ()
+    end
+  else begin
+      if List.length (Options.input_files ()) <= 0 then begin
+          Printf.eprintf "morbig: no input files.\n";
+          exit 1
+        end;
+      List.iter parse_one_file (Options.input_files ())
+    end;
   if Options.display_stats () then begin
       Printf.printf "Number of input files: %i\n" !nb_inputs;
       Printf.printf "Number of skipped files: %i\n" !nb_inputs_skipped;

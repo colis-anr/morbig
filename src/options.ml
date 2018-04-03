@@ -43,6 +43,9 @@ let continue_after_error () = !_continue_after_error
 
 let _display_stats = ref false
 let display_stats () = !_display_stats
+
+let _from_stdin = ref false
+let from_stdin () = !_from_stdin
                         
 let usage_msg = "\
 Usage: morbig [options] file...
@@ -66,6 +69,9 @@ let analyze_command_line_arguments () = Arg.(
 
       "--display-stats", Set _display_stats,
       " Display statistics on failures and skipped files";
+
+      "--from-stdin", Set _from_stdin,
+      " Get names of scripts to parse from standard input.";
 
       "--version", Unit show_version_and_exit,
       " Show version number and exit."

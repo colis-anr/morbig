@@ -32,6 +32,9 @@ val skip_nosh : unit -> bool
 (* tells whether final statistics are dmanded *)
 val display_stats : unit -> bool
 
+(* tell whether names of input files are to be read from stdin *)
+val from_stdin : unit -> bool
+                              
 (* tells whether parsing shoudl continue with the next input file after *)
 (* an error. *)
 val continue_after_error : unit -> bool

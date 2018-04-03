@@ -65,13 +65,16 @@ complete JSON output, including position information.
 simplified JSON output. Use this for human-readable output.
 .RE
 .TP
+.B \-\-from-stdin
+Read names of input files from standard input.
+.TP
 .B \-\-continue-after-error
 If parsing of input \fIfile\fR fails, then write the error message in
 file \fIfile\fR.morbigerror instead of stderr, and continue with the
 next input file. This may be used to parse a large number of scripts
 without creating a new UNIX process for each of them, like this:
 
-	find . -name "*.sh" | xargs morbig --continue-after-error
+	find . -name "*.sh" | morbig --continue-after-error --from-stdin
 
 .TP
 .B \-\-display-stats
