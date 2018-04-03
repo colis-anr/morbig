@@ -41,6 +41,9 @@ let skip_nosh () = !_skip_nosh
 let _continue_after_error = ref false
 let continue_after_error () = !_continue_after_error
 
+let _display_stats = ref false
+let display_stats () = !_display_stats
+                        
 let usage_msg = "\
 Usage: morbig [options] file...
 "
@@ -60,6 +63,9 @@ let analyze_command_line_arguments () = Arg.(
 
       "--continue-after-error", Set _continue_after_error,
       " Continue after error with the next script";
+
+      "--display-stats", Set _display_stats,
+      " Display statistics on failures and skipped files";
 
       "--version", Unit show_version_and_exit,
       " Show version number and exit."

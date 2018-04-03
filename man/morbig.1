@@ -73,6 +73,10 @@ without creating a new UNIX process for each of them, like this:
 
 	find . -name "*.sh" | xargs morbig --continue-after-error
 
+.TP
+.B \-\-display-stats
+Print at the end the total number of treated input files, the number of
+skipped input files, and the number of rejected input files.
 .SH AUTHORS
 morbig has been written for the project CoLiS by
 Yann Régis-Gianas, Nicolas Jeannerod and Ralf Treinen.

@@ -48,27 +48,40 @@ let string_of_exn = function
   | e -> raise e
 
 let main =
+  let nb_inputs = ref 0
+  and nb_inputs_skipped = ref 0
+  and nb_inputs_erroneous = ref 0
+  in
   let parse_one_file input_filename =
+    incr nb_inputs;
     if Options.skip_nosh () &&
          (Scripts.is_elf input_filename ||
             Scripts.is_other_script input_filename)
     then begin
-        Printf.eprintf "Skipping: %s.\n" input_filename;
+        incr nb_inputs_skipped;
+        (* Printf.eprintf "Skipping: %s.\n" input_filename; *)
       end
     else
       try
         parse_file input_filename |> save input_filename
-      with e -> if Options.continue_after_error ()
-                then
-                  save_error input_filename (string_of_exn e)
-                else (
-                  output_string stderr (string_of_exn e ^ "\n");
-                  exit 1
-                )
+      with e -> 
+        incr nb_inputs_erroneous;
+        if Options.continue_after_error ()
+        then
+          save_error input_filename (string_of_exn e)
+        else (
+          output_string stderr (string_of_exn e ^ "\n");
+          exit 1
+        )
   in
   Options.analyze_command_line_arguments ();
   if List.length (Options.input_files ()) <= 0 then (
     Printf.eprintf "morbig: no input files.\n";
     exit 1
   );
-  List.iter parse_one_file (Options.input_files ())
+  List.iter parse_one_file (Options.input_files ());
+  if Options.display_stats () then begin
+      Printf.printf "Number of input files: %i\n" !nb_inputs;
+      Printf.printf "Number of skipped files: %i\n" !nb_inputs_skipped;
+      Printf.printf "Number of rejected files: %i\n" !nb_inputs_erroneous;
+    end
