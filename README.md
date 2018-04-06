@@ -48,6 +48,7 @@
 
 ```
     - ocaml               (>= 4.02.1)
+    - ocamlbuild	  [ if ocaml >= 4.05 ]
     - menhir              (>= 20170509)
     - yojson              (>= 1.3.2)
     - ppx_deriving_yojson (>= 3.0)
