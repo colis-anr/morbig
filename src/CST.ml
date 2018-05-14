@@ -277,6 +277,7 @@ and word_component =
   | WordName of string
   | WordAssignmentWord of assignment_word
   | WordDoubleQuoted of word
+  | WordSingleQuoted of word
   | WordLiteral of string
   | WordVariable of variable
   | WordGlobAll
