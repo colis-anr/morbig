@@ -138,7 +138,6 @@ let pop_quotation b =
     prelexer produces Word pretokens only from contents he has collected in
     the buffer.
 
-    Side effect: the buffer [current] is reset to empty.
  *)
 let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (not (List.exists (function (PreWord _)->true|_->false) tokens));
