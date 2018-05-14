@@ -59,10 +59,16 @@ let string_of_pretoken = function
   | EOF -> "EOF"
   | NEWLINE -> "NEWLINE"
 
+let push_string b s =
+  (* FIXME: Is string concatenation too slow here? *)
+  match b.buffer with
+  | WordComponent (s', WordLiteral l) :: csts ->
+     { buffer = WordComponent (s' ^ s, WordLiteral (l ^ s)) :: csts }
+  | _ ->
+     { buffer = WordComponent (s, WordLiteral s) :: b.buffer }
+
 let push_character b c =
-  let s = String.make 1 c in
-  let w = WordLiteral s in
-  { buffer = (WordComponent (s, w)) :: b.buffer }
+  push_string b (String.make 1 c)
 
 let string_of_atom = function
   | WordComponent (s, _) -> s
@@ -96,10 +102,6 @@ let rec preceded_by n c cs =
   n = 0 || match cs with
            | [] -> n = 0
            | c' :: cs -> c' = c && preceded_by (n - 1) c cs
-
-let push_string b s =
-  let cst = WordLiteral s in
-  { buffer = (WordComponent (s, cst)) :: b.buffer }
 
 let push_quoting_mark b =
   { buffer = QuotingMark :: b.buffer }
