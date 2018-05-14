@@ -62,7 +62,16 @@ do
 			good_unexpected=$((good_unexpected + 1))
 		    elif ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null
 		    then
-			printf 'Error: Test `%s` does not have the expected output.\n' "$test"
+			if [ x$VERBOSE != x ]; then
+			    echo "\n* $test.sh"
+			    cat "$test.sh"
+			    echo "\n** $test.sh.sjson"
+			    cat "$test.sh.sjson"
+			    echo "\n** $test.sh.expected"
+			    cat "$test.sh.expected"
+			else
+  			    printf 'Error: Test `%s` does not have the expected output.\n' "$test"
+			fi
 			good_unexpected=$((good_unexpected + 1))
 		    else
 			good_accepted=$((good_accepted + 1))
