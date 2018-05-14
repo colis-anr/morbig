@@ -560,6 +560,8 @@ rule token level current = parse
 
 *)
 
+  (* FIXME: The following treatment of # is probably subsumed by
+     FIXME: the more general rule about '#' below. *)
   (* $# is a special parameter, that is a # after an $ does not start a
      comment *)
   | ("$" "#"?) as s {
