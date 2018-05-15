@@ -701,7 +701,6 @@ rule token level current = parse
    that is returned.
 *)
   | '=' as c {
-    (** Most of the work is done in the lexer.*)
     let current = push_character current c in
     after_equal level current lexbuf
   }
