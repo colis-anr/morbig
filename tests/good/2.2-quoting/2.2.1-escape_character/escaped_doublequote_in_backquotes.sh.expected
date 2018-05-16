@@ -51,16 +51,20 @@
                                             "CmdSuffix_Word",
                                             [
                                               "Word",
-                                              "\\  \\\\\\\\' \\\"",
+                                              "\"  \\\\\\\\' \\\"",
                                               [
-                                                [ "WordLiteral", "\\" ],
                                                 [
                                                   "WordDoubleQuoted",
-                                                  [ "Word", "", [] ]
-                                                ],
-                                                [
-                                                  "WordLiteral",
-                                                  "  \\\\\\\\' \\\""
+                                                  [
+                                                    "Word",
+                                                    "  \\\\\\\\' \\",
+                                                    [
+                                                      [
+                                                        "WordLiteral",
+                                                        "  \\\\\\\\' \\"
+                                                      ]
+                                                    ]
+                                                  ]
                                                 ]
                                               ]
                                             ]

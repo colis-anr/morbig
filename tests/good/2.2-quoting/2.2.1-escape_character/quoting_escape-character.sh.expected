@@ -13,7 +13,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_Word",
                   [
@@ -26,18 +29,33 @@
                           "CmdSuffix_CmdSuffix_Word",
                           [
                             "CmdSuffix_CmdSuffix_Word",
-                            [ "CmdSuffix_Word", [ "Word", "\\|" ] ],
-                            [ "Word", "\\&\\;" ]
+                            [
+                              "CmdSuffix_Word",
+                              [ "Word", "\\|", [ [ "WordLiteral", "\\|" ] ] ]
+                            ],
+                            [
+                              "Word",
+                              "\\&\\;",
+                              [ [ "WordLiteral", "\\&\\;" ] ]
+                            ]
                           ],
-                          [ "Word", "\\<\\>" ]
+                          [
+                            "Word",
+                            "\\<\\>",
+                            [ [ "WordLiteral", "\\<\\>" ] ]
+                          ]
                         ],
-                        [ "Word", "\\(\\)" ]
+                        [ "Word", "\\(\\)", [ [ "WordLiteral", "\\(\\)" ] ] ]
                       ],
-                      [ "Word", "\\$" ]
+                      [ "Word", "\\$", [ [ "WordLiteral", "\\$" ] ] ]
                     ],
-                    [ "Word", "\\`\\\\\\\"\\'" ]
+                    [
+                      "Word",
+                      "\\`\\\\\\\"\\'",
+                      [ [ "WordLiteral", "\\`\\\\\\\"\\'" ] ]
+                    ]
                   ],
-                  [ "Word", "\\\t\\ " ]
+                  [ "Word", "\\\t\\ ", [ [ "WordLiteral", "\\\t\\ " ] ] ]
                 ]
               ]
             ]

@@ -71,6 +71,13 @@ let push_string b s =
 let push_character b c =
   push_string b (String.make 1 c)
 
+let pop_character = function
+  | WordComponent (s, WordLiteral c) :: buffer ->
+     let sequel = String.(sub s 0 (length s - 1)) in
+     WordComponent (sequel, WordLiteral sequel) :: buffer
+  | _ ->
+     assert false
+
 (** [push_word_closing_character b c] push a character [c] to mark it
     as part of the string representing the current word literal but
     with no interpretation as a word CSTs. Typically, if the word
@@ -85,7 +92,7 @@ let push_word_closing_character b c =
 let string_of_atom = function
   | WordComponent (s, _) -> s
   | AssignmentMark -> "|=|"
-  | QuotingMark -> ""
+  | QuotingMark -> "|Q|"
 
 let contents_of_atom_list atoms =
   String.concat "" (List.rev_map string_of_atom atoms)
@@ -142,12 +149,11 @@ let pop_quotation b =
   in
   (* The last character is removed from the quote since it is the
      closing character. *)
-  let first = List.hd b.buffer in
-  let buffer = List.tl b.buffer in
+  let buffer = pop_character b.buffer in
   let squote, quote, buffer = aux "" [] buffer in
   let word = Word (squote, quote) in
-  let quote = WordComponent (squote, WordDoubleQuoted word) in
-  { buffer = first :: quote :: buffer }
+  let quote = WordComponent ("\"" ^ squote ^ "\"", WordDoubleQuoted word) in
+  { buffer = quote :: buffer }
 
 let push_assignment_mark current =
   { buffer = AssignmentMark :: current.buffer }
@@ -491,8 +497,8 @@ rule token level current = parse
             | '$' | '\\' | '`' ->
                push_character current c
             | '"' ->
-               let current = push_character current '\\' in
                if escaped_double_quote level current then
+                 let current = push_character current '\\' in
                  push_character current c
                else (
                  let current = push_quoting_mark current in
@@ -529,12 +535,12 @@ rule token level current = parse
 *)
   | '"' {
     let is_escaped = escaped_double_quote level current in
-    let current = push_character current '"' in
+(*    let current = push_character current '"' in *)
     let current =
       if not is_escaped then
         let current = push_quoting_mark current in
-        double_quotes (Nesting.DQuotes :: level) current lexbuf
-        |> pop_quotation
+        let current = double_quotes (Nesting.DQuotes :: level) current lexbuf in
+        pop_quotation current
       else
         current
     in
