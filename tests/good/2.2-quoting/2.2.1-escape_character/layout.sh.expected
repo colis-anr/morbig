@@ -19,8 +19,11 @@
                   [ "LineBreak_Empty" ],
                   [
                     "WordList_WordList_Word",
-                    [ "WordList_Word", [ "Word", "0" ] ],
-                    [ "Word", "1" ]
+                    [
+                      "WordList_Word",
+                      [ "Word", "0", [ [ "WordLiteral", "0" ] ] ]
+                    ],
+                    [ "Word", "1", [ [ "WordLiteral", "1" ] ] ]
                   ],
                   [
                     "SequentialSep_NewLineList",
@@ -45,15 +48,37 @@
                                 "Command_SimpleCommand",
                                 [
                                   "SimpleCommand_CmdName_CmdSuffix",
-                                  [ "CmdName_Word", [ "Word", "echo" ] ],
+                                  [
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "echo",
+                                      [ [ "WordName", "echo" ] ]
+                                    ]
+                                  ],
                                   [
                                     "CmdSuffix_CmdSuffix_Word",
                                     [
                                       "CmdSuffix_CmdSuffix_Word",
-                                      [ "CmdSuffix_Word", [ "Word", "$i" ] ],
-                                      [ "Word", "+" ]
+                                      [
+                                        "CmdSuffix_Word",
+                                        [
+                                          "Word",
+                                          "$i",
+                                          [ [ "WordLiteral", "$i" ] ]
+                                        ]
+                                      ],
+                                      [
+                                        "Word",
+                                        "+",
+                                        [ [ "WordLiteral", "+" ] ]
+                                      ]
                                     ],
-                                    [ "Word", "$i" ]
+                                    [
+                                      "Word",
+                                      "$i",
+                                      [ [ "WordLiteral", "$i" ] ]
+                                    ]
                                   ]
                                 ]
                               ]
