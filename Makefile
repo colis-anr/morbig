@@ -37,13 +37,15 @@ install:
 	  ocamlfind install libmorbig META lib/* $(EXPORTED_SOURCES);				\
 	else											\
 	  echo "Selecting system-wide install. PREFIX is $(PREFIX)";				\
+	  mkdir -p $(PREFIX)/bin;                                                               \
 	  cp bin/morbig $(PREFIX)/bin;								\
 	  mkdir -p $(PREFIX)/share/man/man1;							\
 	  cp man/morbig.1 $(PREFIX)/share/man/man1;						\
 	  mkdir -p $(PREFIX)/share/doc/libmorbig;						\
 	  cp -fr doc/* $(PREFIX)/share/doc/libmorbig;						\
-	  ocamlfind remove -destdir $(PREFIX)/lib libmorbig;					\
-	  ocamlfind install -destdir $(PREFIX)/lib libmorbig META $(EXPORTED_SOURCES) lib/*;	\
+	  mkdir -p $(PREFIX)/lib/ocaml;                                                               \
+	  ocamlfind remove -destdir $(PREFIX)/lib/ocaml libmorbig;					\
+	  ocamlfind install -destdir $(PREFIX)/lib/ocaml libmorbig META $(EXPORTED_SOURCES) lib/*;	\
          fi
 
 install-local:
