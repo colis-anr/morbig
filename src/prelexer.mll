@@ -36,6 +36,7 @@ open CST
 type atom =
   | WordComponent of (string * word_component)
   | QuotingMark
+  | AssignmentMark
 
 type prelexer_state = {
     buffer                : atom list;
@@ -70,20 +71,42 @@ let push_string b s =
 let push_character b c =
   push_string b (String.make 1 c)
 
+(** [push_word_closing_character b c] push a character [c] to mark it
+    as part of the string representing the current word literal but
+    with no interpretation as a word CSTs. Typically, if the word
+    is "$(1)", the string representing the current word is "$(1)"
+    so the character ')' must be pushed as part of this string
+    representation but ')' is already taken care of in the word
+    CST [WordSubshell (_, _)] associated to this word so we do not
+    push ')' as a WordLiteral CST. *)
+let push_word_closing_character b c =
+  { buffer = WordComponent (String.make 1 c, WordEmpty) :: b.buffer }
+
 let string_of_atom = function
   | WordComponent (s, _) -> s
-  | _ -> ""
+  | AssignmentMark -> "|=|"
+  | QuotingMark -> ""
+
+let contents_of_atom_list atoms =
+  String.concat "" (List.rev_map string_of_atom atoms)
+
+let string_of_atom_list atoms =
+  String.concat "#" (List.rev_map string_of_atom atoms)
 
 let contents b =
-  String.concat "" (List.rev_map string_of_atom b.buffer)
+  contents_of_atom_list b.buffer
 
-let components b =
+let components_of_atom_list atoms =
   let rec aux accu = function
     | [] -> accu
+    | (WordComponent (_, WordEmpty)) :: b -> aux accu b
     | (WordComponent (_, c)) :: b -> aux (c :: accu) b
     | _ :: b -> aux accu b
   in
-  aux [] b.buffer
+  aux [] atoms
+
+let components b =
+  components_of_atom_list b.buffer
 
 let string_last_char s =
   String.(s.[length s - 1])
@@ -112,6 +135,8 @@ let pop_quotation b =
        (squote, quote, [])
     | QuotingMark :: buffer ->
        (squote, quote, buffer)
+    | AssignmentMark :: buffer ->
+       aux squote quote buffer (* FIXME: Check twice. *)
     | WordComponent (w, c) :: buffer ->
        aux (w ^ squote) (c :: quote) buffer
   in
@@ -123,6 +148,34 @@ let pop_quotation b =
   let word = Word (squote, quote) in
   let quote = WordComponent (squote, WordDoubleQuoted word) in
   { buffer = first :: quote :: buffer }
+
+let push_assignment_mark current =
+  { buffer = AssignmentMark :: current.buffer }
+
+let recognize_assignment current =
+  let is_assignment_mark = function AssignmentMark -> true | _ -> false in
+  let rhs, prefix = take_until is_assignment_mark current.buffer in
+  if prefix = current.buffer then (
+    current
+  ) else 
+    let current' = { buffer = rhs @ List.tl prefix } in
+    match prefix with
+    | AssignmentMark :: WordComponent (s, _) :: prefix ->
+       assert (s.[String.length s - 1] = '='); (* By after_equal unique call. *)
+       (* [s] is a valid name. We have an assignment here. *)
+       let lhs = String.(sub s 0 (length s - 1)) in
+       if Name.is_name lhs then (
+         let rhs_string = contents_of_atom_list rhs in
+         { buffer =
+             WordComponent (s ^ rhs_string,
+                            WordAssignmentWord (Name lhs, Word (rhs_string,
+                                                                components_of_atom_list rhs)))
+             :: prefix
+         }
+       ) else
+         current'
+    | _ ->
+       current'
 
 (** [(return ?with_newline lexbuf current tokens)] returns a list of
     pretokens consisting of, in that order:
@@ -141,10 +194,14 @@ let pop_quotation b =
  *)
 let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (not (List.exists (function (PreWord _)->true|_->false) tokens));
+
+  let current = recognize_assignment current in
+
   let flush_word b =
     (* FIXME: Optimise! *)
     let rec aux accu = function
       | WordComponent (s, _) :: b -> aux (s ^ accu) b
+      | AssignmentMark :: b -> aux accu b
       | QuotingMark :: _ -> assert false
       | [] -> accu
     in
@@ -194,16 +251,21 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
       [IoNumber w]
     | w ->
       let csts =
-        List.rev_map (function
-            | WordComponent (_, s) -> s
+        List.(flatten (rev_map (function
+            | WordComponent (_, WordEmpty) ->
+               []
+            | WordComponent (_, s) -> [s]
+            | AssignmentMark -> []
             | QuotingMark -> assert false
-        ) current.buffer
+        ) current.buffer))
       in
       [PreWord (w, csts)]
   in
   let tokens = if with_newline then tokens @ [NEWLINE] else tokens in
   let tokens = buffered @ tokens in
-  List.map produce tokens
+  let out = List.map produce tokens in
+  let p (t, _, _) = string_of_pretoken t in
+  out
 
 let provoke_error current lexbuf =
   return lexbuf current [Operator INTENDED_ERROR]
@@ -702,6 +764,7 @@ rule token level current = parse
 *)
   | '=' as c {
     let current = push_character current c in
+    let current = push_assignment_mark current in
     after_equal level current lexbuf
   }
 
@@ -766,16 +829,17 @@ and comment = parse
 and subshell op level current = parse
   | "" {
     let (consumed, (k, cst)) = subshell_parsing op level lexbuf in
-    let current = 
+    let current =
       if consumed > 0 then skip consumed current lexbuf else current 
     in
     let subshell_strings, current =
-      ExtPervasives.take consumed current.buffer
+      ExtPervasives.take (List.length cst) current.buffer
     in
     let subshell_string =
       String.concat "" (
           List.rev_map (function
               | WordComponent (w, _) -> w
+              | AssignmentMark -> ""
               | _ -> assert false
             ) subshell_strings)
     in
@@ -787,7 +851,7 @@ and subshell op level current = parse
 
 and close_subshell current = parse
   | (")" | "`") as c {
-     push_character current c
+     push_word_closing_character current c
   }
   | (blank | newline) as c {
      let current = push_string current c in

@@ -299,6 +299,8 @@ and word_component =
   | WordGlobAny
   | WordGlobRange of character_range
   | WordOther
+  (* Empty CST. Useful to represent the absence of relevant CSTs. *)
+  | WordEmpty
 
 and character_range =
   | Range of char list

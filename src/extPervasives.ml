@@ -134,14 +134,16 @@ let rec take n l =
         let ys, xs = take (n - 1) xs in
         x :: ys, xs
 
-let rec take_until pred = function
-  | [] -> [], []
+let take_until pred l =
+  let rec aux accu = function
+  | [] -> [], l
   | x :: xs ->
     if pred x then
-      let ys, xs = take_until pred xs in
-      x :: ys, xs
+      List.rev accu, x :: xs
     else
-      [], x :: xs
+      aux (x :: accu) xs
+  in
+  aux [] l
 
 let hashtbl_to_list h =
   let l = ref [] in
