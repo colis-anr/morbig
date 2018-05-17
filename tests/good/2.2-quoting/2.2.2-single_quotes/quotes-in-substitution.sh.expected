@@ -53,8 +53,18 @@
                                           "CmdSuffix_Word",
                                           [
                                             "Word",
-                                            "')'",
-                                            [ [ "WordLiteral", "')'" ] ]
+                                            "'\")\"",
+                                            [
+                                              [ "WordLiteral", "'" ],
+                                              [
+                                                "WordSingleQuoted",
+                                                [
+                                                  "Word",
+                                                  ")",
+                                                  [ [ "WordLiteral", ")" ] ]
+                                                ]
+                                              ]
+                                            ]
                                           ]
                                         ]
                                       ]

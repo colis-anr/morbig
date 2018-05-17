@@ -67,6 +67,7 @@
                           "Word",
                           " $(echo `echo \"\\\\\"\"` )",
                           [
+                            [ "WordLiteral", " " ],
                             [
                               "WordSubshell",
                               [ "SubShellKindParentheses" ],

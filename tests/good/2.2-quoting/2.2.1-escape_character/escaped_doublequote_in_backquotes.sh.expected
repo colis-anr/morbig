@@ -22,46 +22,58 @@
                       "\" ` echo \\\"  \\\\\\\\' \\\"  ` \"",
                       [
                         [
-                          "WordSubshell",
-                          [ "SubShellKindBackQuote" ],
+                          "WordDoubleQuoted",
                           [
+                            "Word",
+                            " ` echo \\\"  \\\\\\\\' \\\"  ` ",
                             [
-                              "CompleteCommand_CList",
+                              [ "WordLiteral", " " ],
                               [
-                                "CList_AndOr",
+                                "WordSubshell",
+                                [ "SubShellKindBackQuote" ],
                                 [
-                                  "AndOr_Pipeline",
                                   [
-                                    "Pipeline_PipeSequence",
+                                    "CompleteCommand_CList",
                                     [
-                                      "PipeSequence_Command",
+                                      "CList_AndOr",
                                       [
-                                        "Command_SimpleCommand",
+                                        "AndOr_Pipeline",
                                         [
-                                          "SimpleCommand_CmdName_CmdSuffix",
+                                          "Pipeline_PipeSequence",
                                           [
-                                            "CmdName_Word",
+                                            "PipeSequence_Command",
                                             [
-                                              "Word",
-                                              "echo",
-                                              [ [ "WordName", "echo" ] ]
-                                            ]
-                                          ],
-                                          [
-                                            "CmdSuffix_Word",
-                                            [
-                                              "Word",
-                                              "\"  \\\\\\\\' \\\"",
+                                              "Command_SimpleCommand",
                                               [
+                                                "SimpleCommand_CmdName_CmdSuffix",
                                                 [
-                                                  "WordDoubleQuoted",
+                                                  "CmdName_Word",
                                                   [
                                                     "Word",
-                                                    "  \\\\\\\\' \\",
+                                                    "echo",
+                                                    [
+                                                      [ "WordName", "echo" ]
+                                                    ]
+                                                  ]
+                                                ],
+                                                [
+                                                  "CmdSuffix_Word",
+                                                  [
+                                                    "Word",
+                                                    "\"  \\\\\\\\' \\\"",
                                                     [
                                                       [
-                                                        "WordLiteral",
-                                                        "  \\\\\\\\' \\"
+                                                        "WordDoubleQuoted",
+                                                        [
+                                                          "Word",
+                                                          "  \\\\\\\\' \\",
+                                                          [
+                                                            [
+                                                              "WordLiteral",
+                                                              "  \\\\\\\\' \\"
+                                                            ]
+                                                          ]
+                                                        ]
                                                       ]
                                                     ]
                                                   ]
@@ -74,11 +86,11 @@
                                     ]
                                   ]
                                 ]
-                              ]
+                              ],
+                              [ "WordLiteral", " " ]
                             ]
                           ]
-                        ],
-                        [ "WordLiteral", " \"" ]
+                        ]
                       ]
                     ]
                   ]

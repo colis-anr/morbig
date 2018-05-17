@@ -35,8 +35,9 @@ open CST
 
 type atom =
   | WordComponent of (string * word_component)
-  | QuotingMark
+  | QuotingMark of quote_kind
   | AssignmentMark
+and quote_kind = SingleQuote | DoubleQuote
 
 type prelexer_state = {
     buffer                : atom list;
@@ -72,13 +73,15 @@ let push_character b c =
   push_string b (String.make 1 c)
 
 let push_separated_string b s =
-  (* FIXME: Is string concatenation too slow here? *)
   { buffer = WordComponent (s, WordLiteral s) :: b.buffer }
 
 let pop_character = function
   | WordComponent (s, WordLiteral c) :: buffer ->
      let sequel = String.(sub s 0 (length s - 1)) in
-     WordComponent (sequel, WordLiteral sequel) :: buffer
+     if sequel = "" then
+       buffer
+     else
+       WordComponent (sequel, WordLiteral sequel) :: buffer
   | _ ->
      assert false
 
@@ -96,7 +99,7 @@ let push_word_closing_character b c =
 let string_of_atom = function
   | WordComponent (s, _) -> s
   | AssignmentMark -> "|=|"
-  | QuotingMark -> "|Q|"
+  | QuotingMark _ -> "|Q|"
 
 let contents_of_atom_list atoms =
   String.concat "" (List.rev_map string_of_atom atoms)
@@ -137,17 +140,19 @@ let rec preceded_by n c cs =
            | [] -> n = 0
            | c' :: cs -> c' = c && preceded_by (n - 1) c cs
 
-let push_quoting_mark b =
-  { buffer = QuotingMark :: b.buffer }
+let push_quoting_mark k b =
+  { buffer = QuotingMark k :: b.buffer }
 
-let pop_quotation b =
+let pop_quotation k b =
   let rec aux squote quote = function
     | [] ->
        (squote, quote, [])
-    | QuotingMark :: buffer ->
+    | QuotingMark k' :: buffer when k = k' ->
        (squote, quote, buffer)
-    | AssignmentMark :: buffer ->
+    | (AssignmentMark | QuotingMark _) :: buffer ->
        aux squote quote buffer (* FIXME: Check twice. *)
+    | WordComponent (w, WordEmpty) :: buffer ->
+       aux (w ^ squote) quote buffer
     | WordComponent (w, c) :: buffer ->
        aux (w ^ squote) (c :: quote) buffer
   in
@@ -156,7 +161,12 @@ let pop_quotation b =
   let buffer = pop_character b.buffer in
   let squote, quote, buffer = aux "" [] buffer in
   let word = Word (squote, quote) in
-  let quote = WordComponent ("\"" ^ squote ^ "\"", WordDoubleQuoted word) in
+  let quoted_word =
+    match k with
+    | SingleQuote -> WordSingleQuoted word
+    | DoubleQuote -> WordDoubleQuoted word
+  in
+  let quote = WordComponent ("\"" ^ squote ^ "\"", quoted_word) in
   { buffer = quote :: buffer }
 
 let push_assignment_mark current =
@@ -212,7 +222,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
     let rec aux accu = function
       | WordComponent (s, _) :: b -> aux (s ^ accu) b
       | AssignmentMark :: b -> aux accu b
-      | QuotingMark :: _ -> assert false
+      | QuotingMark _ :: _ -> assert false
       | [] -> accu
     in
     aux "" b.buffer
@@ -262,12 +272,11 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
     | w ->
       let csts =
         List.(flatten (rev_map (function
-            | WordComponent (_, WordEmpty) ->
-               []
+            | WordComponent (_, WordEmpty) -> []
             | WordComponent (_, s) -> [s]
             | AssignmentMark -> []
-            | QuotingMark -> assert false
-        ) current.buffer))
+            | QuotingMark _ -> assert false
+         ) current.buffer))
       in
       [PreWord (w, csts)]
   in
@@ -504,9 +513,9 @@ rule token level current = parse
                  let current = push_character current '\\' in
                  push_character current c
                else (
-                 let current = push_quoting_mark current in
+                 let current = push_quoting_mark SingleQuote current in
                  double_quotes (Nesting.DQuotes :: level) current lexbuf
-                 |> pop_quotation
+                 |> pop_quotation DoubleQuote
                )
             | c ->
                push_string current (Lexing.lexeme lexbuf)
@@ -522,11 +531,13 @@ rule token level current = parse
 
 *)
   | '\'' {
-    let current' = push_character current '\'' in
     if escaped_single_quote level current then (
       token level (push_character current '\'') lexbuf
     ) else
-      let current = single_quotes current' lexbuf in
+      let current = push_character current '\'' in
+      let current = push_quoting_mark SingleQuote current in
+      let current = single_quotes current lexbuf in
+      let current = pop_quotation SingleQuote current in
       token level current lexbuf
   }
 
@@ -538,12 +549,11 @@ rule token level current = parse
 *)
   | '"' {
     let is_escaped = escaped_double_quote level current in
-(*    let current = push_character current '"' in *)
     let current =
       if not is_escaped then
-        let current = push_quoting_mark current in
+        let current = push_quoting_mark DoubleQuote current in
         let current = double_quotes (Nesting.DQuotes :: level) current lexbuf in
-        pop_quotation current
+        pop_quotation DoubleQuote current
       else
         current
     in
@@ -841,13 +851,9 @@ and subshell op level current = parse
     let current =
       if consumed > 0 then skip consumed current lexbuf else current 
     in
-    Printf.eprintf "Before take: %s\n" (string_of_atom_list current.buffer);
-
     let subshell_strings, current =
       ExtPervasives.take (List.length cst) current.buffer
     in
-
-    Printf.eprintf "After take: %s\n" (string_of_atom_list current);
     let subshell_string =
       String.concat "" (
           List.rev_map (function
@@ -939,8 +945,15 @@ and after_equal level current = parse
     end
   }
   | "\"" {
-    let current = push_character current '"' in
-    let current = double_quotes (Nesting.DQuotes :: level) current lexbuf in
+    let is_escaped = escaped_double_quote level current in
+    let current =
+      if not is_escaped then
+        let current = push_quoting_mark DoubleQuote current in
+        let current = double_quotes (Nesting.DQuotes :: level) current lexbuf in
+        pop_quotation DoubleQuote current
+      else
+        current
+    in
     after_equal level current lexbuf
   }
   | "\'" {
