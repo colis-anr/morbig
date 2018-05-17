@@ -71,6 +71,10 @@ let push_string b s =
 let push_character b c =
   push_string b (String.make 1 c)
 
+let push_separated_string b s =
+  (* FIXME: Is string concatenation too slow here? *)
+  { buffer = WordComponent (s, WordLiteral s) :: b.buffer }
+
 let pop_character = function
   | WordComponent (s, WordLiteral c) :: buffer ->
      let sequel = String.(sub s 0 (length s - 1)) in
@@ -163,7 +167,7 @@ let recognize_assignment current =
   let rhs, prefix = take_until is_assignment_mark current.buffer in
   if prefix = current.buffer then (
     current
-  ) else 
+  ) else
     let current' = { buffer = rhs @ List.tl prefix } in
     match prefix with
     | AssignmentMark :: WordComponent (s, _) :: prefix ->
@@ -270,7 +274,6 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   let tokens = if with_newline then tokens @ [NEWLINE] else tokens in
   let tokens = buffered @ tokens in
   let out = List.map produce tokens in
-  let p (t, _, _) = string_of_pretoken t in
   out
 
 let provoke_error current lexbuf =
@@ -655,7 +658,7 @@ rule token level current = parse
         of the remaining input.
 
     *)
-      let current = push_string current (Lexing.lexeme lexbuf) in
+      let current = push_separated_string current (Lexing.lexeme lexbuf) in
       let current = subshell op level current lexbuf in
       let current = close_subshell current lexbuf in
       token level current lexbuf
@@ -838,9 +841,13 @@ and subshell op level current = parse
     let current =
       if consumed > 0 then skip consumed current lexbuf else current 
     in
+    Printf.eprintf "Before take: %s\n" (string_of_atom_list current.buffer);
+
     let subshell_strings, current =
       ExtPervasives.take (List.length cst) current.buffer
     in
+
+    Printf.eprintf "After take: %s\n" (string_of_atom_list current);
     let subshell_string =
       String.concat "" (
           List.rev_map (function
@@ -892,11 +899,9 @@ and after_equal level current = parse
      *)
       provoke_error current lexbuf
     else
-      let current =
-        subshell op level (push_string current (Lexing.lexeme lexbuf)) lexbuf
-      in
-      let current =
-        close_subshell current lexbuf
+      let current = push_separated_string current (Lexing.lexeme lexbuf) in
+      let current = subshell op level current lexbuf in
+      let current = close_subshell current lexbuf
       in
       after_equal level current lexbuf
   }
@@ -1080,7 +1085,8 @@ and next_double_rparen level dplevel current = parse
   }
   | '`' as op | "$" ( '(' as op) {
       let current =
-        subshell op level (push_string current (Lexing.lexeme lexbuf)) lexbuf
+        let current = push_string current (Lexing.lexeme lexbuf) in
+        subshell op level current lexbuf
       in
       let current =
         close_subshell current lexbuf
@@ -1205,11 +1211,9 @@ and double_quotes level current = parse
 
 *)
   | '`' as op | "$" ('(' as op) {
-    let current =
-      subshell op level (push_string current (Lexing.lexeme lexbuf)) lexbuf
-    in
-    let current =
-      close_subshell current lexbuf
+    let current = push_separated_string current (Lexing.lexeme lexbuf) in
+    let current = subshell op level current lexbuf in
+    let current = close_subshell current lexbuf
     in
     double_quotes level current lexbuf
   }
