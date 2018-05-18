@@ -13,8 +13,40 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "ls='ls -h -t -l'" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "ls='\"ls -h -t -l\"",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "ls" ],
+                          [
+                            "Word",
+                            "'\"ls -h -t -l\"",
+                            [
+                              [ "WordLiteral", "'" ],
+                              [
+                                "WordSingleQuoted",
+                                [
+                                  "Word",
+                                  "ls -h -t -l",
+                                  [ [ "WordLiteral", "ls -h -t -l" ] ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -36,7 +68,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "'ls -h -t -l'" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "'\"ls -h -t -l\"", [ [ "WordLiteral", "ls" ] ] ]
+                ]
               ]
             ]
           ]

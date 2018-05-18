@@ -13,8 +13,26 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "rename=alias" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "rename=alias",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "rename" ],
+                          [ "Word", "alias", [ [ "WordLiteral", "alias" ] ] ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -36,8 +54,26 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "time=date" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "time=date",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "time" ],
+                          [ "Word", "date", [ [ "WordLiteral", "date" ] ] ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -59,7 +95,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "date" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "date", [ [ "WordName", "date" ] ] ]
+                ]
               ]
             ]
           ]

@@ -13,8 +13,26 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "foo=for" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "foo=for",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "foo" ],
+                          [ "Word", "for", [ [ "WordLiteral", "for" ] ] ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -40,7 +58,10 @@
                   "ForClause_For_Name_LineBreak_In_WordList_SequentialSep_DoGroup",
                   [ "Name", "i" ],
                   [ "LineBreak_Empty" ],
-                  [ "WordList_Word", [ "Word", "a" ] ],
+                  [
+                    "WordList_Word",
+                    [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                  ],
                   [
                     "SequentialSep_Semicolon_LineBreak",
                     [ "LineBreak_Empty" ]
@@ -61,8 +82,22 @@
                                 "Command_SimpleCommand",
                                 [
                                   "SimpleCommand_CmdName_CmdSuffix",
-                                  [ "CmdName_Word", [ "Word", "echo" ] ],
-                                  [ "CmdSuffix_Word", [ "Word", "$i" ] ]
+                                  [
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "echo",
+                                      [ [ "WordName", "echo" ] ]
+                                    ]
+                                  ],
+                                  [
+                                    "CmdSuffix_Word",
+                                    [
+                                      "Word",
+                                      "$i",
+                                      [ [ "WordLiteral", "$i" ] ]
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]

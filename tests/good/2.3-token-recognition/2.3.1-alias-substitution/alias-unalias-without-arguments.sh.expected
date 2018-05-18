@@ -13,7 +13,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "alias" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ]
               ]
             ]
           ]
@@ -35,7 +38,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "unalias" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                ]
               ]
             ]
           ]

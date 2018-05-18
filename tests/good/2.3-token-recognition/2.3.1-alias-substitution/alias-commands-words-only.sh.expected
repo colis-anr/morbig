@@ -13,8 +13,26 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "show=echo" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "show=echo",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "show" ],
+                          [ "Word", "echo", [ [ "WordLiteral", "echo" ] ] ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -36,8 +54,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
-                [ "CmdSuffix_Word", [ "Word", "show" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ]
               ]
             ]
           ]

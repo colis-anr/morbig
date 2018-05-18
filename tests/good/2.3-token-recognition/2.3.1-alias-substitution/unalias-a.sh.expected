@@ -13,11 +13,41 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_Word",
-                  [ "CmdSuffix_Word", [ "Word", "tata=TATA" ] ],
-                  [ "Word", "titi=TITI" ]
+                  [
+                    "CmdSuffix_Word",
+                    [
+                      "Word",
+                      "tata=TATA",
+                      [
+                        [
+                          "WordAssignmentWord",
+                          [
+                            [ "Name", "tata" ],
+                            [ "Word", "TATA", [ [ "WordLiteral", "TATA" ] ] ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "Word",
+                    "titi=TITI",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "titi" ],
+                          [ "Word", "TITI", [ [ "WordLiteral", "TITI" ] ] ]
+                        ]
+                      ]
+                    ]
+                  ]
                 ]
               ]
             ]
@@ -40,8 +70,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "unalias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "-a" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [ "Word", "-a", [ [ "WordLiteral", "-a" ] ] ]
+                ]
               ]
             ]
           ]
@@ -63,7 +99,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "tata" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "tata", [ [ "WordName", "tata" ] ] ]
+                ]
               ]
             ]
           ]
@@ -85,7 +124,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "titi" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "titi", [ [ "WordName", "titi" ] ] ]
+                ]
               ]
             ]
           ]

@@ -13,8 +13,40 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "foo='ls -l'" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "foo='\"ls -l\"",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "foo" ],
+                          [
+                            "Word",
+                            "'\"ls -l\"",
+                            [
+                              [ "WordLiteral", "'" ],
+                              [
+                                "WordSingleQuoted",
+                                [
+                                  "Word",
+                                  "ls -l",
+                                  [ [ "WordLiteral", "ls -l" ] ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -36,8 +68,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "'ls -l'" ] ],
-                [ "CmdSuffix_Word", [ "Word", "." ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "'\"ls -l\"", [ [ "WordLiteral", "foo" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [ "Word", ".", [ [ "WordLiteral", "." ] ] ]
+                ]
               ]
             ]
           ]
@@ -59,8 +97,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "unalias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "foo" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [ "Word", "'\"ls -l\"", [ [ "WordLiteral", "foo" ] ] ]
+                ]
               ]
             ]
           ]
@@ -84,8 +128,14 @@
                 "Command_SimpleCommand",
                 [
                   "SimpleCommand_CmdName_CmdSuffix",
-                  [ "CmdName_Word", [ "Word", "foo" ] ],
-                  [ "CmdSuffix_Word", [ "Word", "." ] ]
+                  [
+                    "CmdName_Word",
+                    [ "Word", "'\"ls -l\"", [ [ "WordLiteral", "foo" ] ] ]
+                  ],
+                  [
+                    "CmdSuffix_Word",
+                    [ "Word", ".", [ [ "WordLiteral", "." ] ] ]
+                  ]
                 ]
               ]
             ]
@@ -100,8 +150,28 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
-                [ "CmdSuffix_Word", [ "Word", "'failed as expected'" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "'\"failed as expected\"",
+                    [
+                      [ "WordLiteral", "'" ],
+                      [
+                        "WordSingleQuoted",
+                        [
+                          "Word",
+                          "failed as expected",
+                          [ [ "WordLiteral", "failed as expected" ] ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]

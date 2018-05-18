@@ -13,8 +13,26 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "show=echo" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "show=echo",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "show" ],
+                          [ "Word", "echo", [ [ "WordLiteral", "echo" ] ] ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -36,8 +54,26 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
-                [ "CmdSuffix_Word", [ "Word", "list=ls" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "list=ls",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "list" ],
+                          [ "Word", "ls", [ [ "WordLiteral", "ls" ] ] ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -59,15 +95,21 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "unalias" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_Word",
                   [
                     "CmdSuffix_CmdSuffix_Word",
-                    [ "CmdSuffix_Word", [ "Word", "ls" ] ],
-                    [ "Word", "show" ]
+                    [
+                      "CmdSuffix_Word",
+                      [ "Word", "ls", [ [ "WordName", "ls" ] ] ]
+                    ],
+                    [ "Word", "show", [ [ "WordName", "show" ] ] ]
                   ],
-                  [ "Word", "coocoo" ]
+                  [ "Word", "coocoo", [ [ "WordName", "coocoo" ] ] ]
                 ]
               ]
             ]
@@ -90,7 +132,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "list" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "ls", [ [ "WordName", "ls" ] ] ]
+                ]
               ]
             ]
           ]

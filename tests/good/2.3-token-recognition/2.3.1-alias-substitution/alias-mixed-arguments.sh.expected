@@ -13,11 +13,41 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_Word",
-                  [ "CmdSuffix_Word", [ "Word", "titi=TITI" ] ],
-                  [ "Word", "toto=TOTO" ]
+                  [
+                    "CmdSuffix_Word",
+                    [
+                      "Word",
+                      "titi=TITI",
+                      [
+                        [
+                          "WordAssignmentWord",
+                          [
+                            [ "Name", "titi" ],
+                            [ "Word", "TITI", [ [ "WordLiteral", "TITI" ] ] ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "Word",
+                    "toto=TOTO",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "toto" ],
+                          [ "Word", "TOTO", [ [ "WordLiteral", "TOTO" ] ] ]
+                        ]
+                      ]
+                    ]
+                  ]
                 ]
               ]
             ]
@@ -40,19 +70,53 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "alias" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_Word",
                   [
                     "CmdSuffix_CmdSuffix_Word",
                     [
                       "CmdSuffix_CmdSuffix_Word",
-                      [ "CmdSuffix_Word", [ "Word", "tata=TATA" ] ],
-                      [ "Word", "titi" ]
+                      [
+                        "CmdSuffix_Word",
+                        [
+                          "Word",
+                          "tata=TATA",
+                          [
+                            [
+                              "WordAssignmentWord",
+                              [
+                                [ "Name", "tata" ],
+                                [
+                                  "Word",
+                                  "TATA",
+                                  [ [ "WordLiteral", "TATA" ] ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [ "Word", "titi", [ [ "WordName", "titi" ] ] ]
                     ],
-                    [ "Word", "tutu=TUTU" ]
+                    [
+                      "Word",
+                      "tutu=TUTU",
+                      [
+                        [
+                          "WordAssignmentWord",
+                          [
+                            [ "Name", "tutu" ],
+                            [ "Word", "TUTU", [ [ "WordLiteral", "TUTU" ] ] ]
+                          ]
+                        ]
+                      ]
+                    ]
                   ],
-                  [ "Word", "toto" ]
+                  [ "Word", "toto", [ [ "WordName", "toto" ] ] ]
                 ]
               ]
             ]
@@ -75,7 +139,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "TATA" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "TATA", [ [ "WordName", "TATA" ] ] ]
+                ]
               ]
             ]
           ]
