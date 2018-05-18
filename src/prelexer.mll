@@ -957,9 +957,15 @@ and after_equal level current = parse
     after_equal level current lexbuf
   }
   | "\'" {
-    let current = push_character current '\'' in
-    let current = single_quotes current lexbuf in
-    after_equal level current lexbuf
+    (* FIXME: Factorize this out, with the case in [token]. *)
+    if escaped_single_quote level current then (
+      after_equal level current lexbuf
+    ) else
+      let current = push_character current '\'' in
+      let current = push_quoting_mark SingleQuote current in
+      let current = single_quotes current lexbuf in
+      let current = pop_quotation SingleQuote current in
+      after_equal level current lexbuf
   }
   | '\\' _ {
     let current = push_string current (Lexing.lexeme lexbuf) in
