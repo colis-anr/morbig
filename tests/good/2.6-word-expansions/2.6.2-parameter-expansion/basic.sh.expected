@@ -13,7 +13,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:-word}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:-word}",
+                    [ [ "WordLiteral", "${parameter:-word}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -35,7 +42,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter-word}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter-word}",
+                    [ [ "WordLiteral", "${parameter-word}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -57,7 +71,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:=word}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:=word}",
+                    [ [ "WordLiteral", "${parameter:=word}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -79,7 +100,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter=word}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter=word}",
+                    [ [ "WordLiteral", "${parameter=word}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -101,7 +129,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:?word}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:?word}",
+                    [ [ "WordLiteral", "${parameter:?word}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -123,7 +158,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter?word}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter?word}",
+                    [ [ "WordLiteral", "${parameter?word}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -145,7 +187,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:+word}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:+word}",
+                    [ [ "WordLiteral", "${parameter:+word}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -167,7 +216,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter+word}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter+word}",
+                    [ [ "WordLiteral", "${parameter+word}" ] ]
+                  ]
+                ]
               ]
             ]
           ]

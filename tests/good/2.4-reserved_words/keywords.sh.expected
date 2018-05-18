@@ -19,8 +19,11 @@
                   [ "LineBreak_Empty" ],
                   [
                     "WordList_WordList_Word",
-                    [ "WordList_Word", [ "Word", "a" ] ],
-                    [ "Word", "b" ]
+                    [
+                      "WordList_Word",
+                      [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                    ],
+                    [ "Word", "b", [ [ "WordName", "b" ] ] ]
                   ],
                   [
                     "SequentialSep_Semicolon_LineBreak",
@@ -42,8 +45,22 @@
                                 "Command_SimpleCommand",
                                 [
                                   "SimpleCommand_CmdName_CmdSuffix",
-                                  [ "CmdName_Word", [ "Word", "echo" ] ],
-                                  [ "CmdSuffix_Word", [ "Word", "$i" ] ]
+                                  [
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "echo",
+                                      [ [ "WordName", "echo" ] ]
+                                    ]
+                                  ],
+                                  [
+                                    "CmdSuffix_Word",
+                                    [
+                                      "Word",
+                                      "$i",
+                                      [ [ "WordLiteral", "$i" ] ]
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]
@@ -79,7 +96,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "ls" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "ls", [ [ "WordName", "ls" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_Word",
                   [
@@ -88,14 +108,17 @@
                       "CmdSuffix_CmdSuffix_Word",
                       [
                         "CmdSuffix_CmdSuffix_Word",
-                        [ "CmdSuffix_Word", [ "Word", "for" ] ],
-                        [ "Word", "i" ]
+                        [
+                          "CmdSuffix_Word",
+                          [ "Word", "for", [ [ "WordName", "for" ] ] ]
+                        ],
+                        [ "Word", "i", [ [ "WordName", "i" ] ] ]
                       ],
-                      [ "Word", "in" ]
+                      [ "Word", "in", [ [ "WordName", "in" ] ] ]
                     ],
-                    [ "Word", "a" ]
+                    [ "Word", "a", [ [ "WordName", "a" ] ] ]
                   ],
-                  [ "Word", "b" ]
+                  [ "Word", "b", [ [ "WordName", "b" ] ] ]
                 ]
               ]
             ]

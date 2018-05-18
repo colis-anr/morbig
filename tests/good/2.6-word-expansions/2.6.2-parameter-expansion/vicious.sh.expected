@@ -13,7 +13,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:-'}'}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:-'}'}",
+                    [ [ "WordLiteral", "${parameter:-'}'}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -35,7 +42,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:-\\}}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:-\\}}",
+                    [ [ "WordLiteral", "${parameter:-\\}}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -57,7 +71,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter-'}'}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter-'}'}",
+                    [ [ "WordLiteral", "${parameter-'}'}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -79,7 +100,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter-\\}}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter-\\}}",
+                    [ [ "WordLiteral", "${parameter-\\}}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -101,7 +129,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:='}'}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:='}'}",
+                    [ [ "WordLiteral", "${parameter:='}'}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -123,7 +158,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:=\\}}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:=\\}}",
+                    [ [ "WordLiteral", "${parameter:=\\}}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -145,7 +187,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter='}'}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter='}'}",
+                    [ [ "WordLiteral", "${parameter='}'}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -167,7 +216,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter=\\}}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter=\\}}",
+                    [ [ "WordLiteral", "${parameter=\\}}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -189,7 +245,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:?'}'}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:?'}'}",
+                    [ [ "WordLiteral", "${parameter:?'}'}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -211,7 +274,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:?\\}}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:?\\}}",
+                    [ [ "WordLiteral", "${parameter:?\\}}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -233,7 +303,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter?'}'}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter?'}'}",
+                    [ [ "WordLiteral", "${parameter?'}'}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -255,7 +332,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter?\\}}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter?\\}}",
+                    [ [ "WordLiteral", "${parameter?\\}}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -277,7 +361,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:+'}'}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:+'}'}",
+                    [ [ "WordLiteral", "${parameter:+'}'}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -299,7 +390,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter:+\\}}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter:+\\}}",
+                    [ [ "WordLiteral", "${parameter:+\\}}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -321,7 +419,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter+'}'}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter+'}'}",
+                    [ [ "WordLiteral", "${parameter+'}'}" ] ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -343,7 +448,14 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "${parameter+\\}}" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter+\\}}",
+                    [ [ "WordLiteral", "${parameter+\\}}" ] ]
+                  ]
+                ]
               ]
             ]
           ]

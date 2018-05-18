@@ -193,9 +193,18 @@ let recognize_assignment current =
              :: prefix
          }
        ) else
-         current'
-    | _ ->
-       current'
+         (*
+            If [lhs] is not a name, then the corresponding word
+            literal must be merged with the preceding one, if it exists.
+          *) (
+         begin match List.rev rhs with
+         | WordComponent (s_rhs, WordLiteral s_rhs') :: rev_rhs ->
+            let word = WordComponent (s ^ s_rhs, WordLiteral (s ^ s_rhs')) in
+            { buffer = List.rev rev_rhs @ word :: prefix }
+         | _ ->
+            current'
+         end)
+    | _ -> current'
 
 (** [(return ?with_newline lexbuf current tokens)] returns a list of
     pretokens consisting of, in that order:
@@ -211,7 +220,7 @@ let recognize_assignment current =
     prelexer produces Word pretokens only from contents he has collected in
     the buffer.
 
- *)
+          *)
 let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (not (List.exists (function (PreWord _)->true|_->false) tokens));
 

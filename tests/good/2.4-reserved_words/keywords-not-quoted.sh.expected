@@ -13,7 +13,20 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "'if'" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "'\"if\"",
+                    [
+                      [ "WordLiteral", "'" ],
+                      [
+                        "WordSingleQuoted",
+                        [ "Word", "if", [ [ "WordLiteral", "if" ] ] ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -35,7 +48,20 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "i'f'" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "i'\"f\"",
+                    [
+                      [ "WordLiteral", "i'" ],
+                      [
+                        "WordSingleQuoted",
+                        [ "Word", "f", [ [ "WordLiteral", "f" ] ] ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -57,7 +83,20 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "i\"f\"" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "i\"f\"",
+                    [
+                      [ "WordLiteral", "i" ],
+                      [
+                        "WordDoubleQuoted",
+                        [ "Word", "f", [ [ "WordLiteral", "f" ] ] ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]
@@ -79,7 +118,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "i\\f" ] ]
+                [
+                  "CmdName_Word",
+                  [ "Word", "i\\f", [ [ "WordLiteral", "i\\f" ] ] ]
+                ]
               ]
             ]
           ]
