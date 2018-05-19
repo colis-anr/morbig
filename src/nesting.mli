@@ -12,7 +12,7 @@
 (**************************************************************************)
 
 type t =
-  | Backquotes of char
+  | Backquotes of char * int
   | Parentheses
   | Braces
   | DQuotes

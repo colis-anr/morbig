@@ -128,12 +128,6 @@ let string_last_char s =
 let string_minus_last_char s =
   String.(sub s 0 (length s - 1))
 
-let rec under_backquoted_style_command_substitution = function
-  | [] -> false
-  | Nesting.Backquotes '`' :: _ -> true
-  | Nesting.Backquotes '(' :: _ -> false
-  | _ :: level -> under_backquoted_style_command_substitution level
-
 (* FIXME: Probably incorrect: Must split buffer into character first. *)
 let rec preceded_by n c cs =
   n = 0 || match cs with
@@ -332,8 +326,8 @@ let under_double_quotes level =
 
 let rec under_backquoted_style_command_substitution = function
   | [] -> false
-  | Nesting.Backquotes '`' :: _ -> true
-  | Nesting.Backquotes '(' :: _ -> false
+  | Nesting.Backquotes ('`', _) :: _ -> true
+  | Nesting.Backquotes ('(', _) :: _ -> false
   | _ :: level -> under_backquoted_style_command_substitution level
 
 (**
@@ -343,7 +337,7 @@ let rec under_backquoted_style_command_substitution = function
    escaped backslash is used to escape the quote character.
 
 *)
-let escaped_double_quote level current =
+let escape_analysis level current =
   let current =
     List.map
       (function
@@ -352,12 +346,13 @@ let escaped_double_quote level current =
       current.buffer
   in
   let number_of_backslashes_to_escape = Nesting.(
+    (* FIXME: We will be looking for the general pattern here. *)
     match level with
-    | DQuotes :: Backquotes '`' :: DQuotes :: _ -> 2
-    | DQuotes :: Backquotes '`' :: _ :: DQuotes :: _ -> 2
-    | DQuotes :: Backquotes '`' :: _ -> 1
-    | Backquotes '`' :: DQuotes :: _ -> 2
-    | Backquotes '`' :: _ :: DQuotes :: _ -> 2
+    | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ -> 2
+    | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ -> 2
+    | DQuotes :: Backquotes ('`', _) :: _ -> 1
+    | Backquotes ('`', _) :: DQuotes :: _ -> 2
+    | Backquotes ('`', _) :: _ :: DQuotes :: _ -> 2
     | _ -> 1
   )
   in
@@ -390,11 +385,36 @@ let escaped_double_quote level current =
     else
       current'
   in
-  preceded_by number_of_backslashes_to_escape '\\' current'
+  if preceded_by number_of_backslashes_to_escape '\\' current' then
+    (** There is no special meaning for this character. It is
+        escaped. *)
+    None
+  else
+    (**
+        The character preceded by this sequence is not escaped.
+        In the case of `, the interpretation of this character
+        depends on the number of backslashes the precedes it.
+        Typically, in:
 
-let escaped_single_quote = escaped_double_quote
+        echo `echo \`foo\``
 
-let subshell_parsing op level lexbuf =
+        The second <backquote> is not escaped BUT it is not
+        closing the current subshell, it is opening a new
+        one.
+
+     *)
+    Some number_of_backslashes_to_escape
+
+let escape_analysis_predicate level current =
+  escape_analysis level current = None
+
+let escaped_double_quote = escape_analysis_predicate
+
+let escaped_single_quote = escape_analysis_predicate
+
+let escaped_backquote = escape_analysis
+
+let subshell_parsing op escaping_level level lexbuf =
     let copy_position p =
       Lexing.{ p with pos_fname = p.pos_fname }
     in
@@ -406,7 +426,7 @@ let subshell_parsing op level lexbuf =
           lex_curr_p = copy_position lexbuf.lex_curr_p;
       }
     in
-    let level = Nesting.Backquotes op :: level in
+    let level = Nesting.Backquotes (op, escaping_level) :: level in
     let subshell_kind =
       match op with
       | '`' -> SubShellKindBackQuote
@@ -512,26 +532,68 @@ rule token level current = parse
   }
 
   | '\\' (_ as c) {
-    let current =
-      if under_backquoted_style_command_substitution level then
-          match c with
-            | '$' | '\\' | '`' ->
-               push_character current c
-            | '"' ->
-               if escaped_double_quote level current then
-                 let current = push_character current '\\' in
-                 push_character current c
-               else (
-                 let current = push_quoting_mark SingleQuote current in
-                 double_quotes (Nesting.DQuotes :: level) current lexbuf
-                 |> pop_quotation DoubleQuote
-               )
-            | c ->
-               push_string current (Lexing.lexeme lexbuf)
-      else
-        push_string current (Lexing.lexeme lexbuf)
-    in
-    token level current lexbuf
+    if under_backquoted_style_command_substitution level then
+      match c with
+      | '$' | '\\' ->
+         let current = push_character current c in
+         token level current lexbuf
+      | '`' ->
+         begin match escaped_backquote level current with
+         | None ->
+            let current = push_character current '\\' in
+            let current = push_character current c in
+            token level current lexbuf
+         | Some escaping_level ->
+            match list_hd_opt level with
+            | Some (Nesting.Backquotes ('`', escaping_level')) ->
+               (* FIXME: Do we have to be finer here by looking at the
+                  order between escaping levels? *)
+               if escaping_level' = escaping_level then
+                 (* This is a closing backquote. *)
+                 let pos = lexbuf.lex_curr_p.pos_cnum in (
+                     lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_cnum = pos - 1 };
+                     return lexbuf current [EOF]
+                   )
+               else
+                 (* This is an opening backquote. *)
+                 let current = push_separated_string current (Lexing.lexeme lexbuf) in
+                 let current = subshell '`' escaping_level level current lexbuf in
+                 let current = close_subshell current lexbuf in
+                 token level current lexbuf
+            | None ->
+                 (* This is an opening backquote. *)
+                 let current = push_separated_string current (Lexing.lexeme lexbuf) in
+                 let current = subshell '`' escaping_level level current lexbuf in
+                 let current = close_subshell current lexbuf in
+                 token level current lexbuf
+            | Some (Nesting.Backquotes ('(', _)
+                           | Nesting.Parentheses
+                           | Nesting.Braces
+                           | Nesting.DQuotes)
+              ->
+               (* FIXME: Not sure what to do here... *)
+               assert false (* TODO *)
+            | _ ->
+               assert false (* By usage of Backquotes. *)
+                      (* FIXME: We should introduce a finer type for backquotes. *)
+         end
+      | '"' ->
+         if escaped_double_quote level current then
+           let current = push_character current '\\' in
+           let current = push_character current c in
+           token level current lexbuf
+         else (
+           let current = push_quoting_mark SingleQuote current in
+           let current = double_quotes (Nesting.DQuotes :: level) current lexbuf in
+           let current = pop_quotation DoubleQuote current in
+           token level current lexbuf
+         )
+      | c ->
+         let current = push_string current (Lexing.lexeme lexbuf) in
+         token level current lexbuf
+    else
+      let current = push_string current (Lexing.lexeme lexbuf) in
+      token level current lexbuf
   }
 
 (**specification
@@ -557,16 +619,13 @@ rule token level current = parse
 
 *)
   | '"' {
-    let is_escaped = escaped_double_quote level current in
-    let current =
-      if not is_escaped then
-        let current = push_quoting_mark DoubleQuote current in
-        let current = double_quotes (Nesting.DQuotes :: level) current lexbuf in
-        pop_quotation DoubleQuote current
-      else
-        current
-    in
-    token level current lexbuf
+    if escaped_double_quote level current then
+      token level current lexbuf
+    else
+      let current = push_quoting_mark DoubleQuote current in
+      let current = double_quotes (Nesting.DQuotes :: level) current lexbuf in
+      let current = pop_quotation DoubleQuote current in
+      token level current lexbuf
   }
 
 (**
@@ -660,7 +719,12 @@ rule token level current = parse
   }
 
   | '`' as op | "$" ('(' as op) {
-    if op = '`' && list_hd_opt level = Some (Nesting.Backquotes op) then begin
+    let is_under_backquote level =
+      match list_hd_opt level with
+      | Some (Nesting.Backquotes ('`', _)) -> true
+      | _ -> false
+    in
+    if op = '`' && is_under_backquote level then begin
         let pos = lexbuf.lex_curr_p.pos_cnum in
         lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_cnum = pos - 1 };
     (*
@@ -677,8 +741,9 @@ rule token level current = parse
         of the remaining input.
 
     *)
+      let escaping_level = 0 in
       let current = push_separated_string current (Lexing.lexeme lexbuf) in
-      let current = subshell op level current lexbuf in
+      let current = subshell op escaping_level level current lexbuf in
       let current = close_subshell current lexbuf in
       token level current lexbuf
   }
@@ -854,11 +919,11 @@ and comment = parse
   }
 
 
-and subshell op level current = parse
+and subshell op escaping_level level current = parse
   | "" {
-    let (consumed, (k, cst)) = subshell_parsing op level lexbuf in
+    let (consumed, (k, cst)) = subshell_parsing op escaping_level level lexbuf in
     let current =
-      if consumed > 0 then skip consumed current lexbuf else current 
+      if consumed > 0 then skip consumed current lexbuf else current
     in
     let subshell_strings, current =
       ExtPervasives.take (List.length cst) current.buffer
@@ -896,16 +961,21 @@ and close_subshell current = parse
      lexing_error lexbuf (Printf.sprintf "Unclosed subshell (got '%c')." c)
   }
 
-and return_subshell op level current = parse
+and return_subshell op escaping_level level current = parse
  | "" {
-    let current = subshell op level current lexbuf in
+    let current = subshell op escaping_level level current lexbuf in
     let current = close_subshell current lexbuf in
     return lexbuf current []
  }
 
 and after_equal level current = parse
   | '`' as op | "$" ( '(' as op) {
-    if op = '`' && list_hd_opt level = Some (Nesting.Backquotes op) then
+    let is_under_backquote level =
+      match list_hd_opt level with
+      | Some (Nesting.Backquotes (op, _)) -> true
+      | _ -> false
+    in
+    if op = '`' && is_under_backquote level then
      (*
 
          If the last nesting symbol of [level] is a Backquote, the
@@ -914,8 +984,9 @@ and after_equal level current = parse
      *)
       provoke_error current lexbuf
     else
+      let escaping_level = 0 in (* FIXME: Probably wrong. *)
       let current = push_separated_string current (Lexing.lexeme lexbuf) in
-      let current = subshell op level current lexbuf in
+      let current = subshell op escaping_level level current lexbuf in
       let current = close_subshell current lexbuf
       in
       after_equal level current lexbuf
@@ -934,9 +1005,10 @@ and after_equal level current = parse
 
   | ")" | "}" as op {
     begin match level with
-      | Nesting.Backquotes '(' :: level when op = ')' ->
+      | Nesting.Backquotes ('(', _) :: level when op = ')' ->
          provoke_error current lexbuf
-      | Nesting.Backquotes '`' :: level when op = '`' ->
+      | Nesting.Backquotes ('`', _) :: level when op = '`' ->
+         (* FIXME: Maybe wrong *)
          provoke_error current lexbuf
       | nestop :: level when nestop = Nesting.of_closing op ->
          let current = push_character current op in
@@ -1112,14 +1184,11 @@ and next_double_rparen level dplevel current = parse
     next_double_rparen level (dplevel+1) current lexbuf
   }
   | '`' as op | "$" ( '(' as op) {
-      let current =
-        let current = push_string current (Lexing.lexeme lexbuf) in
-        subshell op level current lexbuf
-      in
-      let current =
-        close_subshell current lexbuf
-      in
-      next_double_rparen level dplevel current lexbuf
+    let escaping_level = 0 in (* FIXME: Probably wrong. *)
+    let current = push_string current (Lexing.lexeme lexbuf) in
+    let current = subshell op escaping_level level current lexbuf in
+    let current = close_subshell current lexbuf in
+    next_double_rparen level dplevel current lexbuf
   }
   | "))" {
     let current = push_string current "))" in
@@ -1239,8 +1308,9 @@ and double_quotes level current = parse
 
 *)
   | '`' as op | "$" ('(' as op) {
+    let escaping_level = 0 in (* FIXME: Check this. *)
     let current = push_separated_string current (Lexing.lexeme lexbuf) in
-    let current = subshell op level current lexbuf in
+    let current = subshell op escaping_level level current lexbuf in
     let current = close_subshell current lexbuf
     in
     double_quotes level current lexbuf

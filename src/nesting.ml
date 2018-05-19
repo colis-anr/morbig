@@ -12,13 +12,13 @@
 (**************************************************************************)
 
 type t =
-  | Backquotes of char
+  | Backquotes of char * int
   | Parentheses
   | Braces
   | DQuotes
 
 let to_string = function
-  | Backquotes c -> Printf.sprintf "@%c" c
+  | Backquotes (c, level) -> Printf.sprintf "@%c[%d]" c level
   | Parentheses -> "("
   | Braces -> "{"
   | DQuotes -> "\""
@@ -26,11 +26,11 @@ let to_string = function
 let of_opening c =
   if c = '(' then Parentheses
   else if c = '{' then Braces
-  else if c = '`' then Backquotes c
+  else if c = '`' then Backquotes (c, 0) (* FIXME *)
   else failwith "Unrecognized nesting."
 
 let of_closing c =
   if c = ')' then Parentheses
   else if c = '}' then Braces
-  else if c = '`' then Backquotes c
+  else if c = '`' then Backquotes (c, 0) (* FIXME *)
   else failwith "Unrecognized nesting."
