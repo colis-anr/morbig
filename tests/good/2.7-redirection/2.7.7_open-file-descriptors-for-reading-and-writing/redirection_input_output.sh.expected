@@ -13,14 +13,20 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ],
                 [
                   "CmdSuffix_IoRedirect",
                   [
                     "IoRedirect_IoFile",
                     [
                       "IoFile_LessGreat_FileName",
-                      [ "Filename_Word", [ "Word", "word" ] ]
+                      [
+                        "Filename_Word",
+                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
+                      ]
                     ]
                   ]
                 ]
@@ -45,7 +51,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ],
                 [
                   "CmdSuffix_IoRedirect",
                   [
@@ -53,7 +62,10 @@
                     [ "IONumber", "2" ],
                     [
                       "IoFile_LessGreat_FileName",
-                      [ "Filename_Word", [ "Word", "word" ] ]
+                      [
+                        "Filename_Word",
+                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
+                      ]
                     ]
                   ]
                 ]
@@ -78,15 +90,24 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_IoRedirect",
-                  [ "CmdSuffix_Word", [ "Word", "4" ] ],
+                  [
+                    "CmdSuffix_Word",
+                    [ "Word", "4", [ [ "WordLiteral", "4" ] ] ]
+                  ],
                   [
                     "IoRedirect_IoFile",
                     [
                       "IoFile_LessGreat_FileName",
-                      [ "Filename_Word", [ "Word", "word" ] ]
+                      [
+                        "Filename_Word",
+                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
+                      ]
                     ]
                   ]
                 ]
@@ -111,7 +132,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ],
                 [
                   "CmdSuffix_IoRedirect",
                   [
@@ -119,7 +143,10 @@
                     [ "IONumber", "5" ],
                     [
                       "IoFile_LessGreat_FileName",
-                      [ "Filename_Word", [ "Word", "word" ] ]
+                      [
+                        "Filename_Word",
+                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
+                      ]
                     ]
                   ]
                 ]
@@ -144,15 +171,24 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_IoRedirect",
-                  [ "CmdSuffix_Word", [ "Word", "6" ] ],
+                  [
+                    "CmdSuffix_Word",
+                    [ "Word", "6", [ [ "WordLiteral", "6" ] ] ]
+                  ],
                   [
                     "IoRedirect_IoFile",
                     [
                       "IoFile_LessGreat_FileName",
-                      [ "Filename_Word", [ "Word", "word" ] ]
+                      [
+                        "Filename_Word",
+                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
+                      ]
                     ]
                   ]
                 ]

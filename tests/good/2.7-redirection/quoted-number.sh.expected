@@ -13,15 +13,24 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "echo" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_IoRedirect",
-                  [ "CmdSuffix_Word", [ "Word", "\\2" ] ],
+                  [
+                    "CmdSuffix_Word",
+                    [ "Word", "\\2", [ [ "WordLiteral", "\\2" ] ] ]
+                  ],
                   [
                     "IoRedirect_IoFile",
                     [
                       "IoFile_Great_FileName",
-                      [ "Filename_Word", [ "Word", "a" ] ]
+                      [
+                        "Filename_Word",
+                        [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                      ]
                     ]
                   ]
                 ]
