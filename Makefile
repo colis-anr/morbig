@@ -70,9 +70,21 @@ uninstall:
 check:
 	tests/run
 
+VERSION := $(shell cat src/VERSION)
+NAME_VERSION := morbig.${VERSION}
+ARCHIVE := https://github.com/colis-anr/morbig/archive/v${VERSION}.tar.gz
+CHECKSUM := $$(wget -qO- "${ARCHIVE}" | md5sum | cut -d ' ' -f 1)
+
+opam-release:
+	mkdir "${NAME_VERSION}"
+	cp descr opam "${NAME_VERSION}"
+	printf 'archive: "%s"\nchecksum: "%s"\n' "${ARCHIVE}" "${CHECKSUM}" > "${NAME_VERSION}"/url
+	@printf 'Check the content of ${NAME_VERSION}. When happy, run:\nopam publish submit ${NAME_VERSION}\n'
+
 clean:
 	$(MAKE) -C src clean
 	rm -f src/version.ml
+	rm -rf "${NAME_VERSION}"
 	tests/run clean
 	[ ! -d bin ] || rm -fr bin
 	[ ! -d lib ] || rm -fr lib
