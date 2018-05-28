@@ -8,12 +8,14 @@ find "$PROGDIR" \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
 [ "$1" = 'clean' ] && exit 0
 
 # Find morbig; either in this directory, or in the $PATH
-if [ -e "$PROGDIR"/../bin/morbig ]
+localmorbig="$PROGDIR"/../bin/morbig
+if [ -e  $localmorbig ]
 then
+    printf 'Using local %s.\n' `realpath $localmorbig`
     morbig="$PROGDIR"/../bin/morbig
 elif which morbig >/dev/null
 then
-    printf 'Warning: Could not find morbig in this directory. Using the one in the PATH.\n'
+    printf 'Warning: Using from $PATH: %s.\n' `which morbig`
     morbig=morbig
 else
     printf 'Could not find morbig. Did you compile it?\n'
