@@ -21,6 +21,10 @@
 *)
 
 {
+open Lexing
+open ExtPervasives
+open Parser
+open CST
 
 (**specification:
 
@@ -28,11 +32,6 @@
    Token Recognition.
 
 *)
-open Lexing
-open ExtPervasives
-open Parser
-open CST
-
 type atom =
   | WordComponent of (string * word_component)
   | QuotingMark of quote_kind
@@ -767,20 +766,20 @@ rule token level current = parse
     token level current lexbuf
   }
 
-(**specification
-
-   Within the string of characters from an enclosed "${" to the
-   matching '}', an even number of unescaped double-quotes or
-   single-quotes, if any, shall occur. A preceding <backslash>
-   character shall be used to escape a literal '{' or '}'. The rule in
-   Parameter Expansion shall be used to determine the matching '}'.
-
-*)
-  | "${" {
-    let current = push_string current "${" in
-    let current = next_nesting (Nesting.Braces :: level) current lexbuf in
-    token level current lexbuf
-  }
+(* (\**specification
+ * 
+ *    Within the string of characters from an enclosed "${" to the
+ *    matching '}', an even number of unescaped double-quotes or
+ *    single-quotes, if any, shall occur. A preceding <backslash>
+ *    character shall be used to escape a literal '{' or '}'. The rule in
+ *    Parameter Expansion shall be used to determine the matching '}'.
+ * 
+ * *\)
+ *   | "${" {
+ *     let current = push_string current "${" in
+ *     let current = next_nesting (Nesting.Braces :: level) current lexbuf in
+ *     token level current lexbuf
+ *   } *)
 
 (**specification:
 
@@ -1100,84 +1099,6 @@ and after_equal level current = parse
     return lexbuf current []
   }
 
-and next_nesting level current = parse
-  | '`' as op {
-      match level with
-      | Nesting.Backquotes _ :: _ ->
-        push_character current op
-      | _ ->
-        let current = push_character current op in
-        next_nesting level current lexbuf
-  }
-  | "{" | "(" as op {
-    let current = push_character current op in
-    next_nesting (Nesting.of_opening op :: level) current lexbuf
-  }
-  | "}" | ")" as op {
-    let current = push_character current op in
-    match level with
-    | nestop :: level when Nesting.of_closing op = nestop ->
-       begin match level with
-       | [] | (Nesting.DQuotes | Nesting.Backquotes _) :: _ ->
-          current
-       | _ ->
-          next_nesting level current lexbuf
-       end
-    | _ :: _ ->
-       lexing_error lexbuf ("Unterminated " ^ Nesting.to_string (List.hd level)
-                 ^ " got " ^ String.make 1 op)
-    | [] ->
-      assert false
-      (* Because we maintain the invariant that [level] is non empty. *)
-
-  }
-  | '\'' {
-    let current' = push_character current '\'' in
-    if under_double_quotes level || escaped_single_quote level current then (
-      next_nesting level current' lexbuf
-    ) else
-      let current = single_quotes current' lexbuf in
-      next_nesting level current lexbuf
-  }
-  | '"' {
-    let current' = push_character current '"' in
-    if escaped_double_quote level current then (
-       next_nesting level current' lexbuf
-     ) else
-      let level' = Nesting.DQuotes :: level in
-      let current = double_quotes level' current' lexbuf in
-      next_nesting level current lexbuf
-  }
-
-(**specification
-
-  Within the backquoted style of command substitution,
-  <backslash> shall retain its literal meaning, except when followed
-  by: '$', '`', or <backslash>.
-
-*)
-  | '\\' (_ as c) {
-    let current =
-      if under_backquoted_style_command_substitution level then
-          match c with
-            | '$' | '\\' | '`' ->
-              push_character current c
-            | c ->
-              push_string current (Lexing.lexeme lexbuf)
-      else
-        push_string current (Lexing.lexeme lexbuf)
-    in
-    next_nesting level current lexbuf
-  }
-  (* FIXME: do we have to handle "\<newline" here ? *)
-  | eof {
-    lexing_error lexbuf "Unterminated nesting."
-  }
-  | _ as c {
-    let current = push_character current c in
-    next_nesting level current lexbuf
-  }
-
 and next_double_rparen level dplevel current = parse
   | "((" {
     let current = push_string current "((" in
@@ -1267,12 +1188,9 @@ and double_quotes level current = parse
    to find the matching ')'.
 
 *)
-  (* | "$(" { *)
-  (*   (\* FIXME We should call a subshell parser here! *\) *)
-  (*   let current = push_string current "$(" in *)
-  (*   let current = next_nesting (Nesting.Parentheses :: level) current lexbuf in *)
-  (*   double_quotes level current lexbuf *)
-  (* } *)
+  | "$(" {
+    failwith "TODO"
+  }
 
 (**specification
 
@@ -1284,9 +1202,7 @@ and double_quotes level current = parse
 
 *)
   | "${" {
-    let current = push_string current "${" in
-    let current = next_nesting (Nesting.Braces :: level) current lexbuf in
-    double_quotes level current lexbuf
+    failwith "TODO"
   }
 
 (**specification

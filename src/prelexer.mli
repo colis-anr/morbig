@@ -50,8 +50,5 @@ val readline :
 
 (** {6 Undocumented functions} *)
 
-val next_nesting :
-  Nesting.t list -> prelexer_state -> Lexing.lexbuf -> prelexer_state
-
 val string_of_pretoken :
   pretoken -> string
