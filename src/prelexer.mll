@@ -470,10 +470,6 @@ let operator = "&&" | "||" | ";;" |
 
 *)
 
-(** The previous paragraph extracted from the specification implies
-    that a tool like lex can be used to implement the token
-    recognition pass. *)
-
 rule token level current = parse
 
 (**specification:
