@@ -766,20 +766,18 @@ rule token level current = parse
     token level current lexbuf
   }
 
-(* (\**specification
- * 
- *    Within the string of characters from an enclosed "${" to the
- *    matching '}', an even number of unescaped double-quotes or
- *    single-quotes, if any, shall occur. A preceding <backslash>
- *    character shall be used to escape a literal '{' or '}'. The rule in
- *    Parameter Expansion shall be used to determine the matching '}'.
- * 
- * *\)
- *   | "${" {
- *     let current = push_string current "${" in
- *     let current = next_nesting (Nesting.Braces :: level) current lexbuf in
- *     token level current lexbuf
- *   } *)
+(**specification
+
+   Within the string of characters from an enclosed "${" to the
+   matching '}', an even number of unescaped double-quotes or
+   single-quotes, if any, shall occur. A preceding <backslash>
+   character shall be used to escape a literal '{' or '}'. The rule in
+   Parameter Expansion shall be used to determine the matching '}'.
+
+*)
+  | "${" {
+    failwith "TODO"
+  }
 
 (**specification:
 
