@@ -28,35 +28,6 @@ open CST
 open PrelexerState
 open Pretoken
 
-let provoke_error current lexbuf =
-  return lexbuf current [Operator INTENDED_ERROR]
-
-let operators = Hashtbl.create 17     ;;
-Hashtbl.add operators "&&"  AND_IF    ;;
-Hashtbl.add operators "||"  OR_IF     ;;
-Hashtbl.add operators ";;"  DSEMI     ;;
-Hashtbl.add operators "<&"  LESSAND   ;;
-Hashtbl.add operators ">&"  GREATAND  ;;
-Hashtbl.add operators "<>"  LESSGREAT ;;
-Hashtbl.add operators ">>"  DGREAT    ;;
-Hashtbl.add operators ">|"  CLOBBER   ;;
-Hashtbl.add operators "|"   Pipe      ;;
-Hashtbl.add operators "("   Lparen    ;;
-Hashtbl.add operators ")"   Rparen    ;;
-Hashtbl.add operators "<"   LESS      ;;
-Hashtbl.add operators ">"   GREAT     ;;
-Hashtbl.add operators ";"   Semicolon ;;
-Hashtbl.add operators "&"   Uppersand ;;
-
-let optoken_of_string s =
-  try
-    Operator (Hashtbl.find operators s)
-  with Not_found ->
-    Printf.eprintf
-      "Internal error: `%s' is not a valid operator token.\n"
-       s;
-    assert false
-
 let string_of_level l = String.concat " : " (List.map Nesting.to_string l)
 
 let under_double_quotes level =

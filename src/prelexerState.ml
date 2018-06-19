@@ -237,3 +237,6 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   let tokens = buffered @ tokens in
   let out = List.map produce tokens in
   out
+
+let provoke_error current lexbuf =
+  return lexbuf current [Operator INTENDED_ERROR]

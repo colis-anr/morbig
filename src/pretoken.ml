@@ -1,3 +1,5 @@
+open Parser
+
 type t =
   | PreWord of string * CST.word_cst
   | IoNumber of string
@@ -11,3 +13,34 @@ let string_of_pretoken = function
   | Operator t -> Printf.sprintf "OPERATOR(%s)" (Token.string_of_token t)
   | EOF -> "EOF"
   | NEWLINE -> "NEWLINE"
+
+let operators = Hashtbl.(
+    let t = create 17 in
+    List.iter (fun (sym, tok) -> add t sym tok) [
+        "&&",  AND_IF;
+        "||", OR_IF;
+        ";;", DSEMI;
+        "<&", LESSAND;
+        ">&", GREATAND;
+        "<>", LESSGREAT;
+        ">>", DGREAT;
+        ">|", CLOBBER;
+        "|",  Pipe;
+        "(",  Lparen;
+        ")",  Rparen;
+        "<",  LESS;
+        ">",  GREAT;
+        ";",  Semicolon;
+        "&",  Uppersand
+      ];
+    t
+ )
+
+let optoken_of_string s =
+  try
+    Operator (Hashtbl.find operators s)
+  with Not_found ->
+    Printf.eprintf
+      "Internal error: `%s' is not a valid operator token.\n"
+       s;
+    assert false
