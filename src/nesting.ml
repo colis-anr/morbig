@@ -34,3 +34,16 @@ let of_closing c =
   else if c = '}' then Braces
   else if c = '`' then Backquotes (c, 0) (* FIXME *)
   else failwith "Unrecognized nesting."
+
+let string_of_level l = String.concat " : " (List.map to_string l)
+
+let under_double_quotes level =
+  match level with
+  | DQuotes :: _ -> true
+  | _ -> false
+
+let rec under_backquoted_style_command_substitution = function
+  | [] -> false
+  | Backquotes ('`', _) :: _ -> true
+  | Backquotes ('(', _) :: _ -> false
+  | _ :: level -> under_backquoted_style_command_substitution level
