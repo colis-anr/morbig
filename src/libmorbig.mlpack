@@ -8,6 +8,7 @@ Token
 ExtPervasives
 Parser
 PrelexerState
+Pretoken
 Prelexer
 Pretokenizer
 HereDocument

@@ -19,7 +19,7 @@ module Lexer (U : sig end) : sig
   val push_here_document_operator: bool -> (word located ref) -> unit
   val start_here_document_lexing: unit -> unit
   val next_here_document :
-    Lexing.lexbuf -> Prelexer.pretoken * Lexing.position * Lexing.position
+    Lexing.lexbuf -> Pretoken.t * Lexing.position * Lexing.position
   val inside_here_document : unit -> bool
   val next_word_is_here_document_delimiter : unit -> bool
   val next_line_is_here_document: unit -> bool
@@ -174,7 +174,7 @@ end = struct
                                       pos_cnum = line_end.pos_cnum - 1;
                                       pos_bol  = line_end.pos_bol  - 1;
                             }) in
-          (Prelexer.NEWLINE, before_stop, line_end)
+          (Pretoken.NEWLINE, before_stop, line_end)
         end
       else
         begin

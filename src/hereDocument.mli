@@ -37,7 +37,7 @@ module Lexer :
       (** start scanning the here documents that we have registered. *)
       val next_here_document :
         Lexing.lexbuf ->
-        Prelexer.pretoken * Lexing.position * Lexing.position
+        Pretoken.t * Lexing.position * Lexing.position
       (** scans the contents of a here document including the line containing
           the delimiter. Returns the pretoken containg the contents of the
           here document. As a side effect, assigns the contents of the here

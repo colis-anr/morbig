@@ -276,10 +276,10 @@ module Lexer (U : sig end) : Lexer = struct
         (token, pstart, pstop)
       in
       match pretoken with
-        | Prelexer.IoNumber i ->
+        | Pretoken.IoNumber i ->
           return (IO_NUMBER (IONumber i))
 
-        | Prelexer.PreWord (w, cst) ->
+        | Pretoken.PreWord (w, cst) ->
 
         (**specification
 
@@ -328,19 +328,19 @@ module Lexer (U : sig end) : Lexer = struct
             HDL.push_here_document_delimiter w;
           return (FirstSuccessMonad.should_succeed token)
 
-        | Prelexer.EOF ->
+        | Pretoken.EOF ->
           real_eof := true;
           return EOF
 
-        | Prelexer.Operator ((DLESS r | DLESSDASH r) as token) ->
+        | Pretoken.Operator ((DLESS r | DLESSDASH r) as token) ->
           let dashed = match token with DLESSDASH _ -> true | _ -> false in
           HDL.push_here_document_operator dashed r;
           return token
 
-        | Prelexer.Operator token ->
+        | Pretoken.Operator token ->
           return token
 
-        | Prelexer.NEWLINE ->
+        | Pretoken.NEWLINE ->
         (** The interpretation of the pretoken [NEWLINE] depends
             on the parsing context: *)
 

@@ -26,32 +26,7 @@ open ExtPervasives
 open Parser
 open CST
 open PrelexerState
-
-type pretoken =
-  | PreWord of string * CST.word_cst
-  | IoNumber of string
-  | Operator of Parser.token
-  | EOF
-  | NEWLINE
-
-let string_of_pretoken = function
-  | PreWord (s, _) -> Printf.sprintf "PREWORD(%s)" s
-  | IoNumber s -> Printf.sprintf "IONUM(%s)" s
-  | Operator t -> Printf.sprintf "OPERATOR(%s)" (Token.string_of_token t)
-  | EOF -> "EOF"
-  | NEWLINE -> "NEWLINE"
-
-let string_last_char s =
-  String.(s.[length s - 1])
-
-let string_minus_last_char s =
-  String.(sub s 0 (length s - 1))
-
-(* FIXME: Probably incorrect: Must split buffer into character first. *)
-let rec preceded_by n c cs =
-  n = 0 || match cs with
-           | [] -> n = 0
-           | c' :: cs -> c' = c && preceded_by (n - 1) c cs
+open Pretoken
 
 let push_quoting_mark k b =
   { buffer = QuotingMark k :: b.buffer }

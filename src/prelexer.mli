@@ -22,19 +22,12 @@
 
 *)
 
-type pretoken =
-  | PreWord of string * CST.word_cst
-  | IoNumber of string
-  | Operator of Parser.token
-  | EOF
-  | NEWLINE
-
 (** [token b l] advances in the lexbuf [l], and produces a list of
     pretokens from [l], using a queue of symbols in the buffer [b] *)
 (* FIXME: we probably have that [b] is always empty when [token] is called *)
 val token :
   Nesting.t list -> Lexing.lexbuf ->
-  (pretoken * Lexing.position * Lexing.position) list
+  (Pretoken.t * Lexing.position * Lexing.position) list
 
 (** [readline l] returns [None] when the lexbuf is at the end of input,
     or otherwise [Some (l,pstart,pstop)] where [l] is the next line read
@@ -43,8 +36,3 @@ val token :
  *)
 val readline :
   Lexing.lexbuf -> (string  * Lexing.position * Lexing.position) option
-
-(** {6 Undocumented functions} *)
-
-val string_of_pretoken :
-  pretoken -> string

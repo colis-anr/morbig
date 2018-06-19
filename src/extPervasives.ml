@@ -95,6 +95,18 @@ let string_cut_at k s = String.(
     s
 )
 
+let string_last_char s =
+  String.(s.[length s - 1])
+
+let string_minus_last_char s =
+  String.(sub s 0 (length s - 1))
+
+(* FIXME: Probably incorrect: Must split buffer into character first. *)
+let rec preceded_by n c cs =
+  n = 0 || match cs with
+           | [] -> n = 0
+           | c' :: cs -> c' = c && preceded_by (n - 1) c cs
+
 (** [string_to_char_list s] turns a [string s] into a list of [char]. *)
 let string_to_char_list s =
   let r = ref [] in
