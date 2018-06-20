@@ -63,13 +63,10 @@ let newline = ('\010' | '\013' | "\013\010")
 
 let blank   = [' ' '\009' '\012']
 
-let digit = ['0'-'9']
-
 let operator = "&&" | "||" | ";;" |
                "<<" | ">>" | "<&" | ">&" | "<>" | "<<-" |
                ">|" |
                "|" | "(" | ")" | "<" | ">" | ";" | "&"
-
 
 
 (**specification:
@@ -93,7 +90,7 @@ let operator = "&&" | "||" | ";;" |
      which lexical analysis is performed.
 
    - [current] of type [PrelexerState.t] which represents the state of
-     the lexical engine. 
+     the lexical engine.
 
 *)
 rule token level current = parse
