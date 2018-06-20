@@ -126,6 +126,10 @@ let recognize_assignment current =
        assert (s.[String.length s - 1] = '='); (* By after_equal unique call. *)
        (* [s] is a valid name. We have an assignment here. *)
        let lhs = String.(sub s 0 (length s - 1)) in
+
+       (* FIXME: The following check could be done directly with
+          ocamllex rules, right?*)
+
        if Name.is_name lhs then (
          let rhs_string = contents_of_atom_list rhs in
          { buffer =
@@ -239,4 +243,4 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   out
 
 let provoke_error current lexbuf =
-  return lexbuf current [Operator INTENDED_ERROR]
+  return lexbuf current [Pretoken.Operator Parser.INTENDED_ERROR]

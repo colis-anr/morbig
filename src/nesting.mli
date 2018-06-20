@@ -22,3 +22,7 @@ val to_string : t -> string
 val of_opening : char -> t
 
 val of_closing : char -> t
+
+val under_backquoted_style_command_substitution : t list -> bool
+
+val under_double_quotes : t list -> bool

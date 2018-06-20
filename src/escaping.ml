@@ -1,3 +1,4 @@
+open ExtPervasives
 open Nesting
 
 (**
@@ -11,9 +12,9 @@ let escape_analysis level current =
   let current =
     List.map
       (function
-       | WordComponent (s, _) -> s
+       | PrelexerState.WordComponent (s, _) -> s
        | _ -> "")
-      current.buffer
+      current.PrelexerState.buffer
   in
   let number_of_backslashes_to_escape = Nesting.(
     (* FIXME: We will be looking for the general pattern here. *)

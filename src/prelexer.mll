@@ -140,6 +140,10 @@ rule token level current = parse
    space, it cannot serve as a token separator.
 
 *)
+
+  (* FIXME: The interpretation of <backslash> should depend on the
+     nesting context. *)
+
   | '\\' newline {
     Lexing.new_line lexbuf;
     (**
@@ -150,13 +154,13 @@ rule token level current = parse
   }
 
   | '\\' (_ as c) {
-    if under_backquoted_style_command_substitution level then
+    if Nesting.under_backquoted_style_command_substitution level then
       match c with
       | '$' | '\\' ->
          let current = push_character current c in
          token level current lexbuf
       | '`' ->
-         begin match escaped_backquote level current with
+         begin match Escaping.escaped_backquote level current with
          | None ->
             let current = push_character current '\\' in
             let current = push_character current c in
@@ -196,7 +200,7 @@ rule token level current = parse
                       (* FIXME: We should introduce a finer type for backquotes. *)
          end
       | '"' ->
-         if escaped_double_quote level current then
+         if Escaping.escaped_double_quote level current then
            let current = push_character current '\\' in
            let current = push_character current c in
            token level current lexbuf
@@ -220,7 +224,7 @@ rule token level current = parse
 
 *)
   | '\'' {
-    if escaped_single_quote level current then (
+    if Escaping.escaped_single_quote level current then (
       token level (push_character current '\'') lexbuf
     ) else
       let current = push_character current '\'' in
@@ -237,7 +241,7 @@ rule token level current = parse
 
 *)
   | '"' {
-    if escaped_double_quote level current then
+    if Escaping.escaped_double_quote level current then
       token level current lexbuf
     else
       let current = push_quoting_mark DoubleQuote current in
@@ -366,6 +370,7 @@ rule token level current = parse
       token level current lexbuf
   }
 
+  (* FIXME: These two are probably subsumed by the next rule. *)
   | ")" {
       return lexbuf current [Operator Rparen]
   }
@@ -471,6 +476,7 @@ rule token level current = parse
    Otherwise, it is unspecified whether it is ASSIGNMENT_WORD or WORD
    that is returned.
 *)
+(* FIXME: We shall issue a warning when we are in the unspecified case. *)
   | '=' as c {
     let current = push_character current c in
     let current = push_assignment_mark current in
@@ -577,13 +583,6 @@ and close_subshell current = parse
      lexing_error lexbuf (Printf.sprintf "Unclosed subshell (got '%c')." c)
   }
 
-and return_subshell op escaping_level level current = parse
- | "" {
-    let current = subshell op escaping_level level current lexbuf in
-    let current = close_subshell current lexbuf in
-    return lexbuf current []
- }
-
 and after_equal level current = parse
   | '`' as op | "$" ( '(' as op) {
     let is_under_backquote level =
@@ -642,7 +641,7 @@ and after_equal level current = parse
     end
   }
   | "\"" {
-    let is_escaped = escaped_double_quote level current in
+    let is_escaped = Escaping.escaped_double_quote level current in
     let current =
       if not is_escaped then
         let current = push_quoting_mark DoubleQuote current in
@@ -655,7 +654,7 @@ and after_equal level current = parse
   }
   | "\'" {
     (* FIXME: Factorize this out, with the case in [token]. *)
-    if escaped_single_quote level current then (
+    if Escaping.escaped_single_quote level current then (
       after_equal level current lexbuf
     ) else
       let current = push_character current '\'' in
@@ -672,7 +671,7 @@ and after_equal level current = parse
   | newline {
     let result =
       (* FIXME: See next fixme, this is not the right condition. *)
-      if not (under_double_quotes level) then
+      if not (Nesting.under_double_quotes level) then
         return ~with_newline:true lexbuf current []
       else (
         let current = push_character current ' ' in
@@ -687,7 +686,7 @@ and after_equal level current = parse
        separator given the current nesting context. *)
     let is_blank_separator =
       not (
-          under_double_quotes level
+          Nesting.under_double_quotes level
           || (match level with
               | (Nesting.Braces | Nesting.Parentheses) :: _ -> true
               | _ -> false)
@@ -778,7 +777,7 @@ and single_quotes current = parse
 *)
 and double_quotes level current = parse
   | '"' {
-    let is_escaped = escaped_double_quote level current in
+    let is_escaped = Escaping.escaped_double_quote level current in
     let current' = push_character current '"' in
     if is_escaped then (
       double_quotes level current' lexbuf
@@ -875,7 +874,7 @@ and double_quotes level current = parse
   | "\\" ('$' | '`' | '"' | "\\" | newline as c) {
     if c = "\"" then begin
         let current = push_character current '\\' in
-        if escaped_double_quote level current then
+        if Escaping.escaped_double_quote level current then
           let current = push_string current c in
           double_quotes level current lexbuf
         else

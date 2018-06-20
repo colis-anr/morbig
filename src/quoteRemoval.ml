@@ -98,9 +98,8 @@ let remove_tabs_at_linestart s =
        else if s.[!i] = '\n'
        then keep ()
        else begin state := Inline; keep () end
-    | Inline -> 
+    | Inline ->
        if s.[!i] = '\n' then state := Linestart;
        keep ()
   done;
   Buffer.contents b
-                                         
