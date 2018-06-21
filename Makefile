@@ -68,7 +68,7 @@ uninstall:
          fi
 
 check:
-	tests/run
+	tests/run | tee tests.org
 
 VERSION := $(shell cat src/VERSION)
 NAME_VERSION := morbig.${VERSION}

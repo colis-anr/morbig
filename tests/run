@@ -3,6 +3,8 @@
 readonly PROGDIR=$(dirname "$0")
 readonly OLDDIR=$PWD
 
+printf "* Testsuite configuration\n"
+
 # cleanup
 find "$PROGDIR" \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
 [ "$1" = 'clean' ] && exit 0
@@ -15,7 +17,7 @@ then
     morbig="$PROGDIR"/../bin/morbig
 elif which morbig >/dev/null
 then
-    printf 'Warning: Using from $PATH: %s.\n' `which morbig`
+    printf '[Warning] Using from $PATH: %s.\n' `which morbig`
     morbig=morbig
 else
     printf 'Could not find morbig. Did you compile it?\n'
@@ -40,7 +42,7 @@ do
 
 	if [ \! -f "$test.sh" ]
 	then
-	    printf 'Warning: File `%s` does not exist or is not a file.
+	    printf '\n* [Warning] File `%s` does not exist or is not a file.
          Did you create a test whose name contains a space?\n' "$test"
 	    continue
 	fi
@@ -54,25 +56,24 @@ do
 	then
 	    case "$category" in
 		'bad')
-		    printf 'Error: Test `%s` should have been rejected.\n' "$test"
+		    printf '\n* [ Error ] Test `%s` should have been rejected.\n' "$test"
 		    bad_accepted=$((bad_accepted + 1))
 		    ;;
 		'good')
 		    if [ \! -f "$test.sh.expected" ]
 		    then
-			printf 'Warning: Test `%s` does not have an .expected file.\n' "$test"
+			printf '\n* [Warning] `%s` does not have an .expected file.\n' "$test"
 			good_unexpected=$((good_unexpected + 1))
 		    elif ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null
 		    then
+   		        printf '\n* [ Error ] `%s` does not have the expected output.\n' "$test";
 			if [ x$VERBOSE != x ]; then
-			    echo "\n* $test.sh"
+			    echo "\n** $test.sh"
 			    cat "$test.sh"
 			    echo "\n** $test.sh.sjson"
 			    cat "$test.sh.sjson"
 			    echo "\n** $test.sh.expected"
 			    cat "$test.sh.expected"
-			else
-  			    printf 'Error: Test `%s` does not have the expected output.\n' "$test"
 			fi
 			good_unexpected=$((good_unexpected + 1))
 		    else
@@ -84,7 +85,11 @@ do
 		'bad') bad_rejected=$((bad_rejected + 1)) ;;
 		'good')
 		    good_rejected=$((good_rejected + 1))
-		    printf 'Error: Test `%s` should have been accepted.\n' "$test"
+		    printf '\n* [ Error ] `%s` should have been accepted.\n' "$test"
+ 		    if [ x$VERBOSE != x ]; then
+			echo "\n** $test.sh"
+			cat "$test.sh"
+		    fi
 	    esac
 	fi
     done
@@ -96,10 +101,10 @@ total=$((good_total + bad_total))
 
 if [ "$((passed + failed))" -ne "$total" ]
 then
-    printf 'Erk... there must be a problem in this test script.\n'
+    printf '* *Erk... there must be a problem in this test script*.\n'
 fi
 
-printf '\nSummary:
+printf '\n* Summary:
 -----------------------------------
 | Tests | Passed | Failed | Total |
 |-------|--------|--------|-------|
