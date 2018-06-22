@@ -480,17 +480,9 @@ rule token level current = parse
   | '=' as c {
     let current = push_character current c in
     let current = push_assignment_mark current in
-    after_equal level current lexbuf
+    token level current lexbuf
   }
 
-    (* FIXME: next comment incomprehensible *)
-(**
-
-   If the previous rules are character, the semantic of lex
-   specification ensures that the remaining rule implements
-   the following two rules of the specification:
-
- *)
 
 (**specification:
 
@@ -547,7 +539,7 @@ and subshell op escaping_level level current = parse
     let current =
       if consumed > 0 then skip consumed current lexbuf else current
     in
-    let subshell_strings, current =
+    let subshell_strings, buffer =
       ExtPervasives.take (List.length cst) current.buffer
     in
     let subshell_string =
@@ -561,7 +553,7 @@ and subshell op escaping_level level current = parse
     let subshell =
       WordComponent (subshell_string, WordSubshell (k, cst))
     in
-    { buffer = subshell :: current }
+    { current with buffer = subshell :: buffer }
   }
 
 and close_subshell current = parse

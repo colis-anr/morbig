@@ -11,13 +11,20 @@ type atom =
   | WordComponent of (string * word_component)
   | QuotingMark of quote_kind
   | AssignmentMark
+
 and quote_kind = SingleQuote | DoubleQuote
 
+type lexing_context =
+  | Default
+  | AssignmentRHS of name
+
 type prelexer_state = {
+    lexing_context        : lexing_context;
     buffer                : atom list;
 }
 
 let initial_state = {
+    lexing_context = Default;
     buffer = [];
 }
 
@@ -25,15 +32,15 @@ let push_string b s =
   (* FIXME: Is string concatenation too slow here? *)
   match b.buffer with
   | WordComponent (s', WordLiteral l) :: csts ->
-     { buffer = WordComponent (s' ^ s, WordLiteral (l ^ s)) :: csts }
+     { b with buffer = WordComponent (s' ^ s, WordLiteral (l ^ s)) :: csts }
   | _ ->
-     { buffer = WordComponent (s, WordLiteral s) :: b.buffer }
+     { b with buffer = WordComponent (s, WordLiteral s) :: b.buffer }
 
 let push_character b c =
   push_string b (String.make 1 c)
 
 let push_separated_string b s =
-  { buffer = WordComponent (s, WordLiteral s) :: b.buffer }
+  { b with buffer = WordComponent (s, WordLiteral s) :: b.buffer }
 
 let pop_character = function
   | WordComponent (s, WordLiteral c) :: buffer ->
@@ -54,7 +61,7 @@ let pop_character = function
     CST [WordSubshell (_, _)] associated to this word so we do not
     push ')' as a WordLiteral CST. *)
 let push_word_closing_character b c =
-  { buffer = WordComponent (String.make 1 c, WordEmpty) :: b.buffer }
+  { b with buffer = WordComponent (String.make 1 c, WordEmpty) :: b.buffer }
 
 let string_of_atom = function
   | WordComponent (s, _) -> s
@@ -83,7 +90,7 @@ let components b =
   components_of_atom_list b.buffer
 
 let push_quoting_mark k b =
-  { buffer = QuotingMark k :: b.buffer }
+  { b with buffer = QuotingMark k :: b.buffer }
 
 let pop_quotation k b =
   let rec aux squote quote = function
@@ -109,18 +116,21 @@ let pop_quotation k b =
     | DoubleQuote -> WordDoubleQuoted word
   in
   let quote = WordComponent ("\"" ^ squote ^ "\"", quoted_word) in
-  { buffer = quote :: buffer }
+  { b with buffer = quote :: buffer }
 
 let push_assignment_mark current =
-  { buffer = AssignmentMark :: current.buffer }
+  { current with buffer = AssignmentMark :: current.buffer }
+
+let is_assignment_mark = function
+  | AssignmentMark -> true
+  | _ -> false
 
 let recognize_assignment current =
-  let is_assignment_mark = function AssignmentMark -> true | _ -> false in
   let rhs, prefix = take_until is_assignment_mark current.buffer in
   if prefix = current.buffer then (
     current
   ) else
-    let current' = { buffer = rhs @ List.tl prefix } in
+    let current' = { current with buffer = rhs @ List.tl prefix } in
     match prefix with
     | AssignmentMark :: WordComponent (s, _) :: prefix ->
        assert (s.[String.length s - 1] = '='); (* By after_equal unique call. *)
@@ -132,7 +142,7 @@ let recognize_assignment current =
 
        if Name.is_name lhs then (
          let rhs_string = contents_of_atom_list rhs in
-         { buffer =
+         { current with buffer =
              WordComponent (s ^ rhs_string,
                             WordAssignmentWord (Name lhs, Word (rhs_string,
                                                                 components_of_atom_list rhs)))
@@ -146,7 +156,7 @@ let recognize_assignment current =
          begin match List.rev rhs with
          | WordComponent (s_rhs, WordLiteral s_rhs') :: rev_rhs ->
             let word = WordComponent (s ^ s_rhs, WordLiteral (s ^ s_rhs')) in
-            { buffer = List.rev rev_rhs @ word :: prefix }
+            { current with buffer = List.rev rev_rhs @ word :: prefix }
          | _ ->
             current'
          end)
