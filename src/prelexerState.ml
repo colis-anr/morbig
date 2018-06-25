@@ -28,6 +28,9 @@ let initial_state = {
     buffer = [];
 }
 
+let enter_assignment_rhs current name =
+  { current with lexing_context = AssignmentRHS name }
+
 let push_string b s =
   (* FIXME: Is string concatenation too slow here? *)
   match b.buffer with

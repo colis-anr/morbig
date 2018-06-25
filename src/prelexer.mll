@@ -68,6 +68,11 @@ let operator = "&&" | "||" | ";;" |
                ">|" |
                "|" | "(" | ")" | "<" | ">" | ";" | "&"
 
+let alpha = ['a'-'z' 'A'-'Z' '_']
+
+let digit = ['0'-'9']
+
+let name = alpha (alpha | digit)*
 
 (**specification:
 
@@ -477,9 +482,11 @@ rule token level current = parse
    that is returned.
 *)
 (* FIXME: We shall issue a warning when we are in the unspecified case. *)
-  | '=' as c {
-    let current = push_character current c in
+  | ((name as id) '=') as input {
+    (* FIXME: Check that "name" is preceded by a delimiter. *)
+    let current = push_string current input in
     let current = push_assignment_mark current in
+    let current = enter_assignment_rhs current (Name id) in
     token level current lexbuf
   }
 
@@ -535,7 +542,9 @@ and comment = parse
 
 and subshell op escaping_level level current = parse
   | "" {
-    let (consumed, (k, cst)) = subshell_parsing op escaping_level level lexbuf in
+    let (consumed, (k, cst)) =
+      subshell_parsing op escaping_level level lexbuf
+    in
     let current =
       if consumed > 0 then skip consumed current lexbuf else current
     in
