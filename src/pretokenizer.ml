@@ -11,8 +11,8 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-let make level lexbuf =
-  let pretokenizer = Prelexer.token level in
+let make (current : PrelexerState.t) lexbuf =
+  let pretokenizer = Prelexer.token in
 
   (**
       The pretokenizer may produce several pretokens, we use an

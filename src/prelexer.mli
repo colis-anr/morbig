@@ -26,7 +26,7 @@
     pretokens from [l], using a queue of symbols in the buffer [b] *)
 (* FIXME: we probably have that [b] is always empty when [token] is called *)
 val token :
-  Nesting.t list -> Lexing.lexbuf ->
+  Lexing.lexbuf ->
   (Pretoken.t * Lexing.position * Lexing.position) list
 
 (** [readline l] returns [None] when the lexbuf is at the end of input,

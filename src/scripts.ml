@@ -47,7 +47,7 @@ let parse_file filename =
     try
       let contents = ExtPervasives.string_of_channel cin in
       let lexbuf = ExtPervasives.lexing_make filename contents in
-      Engine.parse false [] lexbuf
+      Engine.parse false PrelexerState.initial_state lexbuf
     with e -> close_in cin;
               raise e
   in

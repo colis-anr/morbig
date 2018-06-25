@@ -31,7 +31,7 @@ type state = {
 
 module type Lexer =
   sig
-    val initialize : Nesting.t list -> Lexing.lexbuf -> unit
+    val initialize : PrelexerState.t -> Lexing.lexbuf -> unit
     val next_token : state -> token * Lexing.position * Lexing.position
     val at_eof : unit -> bool option
     val shift : unit -> unit
@@ -240,8 +240,8 @@ module Lexer (U : sig end) : Lexer = struct
     | None -> raise UninitializeLexer
     | Some lexbuf -> lexbuf
 
-  let initialize level lexbuf =
-    let _next_pretoken, _push_pretoken = Pretokenizer.make level lexbuf in
+  let initialize current lexbuf =
+    let _next_pretoken, _push_pretoken = Pretokenizer.make current lexbuf in
     next_pretoken := _next_pretoken;
     push_pretoken := _push_pretoken;
     global_lexbuf := Some lexbuf
@@ -414,9 +414,9 @@ module Lexer (U : sig end) : Lexer = struct
 
 end
 
-let parse partial level lexbuf =
+let parse partial current lexbuf =
   let module Lexer = Lexer (struct end) in
-  Lexer.initialize level lexbuf;
+  Lexer.initialize current lexbuf;
   parse partial (module Lexer)
   |> List.filter CSTHelpers.nonempty_complete_command
 

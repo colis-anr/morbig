@@ -12,6 +12,6 @@
 (**************************************************************************)
 
 let parse =
-  ref (fun (level : Nesting.t list) (lexbuf : Lexing.lexbuf) ->
+  ref (fun (current : PrelexerState.t) (lexbuf : Lexing.lexbuf) ->
       (assert false : CST.complete_command list)
     )
