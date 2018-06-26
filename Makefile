@@ -68,7 +68,8 @@ uninstall:
          fi
 
 check:
-	tests/run | tee tests.org
+	STATUS=`tempfile`; (./tests/run; echo $$? > $$STATUS) | tee tests.org; \
+        exit `cat $$STATUS; rm $$STATUS`
 
 VERSION := $(shell cat src/VERSION)
 NAME_VERSION := morbig.${VERSION}
