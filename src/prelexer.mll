@@ -89,13 +89,9 @@ let name = alpha (alpha | digit)*
 
 (**
 
-   The lexing rule [token] is parameterized by:
-
-   - [level] of type [Nesting.t list] which represents the context under
-     which lexical analysis is performed.
-
-   - [current] of type [PrelexerState.t] which represents the state of
-     the lexical engine.
+   The lexing rule [token] is parameterized by [current] of type
+   [PrelexerState.t] which represents the state of the lexical
+   engine.
 
 *)
 rule token current = parse
@@ -209,7 +205,7 @@ rule token current = parse
                assert false (* TODO *)
             | _ ->
                assert false (* By usage of Backquotes. *)
-                      (* FIXME: We should introduce a finer type for backquotes. *)
+               (* FIXME: We should introduce a finer type for backquotes. *)
          end
       | '"' ->
          if escaped_double_quote current then

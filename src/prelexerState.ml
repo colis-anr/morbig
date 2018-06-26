@@ -378,4 +378,3 @@ let is_under_backquote current =
 
 let under_backquoted_style_command_substitution current =
   Nesting.under_backquoted_style_command_substitution current.nesting_context
-
