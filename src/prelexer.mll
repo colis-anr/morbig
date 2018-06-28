@@ -93,18 +93,35 @@ let name = alpha (alpha | digit)*
    [PrelexerState.t] which represents the state of the lexical
    engine.
 
+   As described in [PrelexerState], the state of the pretokenizer
+   contains contextual information. More precisely, the lexical
+   analysis needs to know:
+
+   - the "nesting context", roughly speaking, is the imbrication
+     of double-quotes and backquotes in the whole input (in particular,
+     it includes the nesting context of parent parsers, i.e. parsers
+     that recursively called the current instance for subshell parsing) ;
+
+   - the "lexing context" is a state that constraints lexical rules
+     (for instance, being on the right-hand-side of an <equal> character
+     may lead to the production of an assignment word, while other
+     context may not) ;
+
+   - the "buffer" is a sequence of input items that are still to be
+     included in a pretoken.
+
 *)
 rule token current = parse
 
-(**specification:
-
-   If the end of input is recognized, the current token shall be
-   delimited. If there is no current token, the end-of-input indicator
-   shall be returned as the token.
-
-*)
   | eof {
+    (** The end of file cannot occur inside a nested construction. *)
     if at_toplevel current then
+      (**specification:
+
+         If the end of input is recognized, the current token shall be
+         delimited. If there is no current token, the end-of-input
+         indicator shall be returned as the token.
+      *)
       return lexbuf current [EOF]
     else
       lexing_error lexbuf "Unterminated nesting!"
