@@ -134,7 +134,7 @@ rule token current = parse
    If the current character is <backslash>, single-quote, or
    double-quote and it is not quoted, it shall affect quoting for
    subsequent characters up to the end of the quoted text. The rules for
-   quoting are as described in Quoting . During token recognition no
+   quoting are as described in Quoting. During token recognition no
    substitutions shall be actually performed, and the result token shall
    contain exactly the characters that appear in the input (except for
    <newline> joining), unmodified, including any embedded or enclosing
