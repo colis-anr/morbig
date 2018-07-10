@@ -234,10 +234,12 @@ rule token current = parse
     rewind current lexbuf @@ fun c l -> return l c [EOF]
   in
   match PrelexerState.join_backquote_depth current with
-  | Some depth -> (** There is new subshell nesting. *)
-    open_subshell depth current
+  | Some depth ->
+     (** There is new subshell nesting. *)
+     open_subshell depth current
   | None ->
-    close_subshell current
+     (** We were already in a subshell, which we are closing now. *)
+     close_subshell current
 }
 
 (**

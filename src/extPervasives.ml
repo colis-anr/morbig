@@ -226,3 +226,11 @@ let lexing_make filename contents = Lexing.(
   lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_fname = filename };
   lexbuf
 )
+
+let show_lexing_debug lexbuf = Lexing.(
+    Printf.eprintf "\
+      %s [ ] %s\n\
+    "
+      (Bytes.(to_string (sub lexbuf.lex_buffer 0 lexbuf.lex_curr_pos)))
+      (let k = lexbuf.lex_buffer_len - lexbuf.lex_curr_pos - 1 in
+       Bytes.(to_string (sub lexbuf.lex_buffer lexbuf.lex_curr_pos k)))
