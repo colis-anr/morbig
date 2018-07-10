@@ -11,6 +11,42 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+type position = {
+  start_p : lexing_position;
+  end_p   : lexing_position
+}
+
+and lexing_position = Lexing.position = {
+  pos_fname : string ;
+  pos_lnum  : int ;
+  pos_bol   : int ;
+  pos_cnum  : int ;
+}
+[@@deriving
+   yojson,
+   visitors { variety = "iter";    polymorphic = true },
+   visitors { variety = "map";     polymorphic = true },
+   visitors { variety = "reduce";  polymorphic = true },
+   visitors { variety = "iter2";   polymorphic = true },
+   visitors { variety = "map2";    polymorphic = true },
+   visitors { variety = "reduce2"; polymorphic = true }
+]
+
+type 'a located = {
+  value    : 'a;
+  position : position;
+}
+[@@deriving
+   yojson,
+   visitors { variety = "iter";    polymorphic = true },
+   visitors { variety = "map";     polymorphic = true },
+   visitors { variety = "reduce";  polymorphic = true },
+   visitors { variety = "iter2";   polymorphic = true },
+   visitors { variety = "map2";    polymorphic = true },
+   visitors { variety = "reduce2"; polymorphic = true }
+]
+
+
 (**
 
     The type for concrete syntax trees of POSIX shell scripts. These
@@ -319,23 +355,6 @@ and assignment_word = name * word
 and assignment_word' = assignment_word located
 
 and io_number = IONumber of string
-
-and position = {
-  start_p : lexing_position;
-  end_p   : lexing_position
-}
-
-and lexing_position = Lexing.position = {
-  pos_fname : string ;
-  pos_lnum  : int ;
-  pos_bol   : int ;
-  pos_cnum  : int ;
-}
-
-and 'a located = {
-  value    : 'a;
-  position : position;
-}
 
 and clist' = clist located
 and and_or' = and_or located

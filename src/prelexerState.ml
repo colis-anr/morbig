@@ -378,3 +378,12 @@ let is_under_backquote current =
 
 let under_backquoted_style_command_substitution current =
   Nesting.under_backquoted_style_command_substitution current.nesting_context
+
+let is_escaping_backslash current =
+  true
+
+let same_level_backquote current =
+  true
+
+let join_backquote_depth current =
+  None

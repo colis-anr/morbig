@@ -28,6 +28,15 @@ open CST
 open PrelexerState
 open Pretoken
 
+let push_current_string current lexbuf f =
+  let current = push_string current (Lexing.lexeme lexbuf) in
+  f current lexbuf
+
+let rewind current lexbuf f =
+  let pos = lexbuf.lex_curr_p.pos_cnum in
+  lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_cnum = pos - 1 };
+  f current lexbuf
+
 let subshell_parsing op escaping_level current lexbuf =
     let copy_position p =
       Lexing.{ p with pos_fname = p.pos_fname }
@@ -121,6 +130,7 @@ rule token current = parse
          If the end of input is recognized, the current token shall be
          delimited. If there is no current token, the end-of-input
          indicator shall be returned as the token.
+
       *)
       return lexbuf current [EOF]
     else
@@ -158,9 +168,6 @@ rule token current = parse
 
 *)
 
-  (* FIXME: The interpretation of <backslash> should depend on the
-     nesting context. *)
-
   | '\\' newline {
     Lexing.new_line lexbuf;
     (**
@@ -171,79 +178,22 @@ rule token current = parse
   }
 
   | '\\' (_ as c) {
-    if under_backquoted_style_command_substitution current then
-      match c with
-      | '$' | '\\' ->
-         let current = push_character current c in
-         token current lexbuf
-      | '`' ->
-         begin match escaped_backquote current with
-         | None ->
-            let current = push_character current '\\' in
-            let current = push_character current c in
-            token current lexbuf
-         | Some escaping_level ->
-            match list_hd_opt (nesting_context current) with
-            | Some (Nesting.Backquotes ('`', escaping_level')) ->
-               (* FIXME: Do we have to be finer here by looking at the
-                  order between escaping levels? *)
-               if escaping_level' = escaping_level then
-                 (* This is a closing backquote. *)
-                 let pos = lexbuf.lex_curr_p.pos_cnum in (
-                     lexbuf.lex_curr_p <- {
-                       lexbuf.lex_curr_p with pos_cnum = pos - 1
-                     };
-                     return lexbuf current [EOF]
-                   )
-               else
-                 (* This is an opening backquote. *)
-                 let current =
-                   push_separated_string current (Lexing.lexeme lexbuf)
-                 in
-                 let current =
-                   subshell '`' escaping_level current lexbuf
-                 in
-                 let current = close_subshell current lexbuf in
-                 token current lexbuf
-            | None ->
-                 (* This is an opening backquote. *)
-                 let current =
-                   push_separated_string current (Lexing.lexeme lexbuf)
-                 in
-                 let current = subshell '`' escaping_level current lexbuf in
-                 let current = close_subshell current lexbuf in
-                 token current lexbuf
-            | Some (Nesting.Backquotes ('(', _)
-                           | Nesting.Parentheses
-                           | Nesting.Braces
-                           | Nesting.DQuotes)
-              ->
-               (* FIXME: Not sure what to do here... *)
-               assert false (* TODO *)
-            | _ ->
-               assert false (* By usage of Backquotes. *)
-               (* FIXME: We should introduce a finer type for backquotes. *)
-         end
-      | '"' ->
-         if escaped_double_quote current then
-           let current = push_character current '\\' in
-           let current = push_character current c in
-           token current lexbuf
-         else (
-           let current =
-             push_quoting_mark SingleQuote current in
-           let current =
-             double_quotes (enter_double_quote current : PrelexerState.t) lexbuf
-           in
-           let current = pop_quotation DoubleQuote current in
-           token current lexbuf
-         )
-      | c ->
-         let current = push_string current (Lexing.lexeme lexbuf) in
-         token current lexbuf
+    (**
+        We have to decide if the <backslash> has an
+        escaping power. This depends on the nesting context.
+    *)
+    if PrelexerState.is_escaping_backslash current then
+      (**
+          Yes, this <backslash> preserves the literal value of the following
+          character as demanded by the POSIX standard.
+       *)
+      push_current_string current lexbuf @@ token
     else
-      let current = push_string current (Lexing.lexeme lexbuf) in
-      token current lexbuf
+      (**
+          Otherwise, the <backslash> has no effect on [c]. We reinject
+          the character [c] in the input to analyze it separately.
+      *)
+      rewind current lexbuf @@ token
   }
 
 (**specification
@@ -252,14 +202,11 @@ rule token current = parse
 
 *)
   | '\'' {
-    if escaped_single_quote current then (
-      token (push_character current '\'') lexbuf
-    ) else
-      let current = push_character current '\'' in
-      let current = push_quoting_mark SingleQuote current in
-      let current = single_quotes current lexbuf in
-      let current = pop_quotation SingleQuote current in
-      token current lexbuf
+    let current = push_character current '\'' in
+    let current = push_quoting_mark SingleQuote current in
+    let current = single_quotes current lexbuf in
+    let current = pop_quotation SingleQuote current in
+    token current lexbuf
   }
 
 
@@ -269,14 +216,29 @@ rule token current = parse
 
 *)
   | '"' {
-    if escaped_double_quote current then
-      token current lexbuf
-    else
-      let current = push_quoting_mark DoubleQuote current in
-      let current = double_quotes (enter_double_quote current) lexbuf in
-      let current = pop_quotation DoubleQuote current in
-      token current lexbuf
+    let current = push_quoting_mark DoubleQuote current in
+    let current = double_quotes (enter_double_quote current) lexbuf in
+    let current = pop_quotation DoubleQuote current in
+    token current lexbuf
   }
+
+(** Backquotes *)
+| "`" {
+  let open_subshell depth current =
+    let current = push_separated_string current (Lexing.lexeme lexbuf) in
+    let current = subshell '`' depth current lexbuf in
+    let current = close_subshell current lexbuf in
+    token current lexbuf
+  in
+  let close_subshell current =
+    rewind current lexbuf @@ fun c l -> return l c [EOF]
+  in
+  match PrelexerState.join_backquote_depth current with
+  | Some depth -> (** There is new subshell nesting. *)
+    open_subshell depth current
+  | None ->
+    close_subshell current
+}
 
 (**
 
@@ -359,14 +321,6 @@ rule token current = parse
    delimited by the end of the substitution.
 
 *)
-
-  (* FIXME: The following treatment of # is probably subsumed by
-     FIXME: the more general rule about '#' below. *)
-  (* $# is a special parameter, that is a # after an $ does not start a
-     comment *)
-  | ("$" "#"?) as s {
-    token (push_string current s) lexbuf
-  }
 
   | '`' as op | "$" ('(' as op) {
     if op = '`' && is_under_backquote current then begin
