@@ -1,5 +1,6 @@
 #!/bin/sh
 
+MODE=${MODE:=strict}
 readonly PROGDIR=$(dirname "$0")
 readonly OLDDIR=$PWD
 
@@ -60,11 +61,12 @@ do
 		    bad_accepted=$((bad_accepted + 1))
 		    ;;
 		'good')
-		    if [ \! -f "$test.sh.expected" ]
+		    if [ $MODE = "strict" ] && [ \! -f "$test.sh.expected" ]
 		    then
 			printf '\n* [Warning] `%s` does not have an .expected file.\n' "$test"
 			good_unexpected=$((good_unexpected + 1))
-		    elif ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null
+		    elif [ $MODE = "strict" ] \
+                         && ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null
 		    then
    		        printf '\n* [ Error ] `%s` does not have the expected output.\n' "$test";
 			if [ x$VERBOSE != x ]; then

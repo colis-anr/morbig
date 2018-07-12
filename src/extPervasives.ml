@@ -34,15 +34,6 @@ let string_of_channel cin =
   with
     End_of_file -> Buffer.contents b
 
-let lines_of_channel cin =
-  let lines = ref [] in
-  let lineno = ref 0 in
-  (try while true do
-      incr lineno;
-      lines := (!lineno, input_line cin) :: !lines
-   done with _ -> ());
-  List.rev !lines
-
 let split_list is_delim l =
   let rec aux acc1 acc2 = function
     | [] ->
@@ -87,6 +78,11 @@ let histogram projector l =
 let option_iter o f = match o with
   | None -> ()
   | Some x -> f x
+
+let option_map o f = match o with
+  | None -> None
+  | Some x -> Some (f x)
+
 
 let string_cut_at k s = String.(
   if length s > k then
@@ -227,10 +223,11 @@ let lexing_make filename contents = Lexing.(
   lexbuf
 )
 
-let show_lexing_debug lexbuf = Lexing.(
-    Printf.eprintf "\
-      %s [ ] %s\n\
-    "
-      (Bytes.(to_string (sub lexbuf.lex_buffer 0 lexbuf.lex_curr_pos)))
-      (let k = lexbuf.lex_buffer_len - lexbuf.lex_curr_pos - 1 in
-       Bytes.(to_string (sub lexbuf.lex_buffer lexbuf.lex_curr_pos k)))
+let ( <$> ) x f =
+  f (); x
+
+let list_last l =
+  list_hd_opt (List.rev l)
+
+let string_last_line s =
+  Str.(split (regexp "\n") s) |> list_last

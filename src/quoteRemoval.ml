@@ -27,8 +27,12 @@ let on_string s =
   let n = String.length s in
   let b = Buffer.create n in
   let i = ref 0 in
-  let keep () = Buffer.add_char b s.[!i]; incr i
-  and skip () = incr i in
+  let keep () = Buffer.add_char b s.[!i]; incr i in
+  let skip () = incr i in
+  let followed_by_special_character () =
+    !i + 1 < n
+    && match s.[!i + 1] with '"' | '`' | '$' | '\\' -> true | _ -> false
+  in
   while !i<n do
     if s.[!i] = '\''
     then begin
@@ -49,7 +53,7 @@ let on_string s =
     else if s.[!i] = '\\'
     then begin
         (* skip the backslash *)
-        skip ();
+        if followed_by_special_character () then skip ();
         (* and push the next symbol on the buffer *)
         if !i<n then keep ()
       end
@@ -82,24 +86,5 @@ let backslash_as_in_doublequotes s =
   if !state = Backslash then pushbackslash (); (* FIXME: can that happen? *)
   Buffer.contents b
 
-type tab_automaton_state = Linestart | Inline
 let remove_tabs_at_linestart s =
-  let n = String.length s in
-  let b = Buffer.create n in
-  let i = ref 0 and
-      state = ref Linestart in
-  let keep () = Buffer.add_char b s.[!i]; incr i
-  and skip () = incr i in
-  while !i<n do
-    match !state with
-    | Linestart ->
-       if s.[!i] = '\t'
-       then skip ()
-       else if s.[!i] = '\n'
-       then keep ()
-       else begin state := Inline; keep () end
-    | Inline ->
-       if s.[!i] = '\n' then state := Linestart;
-       keep ()
-  done;
-  Buffer.contents b
+  Str.(global_replace (regexp "^\t+") "" s)

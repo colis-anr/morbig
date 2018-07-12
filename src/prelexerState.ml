@@ -12,7 +12,7 @@ type atom =
   | QuotingMark of quote_kind
   | AssignmentMark
 
-and quote_kind = SingleQuote | DoubleQuote
+and quote_kind = SingleQuote | DoubleQuote | OpeningBrace
 
 type lexing_context =
   | Default
@@ -33,7 +33,9 @@ let initial_state = {
 }
 
 let at_toplevel current =
-  current.nesting_context = []
+  match current.nesting_context with
+  | [Nesting.HereDocument _] | [] -> true
+  | _ -> false
 
 let enter_assignment_rhs current name =
   { current with lexing_context = AssignmentRHS name }
@@ -52,7 +54,7 @@ let push_character b c =
 let push_separated_string b s =
   { b with buffer = WordComponent (s, WordLiteral s) :: b.buffer }
 
-let pop_character = function
+let rec pop_character = function
   | WordComponent (s, WordLiteral c) :: buffer ->
      let sequel = String.(sub s 0 (length s - 1)) in
      if sequel = "" then
@@ -72,6 +74,20 @@ let pop_character = function
     push ')' as a WordLiteral CST. *)
 let push_word_closing_character b c =
   { b with buffer = WordComponent (String.make 1 c, WordEmpty) :: b.buffer }
+
+let string_of_word (Word (s, _)) = s
+
+let string_of_attribute = function
+  | NoAttribute -> ""
+  | UseDefaultValues w -> "-" ^ string_of_word w
+  | AssignDefaultValues w -> "=" ^ string_of_word w
+  | IndicateErrorifNullorUnset w -> "?" ^ string_of_word w
+  | UseAlternativeValue w -> "+" ^ string_of_word w
+
+let push_parameter ?(attribute=NoAttribute) b id =
+  let v = VariableAtom (id, attribute) in
+  let p = "${" ^ id ^ string_of_attribute attribute ^ "}" in
+  { b with buffer = WordComponent (p, WordVariable v) :: b.buffer }
 
 let string_of_atom = function
   | WordComponent (s, _) -> s
@@ -117,15 +133,22 @@ let pop_quotation k b =
   in
   (* The last character is removed from the quote since it is the
      closing character. *)
-  let buffer = pop_character b.buffer in
-  let squote, quote, buffer = aux "" [] buffer in
+(*  let buffer = pop_character b.buffer in *)
+  let squote, quote, buffer = aux "" [] b.buffer in
   let word = Word (squote, quote) in
   let quoted_word =
     match k with
     | SingleQuote -> WordSingleQuoted word
     | DoubleQuote -> WordDoubleQuoted word
+    | OpeningBrace -> WordDoubleQuoted word
   in
-  let quote = WordComponent ("\"" ^ squote ^ "\"", quoted_word) in
+  let squote =
+    match k with
+    | SingleQuote -> "'" ^ squote ^ "'"
+    | DoubleQuote -> "\"" ^ squote ^ "\""
+    | OpeningBrace -> squote
+  in
+  let quote = WordComponent (squote, quoted_word) in
   { b with buffer = quote :: buffer }
 
 let push_assignment_mark current =
@@ -186,7 +209,7 @@ let recognize_assignment current =
     prelexer produces Word pretokens only from contents he has collected in
     the buffer.
 
-          *)
+*)
 let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (
       not (List.exists (function (Pretoken.PreWord _)->true |_-> false) tokens)
@@ -199,7 +222,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
     let rec aux accu = function
       | WordComponent (s, _) :: b -> aux (s ^ accu) b
       | AssignmentMark :: b -> aux accu b
-      | QuotingMark _ :: _ -> assert false
+      | QuotingMark _ :: b -> aux accu b
       | [] -> accu
     in
     aux "" b.buffer
@@ -259,8 +282,19 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   in
   let tokens = if with_newline then tokens @ [Pretoken.NEWLINE] else tokens in
   let tokens = buffered @ tokens in
-  let out = List.map produce tokens in
-  out
+  List.map produce tokens
+
+exception NotAWord of string
+
+let word_of = function
+  | ((Pretoken.PreWord (w, cst), _, _)) :: _ -> Word (w, cst)
+  | (p, _, _) :: _ -> raise (NotAWord (Pretoken.string_of_pretoken p))
+  | [] -> raise (NotAWord "empty")
+
+let located_word_of = function
+  | ((Pretoken.PreWord (w, cst), p1, p2)) :: _ -> (Word (w, cst), p1, p2)
+  | (p, _, _) :: _ -> raise (NotAWord (Pretoken.string_of_pretoken p))
+  | [] -> raise (NotAWord "empty")
 
 let provoke_error current lexbuf =
   return lexbuf current [Pretoken.Operator Parser.INTENDED_ERROR]
@@ -347,7 +381,7 @@ let escaped_double_quote = escape_analysis_predicate
 
 let escaped_single_quote = escape_analysis_predicate
 
-let escaped_backquote = escape_analysis
+let escaped_backquote = escape_analysis_predicate
 
 let escaped_backquote current =
   escaped_backquote current.nesting_context current
@@ -361,9 +395,28 @@ let escaped_double_quote current =
 let nesting_context current =
   current.nesting_context
 
-let enter_double_quote current =
-  let nesting_context = Nesting.DQuotes :: current.nesting_context in
+let enter what current =
+  let nesting_context = what :: current.nesting_context in
   { current with nesting_context }
+
+let enter_double_quote =
+  enter Nesting.DQuotes
+
+let enter_here_document dashed delimiter =
+  enter (Nesting.HereDocument (dashed, delimiter))
+
+let enter_braces =
+  enter Nesting.Braces
+
+let quit_double_quote current =
+  match current.nesting_context with
+  | Nesting.DQuotes :: nesting_context -> { current with nesting_context }
+  | _ -> assert false
+
+let quit_braces current =
+  match current.nesting_context with
+  | Nesting.Braces :: nesting_context -> { current with nesting_context }
+  | _ -> assert false
 
 let enter_backquotes op escaping_level current =
   let nesting_context =
@@ -371,19 +424,76 @@ let enter_backquotes op escaping_level current =
   in
   { current with nesting_context }
 
-let is_under_backquote current =
+let under_backquote current =
   match list_hd_opt current.nesting_context with
   | Some (Nesting.Backquotes ('`', _)) -> true
+  | _ -> false
+
+let under_braces current =
+  match list_hd_opt current.nesting_context with
+  | Some Nesting.Braces -> true
   | _ -> false
 
 let under_backquoted_style_command_substitution current =
   Nesting.under_backquoted_style_command_substitution current.nesting_context
 
-let is_escaping_backslash current =
-  true
+let under_double_quote current =
+  match current.nesting_context with
+  | (Nesting.DQuotes | Nesting.HereDocument _) :: _ -> true
+  | _ -> false
+
+let under_real_double_quote current =
+  match current.nesting_context with
+  | Nesting.DQuotes :: _ -> true
+  | _ -> false
+
+let under_here_document current =
+  match current.nesting_context with
+  | Nesting.HereDocument _ :: _ -> true
+  | _ -> false
+
+let is_escaping_backslash current lexbuf c =
+  match c with
+  | '"' -> escaped_double_quote current
+  | '\'' -> escaped_single_quote current
+  | '`' -> escaped_backquote current
+  | _ -> escape_analysis_predicate current.nesting_context current
 
 let same_level_backquote current =
   true
 
-let join_backquote_depth current =
-  None
+let rec closest_backquote_depth = function
+  | [] -> 0
+  | Nesting.Backquotes ('`', depth) :: _ -> depth
+  | _ :: nesting -> closest_backquote_depth nesting
+
+let backquote_depth current =
+  match current.nesting_context with
+  | Nesting.Backquotes ('`', depth) :: _ -> None
+  | _ :: nesting -> Some (closest_backquote_depth nesting)
+  | [] -> Some 0
+
+let found_current_here_document_delimiter current =
+  match current.nesting_context with
+  | Nesting.HereDocument (dashed, delimiter) :: _ ->
+     let last_chunk = contents current in
+     let open QuoteRemoval in
+     let preprocess = if dashed then remove_tabs_at_linestart else fun x -> x in
+     option_map (string_last_line last_chunk) preprocess = Some delimiter
+  | _ ->
+     false
+
+let debug ?(rule="") lexbuf current = Lexing.(
+    if Options.debug () then
+      let curr_pos =
+        min lexbuf.lex_curr_pos lexbuf.lex_buffer_len
+      in
+      Printf.eprintf "\
+                      %s [ ] %s     { %s } %s @ %s #\n"
+        (Bytes.(to_string (sub lexbuf.lex_buffer 0 curr_pos)))
+        (let k = lexbuf.lex_buffer_len - curr_pos - 1 in
+         if k > 0 then Bytes.(to_string (sub lexbuf.lex_buffer curr_pos k)) else "")
+        (Lexing.lexeme lexbuf)
+        rule
+        (String.concat " " (List.map Nesting.to_string current.nesting_context))
+)

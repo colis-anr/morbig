@@ -233,18 +233,27 @@ module Lexer (U : sig end) : Lexer = struct
 
   let global_lexbuf = ref None
 
+  let current_lexing_state = ref None
+
   exception UninitializeLexer
 
-  let lexbuf () =
-    match !global_lexbuf with
+  let get what =
+    match !what with
     | None -> raise UninitializeLexer
-    | Some lexbuf -> lexbuf
+    | Some x -> x
+
+  let lexbuf () =
+    get global_lexbuf
+
+  let current () =
+    get current_lexing_state
 
   let initialize current lexbuf =
     let _next_pretoken, _push_pretoken = Pretokenizer.make current lexbuf in
     next_pretoken := _next_pretoken;
     push_pretoken := _push_pretoken;
-    global_lexbuf := Some lexbuf
+    global_lexbuf := Some lexbuf;
+    current_lexing_state := Some current
 
   (**---------------------**)
   (** Parsing-aware lexer. *)
@@ -265,7 +274,7 @@ module Lexer (U : sig end) : Lexer = struct
 
   let rec next_token { aliases; checkpoint } =
     if HDL.inside_here_document () then (
-      !push_pretoken (HDL.next_here_document (lexbuf ()));
+      !push_pretoken (HDL.next_here_document (lexbuf ()) (current ()));
       next_token { aliases; checkpoint }
     )
     else
@@ -325,7 +334,7 @@ module Lexer (U : sig end) : Lexer = struct
                 the delimiter shall be the word itself.
 
             *)
-            HDL.push_here_document_delimiter w;
+            HDL.push_here_document_delimiter w cst;
           return (FirstSuccessMonad.should_succeed token)
 
         | Pretoken.EOF ->

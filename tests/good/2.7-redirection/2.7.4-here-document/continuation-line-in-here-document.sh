@@ -1,5 +1,5 @@
 # 2.7.4: if the delimiter is not quoted then backslash behaves as in double
-# quotes, that is <backslash><newline> indicates a line contunation.
+# quotes, that is <backslash><newline> indicates a line continuation.
 if true
 then
 cat << EOF

@@ -17,7 +17,8 @@ find . -regextype posix-extended \
 	 -delete
 echo "done."
 
-echo "Start parsing."
+echo "Start parsing `find . -regextype posix-extended -regex '.*/(pre|post)(inst|rm)' | wc -l` files."
+
 find . -regextype posix-extended -regex '.*/(pre|post)(inst|rm)' | \
 	/usr/bin/time -f "%E real, %U user, %S sys" \
 	morbig \

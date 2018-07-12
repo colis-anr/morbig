@@ -12,7 +12,7 @@
 (**************************************************************************)
 
 let make (current : PrelexerState.t) lexbuf =
-  let pretokenizer = Prelexer.token in
+  let pretokenizer = Prelexer.token current in
 
   (**
       The pretokenizer may produce several pretokens, we use an

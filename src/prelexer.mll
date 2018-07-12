@@ -28,9 +28,21 @@ open CST
 open PrelexerState
 open Pretoken
 
-let push_current_string current lexbuf f =
+let push_current_string current lexbuf continue =
   let current = push_string current (Lexing.lexeme lexbuf) in
-  f current lexbuf
+  continue current lexbuf
+
+let if_unprotected_by_double_quote current lexbuf default f =
+    if PrelexerState.(under_double_quote current || under_braces current) then
+      push_current_string current lexbuf default
+    else
+      f ()
+
+let if_ escaped current lexbuf do_this or_else =
+  if escaped current then
+    push_current_string current lexbuf do_this
+  else
+    or_else ()
 
 let rewind current lexbuf f =
   let pos = lexbuf.lex_curr_p.pos_cnum in
@@ -56,7 +68,10 @@ let subshell_parsing op escaping_level current lexbuf =
       | '(' -> SubShellKindParentheses
       | _ -> assert false (* By usage of [subshell_parsing]. *)
     in
-    let cst = (!RecursiveParser.parse) current lexbuf' in
+    let current' =
+      { initial_state with nesting_context = current.nesting_context }
+    in
+    let cst = (!RecursiveParser.parse) current' lexbuf' in
     let consumed_characters =
       lexbuf'.Lexing.lex_curr_p.Lexing.pos_cnum
       - lexbuf.Lexing.lex_curr_p.Lexing.pos_cnum
@@ -82,6 +97,12 @@ let alpha = ['a'-'z' 'A'-'Z' '_']
 let digit = ['0'-'9']
 
 let name = alpha (alpha | digit)*
+
+let special_character = "@" | "*" | "#" | "?" | "-" | "$" | "!" | "0"
+
+let parameter_identifier = name | digit | special_character
+
+let quote_removal_special_characters = "$" | "\\" | "`" | "\""
 
 (**specification:
 
@@ -123,6 +144,7 @@ let name = alpha (alpha | digit)*
 rule token current = parse
 
   | eof {
+    debug ~rule:"eof" lexbuf current;
     (** The end of file cannot occur inside a nested construction. *)
     if at_toplevel current then
       (**specification:
@@ -132,7 +154,10 @@ rule token current = parse
          indicator shall be returned as the token.
 
       *)
-      return lexbuf current [EOF]
+      if found_current_here_document_delimiter current then
+        return lexbuf current [EOF]
+      else
+        return lexbuf current [EOF]
     else
       lexing_error lexbuf "Unterminated nesting!"
   }
@@ -177,12 +202,14 @@ rule token current = parse
     token current lexbuf
   }
 
-  | '\\' (_ as c) {
+  | ('\\'+ as backslashes) (_ as c) {
+    debug ~rule:"backslash" lexbuf current;
     (**
-        We have to decide if the <backslash> has an
+        We have to decide if the <backslash>es have an
         escaping power. This depends on the nesting context.
     *)
-    if PrelexerState.is_escaping_backslash current then
+    let current' = push_string current backslashes in
+    if PrelexerState.is_escaping_backslash current' lexbuf c then
       (**
           Yes, this <backslash> preserves the literal value of the following
           character as demanded by the POSIX standard.
@@ -201,45 +228,61 @@ rule token current = parse
    2.2.2 Single-Quotes
 
 *)
-  | '\'' {
-    let current = push_character current '\'' in
-    let current = push_quoting_mark SingleQuote current in
-    let current = single_quotes current lexbuf in
-    let current = pop_quotation SingleQuote current in
-    token current lexbuf
+| '\'' {
+    if_unprotected_by_double_quote current lexbuf token (fun () ->
+      let current = push_quoting_mark SingleQuote current in
+      let current = single_quotes current lexbuf in
+      let current = pop_quotation SingleQuote current in
+      token current lexbuf
+     )
   }
-
 
 (** specification
 
     2.2.3 Double-Quotes
 
 *)
-  | '"' {
-    let current = push_quoting_mark DoubleQuote current in
-    let current = double_quotes (enter_double_quote current) lexbuf in
-    let current = pop_quotation DoubleQuote current in
-    token current lexbuf
-  }
+| '"' {
+  debug ~rule:"double-quote" lexbuf current;
+  if_ PrelexerState.escaped_double_quote current lexbuf token (fun () ->
+    let open_double_quote current =
+      let current = push_quoting_mark DoubleQuote current in
+      let current = enter_double_quote current in
+      token current lexbuf
+    in
+    let close_double_quote current =
+      let current = pop_quotation DoubleQuote current in
+      let current = quit_double_quote current in
+      token current lexbuf
+    in
+    if PrelexerState.under_real_double_quote current then
+      close_double_quote current
+    else
+      open_double_quote current
+  )
+}
 
 (** Backquotes *)
 | "`" {
-  let open_subshell depth current =
-    let current = push_separated_string current (Lexing.lexeme lexbuf) in
-    let current = subshell '`' depth current lexbuf in
-    let current = close_subshell current lexbuf in
-    token current lexbuf
-  in
-  let close_subshell current =
-    rewind current lexbuf @@ fun c l -> return l c [EOF]
-  in
-  match PrelexerState.join_backquote_depth current with
-  | Some depth ->
-     (** There is new subshell nesting. *)
-     open_subshell depth current
-  | None ->
-     (** We were already in a subshell, which we are closing now. *)
-     close_subshell current
+  if_ PrelexerState.escaped_backquote current lexbuf token (fun () ->
+      debug ~rule:"backquote" lexbuf current;
+      let open_subshell depth current =
+        let current = push_separated_string current (Lexing.lexeme lexbuf) in
+        let current = subshell '`' depth current lexbuf in
+        let current = close_subshell current lexbuf in
+        token current lexbuf
+      in
+      let end_of_subshell current =
+        rewind current lexbuf @@ fun c l -> return l c [EOF]
+      in
+      match PrelexerState.backquote_depth current with
+      | Some depth ->
+         (** There is new subshell nesting. *)
+         open_subshell depth current
+      | None ->
+         (** We were already in a subshell, this is the end of it. *)
+         end_of_subshell current
+    )
 }
 
 (**
@@ -295,12 +338,16 @@ rule token current = parse
 
 *)
   | "<<" {
-    let placeholder = CSTHelpers.word_placeholder () in
-    return lexbuf current [Operator (DLESS placeholder)]
+    if_unprotected_by_double_quote current lexbuf token (fun () ->
+      let placeholder = CSTHelpers.word_placeholder () in
+      return lexbuf current [Operator (DLESS placeholder)]
+    )
   }
   | "<<-" {
-    let placeholder = CSTHelpers.word_placeholder () in
-    return lexbuf current [Operator (DLESSDASH placeholder)]
+    if_unprotected_by_double_quote current lexbuf token (fun () ->
+      let placeholder = CSTHelpers.word_placeholder () in
+      return lexbuf current [Operator (DLESSDASH placeholder)]
+    )
   }
 
 (**specification
@@ -325,7 +372,7 @@ rule token current = parse
 *)
 
   | '`' as op | "$" ('(' as op) {
-    if op = '`' && is_under_backquote current then begin
+    if op = '`' && under_backquote current then begin
         let pos = lexbuf.lex_curr_p.pos_cnum in
         lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_cnum = pos - 1 };
     (*
@@ -349,18 +396,12 @@ rule token current = parse
       token current lexbuf
   }
 
-  (* FIXME: These two are probably subsumed by the next rule. *)
-  | ")" {
-      return lexbuf current [Operator Rparen]
-  }
-
-  | "(" {
-      return lexbuf current [Operator Lparen]
-  }
-
-  | operator as s {
-    let operator = optoken_of_string s in
-    return lexbuf current [operator]
+| operator as s {
+    debug ~rule:"operator" lexbuf current;
+    if_unprotected_by_double_quote current lexbuf token (fun () ->
+      let operator = optoken_of_string s in
+      return lexbuf current [operator]
+    )
   }
 
 | "$((" {
@@ -371,6 +412,22 @@ rule token current = parse
 
 (**specification
 
+   If the parameter is not enclosed in braces, and is a name, the
+   expansion shall use the longest valid name (see XBD Name), whether
+   or not the variable represented by that name exists. Otherwise, the
+   parameter is a single-character symbol, and behavior is unspecified
+   if that character is neither a digit nor one of the special
+   parameters (see Special Parameters).
+
+ *)
+| "$" (parameter_identifier as id) {
+  debug ~rule:"parameter-with-no-braces" lexbuf current;
+  let current = push_parameter current id in
+  token current lexbuf
+}
+
+(**specification
+
    Within the string of characters from an enclosed "${" to the
    matching '}', an even number of unescaped double-quotes or
    single-quotes, if any, shall occur. A preceding <backslash>
@@ -378,9 +435,24 @@ rule token current = parse
    Parameter Expansion shall be used to determine the matching '}'.
 
 *)
-  | "${" {
-    failwith "TODO"
-  }
+  | "${" (parameter_identifier as id) {
+  debug ~rule:"parameter-opening-braces" lexbuf current;
+  let current = enter_braces current in
+  let attribute = close_parameter current lexbuf in
+  let current = quit_braces current in
+  let current = push_parameter ~attribute current id in
+  token current lexbuf
+}
+
+| "}" {
+  debug ~rule:"parameter-closing-brace" lexbuf current;
+  if under_braces current then
+    let current = pop_quotation OpeningBrace current in
+    let _ =   debug ~rule:"parameter-closing-brace-after-pop" lexbuf current in
+    return lexbuf current []
+  else
+    push_current_string current lexbuf @@ token
+}
 
 (**specification:
 
@@ -390,7 +462,11 @@ rule token current = parse
 *)
   | newline {
     Lexing.new_line lexbuf;
-    return ~with_newline:true lexbuf current []
+    if found_current_here_document_delimiter current then
+      return ~with_newline:true lexbuf current []
+    else if_unprotected_by_double_quote current lexbuf token (fun () ->
+      return ~with_newline:true lexbuf current []
+    )
   }
 
 (**specification:
@@ -401,7 +477,10 @@ rule token current = parse
 
 *)
   | blank {
-    return lexbuf current []
+    debug ~rule:"blank" lexbuf current;
+    if_unprotected_by_double_quote current lexbuf token (fun () ->
+        return lexbuf current []
+    )
   }
 
 (**specification:
@@ -457,13 +536,13 @@ rule token current = parse
 *)
 (* FIXME: We shall issue a warning when we are in the unspecified case. *)
   | ((name as id) '=') as input {
+    debug ~rule:"assignment" lexbuf current;
     (* FIXME: Check that "name" is preceded by a delimiter. *)
     let current = push_string current input in
     let current = push_assignment_mark current in
     let current = enter_assignment_rhs current (Name id) in
     token current lexbuf
   }
-
 
 (**specification:
 
@@ -479,8 +558,49 @@ rule token current = parse
 *)
   (* FIXME: can we really accept *anything* here ? *)
   | _ as c {
+    debug ~rule:"generic" lexbuf current;
     token (push_character current c) lexbuf
   }
+
+and close_parameter current = parse
+| "}" {
+  debug ~rule:"close-parameter-closing-brace" lexbuf current;
+  (** The word is not here. *)
+  NoAttribute
+}
+| ":"?"-" {
+  UseDefaultValues (variable_attribute current lexbuf)
+}
+| ":"?"=" {
+  AssignDefaultValues (variable_attribute current lexbuf)
+}
+| ":"?"?" {
+  IndicateErrorifNullorUnset (variable_attribute current lexbuf)
+}
+| ":"?"+" {
+  UseAlternativeValue (variable_attribute current lexbuf)
+}
+
+and variable_attribute current = parse
+| "" {
+  let current =
+    { initial_state with nesting_context = current.nesting_context }
+  in
+  let current = push_quoting_mark OpeningBrace current in
+  match token current lexbuf with
+  | [] ->
+     (** Null attribute. *)
+     Word ("", [WordEmpty])
+  | prewords ->
+     (** Not null, must be unique. *)
+     word_of prewords
+}
+
+and eat c = parse
+| _ as c' {
+    if c <> c' then
+      lexing_error lexbuf (Printf.sprintf "Expecting `%c'." c)
+}
 
 and skip k current = parse
 | eof {
@@ -595,7 +715,10 @@ and next_double_rparen dplevel current = parse
 *)
 and single_quotes current = parse
   | '\'' {
-    push_character current '\''
+    if under_here_document current then
+      push_current_string current lexbuf @@ single_quotes
+    else
+      current
   }
 
 (** Single quotes must be terminated before the end of file. *)
@@ -603,153 +726,15 @@ and single_quotes current = parse
     lexing_error lexbuf "Unterminated quote."
   }
 
+  | newline {
+    Lexing.new_line lexbuf;
+    if found_current_here_document_delimiter current then
+      current
+    else
+      push_current_string current lexbuf @@ single_quotes
+  }
+
 (** Otherwise, we simply copy the character. *)
   | _ as c {
     single_quotes (push_character current c) lexbuf
   }
-
-(**specification
-
-2.2.3 Double-Quotes
-
-   Enclosing characters in double-quotes ( "" ) shall preserve the
-   literal value of all characters within the double-quotes, with the
-   exception of the characters backquote, <dollar-sign>, and <backslash>,
-   as follows:
-
-*)
-and double_quotes current = parse
-  | '"' {
-    let is_escaped = escaped_double_quote current in
-    let current' = push_character current '"' in
-    if is_escaped then (
-      double_quotes current' lexbuf
-    )
-    else
-      current'
-  }
-
-(**specification
-
-   $
-
-   The <dollar-sign> shall retain its special meaning introducing
-   parameter expansion (see Parameter Expansion), a form of command
-   substitution (see Command Substitution), and arithmetic expansion
-   (see Arithmetic Expansion).
-
-   The input characters within the quoted string that are also
-   enclosed between "$(" and the matching ')' shall not be affected by
-   the double-quotes, but rather shall define that command whose
-   output replaces the "$(...)" when the word is expanded. The
-   tokenizing rules in Token Recognition, not including the alias
-   substitutions in Alias Substitution, shall be applied recursively
-   to find the matching ')'.
-
-*)
-  | "$(" {
-    failwith "TODO"
-  }
-
-(**specification
-
-   Within the string of characters from an enclosed "${" to the
-   matching '}', an even number of unescaped double-quotes or
-   single-quotes, if any, shall occur. A preceding <backslash>
-   character shall be used to escape a literal '{' or '}'. The rule in
-   Parameter Expansion shall be used to determine the matching '}'.
-
-*)
-  | "${" {
-    failwith "TODO"
-  }
-
-(**specification
-
-   `
-
-   The backquote shall retain its special meaning introducing the
-   other form of command substitution (see Command Substitution). The
-   portion of the quoted string from the initial backquote and the
-   characters up to the next backquote that is not preceded by a
-   <backslash>, having escape characters removed, defines that command
-   whose output replaces "`...`" when the word is expanded. Either of
-   the following cases produces undefined results: A single-quoted or
-   double-quoted string that begins, but does not end, within the
-   "`...`" sequence
-
-   A "`...`" sequence that begins, but does not end, within the same
-   double-quoted string
-
-*)
-  | '`' as op | "$" ('(' as op) {
-    let escaping_level = 0 in (* FIXME: Check this. *)
-    let current = push_separated_string current (Lexing.lexeme lexbuf) in
-    let current = subshell op escaping_level current lexbuf in
-    let current = close_subshell current lexbuf in
-    double_quotes current lexbuf
-  }
-
-| "$((" {
-    let current = push_string current "$((" in
-    let current = next_double_rparen 1 current lexbuf in
-    double_quotes current lexbuf
-  }
-
-
-(**specification
-
-   \
-
-   The <backslash> shall retain its special meaning as an escape
-   character (see Escape Character (Backslash)) only when followed by
-   one of the following characters when considered special:
-
-      $   `   <double-quote>   \   <newline>
-
-   The application shall ensure that a double-quote is preceded by a
-   <backslash> to be included within double-quotes. The parameter '@'
-   has special meaning inside double-quotes and is described in
-   Special Parameters .
-
-*)
-  | "\\" ('$' | '`' | '"' | "\\" | newline as c) {
-    if c = "\"" then begin
-        let current = push_character current '\\' in
-        if escaped_double_quote current then
-          let current = push_string current c in
-          double_quotes current lexbuf
-        else
-          let current' = push_string current c in
-          current'
-      end
-    else
-      double_quotes (push_string current (Lexing.lexeme lexbuf)) lexbuf
-  }
-
-(** Double quotes must be terminated before the end of file. *)
-  | eof {
-    lexing_error lexbuf "Unterminated double quote."
-  }
-
-(** Otherwise, we simply copy the current character. *)
-  | _ as c {
-    double_quotes (push_character current c) lexbuf
-  }
-
-and readline = parse
-  | eof {
-    None
-  }
-  | [^ '\n' '\r']* (newline | eof) {
-      let result =
-        Some((Lexing.lexeme lexbuf),
-             lexbuf.Lexing.lex_start_p,lexbuf.Lexing.lex_curr_p)
-      in
-      Lexing.new_line lexbuf;
-      result
-  }
-
-{
-  let token = token initial_state
-}

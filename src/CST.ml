@@ -11,42 +11,6 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-type position = {
-  start_p : lexing_position;
-  end_p   : lexing_position
-}
-
-and lexing_position = Lexing.position = {
-  pos_fname : string ;
-  pos_lnum  : int ;
-  pos_bol   : int ;
-  pos_cnum  : int ;
-}
-[@@deriving
-   yojson,
-   visitors { variety = "iter";    polymorphic = true },
-   visitors { variety = "map";     polymorphic = true },
-   visitors { variety = "reduce";  polymorphic = true },
-   visitors { variety = "iter2";   polymorphic = true },
-   visitors { variety = "map2";    polymorphic = true },
-   visitors { variety = "reduce2"; polymorphic = true }
-]
-
-type 'a located = {
-  value    : 'a;
-  position : position;
-}
-[@@deriving
-   yojson,
-   visitors { variety = "iter";    polymorphic = true },
-   visitors { variety = "map";     polymorphic = true },
-   visitors { variety = "reduce";  polymorphic = true },
-   visitors { variety = "iter2";   polymorphic = true },
-   visitors { variety = "map2";    polymorphic = true },
-   visitors { variety = "reduce2"; polymorphic = true }
-]
-
-
 (**
 
     The type for concrete syntax trees of POSIX shell scripts. These
@@ -76,6 +40,47 @@ type 'a located = {
     complex to be displayed.
 
 *)
+type position = {
+  start_p : lexing_position;
+  end_p   : lexing_position
+}
+
+and lexing_position = Lexing.position = {
+  pos_fname : string ;
+  pos_lnum  : int ;
+  pos_bol   : int ;
+  pos_cnum  : int ;
+}
+
+and 'a located = {
+  value    : 'a;
+  position : position;
+}
+[@@deriving
+   yojson,
+   visitors { variety = "iter";
+              name="located_iter";
+              polymorphic = true },
+   visitors { variety = "map";
+              name="located_map";
+              polymorphic = true },
+   visitors { variety = "reduce";
+              name="located_reduce";
+              polymorphic = true },
+   visitors { variety = "mapreduce";
+              name="located_mapreduce";
+              polymorphic = true },
+   visitors { variety = "iter2";
+              name="located_iter2";
+              polymorphic = true },
+   visitors { variety = "map2";
+              name="located_map2";
+              polymorphic = true },
+   visitors { variety = "reduce2";
+              name="located_reduce2";
+              polymorphic = true }
+]
+
 type complete_command =
   | CompleteCommand_CList_Separator of clist' * separator'
   | CompleteCommand_CList of clist'
@@ -342,7 +347,14 @@ and character_range =
   | Range of char list
 
 and variable =
-  | VariableAtom of string
+  | VariableAtom of string * variable_attribute
+
+and variable_attribute =
+  | NoAttribute
+  | UseDefaultValues of word
+  | AssignDefaultValues of word
+  | IndicateErrorifNullorUnset of word
+  | UseAlternativeValue of word
 
 and subshell_kind =
   | SubShellKindBackQuote
@@ -404,10 +416,11 @@ and complete_command_list' = complete_command_list located
 
 [@@deriving
    yojson,
-   visitors { variety = "iter";    polymorphic = true },
-   visitors { variety = "map";     polymorphic = true },
-   visitors { variety = "reduce";  polymorphic = true },
-   visitors { variety = "iter2";   polymorphic = true },
-   visitors { variety = "map2";    polymorphic = true },
-   visitors { variety = "reduce2"; polymorphic = true }
+   visitors { variety = "iter";       ancestors=["located_iter"] },
+   visitors { variety = "map";        ancestors=["located_map"]  },
+   visitors { variety = "reduce";     ancestors=["located_reduce"]  },
+   visitors { variety = "mapreduce";  ancestors=["located_mapreduce"]  },
+   visitors { variety = "iter2";      ancestors=["located_iter2"]  },
+   visitors { variety = "map2";       ancestors=["located_map2"]  },
+   visitors { variety = "reduce2";    ancestors=["located_reduce2"]  }
 ]

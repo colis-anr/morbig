@@ -28,7 +28,7 @@ module Lexer :
           - [word_ref] is a reference to a located word. This reference will
              later be assigned the contents of the here document.
        *) 
-      val push_here_document_delimiter : string -> unit
+      val push_here_document_delimiter : string -> CST.word_cst -> unit
       (** [push_here_document_delimiter word] registers [word] as the 
           delimiting word pertaining to the preceeding redirecion operator.
        *)
@@ -36,7 +36,7 @@ module Lexer :
       val start_here_document_lexing : unit -> unit
       (** start scanning the here documents that we have registered. *)
       val next_here_document :
-        Lexing.lexbuf ->
+        Lexing.lexbuf -> PrelexerState.t ->
         Pretoken.t * Lexing.position * Lexing.position
       (** scans the contents of a here document including the line containing
           the delimiter. Returns the pretoken containg the contents of the

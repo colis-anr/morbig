@@ -13,13 +13,15 @@
 
 open ExtPervasives
 open CST
+open PrelexerState
 
 module Lexer (U : sig end) : sig
-  val push_here_document_delimiter : string -> unit
+  val push_here_document_delimiter : string -> word_cst -> unit
   val push_here_document_operator: bool -> (word located ref) -> unit
   val start_here_document_lexing: unit -> unit
   val next_here_document :
-    Lexing.lexbuf -> Pretoken.t * Lexing.position * Lexing.position
+    Lexing.lexbuf -> PrelexerState.t
+    -> Pretoken.t * Lexing.position * Lexing.position
   val inside_here_document : unit -> bool
   val next_word_is_here_document_delimiter : unit -> bool
   val next_line_is_here_document: unit -> bool
@@ -72,7 +74,7 @@ end = struct
     word_ref_tmp := Some word_ref;
     state := HereDocumentsStartOnNextLine
 
-  let push_here_document_delimiter w =
+  let push_here_document_delimiter w cst =
     (* we accept a push of a delimiting word only if we have already received
        information about an operator which has not yet been used.
      *)
@@ -83,7 +85,24 @@ end = struct
     and word_ref = match !word_ref_tmp with
       | Some r -> word_ref_tmp := None; r
       | None -> assert false
-    and unquoted_w = QuoteRemoval.on_string w
+    and unquoted_w =
+      let unword (Word (s, _)) = s in
+      let rec unquote = function
+        | [] -> ""
+        | WordDoubleQuoted s :: w ->
+           QuoteRemoval.on_string (unword s) ^ unquote w
+        | WordSingleQuoted s :: w ->
+           unword s ^ unquote w
+        | (WordLiteral s | WordName s) :: w ->
+           let s = Str.(global_replace (regexp "\\") "" s) in
+           s ^ unquote w
+        | _ ->
+           failwith "Unsuppported expansion in here document delimiter"
+      in
+      unquote cst
+    in
+    let quoted =
+      List.exists (function WordSingleQuoted _ -> true | _ -> false) cst
     in
     Queue.add {
       (** specification:
@@ -92,12 +111,12 @@ end = struct
           not be expanded. Otherwise, the delimiter shall be the word itself.
        *)
         word = unquoted_w;
-        quoted = (unquoted_w = w);
-        dashed = dashed;
+        quoted;
+        dashed;
         contents_placeholder = word_ref
       } delimiters_queue
 
-  let next_here_document lexbuf =
+  let next_here_document lexbuf current =
     (**specification:
        The here-document shall be treated as a single word that begins after
        the next <newline> and continues until there is a line containing only
@@ -106,27 +125,9 @@ end = struct
      *)
     assert (!state = InsideHereDocuments);
     let delimiter_info = Queue.take delimiters_queue in
-    let contents_placeholder = delimiter_info.contents_placeholder
-    and doc = Buffer.create 1000
-    and nextline, pstart, pstop =
-      match Prelexer.readline lexbuf with
-        | None -> failwith "Unterminated here document."
-        | Some (l, b, e) -> (ref l, ref b, ref e)
-    in
-    let have_found_delimiter line =
-      (* is [line] the current here-docuemnt delimiter ? *)
-      let line = string_strip line
-      in delimiter_info.word =
-           (** specification:
-               If the redirection operator is "<<-", all leading <tab>
-                characters shall be stripped from ... the line containing
-                the trailing delimiter.
-            *)
-           if delimiter_info.dashed
-           then QuoteRemoval.remove_tabs_at_linestart line
-           else line
-    in
-    let store_here_document contents doc_start doc_end  =
+    let contents_placeholder = delimiter_info.contents_placeholder in
+
+    let store_here_document cst contents doc_start doc_end  =
       (* store in the placeholder the here-document with contents [contents],
          start position [doc_start], and end position [doc_end]. *)
       let contents =
@@ -137,53 +138,55 @@ end = struct
           not be treated specially within a here-document, except when the
           double-quote appears within "$()", "``", or "${}".
          *)
-        if delimiter_info.quoted
-        then QuoteRemoval.backslash_as_in_doublequotes contents
-        else contents in
+        if delimiter_info.quoted then
+          QuoteRemoval.backslash_as_in_doublequotes contents
+        else
+          contents
+      in
       let contents =
         (** specification:
-           If the redirection operator is "<<-", all leading <tab>
-           characters shall be stripped from input lines ...
+            If the redirection operator is "<<-", all leading <tab>
+            characters shall be stripped from input lines ...
          *)
-        if delimiter_info.dashed
-        then QuoteRemoval.remove_tabs_at_linestart contents
-        else contents in
-          delimiter_info.contents_placeholder :=
-            CST.{
-              (* FIXME: This is temporary since HereDocument words *)
-              (* FIXME: enjoy CST too. *)
-              value = Word (contents, []);
-              position = { start_p = doc_start;
-                           end_p = doc_end }
-            }
-    in
-    let doc = Buffer.create 1000 in
-    let firstline, doc_start, firstline_end =
-      match Prelexer.readline lexbuf with
-      | None -> failwith "Missing here document."
-      | Some (l, b, e) -> l, b, e
-    in
+        if delimiter_info.dashed then
+          QuoteRemoval.remove_tabs_at_linestart contents
+        else
+          contents
+      in
+      delimiter_info.contents_placeholder :=
+        CST.{
+          value = Word (contents, cst);
+          position = { start_p = doc_start; end_p = doc_end }
+        }
+      in
+      let (Word (doc, cst) as here_document), doc_start, line_end =
+        let current =
+          enter_here_document delimiter_info.dashed delimiter_info.word current
+        in
+        let result =
+          if delimiter_info.quoted then
+            let current = Prelexer.single_quotes current lexbuf in
+            return lexbuf current []
+          else
+            Prelexer.token current lexbuf
+        in
+        match result with
+        | [Pretoken.NEWLINE, p1, p2] ->
+           (* Special case for empty here document. *)
+           (Word ("", []), p1, p2)
+        | result ->
+           located_word_of result
+      in
+      store_here_document cst doc doc_start line_end;
+      if Queue.is_empty delimiters_queue then state := NoHereDocuments;
+      let before_stop =
+        Lexing.({ line_end with
+                  pos_cnum = line_end.pos_cnum - 1;
+                  pos_bol  = line_end.pos_bol  - 1;
+        })
+      in
+      (Pretoken.NEWLINE, before_stop, line_end)
 
-    let rec process line line_end =
-      if have_found_delimiter line
-      then
-        begin
-          store_here_document (Buffer.contents doc) doc_start line_end;
-          if Queue.is_empty delimiters_queue then state := NoHereDocuments;
-          let before_stop = Lexing.({ line_end with
-                                      pos_cnum = line_end.pos_cnum - 1;
-                                      pos_bol  = line_end.pos_bol  - 1;
-                            }) in
-          (Pretoken.NEWLINE, before_stop, line_end)
-        end
-      else
-        begin
-          Buffer.add_string doc line;
-          match Prelexer.readline lexbuf with
-          | None -> failwith "Unterminated here document."
-          | Some (l,_,e) -> process l e
-        end;
-    in process firstline firstline_end
 
   let start_here_document_lexing () =
     assert (!state = HereDocumentsStartOnNextLine);

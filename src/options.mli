@@ -34,10 +34,13 @@ val display_stats : unit -> bool
 
 (* tell whether names of input files are to be read from stdin *)
 val from_stdin : unit -> bool
-                              
+
 (* tells whether parsing shoudl continue with the next input file after *)
 (* an error. *)
 val continue_after_error : unit -> bool
-                                            
+
 (* parse the command line arguments *)
 val analyze_command_line_arguments : unit -> unit
+
+(* tells whether debugging mode is activated. *)
+val debug : unit -> bool

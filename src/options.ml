@@ -46,7 +46,10 @@ let display_stats () = !_display_stats
 
 let _from_stdin = ref false
 let from_stdin () = !_from_stdin
-                        
+
+let _debug = ref false
+let debug () = !_debug
+
 let usage_msg = "\
 Usage: morbig [options] file...
 "
@@ -72,6 +75,9 @@ let analyze_command_line_arguments () = Arg.(
 
       "--from-stdin", Set _from_stdin,
       " Get names of scripts to parse from standard input.";
+
+      "--debug", Set _debug,
+      " Active debugging information.";
 
       "--version", Unit show_version_and_exit,
       " Show version number and exit."

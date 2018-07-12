@@ -26,13 +26,11 @@
     pretokens from [l], using a queue of symbols in the buffer [b] *)
 (* FIXME: we probably have that [b] is always empty when [token] is called *)
 val token :
+  PrelexerState.t ->
   Lexing.lexbuf ->
   (Pretoken.t * Lexing.position * Lexing.position) list
 
-(** [readline l] returns [None] when the lexbuf is at the end of input,
-    or otherwise [Some (l,pstart,pstop)] where [l] is the next line read
-    from the lexbuf (including the terminating <newline> when present),
-    and pstart and pstop are the start and end position of this line.
- *)
-val readline :
-  Lexing.lexbuf -> (string  * Lexing.position * Lexing.position) option
+val single_quotes :
+  PrelexerState.t ->
+  Lexing.lexbuf ->
+  PrelexerState.t
