@@ -1,27 +1,26 @@
 #!/bin/sh
+cd "$(dirname "$0")"
 
 MODE=${MODE:=strict}
-readonly PROGDIR=$(dirname "$0")
-readonly OLDDIR=$PWD
 
 printf "* Testsuite configuration\n"
 
 # cleanup
-find "$PROGDIR" \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
+find . \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
 [ "$1" = 'clean' ] && exit 0
 
 # Find morbig; either in this directory, or in the $PATH
-localmorbig="$PROGDIR"/../bin/morbig
+localmorbig=../bin/morbig
 if [ -e  $localmorbig ]
 then
     printf 'Using local %s.\n' `realpath $localmorbig`
-    morbig="$PROGDIR"/../bin/morbig
-elif which morbig >/dev/null
+    morbig=../bin/morbig
+elif which morbig >/dev/null 2>&1
 then
-    printf '[Warning] Using from $PATH: %s.\n' `which morbig`
+    printf '[WARN] Using from $PATH: %s.\n' `which morbig`
     morbig=morbig
 else
-    printf 'Could not find morbig. Did you compile it?\n'
+    printf '[FAIL] Could not find morbig. Did you compile it?\n'
     exit 1
 fi
 
@@ -37,13 +36,13 @@ bad_rejected=0
 # Test loop
 for category in good bad
 do
-    for test in $(find "$PROGDIR"/"$category" -type f -name '*.sh' | sort -n)
+    for test in $(find "$category" -type f -name '*.sh' | sort -n)
     do
 	test=${test%.sh}
 
 	if [ \! -f "$test.sh" ]
 	then
-	    printf '\n* [Warning] File `%s` does not exist or is not a file.
+	    printf '\n* [WARN] File `%s` does not exist or is not a file.
          Did you create a test whose name contains a space?\n' "$test"
 	    continue
 	fi
@@ -57,24 +56,24 @@ do
 	then
 	    case "$category" in
 		'bad')
-		    printf '\n* [ Error ] Test `%s` should have been rejected.\n' "$test"
+		    printf '* [FAIL] Wrongly accepted: %s\n' "$test"
 		    bad_accepted=$((bad_accepted + 1))
 		    ;;
 		'good')
 		    if [ $MODE = "strict" ] && [ \! -f "$test.sh.expected" ]
 		    then
-			printf '\n* [Warning] `%s` does not have an .expected file.\n' "$test"
+			printf '* [WARN] Missing `.expected` file: %s\n' "$test"
 			good_unexpected=$((good_unexpected + 1))
 		    elif [ $MODE = "strict" ] \
                          && ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null
 		    then
-   		        printf '\n* [ Error ] `%s` does not have the expected output.\n' "$test";
+   		        printf '* [FAIL] Wrong output: %s\n' "$test";
 			if [ x$VERBOSE != x ]; then
-			    echo "\n** $test.sh"
+			    echo "** $test.sh"
 			    cat "$test.sh"
-			    echo "\n** $test.sh.sjson"
+			    echo "** $test.sh.sjson"
 			    cat "$test.sh.sjson"
-			    echo "\n** $test.sh.expected"
+			    echo "** $test.sh.expected"
 			    cat "$test.sh.expected"
 			fi
 			good_unexpected=$((good_unexpected + 1))
@@ -87,9 +86,9 @@ do
 		'bad') bad_rejected=$((bad_rejected + 1)) ;;
 		'good')
 		    good_rejected=$((good_rejected + 1))
-		    printf '\n* [ Error ] `%s` should have been accepted.\n' "$test"
+		    printf '* [FAIL] Wrongly reject: %s\n' "$test"
  		    if [ x$VERBOSE != x ]; then
-			echo "\n** $test.sh"
+			echo "** $test.sh"
 			cat "$test.sh"
 		    fi
 	    esac
@@ -106,7 +105,7 @@ then
     printf '* *Erk... there must be a problem in this test script*.\n'
 fi
 
-printf '\n* Summary:
+printf '* Summary:
 -----------------------------------
 | Tests | Passed | Failed | Total |
 |-------|--------|--------|-------|

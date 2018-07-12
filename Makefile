@@ -68,8 +68,10 @@ uninstall:
          fi
 
 check:
-	STATUS=`tempfile`; (./tests/run; echo $$? > $$STATUS) | tee tests.org; \
-        exit `cat $$STATUS; rm $$STATUS`
+	output=$$(./tests/run 2>&1) ;     \
+	status=$$? ;                      \
+	echo "$$output" | tee tests.org ; \
+	exit $$status
 
 VERSION := $(shell cat src/VERSION)
 NAME_VERSION := morbig.${VERSION}
@@ -85,6 +87,7 @@ opam-release:
 clean:
 	$(MAKE) -C src clean
 	rm -f src/version.ml
+	rm -f tests.org
 	rm -rf "${NAME_VERSION}"
 	tests/run clean
 	[ ! -d bin ] || rm -fr bin

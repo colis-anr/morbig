@@ -1,12 +1,13 @@
-bin/
-lib/
+/bin
+/lib
+/src/version.ml
+/tests.org
 *.json
 *.sjson
-src/version.ml
 
 ## Emacs files
 *~
 *#
 
 ## OPAM package
-morbig.*
+/morbig.*
