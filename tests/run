@@ -3,6 +3,13 @@ cd "$(dirname "$0")"
 
 MODE=${MODE:=strict}
 
+realpath () (
+    cd "$(dirname "$1")"
+    printf '%s' "$PWD"
+    [ "$PWD" != '/' ] && printf '/'
+    printf '%s\n' "$(basename "$1")"
+)
+
 printf "* Testsuite configuration\n"
 
 # cleanup
@@ -11,9 +18,9 @@ find . \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
 
 # Find morbig; either in this directory, or in the $PATH
 localmorbig=../bin/morbig
-if [ -e  $localmorbig ]
+if [ -e  "$localmorbig" ]
 then
-    printf 'Using local %s.\n' `realpath $localmorbig`
+    printf 'Using local %s.\n' "$(realpath $localmorbig)"
     morbig=../bin/morbig
 elif which morbig >/dev/null 2>&1
 then
