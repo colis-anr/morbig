@@ -125,7 +125,6 @@ end = struct
      *)
     assert (!state = InsideHereDocuments);
     let delimiter_info = Queue.take delimiters_queue in
-    let contents_placeholder = delimiter_info.contents_placeholder in
 
     let store_here_document cst contents doc_start doc_end  =
       (* store in the placeholder the here-document with contents [contents],
