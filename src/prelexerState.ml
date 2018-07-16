@@ -84,9 +84,14 @@ let string_of_attribute = function
   | IndicateErrorifNullorUnset w -> "?" ^ string_of_word w
   | UseAlternativeValue w -> "+" ^ string_of_word w
 
-let push_parameter ?(attribute=NoAttribute) b id =
+let push_parameter ?(with_braces=false) ?(attribute=NoAttribute) b id =
   let v = VariableAtom (id, attribute) in
-  let p = "${" ^ id ^ string_of_attribute attribute ^ "}" in
+  let p =
+    if with_braces then
+      "${" ^ id ^ string_of_attribute attribute ^ "}"
+    else
+      "$" ^ id
+  in
   { b with buffer = WordComponent (p, WordVariable v) :: b.buffer }
 
 let string_of_atom = function
@@ -306,7 +311,7 @@ let provoke_error current lexbuf =
    escaped backslash is used to escape the quote character.
 
 *)
-let escape_analysis level current =
+let escape_analysis ?(for_backquote=false) level current =
   let current =
     List.map
       (function
@@ -317,12 +322,20 @@ let escape_analysis level current =
   let number_of_backslashes_to_escape = Nesting.(
     (* FIXME: We will be looking for the general pattern here. *)
     match level with
+    | Backquotes ('`', _) :: Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
+       3
     | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ -> 2
     | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ -> 2
-    | DQuotes :: Backquotes ('`', _) :: _ -> 1
+    | DQuotes :: Backquotes ('`', _) :: _ -> 2
     | Backquotes ('`', _) :: DQuotes :: _ -> 2
     | Backquotes ('`', _) :: _ :: DQuotes :: _ -> 2
-    | _ -> 1
+    | [Backquotes ('`', _)] ->
+       if for_backquote then
+         3
+       else
+         1
+    | _ -> 
+       1
   )
   in
   let escape_sequence =
@@ -354,11 +367,14 @@ let escape_analysis level current =
     else
       current'
   in
-  if preceded_by number_of_backslashes_to_escape '\\' current' then
+  if Options.debug () then
+    Printf.eprintf "N = %d | %s\n" number_of_backslashes_to_escape
+      (string_of_char_list current');
+  if preceded_by number_of_backslashes_to_escape '\\' current' then (
     (** There is no special meaning for this character. It is
         escaped. *)
     None
-  else
+  ) else
     (**
         The character preceded by this sequence is not escaped.
         In the case of `, the interpretation of this character
@@ -372,16 +388,16 @@ let escape_analysis level current =
         one.
 
      *)
-    Some number_of_backslashes_to_escape
+    Some (preceding '\\' current')
 
-let escape_analysis_predicate level current =
-  escape_analysis level current = None
+let escape_analysis_predicate ?(for_backquote=false) level current =
+  escape_analysis ~for_backquote level current = None
 
 let escaped_double_quote = escape_analysis_predicate
 
 let escaped_single_quote = escape_analysis_predicate
 
-let escaped_backquote = escape_analysis_predicate
+let escaped_backquote = escape_analysis_predicate ~for_backquote:true
 
 let escaped_backquote current =
   escaped_backquote current.nesting_context current
@@ -459,19 +475,25 @@ let is_escaping_backslash current lexbuf c =
   | '`' -> escaped_backquote current
   | _ -> escape_analysis_predicate current.nesting_context current
 
-let same_level_backquote current =
-  true
-
 let rec closest_backquote_depth = function
-  | [] -> 0
+  | [] -> -1
   | Nesting.Backquotes ('`', depth) :: _ -> depth
   | _ :: nesting -> closest_backquote_depth nesting
 
 let backquote_depth current =
-  match current.nesting_context with
-  | Nesting.Backquotes ('`', depth) :: _ -> None
-  | _ :: nesting -> Some (closest_backquote_depth nesting)
-  | [] -> Some 0
+  let current_depth =
+    match escape_analysis ~for_backquote:true current.nesting_context current with
+    | Some d -> d
+    | None -> assert false (* By usage of backquote_depth. *)
+  in
+  if current_depth = closest_backquote_depth current.nesting_context then
+    None
+  else
+    Some current_depth
+  (* match current.nesting_context with
+   * | Nesting.Backquotes ('`', depth) :: _ -> None
+   * | _ :: nesting -> Some (closest_backquote_depth nesting)
+   * | [] -> Some 0 *)
 
 let found_current_here_document_delimiter current =
   match current.nesting_context with
@@ -479,7 +501,8 @@ let found_current_here_document_delimiter current =
      let last_chunk = contents current in
      let open QuoteRemoval in
      let preprocess = if dashed then remove_tabs_at_linestart else fun x -> x in
-     option_map (string_last_line last_chunk) preprocess = Some delimiter
+     let last_line = option_map (string_last_line last_chunk) preprocess in
+     last_line = Some delimiter
   | _ ->
      false
 

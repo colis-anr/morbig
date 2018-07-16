@@ -97,11 +97,17 @@ let string_last_char s =
 let string_minus_last_char s =
   String.(sub s 0 (length s - 1))
 
-(* FIXME: Probably incorrect: Must split buffer into character first. *)
+(* FIXME: Rename the two following functions. *)
 let rec preceded_by n c cs =
-  n = 0 || match cs with
-           | [] -> n = 0
-           | c' :: cs -> c' = c && preceded_by (n - 1) c cs
+  match cs with
+  | [] -> n = 0
+  | c' :: cs when n = 0 -> not (c = c')
+  | c' :: cs -> c' = c && preceded_by (n - 1) c cs
+
+let rec preceding c cs =
+  match cs with
+  | [] -> 0
+  | c' :: cs -> if c = c' then 1 + preceding c cs else 0
 
 (** [string_to_char_list s] turns a [string s] into a list of [char]. *)
 let string_to_char_list s =

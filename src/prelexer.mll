@@ -32,10 +32,16 @@ let push_current_string current lexbuf continue =
   let current = push_string current (Lexing.lexeme lexbuf) in
   continue current lexbuf
 
-let if_unprotected_by_double_quote current lexbuf default f =
+let if_unprotected_by_double_quote_or_braces current lexbuf default f =
     if PrelexerState.(under_double_quote current || under_braces current) then
       push_current_string current lexbuf default
     else
+      f ()
+
+let if_unprotected_by_double_quote current lexbuf default f =
+    if PrelexerState.(under_double_quote current) then (
+      push_current_string current lexbuf default
+    ) else
       f ()
 
 let if_ escaped current lexbuf do_this or_else =
@@ -46,7 +52,13 @@ let if_ escaped current lexbuf do_this or_else =
 
 let rewind current lexbuf f =
   let pos = lexbuf.lex_curr_p.pos_cnum in
-  lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_cnum = pos - 1 };
+  let bol = lexbuf.lex_curr_p.pos_bol in
+  lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with
+                         pos_cnum = pos - 1;
+                         pos_bol = bol - 1
+                       };
+  lexbuf.lex_curr_pos <- lexbuf.lex_curr_pos - 1;
+  debug ~rule:"rewind" lexbuf current;
   f current lexbuf
 
 let subshell_parsing op escaping_level current lexbuf =
@@ -215,12 +227,13 @@ rule token current = parse
           character as demanded by the POSIX standard.
        *)
       push_current_string current lexbuf @@ token
-    else
+    else (
       (**
           Otherwise, the <backslash> has no effect on [c]. We reinject
           the character [c] in the input to analyze it separately.
       *)
       rewind current lexbuf @@ token
+    )
   }
 
 (**specification
@@ -229,6 +242,7 @@ rule token current = parse
 
 *)
 | '\'' {
+    debug ~rule:"single-quote" lexbuf current;
     if_unprotected_by_double_quote current lexbuf token (fun () ->
       let current = push_quoting_mark SingleQuote current in
       let current = single_quotes current lexbuf in
@@ -371,7 +385,7 @@ rule token current = parse
 
 *)
 
-  | '`' as op | "$" ('(' as op) {
+  | "$" ('(' as op) {
     if op = '`' && under_backquote current then begin
         let pos = lexbuf.lex_curr_p.pos_cnum in
         lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_cnum = pos - 1 };
@@ -440,7 +454,7 @@ rule token current = parse
   let current = enter_braces current in
   let attribute = close_parameter current lexbuf in
   let current = quit_braces current in
-  let current = push_parameter ~attribute current id in
+  let current = push_parameter ~with_braces:true ~attribute current id in
   token current lexbuf
 }
 
@@ -478,7 +492,7 @@ rule token current = parse
 *)
   | blank {
     debug ~rule:"blank" lexbuf current;
-    if_unprotected_by_double_quote current lexbuf token (fun () ->
+    if_unprotected_by_double_quote_or_braces current lexbuf token (fun () ->
         return lexbuf current []
     )
   }

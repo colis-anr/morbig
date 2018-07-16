@@ -186,7 +186,6 @@ end = struct
       in
       (Pretoken.NEWLINE, before_stop, line_end)
 
-
   let start_here_document_lexing () =
     assert (!state = HereDocumentsStartOnNextLine);
     state := InsideHereDocuments
