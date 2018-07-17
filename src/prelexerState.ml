@@ -239,8 +239,8 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
     Str.(string_match (regexp "^[0-9]+$") d 0)
   in
   let followed_by_redirection = Parser.(function
-    | Pretoken.Operator (LESSAND |  GREATAND | DGREAT | CLOBBER |
-                         LESS | GREAT | LESSGREAT) :: _ ->
+    | Pretoken.Operator (LESSAND |  GREATAND | DGREAT | DLESS _
+                         | CLOBBER | LESS | GREAT | LESSGREAT) :: _ ->
       true
     | _ ->
       false
