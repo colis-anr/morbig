@@ -340,35 +340,8 @@ let escape_analysis ?(for_backquote=false) level current =
        1
   )
   in
-  let escape_sequence =
-    repeat number_of_backslashes_to_escape (fun _ -> '\\')
-  in
-
-  let remove_escaped_backslashes current =
-    let rec trim = function
-      | [] ->
-         []
-      | '\\' :: cs ->
-         let cs' = trim cs in
-         if fst (take number_of_backslashes_to_escape cs')
-            = escape_sequence
-         then
-           snd (take number_of_backslashes_to_escape cs')
-         else
-           '\\' :: cs'
-      | c :: cs ->
-         c :: trim cs
-    in
-    trim current
-  in
   let current' = List.(concat (map rev (map string_to_char_list current))) in
-  (* let current' =
-   *   (\* FIXME: Justify this! *\)
-   *   if not (Nesting.under_backquoted_style_command_substitution level) then
-   *     remove_escaped_backslashes current'
-   *   else
-   *     current'
-   * in *)
+
   if Options.debug () then
     Printf.eprintf "N = %d | %s\n" number_of_backslashes_to_escape
       (string_of_char_list current');
