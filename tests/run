@@ -129,6 +129,8 @@ if [ "$failed" -gt 0 ]
 then
     exit 2
 else
-    printf "\n         Congratulations!\n"
+    printf "\n         ----------------\n"
+    printf "         Congratulations!\n"
+    printf "         ----------------\n"
     exit 0
 fi
