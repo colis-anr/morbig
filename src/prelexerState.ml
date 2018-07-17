@@ -324,6 +324,8 @@ let escape_analysis ?(for_backquote=false) level current =
     match level with
     | Backquotes ('`', _) :: Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
        3
+    | Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
+       2
     | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ -> 2
     | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ -> 2
     | DQuotes :: Backquotes ('`', _) :: _ -> 2
@@ -334,7 +336,7 @@ let escape_analysis ?(for_backquote=false) level current =
          3
        else
          1
-    | _ -> 
+    | _ ->
        1
   )
   in
@@ -360,13 +362,13 @@ let escape_analysis ?(for_backquote=false) level current =
     trim current
   in
   let current' = List.(concat (map rev (map string_to_char_list current))) in
-  let current' =
-    (* FIXME: Justify this! *)
-    if not (Nesting.under_backquoted_style_command_substitution level) then
-      remove_escaped_backslashes current'
-    else
-      current'
-  in
+  (* let current' =
+   *   (\* FIXME: Justify this! *\)
+   *   if not (Nesting.under_backquoted_style_command_substitution level) then
+   *     remove_escaped_backslashes current'
+   *   else
+   *     current'
+   * in *)
   if Options.debug () then
     Printf.eprintf "N = %d | %s\n" number_of_backslashes_to_escape
       (string_of_char_list current');
@@ -486,6 +488,10 @@ let backquote_depth current =
     | Some d -> d
     | None -> assert false (* By usage of backquote_depth. *)
   in
+  if Options.debug () then
+    Printf.eprintf "Backquote depth: %d =?= %d\n"
+      current_depth
+      (closest_backquote_depth current.nesting_context);
   if current_depth = closest_backquote_depth current.nesting_context then
     None
   else
