@@ -15,3 +15,8 @@
     to the out_channel [oc]. If [simplified] is [true] then location
     information is omitted, otherwise it is included in the json output. *)
 val save_as_json: bool -> out_channel -> CST.complete_command list -> unit
+
+
+(** [save_as_dot oc cst] writes the concrete syntax tree [cst]
+    to the out_channel [oc] using the DOT format. *)
+val save_as_dot: out_channel -> CST.complete_command list -> unit

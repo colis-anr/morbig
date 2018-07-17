@@ -22,6 +22,7 @@ let save input_filename (cst : CST.complete_command list) =
            | Bin -> output_value cout (input_filename, cst)
            | Json -> JsonHelpers.save_as_json false cout cst
            | SimpleJson -> JsonHelpers.save_as_json true cout cst
+           | Dot -> JsonHelpers.save_as_dot cout cst
            end);
   close_out cout
 

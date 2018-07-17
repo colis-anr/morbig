@@ -33,7 +33,43 @@ let rec json_filter_positions =
   | `Variant (s, None) -> `Variant (s, None)
   | `Variant (s, Some j) -> `Variant (s, Some (json_filter_positions j))
 
-let save_as_json simplified cout csts =
+let convert_to_json simplified csts =
   CSTHelpers.complete_command_list_to_json csts
   |> (if simplified then json_filter_positions else function x-> x)
+
+let save_as_json simplified cout csts =
+  convert_to_json simplified csts
   |> Yojson.Safe.pretty_to_channel cout
+
+let json_to_dot cout json =
+  Printf.(
+    let fresh =
+      let r = ref 0 in
+      fun () ->
+        incr r;
+        Printf.sprintf "node%d" !r
+    in
+    let rec traverse = function
+      | `List (`String name :: children) ->
+         let nodeid = fresh () in
+         fprintf cout "%s [label=\"%s\"];\n" nodeid name;
+         let childrenids = List.map traverse children in
+         List.iter (fun c -> fprintf cout "%s -> %s;\n" nodeid c) childrenids;
+         nodeid
+      | `String name ->
+         let nodeid = fresh () in
+         fprintf cout "%s [label=\"%s\"];\n" nodeid name;
+         nodeid
+      | `List [x] ->
+         traverse x
+      | _ ->
+         failwith "Not me!\n"
+    in
+    fprintf cout "digraph {\n";
+    ignore (traverse json);
+    fprintf cout "}\n"
+  )
+
+let save_as_dot cout csts =
+  convert_to_json true csts
+  |> json_to_dot cout
