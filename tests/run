@@ -67,7 +67,6 @@ do
 		    bad_accepted=$((bad_accepted + 1))
 		    ;;
 		'good')
-		    cp $test.sh.sjson $test.sh.expected
 		    if [ $MODE = "strict" ] && [ \! -f "$test.sh.expected" ]
 		    then
 			printf '* [WARN] Missing `.expected` file: %s\n' "$test"
