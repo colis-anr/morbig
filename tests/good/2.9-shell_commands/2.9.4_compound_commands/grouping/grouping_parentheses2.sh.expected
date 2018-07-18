@@ -47,11 +47,21 @@
                                                 "SimpleCommand_CmdName_CmdSuffix",
                                                 [
                                                   "CmdName_Word",
-                                                  [ "Word", "echo" ]
+                                                  [
+                                                    "Word",
+                                                    "echo",
+                                                    [
+                                                      [ "WordName", "echo" ]
+                                                    ]
+                                                  ]
                                                 ],
                                                 [
                                                   "CmdSuffix_Word",
-                                                  [ "Word", "foo" ]
+                                                  [
+                                                    "Word",
+                                                    "foo",
+                                                    [ [ "WordName", "foo" ] ]
+                                                  ]
                                                 ]
                                               ]
                                             ]

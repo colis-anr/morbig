@@ -21,10 +21,13 @@
                     "WordList_WordList_Word",
                     [
                       "WordList_WordList_Word",
-                      [ "WordList_Word", [ "Word", "a" ] ],
-                      [ "Word", "b" ]
+                      [
+                        "WordList_Word",
+                        [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                      ],
+                      [ "Word", "b", [ [ "WordName", "b" ] ] ]
                     ],
-                    [ "Word", "c" ]
+                    [ "Word", "c", [ [ "WordName", "c" ] ] ]
                   ],
                   [
                     "SequentialSep_Semicolon_LineBreak",
@@ -46,7 +49,14 @@
                                 "Command_SimpleCommand",
                                 [
                                   "SimpleCommand_CmdName",
-                                  [ "CmdName_Word", [ "Word", "echo" ] ]
+                                  [
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "echo",
+                                      [ [ "WordName", "echo" ] ]
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]

@@ -21,7 +21,10 @@
                       "Command_SimpleCommand",
                       [
                         "SimpleCommand_CmdName",
-                        [ "CmdName_Word", [ "Word", "a" ] ]
+                        [
+                          "CmdName_Word",
+                          [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                        ]
                       ]
                     ]
                   ]
@@ -36,7 +39,10 @@
                     "Command_SimpleCommand",
                     [
                       "SimpleCommand_CmdName",
-                      [ "CmdName_Word", [ "Word", "b" ] ]
+                      [
+                        "CmdName_Word",
+                        [ "Word", "b", [ [ "WordName", "b" ] ] ]
+                      ]
                     ]
                   ]
                 ]
@@ -51,7 +57,10 @@
                   "Command_SimpleCommand",
                   [
                     "SimpleCommand_CmdName",
-                    [ "CmdName_Word", [ "Word", "c" ] ]
+                    [
+                      "CmdName_Word",
+                      [ "Word", "c", [ [ "WordName", "c" ] ] ]
+                    ]
                   ]
                 ]
               ]
@@ -71,7 +80,10 @@
                   "Command_SimpleCommand",
                   [
                     "SimpleCommand_CmdName",
-                    [ "CmdName_Word", [ "Word", "d" ] ]
+                    [
+                      "CmdName_Word",
+                      [ "Word", "d", [ [ "WordName", "d" ] ] ]
+                    ]
                   ]
                 ]
               ],
@@ -80,7 +92,10 @@
                 "Command_SimpleCommand",
                 [
                   "SimpleCommand_CmdName",
-                  [ "CmdName_Word", [ "Word", "e" ] ]
+                  [
+                    "CmdName_Word",
+                    [ "Word", "e", [ [ "WordName", "e" ] ] ]
+                  ]
                 ]
               ]
             ]
@@ -102,7 +117,10 @@
                   "Command_SimpleCommand",
                   [
                     "SimpleCommand_CmdName",
-                    [ "CmdName_Word", [ "Word", "f" ] ]
+                    [
+                      "CmdName_Word",
+                      [ "Word", "f", [ [ "WordName", "f" ] ] ]
+                    ]
                   ]
                 ]
               ]
@@ -117,7 +135,10 @@
                 "Command_SimpleCommand",
                 [
                   "SimpleCommand_CmdName",
-                  [ "CmdName_Word", [ "Word", "g" ] ]
+                  [
+                    "CmdName_Word",
+                    [ "Word", "g", [ [ "WordName", "g" ] ] ]
+                  ]
                 ]
               ]
             ]
@@ -132,7 +153,7 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "h" ] ]
+                [ "CmdName_Word", [ "Word", "h", [ [ "WordName", "h" ] ] ] ]
               ]
             ]
           ]

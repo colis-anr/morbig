@@ -15,7 +15,10 @@
                 "Command_SimpleCommand",
                 [
                   "SimpleCommand_CmdName_CmdSuffix",
-                  [ "CmdName_Word", [ "Word", "cat" ] ],
+                  [
+                    "CmdName_Word",
+                    [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                  ],
                   [
                     "CmdSuffix_CmdSuffix_IoRedirect",
                     [
@@ -24,7 +27,14 @@
                         "IoRedirect_IoFile",
                         [
                           "IoFile_Great_FileName",
-                          [ "Filename_Word", [ "Word", "toJohn" ] ]
+                          [
+                            "Filename_Word",
+                            [
+                              "Word",
+                              "toJohn",
+                              [ [ "WordName", "toJohn" ] ]
+                            ]
+                          ]
                         ]
                       ]
                     ],
@@ -32,8 +42,15 @@
                       "IoRedirect_IoHere",
                       [
                         "IoHere_DLess_HereEnd",
-                        [ "HereEnd_Word", [ "Word", "EOF1" ] ],
-                        [ "Word", "Hi John!\n" ]
+                        [
+                          "HereEnd_Word",
+                          [ "Word", "EOF1", [ [ "WordName", "EOF1" ] ] ]
+                        ],
+                        [
+                          "Word",
+                          "Hi John!\nEOF1",
+                          [ [ "WordLiteral", "Hi John!\nEOF1" ] ]
+                        ]
                       ]
                     ]
                   ]
@@ -54,7 +71,10 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "cat" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                ],
                 [
                   "CmdSuffix_CmdSuffix_IoRedirect",
                   [
@@ -63,7 +83,10 @@
                       "IoRedirect_IoFile",
                       [
                         "IoFile_Great_FileName",
-                        [ "Filename_Word", [ "Word", "toJane" ] ]
+                        [
+                          "Filename_Word",
+                          [ "Word", "toJane", [ [ "WordName", "toJane" ] ] ]
+                        ]
                       ]
                     ]
                   ],
@@ -71,8 +94,15 @@
                     "IoRedirect_IoHere",
                     [
                       "IoHere_DLessDash_HereEnd",
-                      [ "HereEnd_Word", [ "Word", "EOF2" ] ],
-                      [ "Word", "    Hi Jane!\n" ]
+                      [
+                        "HereEnd_Word",
+                        [ "Word", "EOF2", [ [ "WordName", "EOF2" ] ] ]
+                      ],
+                      [
+                        "Word",
+                        "    Hi Jane!\nEOF2",
+                        [ [ "WordLiteral", "    Hi Jane!\nEOF2" ] ]
+                      ]
                     ]
                   ]
                 ]

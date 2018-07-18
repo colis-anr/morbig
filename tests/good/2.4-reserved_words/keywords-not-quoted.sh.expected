@@ -17,9 +17,8 @@
                   "CmdName_Word",
                   [
                     "Word",
-                    "'\"if\"",
+                    "'if'",
                     [
-                      [ "WordLiteral", "'" ],
                       [
                         "WordSingleQuoted",
                         [ "Word", "if", [ [ "WordLiteral", "if" ] ] ]
@@ -52,9 +51,9 @@
                   "CmdName_Word",
                   [
                     "Word",
-                    "i'\"f\"",
+                    "i'f'",
                     [
-                      [ "WordLiteral", "i'" ],
+                      [ "WordLiteral", "i" ],
                       [
                         "WordSingleQuoted",
                         [ "Word", "f", [ [ "WordLiteral", "f" ] ] ]

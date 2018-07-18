@@ -13,15 +13,25 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "cat" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                ],
                 [
                   "CmdSuffix_IoRedirect",
                   [
                     "IoRedirect_IoHere",
                     [
                       "IoHere_DLess_HereEnd",
-                      [ "HereEnd_Word", [ "Word", "EOF" ] ],
-                      [ "Word", "a\n\ta\n\t\ta\n" ]
+                      [
+                        "HereEnd_Word",
+                        [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
+                      ],
+                      [
+                        "Word",
+                        "a\n\ta\n\t\ta\nEOF",
+                        [ [ "WordLiteral", "a\n\ta\n\t\ta\nEOF" ] ]
+                      ]
                     ]
                   ]
                 ]
@@ -46,15 +56,25 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "cat" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                ],
                 [
                   "CmdSuffix_IoRedirect",
                   [
                     "IoRedirect_IoHere",
                     [
                       "IoHere_DLessDash_HereEnd",
-                      [ "HereEnd_Word", [ "Word", "EOF" ] ],
-                      [ "Word", "a\na\na\n" ]
+                      [
+                        "HereEnd_Word",
+                        [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
+                      ],
+                      [
+                        "Word",
+                        "a\na\na\nEOF",
+                        [ [ "WordLiteral", "a\n\ta\n\t\ta\n\t\t\tEOF" ] ]
+                      ]
                     ]
                   ]
                 ]

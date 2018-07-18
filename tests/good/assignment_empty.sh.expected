@@ -12,10 +12,10 @@
             [
               "Command_SimpleCommand",
               [
-                "SimpleCommand_CmdPrefix",
+                "SimpleCommand_CmdName",
                 [
-                  "CmdPrefix_AssignmentWord",
-                  [ "AssignmentWord", [ "Name", "A" ], [ "Word", "" ] ]
+                  "CmdName_Word",
+                  [ "Word", "A=", [ [ "WordLiteral", "A=" ] ] ]
                 ]
               ]
             ]

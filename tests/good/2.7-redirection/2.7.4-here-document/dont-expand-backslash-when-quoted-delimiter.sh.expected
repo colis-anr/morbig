@@ -13,15 +13,34 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "cat" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                ],
                 [
                   "CmdSuffix_IoRedirect",
                   [
                     "IoRedirect_IoHere",
                     [
                       "IoHere_DLess_HereEnd",
-                      [ "HereEnd_Word", [ "Word", "'EOT'" ] ],
-                      [ "Word", "abc ` def\nghi \\\njkl\n" ]
+                      [
+                        "HereEnd_Word",
+                        [
+                          "Word",
+                          "'EOT'",
+                          [
+                            [
+                              "WordSingleQuoted",
+                              [ "Word", "EOT", [ [ "WordLiteral", "EOT" ] ] ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "Word",
+                        "abc ` def\nghi jkl\nEOT",
+                        [ [ "WordLiteral", "abc ` def\nghi \\\njkl\nEOT" ] ]
+                      ]
                     ]
                   ]
                 ]

@@ -65,7 +65,16 @@
                                         [
                                           "Word",
                                           "$i",
-                                          [ [ "WordLiteral", "$i" ] ]
+                                          [
+                                            [
+                                              "WordVariable",
+                                              [
+                                                "VariableAtom",
+                                                "i",
+                                                [ "NoAttribute" ]
+                                              ]
+                                            ]
+                                          ]
                                         ]
                                       ],
                                       [
@@ -77,7 +86,16 @@
                                     [
                                       "Word",
                                       "$i",
-                                      [ [ "WordLiteral", "$i" ] ]
+                                      [
+                                        [
+                                          "WordVariable",
+                                          [
+                                            "VariableAtom",
+                                            "i",
+                                            [ "NoAttribute" ]
+                                          ]
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]

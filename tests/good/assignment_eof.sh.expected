@@ -13,8 +13,23 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "a" ] ],
-                [ "CmdSuffix_Word", [ "Word", "b=c" ] ]
+                [ "CmdName_Word", [ "Word", "a", [ [ "WordName", "a" ] ] ] ],
+                [
+                  "CmdSuffix_Word",
+                  [
+                    "Word",
+                    "b=c",
+                    [
+                      [
+                        "WordAssignmentWord",
+                        [
+                          [ "Name", "b" ],
+                          [ "Word", "c", [ [ "WordLiteral", "c" ] ] ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]

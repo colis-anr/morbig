@@ -35,7 +35,14 @@
                                   "Command_SimpleCommand",
                                   [
                                     "SimpleCommand_CmdName",
-                                    [ "CmdName_Word", [ "Word", "true" ] ]
+                                    [
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "true",
+                                        [ [ "WordName", "true" ] ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -64,7 +71,14 @@
                                     "Command_SimpleCommand",
                                     [
                                       "SimpleCommand_CmdName",
-                                      [ "CmdName_Word", [ "Word", "echo" ] ]
+                                      [
+                                        "CmdName_Word",
+                                        [
+                                          "Word",
+                                          "echo",
+                                          [ [ "WordName", "echo" ] ]
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]

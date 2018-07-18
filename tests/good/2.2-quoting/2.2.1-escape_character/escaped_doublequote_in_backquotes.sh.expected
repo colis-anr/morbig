@@ -60,8 +60,9 @@
                                                   "CmdSuffix_Word",
                                                   [
                                                     "Word",
-                                                    "\"  \\\\\\\\' \\\"",
+                                                    "\\\"  \\\\\\\\' \\\"",
                                                     [
+                                                      [ "WordLiteral", "\\" ],
                                                       [
                                                         "WordDoubleQuoted",
                                                         [

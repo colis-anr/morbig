@@ -21,7 +21,7 @@
                   "CmdSuffix_Word",
                   [
                     "Word",
-                    "foo='\"ls -l\"",
+                    "foo='ls -l'",
                     [
                       [
                         "WordAssignmentWord",
@@ -29,9 +29,8 @@
                           [ "Name", "foo" ],
                           [
                             "Word",
-                            "'\"ls -l\"",
+                            "'ls -l'",
                             [
-                              [ "WordLiteral", "'" ],
                               [
                                 "WordSingleQuoted",
                                 [
@@ -70,7 +69,7 @@
                 "SimpleCommand_CmdName_CmdSuffix",
                 [
                   "CmdName_Word",
-                  [ "Word", "'\"ls -l\"", [ [ "WordLiteral", "foo" ] ] ]
+                  [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
                 ],
                 [
                   "CmdSuffix_Word",
@@ -103,7 +102,7 @@
                 ],
                 [
                   "CmdSuffix_Word",
-                  [ "Word", "'\"ls -l\"", [ [ "WordLiteral", "foo" ] ] ]
+                  [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
                 ]
               ]
             ]
@@ -130,7 +129,7 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "'\"ls -l\"", [ [ "WordLiteral", "foo" ] ] ]
+                    [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
                   ],
                   [
                     "CmdSuffix_Word",
@@ -158,9 +157,8 @@
                   "CmdSuffix_Word",
                   [
                     "Word",
-                    "'\"failed as expected\"",
+                    "'failed as expected'",
                     [
-                      [ "WordLiteral", "'" ],
                       [
                         "WordSingleQuoted",
                         [

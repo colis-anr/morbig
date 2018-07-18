@@ -17,8 +17,33 @@
                   "CmdName_Word",
                   [
                     "Word",
-                    "${parameter:-word}",
-                    [ [ "WordLiteral", "${parameter:-word}" ] ]
+                    "${parameter-word}",
+                    [
+                      [
+                        "WordVariable",
+                        [
+                          "VariableAtom",
+                          "parameter",
+                          [
+                            "UseDefaultValues",
+                            [
+                              "Word",
+                              "word",
+                              [
+                                [
+                                  "WordDoubleQuoted",
+                                  [
+                                    "Word",
+                                    "word",
+                                    [ [ "WordLiteral", "word" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -47,36 +72,32 @@
                   [
                     "Word",
                     "${parameter-word}",
-                    [ [ "WordLiteral", "${parameter-word}" ] ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName",
-                [
-                  "CmdName_Word",
-                  [
-                    "Word",
-                    "${parameter:=word}",
-                    [ [ "WordLiteral", "${parameter:=word}" ] ]
+                    [
+                      [
+                        "WordVariable",
+                        [
+                          "VariableAtom",
+                          "parameter",
+                          [
+                            "UseDefaultValues",
+                            [
+                              "Word",
+                              "word",
+                              [
+                                [
+                                  "WordDoubleQuoted",
+                                  [
+                                    "Word",
+                                    "word",
+                                    [ [ "WordLiteral", "word" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -105,7 +126,32 @@
                   [
                     "Word",
                     "${parameter=word}",
-                    [ [ "WordLiteral", "${parameter=word}" ] ]
+                    [
+                      [
+                        "WordVariable",
+                        [
+                          "VariableAtom",
+                          "parameter",
+                          [
+                            "AssignDefaultValues",
+                            [
+                              "Word",
+                              "word",
+                              [
+                                [
+                                  "WordDoubleQuoted",
+                                  [
+                                    "Word",
+                                    "word",
+                                    [ [ "WordLiteral", "word" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -133,8 +179,33 @@
                   "CmdName_Word",
                   [
                     "Word",
-                    "${parameter:?word}",
-                    [ [ "WordLiteral", "${parameter:?word}" ] ]
+                    "${parameter=word}",
+                    [
+                      [
+                        "WordVariable",
+                        [
+                          "VariableAtom",
+                          "parameter",
+                          [
+                            "AssignDefaultValues",
+                            [
+                              "Word",
+                              "word",
+                              [
+                                [
+                                  "WordDoubleQuoted",
+                                  [
+                                    "Word",
+                                    "word",
+                                    [ [ "WordLiteral", "word" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -163,7 +234,32 @@
                   [
                     "Word",
                     "${parameter?word}",
-                    [ [ "WordLiteral", "${parameter?word}" ] ]
+                    [
+                      [
+                        "WordVariable",
+                        [
+                          "VariableAtom",
+                          "parameter",
+                          [
+                            "IndicateErrorifNullorUnset",
+                            [
+                              "Word",
+                              "word",
+                              [
+                                [
+                                  "WordDoubleQuoted",
+                                  [
+                                    "Word",
+                                    "word",
+                                    [ [ "WordLiteral", "word" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -191,8 +287,33 @@
                   "CmdName_Word",
                   [
                     "Word",
-                    "${parameter:+word}",
-                    [ [ "WordLiteral", "${parameter:+word}" ] ]
+                    "${parameter?word}",
+                    [
+                      [
+                        "WordVariable",
+                        [
+                          "VariableAtom",
+                          "parameter",
+                          [
+                            "IndicateErrorifNullorUnset",
+                            [
+                              "Word",
+                              "word",
+                              [
+                                [
+                                  "WordDoubleQuoted",
+                                  [
+                                    "Word",
+                                    "word",
+                                    [ [ "WordLiteral", "word" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -221,7 +342,86 @@
                   [
                     "Word",
                     "${parameter+word}",
-                    [ [ "WordLiteral", "${parameter+word}" ] ]
+                    [
+                      [
+                        "WordVariable",
+                        [
+                          "VariableAtom",
+                          "parameter",
+                          [
+                            "UseAlternativeValue",
+                            [
+                              "Word",
+                              "word",
+                              [
+                                [
+                                  "WordDoubleQuoted",
+                                  [
+                                    "Word",
+                                    "word",
+                                    [ [ "WordLiteral", "word" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_AndOr",
+      [
+        "AndOr_Pipeline",
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_SimpleCommand",
+              [
+                "SimpleCommand_CmdName",
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "${parameter+word}",
+                    [
+                      [
+                        "WordVariable",
+                        [
+                          "VariableAtom",
+                          "parameter",
+                          [
+                            "UseAlternativeValue",
+                            [
+                              "Word",
+                              "word",
+                              [
+                                [
+                                  "WordDoubleQuoted",
+                                  [
+                                    "Word",
+                                    "word",
+                                    [ [ "WordLiteral", "word" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]

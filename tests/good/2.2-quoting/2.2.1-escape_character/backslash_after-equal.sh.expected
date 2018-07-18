@@ -121,7 +121,16 @@
                 ],
                 [
                   "CmdSuffix_Word",
-                  [ "Word", "$x", [ [ "WordLiteral", "$x" ] ] ]
+                  [
+                    "Word",
+                    "$x",
+                    [
+                      [
+                        "WordVariable",
+                        [ "VariableAtom", "x", [ "NoAttribute" ] ]
+                      ]
+                    ]
+                  ]
                 ]
               ]
             ]

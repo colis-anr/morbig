@@ -106,7 +106,11 @@
                     [
                       [
                         "WordDoubleQuoted",
-                        [ "Word", "X=1", [ [ "WordLiteral", "X=1" ] ] ]
+                        [
+                          "Word",
+                          "X=1",
+                          [ [ "WordLiteral", "X=" ], [ "WordLiteral", "1" ] ]
+                        ]
                       ]
                     ]
                   ]

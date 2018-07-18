@@ -21,9 +21,8 @@
                   "CmdSuffix_Word",
                   [
                     "Word",
-                    "'\"| & ; <> () $ ` \\ \" \t\n * ? [ # ~ = %\"",
+                    "'| & ; <> () $ ` \\ \" \t\n * ? [ # ~ = %'",
                     [
-                      [ "WordLiteral", "'" ],
                       [
                         "WordSingleQuoted",
                         [

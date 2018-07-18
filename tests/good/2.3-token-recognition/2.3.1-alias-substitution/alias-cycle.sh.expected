@@ -21,7 +21,7 @@
                   "CmdSuffix_Word",
                   [
                     "Word",
-                    "ls='\"ls -h -t -l\"",
+                    "ls='ls -h -t -l'",
                     [
                       [
                         "WordAssignmentWord",
@@ -29,9 +29,8 @@
                           [ "Name", "ls" ],
                           [
                             "Word",
-                            "'\"ls -h -t -l\"",
+                            "'ls -h -t -l'",
                             [
-                              [ "WordLiteral", "'" ],
                               [
                                 "WordSingleQuoted",
                                 [
@@ -70,7 +69,7 @@
                 "SimpleCommand_CmdName",
                 [
                   "CmdName_Word",
-                  [ "Word", "'\"ls -h -t -l\"", [ [ "WordLiteral", "ls" ] ] ]
+                  [ "Word", "'ls -h -t -l'", [ [ "WordLiteral", "ls" ] ] ]
                 ]
               ]
             ]

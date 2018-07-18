@@ -35,7 +35,14 @@
                                   "Command_SimpleCommand",
                                   [
                                     "SimpleCommand_CmdName",
-                                    [ "CmdName_Word", [ "Word", "false" ] ]
+                                    [
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "false",
+                                        [ [ "WordName", "false" ] ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -64,7 +71,14 @@
                                     "Command_SimpleCommand",
                                     [
                                       "SimpleCommand_CmdName",
-                                      [ "CmdName_Word", [ "Word", "echo" ] ]
+                                      [
+                                        "CmdName_Word",
+                                        [
+                                          "Word",
+                                          "echo",
+                                          [ [ "WordName", "echo" ] ]
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -86,7 +100,10 @@
                       "IoRedirect_IoFile",
                       [
                         "IoFile_Less_FileName",
-                        [ "Filename_Word", [ "Word", "foo" ] ]
+                        [
+                          "Filename_Word",
+                          [ "Word", "foo", [ [ "WordName", "foo" ] ] ]
+                        ]
                       ]
                     ]
                   ]

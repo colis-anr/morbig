@@ -35,7 +35,14 @@
                                   "Command_SimpleCommand",
                                   [
                                     "SimpleCommand_CmdName",
-                                    [ "CmdName_Word", [ "Word", "true" ] ]
+                                    [
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "true",
+                                        [ [ "WordName", "true" ] ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -62,8 +69,22 @@
                                   "Command_SimpleCommand",
                                   [
                                     "SimpleCommand_CmdName_CmdSuffix",
-                                    [ "CmdName_Word", [ "Word", "echo" ] ],
-                                    [ "CmdSuffix_Word", [ "Word", "true" ] ]
+                                    [
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "echo",
+                                        [ [ "WordName", "echo" ] ]
+                                      ]
+                                    ],
+                                    [
+                                      "CmdSuffix_Word",
+                                      [
+                                        "Word",
+                                        "true",
+                                        [ [ "WordName", "true" ] ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -93,7 +114,14 @@
                                     "Command_SimpleCommand",
                                     [
                                       "SimpleCommand_CmdName",
-                                      [ "CmdName_Word", [ "Word", "false" ] ]
+                                      [
+                                        "CmdName_Word",
+                                        [
+                                          "Word",
+                                          "false",
+                                          [ [ "WordName", "false" ] ]
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]

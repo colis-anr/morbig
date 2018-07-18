@@ -13,15 +13,43 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "cat" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                ],
                 [
                   "CmdSuffix_IoRedirect",
                   [
                     "IoRedirect_IoHere",
                     [
                       "IoHere_DLess_HereEnd",
-                      [ "HereEnd_Word", [ "Word", "'  TEST  '" ] ],
-                      [ "Word", "a\nb\n  TEST\nTEST  \na\n" ]
+                      [
+                        "HereEnd_Word",
+                        [
+                          "Word",
+                          "'  TEST  '",
+                          [
+                            [
+                              "WordSingleQuoted",
+                              [
+                                "Word",
+                                "  TEST  ",
+                                [ [ "WordLiteral", "  TEST  " ] ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "Word",
+                        "a\nb\n  TEST\nTEST  \na\n  TEST  ",
+                        [
+                          [
+                            "WordLiteral",
+                            "a\nb\n  TEST\nTEST  \na\n  TEST  "
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -46,7 +74,7 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "a" ] ]
+                [ "CmdName_Word", [ "Word", "a", [ [ "WordName", "a" ] ] ] ]
               ]
             ]
           ]

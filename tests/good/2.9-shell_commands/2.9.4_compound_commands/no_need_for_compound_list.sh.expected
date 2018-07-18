@@ -47,7 +47,13 @@
                                                 "SimpleCommand_CmdName",
                                                 [
                                                   "CmdName_Word",
-                                                  [ "Word", "false" ]
+                                                  [
+                                                    "Word",
+                                                    "false",
+                                                    [
+                                                      [ "WordName", "false" ]
+                                                    ]
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -87,8 +93,22 @@
                                   "Command_SimpleCommand",
                                   [
                                     "SimpleCommand_CmdName_CmdSuffix",
-                                    [ "CmdName_Word", [ "Word", "echo" ] ],
-                                    [ "CmdSuffix_Word", [ "Word", "hi" ] ]
+                                    [
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "echo",
+                                        [ [ "WordName", "echo" ] ]
+                                      ]
+                                    ],
+                                    [
+                                      "CmdSuffix_Word",
+                                      [
+                                        "Word",
+                                        "hi",
+                                        [ [ "WordName", "hi" ] ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -110,7 +130,14 @@
                                 "Command_SimpleCommand",
                                 [
                                   "SimpleCommand_CmdName",
-                                  [ "CmdName_Word", [ "Word", "break" ] ]
+                                  [
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "break",
+                                      [ [ "WordName", "break" ] ]
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]
@@ -180,7 +207,13 @@
                                                 "SimpleCommand_CmdName",
                                                 [
                                                   "CmdName_Word",
-                                                  [ "Word", "false" ]
+                                                  [
+                                                    "Word",
+                                                    "false",
+                                                    [
+                                                      [ "WordName", "false" ]
+                                                    ]
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -215,8 +248,22 @@
                                   "Command_SimpleCommand",
                                   [
                                     "SimpleCommand_CmdName_CmdSuffix",
-                                    [ "CmdName_Word", [ "Word", "echo" ] ],
-                                    [ "CmdSuffix_Word", [ "Word", "hi" ] ]
+                                    [
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "echo",
+                                        [ [ "WordName", "echo" ] ]
+                                      ]
+                                    ],
+                                    [
+                                      "CmdSuffix_Word",
+                                      [
+                                        "Word",
+                                        "hi",
+                                        [ [ "WordName", "hi" ] ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -238,7 +285,14 @@
                                 "Command_SimpleCommand",
                                 [
                                   "SimpleCommand_CmdName",
-                                  [ "CmdName_Word", [ "Word", "break" ] ]
+                                  [
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "break",
+                                      [ [ "WordName", "break" ] ]
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]
@@ -290,7 +344,10 @@
                               "Command_SimpleCommand",
                               [
                                 "SimpleCommand_CmdName",
-                                [ "CmdName_Word", [ "Word", ":" ] ]
+                                [
+                                  "CmdName_Word",
+                                  [ "Word", ":", [ [ "WordLiteral", ":" ] ] ]
+                                ]
                               ]
                             ]
                           ]
@@ -335,7 +392,13 @@
                                                 "SimpleCommand_CmdName",
                                                 [
                                                   "CmdName_Word",
-                                                  [ "Word", ":" ]
+                                                  [
+                                                    "Word",
+                                                    ":",
+                                                    [
+                                                      [ "WordLiteral", ":" ]
+                                                    ]
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -365,11 +428,21 @@
                                                 "SimpleCommand_CmdName_CmdSuffix",
                                                 [
                                                   "CmdName_Word",
-                                                  [ "Word", "echo" ]
+                                                  [
+                                                    "Word",
+                                                    "echo",
+                                                    [
+                                                      [ "WordName", "echo" ]
+                                                    ]
+                                                  ]
                                                 ],
                                                 [
                                                   "CmdSuffix_Word",
-                                                  [ "Word", "hi" ]
+                                                  [
+                                                    "Word",
+                                                    "hi",
+                                                    [ [ "WordName", "hi" ] ]
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -447,11 +520,21 @@
                                                 "SimpleCommand_CmdName_CmdSuffix",
                                                 [
                                                   "CmdName_Word",
-                                                  [ "Word", "echo" ]
+                                                  [
+                                                    "Word",
+                                                    "echo",
+                                                    [
+                                                      [ "WordName", "echo" ]
+                                                    ]
+                                                  ]
                                                 ],
                                                 [
                                                   "CmdSuffix_Word",
-                                                  [ "Word", "hi" ]
+                                                  [
+                                                    "Word",
+                                                    "hi",
+                                                    [ [ "WordName", "hi" ] ]
+                                                  ]
                                                 ]
                                               ]
                                             ]

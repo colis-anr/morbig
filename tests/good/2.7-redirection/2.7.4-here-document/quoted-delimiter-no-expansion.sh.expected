@@ -29,7 +29,14 @@
                               "Command_SimpleCommand",
                               [
                                 "SimpleCommand_CmdName",
-                                [ "CmdName_Word", [ "Word", "true" ] ]
+                                [
+                                  "CmdName_Word",
+                                  [
+                                    "Word",
+                                    "true",
+                                    [ [ "WordName", "true" ] ]
+                                  ]
+                                ]
                               ]
                             ]
                           ]
@@ -52,7 +59,14 @@
                               "Command_SimpleCommand",
                               [
                                 "SimpleCommand_CmdName_CmdSuffix",
-                                [ "CmdName_Word", [ "Word", "cat" ] ],
+                                [
+                                  "CmdName_Word",
+                                  [
+                                    "Word",
+                                    "cat",
+                                    [ [ "WordName", "cat" ] ]
+                                  ]
+                                ],
                                 [
                                   "CmdSuffix_IoRedirect",
                                   [
@@ -61,11 +75,39 @@
                                       "IoHere_DLess_HereEnd",
                                       [
                                         "HereEnd_Word",
-                                        [ "Word", "'E'\"O\"\\F" ]
+                                        [
+                                          "Word",
+                                          "'E'\"O\"\\F",
+                                          [
+                                            [
+                                              "WordSingleQuoted",
+                                              [
+                                                "Word",
+                                                "E",
+                                                [ [ "WordLiteral", "E" ] ]
+                                              ]
+                                            ],
+                                            [
+                                              "WordDoubleQuoted",
+                                              [
+                                                "Word",
+                                                "O",
+                                                [ [ "WordLiteral", "O" ] ]
+                                              ]
+                                            ],
+                                            [ "WordLiteral", "\\F" ]
+                                          ]
+                                        ]
                                       ],
                                       [
                                         "Word",
-                                        "Here document not expanded, may be unbalanced ' \" $(\nand a backslash at the end of the line is NOT removed \\\n"
+                                        "Here document not expanded, may be unbalanced ' \" $(\nand a backslash at the end of the line is NOT removed EOF",
+                                        [
+                                          [
+                                            "WordLiteral",
+                                            "Here document not expanded, may be unbalanced ' \" $(\nand a backslash at the end of the line is NOT removed \\\nEOF"
+                                          ]
+                                        ]
                                       ]
                                     ]
                                   ]

@@ -13,15 +13,38 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "cat" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                ],
                 [
                   "CmdSuffix_IoRedirect",
                   [
                     "IoRedirect_IoHere",
                     [
                       "IoHere_DLess_HereEnd",
-                      [ "HereEnd_Word", [ "Word", "\"EOF1\"" ] ],
-                      [ "Word", "\\a\\$\\\\\n" ]
+                      [
+                        "HereEnd_Word",
+                        [
+                          "Word",
+                          "\"EOF1\"",
+                          [
+                            [
+                              "WordDoubleQuoted",
+                              [
+                                "Word",
+                                "EOF1",
+                                [ [ "WordLiteral", "EOF1" ] ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "Word",
+                        "\\a\\$\\\\\nEOF1",
+                        [ [ "WordLiteral", "\\a\\$\\\\\nEOF1" ] ]
+                      ]
                     ]
                   ]
                 ]
@@ -46,15 +69,25 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "cat" ] ],
+                [
+                  "CmdName_Word",
+                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                ],
                 [
                   "CmdSuffix_IoRedirect",
                   [
                     "IoRedirect_IoHere",
                     [
                       "IoHere_DLess_HereEnd",
-                      [ "HereEnd_Word", [ "Word", "EOF2" ] ],
-                      [ "Word", "\\a$\\\n" ]
+                      [
+                        "HereEnd_Word",
+                        [ "Word", "EOF2", [ [ "WordName", "EOF2" ] ] ]
+                      ],
+                      [
+                        "Word",
+                        "\\a\\$\\\\\nEOF2",
+                        [ [ "WordLiteral", "\\a\\$\\\\\nEOF2" ] ]
+                      ]
                     ]
                   ]
                 ]

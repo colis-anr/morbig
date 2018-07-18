@@ -31,8 +31,14 @@
                                 "Command_SimpleCommand",
                                 [
                                   "SimpleCommand_CmdName_CmdSuffix",
-                                  [ "CmdName_Word", [ "Word", "a" ] ],
-                                  [ "CmdSuffix_Word", [ "Word", "b" ] ]
+                                  [
+                                    "CmdName_Word",
+                                    [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                                  ],
+                                  [
+                                    "CmdSuffix_Word",
+                                    [ "Word", "b", [ [ "WordName", "b" ] ] ]
+                                  ]
                                 ]
                               ]
                             ]
@@ -54,7 +60,10 @@
                               "Command_SimpleCommand",
                               [
                                 "SimpleCommand_CmdName",
-                                [ "CmdName_Word", [ "Word", "c" ] ]
+                                [
+                                  "CmdName_Word",
+                                  [ "Word", "c", [ [ "WordName", "c" ] ] ]
+                                ]
                               ]
                             ]
                           ]

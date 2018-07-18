@@ -29,7 +29,14 @@
                               "Command_SimpleCommand",
                               [
                                 "SimpleCommand_CmdName",
-                                [ "CmdName_Word", [ "Word", "true" ] ]
+                                [
+                                  "CmdName_Word",
+                                  [
+                                    "Word",
+                                    "true",
+                                    [ [ "WordName", "true" ] ]
+                                  ]
+                                ]
                               ]
                             ]
                           ]
@@ -53,17 +60,37 @@
                               "Command_SimpleCommand",
                               [
                                 "SimpleCommand_CmdName_CmdSuffix",
-                                [ "CmdName_Word", [ "Word", "cat" ] ],
+                                [
+                                  "CmdName_Word",
+                                  [
+                                    "Word",
+                                    "cat",
+                                    [ [ "WordName", "cat" ] ]
+                                  ]
+                                ],
                                 [
                                   "CmdSuffix_IoRedirect",
                                   [
                                     "IoRedirect_IoHere",
                                     [
                                       "IoHere_DLess_HereEnd",
-                                      [ "HereEnd_Word", [ "Word", "EOF" ] ],
+                                      [
+                                        "HereEnd_Word",
+                                        [
+                                          "Word",
+                                          "EOF",
+                                          [ [ "WordName", "EOF" ] ]
+                                        ]
+                                      ],
                                       [
                                         "Word",
-                                        "first line\nsecond line\nthird line with continuationEOF\nforth line (("
+                                        "first line\nsecond line\nthird line with continuationEOF\nforth and last line ((\nEOF",
+                                        [
+                                          [
+                                            "WordLiteral",
+                                            "first line\nsecond line\nthird line with continuationEOF\nforth and last line ((\nEOF"
+                                          ]
+                                        ]
                                       ]
                                     ]
                                   ]
@@ -92,10 +119,30 @@
                                 "Command_SimpleCommand",
                                 [
                                   "SimpleCommand_CmdName_CmdSuffix",
-                                  [ "CmdName_Word", [ "Word", "echo" ] ],
+                                  [
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "echo",
+                                      [ [ "WordName", "echo" ] ]
+                                    ]
+                                  ],
                                   [
                                     "CmdSuffix_Word",
-                                    [ "Word", "\"baeh\"" ]
+                                    [
+                                      "Word",
+                                      "\"baeh\"",
+                                      [
+                                        [
+                                          "WordDoubleQuoted",
+                                          [
+                                            "Word",
+                                            "baeh",
+                                            [ [ "WordLiteral", "baeh" ] ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
