@@ -513,17 +513,19 @@ rule token current = parse
 *)
   | '#' as c
   {
-    (**
+    if_unprotected_by_double_quote_or_braces current lexbuf token (fun () ->
+      (**
 
-       There two cases depending on the characters on the left of '#':
-       If '#' is preceded by a separator, it is starting a comment.
-       otherwise, '#' is part of a word.
+         There two cases depending on the characters on the left of '#':
+         If '#' is preceded by a separator, it is starting a comment.
+         otherwise, '#' is part of a word.
 
-    *)
-    if current.buffer = [] then
-      comment lexbuf
-    else
-      token (push_character current c) lexbuf
+      *)
+      if current.buffer = [] then
+        comment lexbuf
+      else
+        token (push_character current c) lexbuf
+    )
   }
 
 (**specification

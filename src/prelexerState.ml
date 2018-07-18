@@ -330,11 +330,16 @@ let escape_analysis ?(for_backquote=false) level current =
        [3]
     | Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
        [2]
-    | DQuotes :: Backquotes ('`', _) :: [] -> [1; 2]
-    | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ -> [2]
-    | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ -> [2]
-    | Backquotes ('`', _) :: DQuotes :: _ -> [2]
-    | Backquotes ('`', _) :: _ :: DQuotes :: _ -> [2]
+    | DQuotes :: Backquotes ('`', _) :: [] ->
+       [1; 2]
+    | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ ->
+       [2]
+    | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ ->
+       [2]
+    | Backquotes ('`', _) :: DQuotes :: _ ->
+       [2]
+    | Backquotes ('`', _) :: _ :: DQuotes :: _ ->
+       [2]
     | [Backquotes ('`', _)] ->
        if for_backquote then
          [3]
@@ -352,8 +357,11 @@ let escape_analysis ?(for_backquote=false) level current =
          (List.map string_of_int number_of_backslashes_to_escape)
       )
       (string_of_char_list current');
+
+  let backslashes_before = preceding '\\' current' in
+
   if List.exists (fun k ->
-         preceded_by k '\\' current'
+         backslashes_before >= k && (k - backslashes_before) mod (k + 1) = 0
      ) number_of_backslashes_to_escape
   then (
     (** There is no special meaning for this character. It is
@@ -373,7 +381,7 @@ let escape_analysis ?(for_backquote=false) level current =
         one.
 
      *)
-    Some (preceding '\\' current')
+    Some backslashes_before
 
 let escape_analysis_predicate ?(for_backquote=false) level current =
   escape_analysis ~for_backquote level current = None
