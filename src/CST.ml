@@ -355,6 +355,10 @@ and variable_attribute =
   | AssignDefaultValues of word
   | IndicateErrorifNullorUnset of word
   | UseAlternativeValue of word
+  | RemoveSmallestSuffixPattern of word
+  | RemoveLargestSuffixPattern of word
+  | RemoveSmallestPrefixPattern of word
+  | RemoveLargestPrefixPattern of word
 
 and subshell_kind =
   | SubShellKindBackQuote

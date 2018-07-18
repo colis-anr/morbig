@@ -83,6 +83,10 @@ let string_of_attribute = function
   | AssignDefaultValues w -> "=" ^ string_of_word w
   | IndicateErrorifNullorUnset w -> "?" ^ string_of_word w
   | UseAlternativeValue w -> "+" ^ string_of_word w
+  | RemoveSmallestSuffixPattern w -> "%" ^ string_of_word w
+  | RemoveLargestSuffixPattern w -> "%%" ^ string_of_word w
+  | RemoveSmallestPrefixPattern w -> "#" ^ string_of_word w
+  | RemoveLargestPrefixPattern w -> "##" ^ string_of_word w
 
 let push_parameter ?(with_braces=false) ?(attribute=NoAttribute) b id =
   let v = VariableAtom (id, attribute) in

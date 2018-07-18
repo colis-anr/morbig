@@ -594,6 +594,18 @@ and close_parameter current = parse
 | ":"?"+" {
   UseAlternativeValue (variable_attribute current lexbuf)
 }
+| "%" {
+  RemoveSmallestSuffixPattern (variable_attribute current lexbuf)
+}
+| "%%" {
+  RemoveLargestSuffixPattern (variable_attribute current lexbuf)
+}
+| "#" {
+  RemoveSmallestPrefixPattern (variable_attribute current lexbuf)
+}
+| "##" {
+  RemoveLargestPrefixPattern (variable_attribute current lexbuf)
+}
 
 and variable_attribute current = parse
 | "" {

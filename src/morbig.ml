@@ -69,7 +69,8 @@ let parse_one_file input_filename =
     incr nb_inputs_skipped
   else
     try
-      Printf.eprintf "[%d] Process %s\n" !nb_inputs input_filename;
+      if Options.debug () then
+        Printf.eprintf "[%d] Process %s\n" !nb_inputs input_filename;
       parse_file input_filename |> save input_filename
     with e ->
       incr nb_inputs_erroneous;
