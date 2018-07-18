@@ -1,13 +1,13 @@
 # Morbig
 ## A trustworthy static parser for POSIX shell
 
-## Download
+## Download [![Build Status](https://travis-ci.org/colis-anr/morbig.svg?branch=master)](https://travis-ci.org/colis-anr/morbig)
+
+
 
 ```
     git clone git@github.com:colis-anr/morbig.git
 ```
-
-    [![Build Status](https://travis-ci.org/colis-anr/morbig.svg?branch=master)](https://travis-ci.org/colis-anr/morbig)
 
 ## License and Copyright
 
