@@ -1,0 +1,41 @@
+[
+  [
+    "CompleteCommand_CList",
+    [
+      "CList_AndOr",
+      [
+        "AndOr_Pipeline",
+        [
+          "Pipeline_PipeSequence",
+          [
+            "PipeSequence_Command",
+            [
+              "Command_SimpleCommand",
+              [
+                "SimpleCommand_CmdName_CmdSuffix",
+                [
+                  "CmdName_Word",
+                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                ],
+                [
+                  "CmdSuffix_IoRedirect",
+                  [
+                    "IoRedirect_IoHere",
+                    [
+                      "IoHere_DLess_HereEnd",
+                      [
+                        "HereEnd_Word",
+                        [ "Word", "EOT", [ [ "WordName", "EOT" ] ] ]
+                      ],
+                      [ "Word", "'\nEOT", [ [ "WordLiteral", "'\nEOT" ] ] ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
