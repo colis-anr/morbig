@@ -323,29 +323,35 @@ let escape_analysis ?(for_backquote=false) level current =
     (* FIXME: We will be looking for the general pattern here. *)
     match level with
     | Backquotes ('`', _) :: Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
-       3
+       [3]
     | Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
-       2
-    | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ -> 2
-    | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ -> 2
-    | DQuotes :: Backquotes ('`', _) :: _ -> 2
-    | Backquotes ('`', _) :: DQuotes :: _ -> 2
-    | Backquotes ('`', _) :: _ :: DQuotes :: _ -> 2
+       [2]
+    | DQuotes :: Backquotes ('`', _) :: [] -> [1; 2]
+    | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ -> [2]
+    | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ -> [2]
+    | Backquotes ('`', _) :: DQuotes :: _ -> [2]
+    | Backquotes ('`', _) :: _ :: DQuotes :: _ -> [2]
     | [Backquotes ('`', _)] ->
        if for_backquote then
-         3
+         [3]
        else
-         1
+         [1]
     | _ ->
-       1
+       [1]
   )
   in
   let current' = List.(concat (map rev (map string_to_char_list current))) in
 
   if Options.debug () then
-    Printf.eprintf "N = %d | %s\n" number_of_backslashes_to_escape
+    Printf.eprintf "N = %s | %s\n"
+      (String.concat " "
+         (List.map string_of_int number_of_backslashes_to_escape)
+      )
       (string_of_char_list current');
-  if preceded_by number_of_backslashes_to_escape '\\' current' then (
+  if List.exists (fun k ->
+         preceded_by k '\\' current'
+     ) number_of_backslashes_to_escape
+  then (
     (** There is no special meaning for this character. It is
         escaped. *)
     None
@@ -491,11 +497,12 @@ let debug ?(rule="") lexbuf current = Lexing.(
         min lexbuf.lex_curr_pos lexbuf.lex_buffer_len
       in
       Printf.eprintf "\
-                      %s [ ] %s     { %s } %s @ %s #\n"
+                      %s [ ] %s     { %s } %s @ %s #\n[%s]\n"
         (Bytes.(to_string (sub lexbuf.lex_buffer 0 curr_pos)))
         (let k = lexbuf.lex_buffer_len - curr_pos - 1 in
          if k > 0 then Bytes.(to_string (sub lexbuf.lex_buffer curr_pos k)) else "")
         (Lexing.lexeme lexbuf)
         rule
         (String.concat " " (List.map Nesting.to_string current.nesting_context))
+        (string_of_atom_list current.buffer)
 )
