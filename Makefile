@@ -68,10 +68,10 @@ uninstall:
          fi
 
 check:
-	output=$$(./tests/run 2>&1) ;     \
-	status=$$? ;                      \
-	echo "$$output" | tee tests.org ; \
-	exit $$status
+	@ output=$$(./tests/run 2>&1) ;     \
+	  status=$$? ;                      \
+	  echo "$$output" | tee tests.org ; \
+	  exit $$status
 
 VERSION := $(shell cat src/VERSION)
 NAME_VERSION := morbig.${VERSION}
