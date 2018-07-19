@@ -91,6 +91,16 @@ let string_cut_at k s = String.(
     s
 )
 
+exception InvalidSuffix of string * string
+
+let string_remove_suffix suffix s = String.(
+  let k = length s - length suffix in
+  let r = sub s 0 k in
+  let c = sub s k (length suffix) in
+  if suffix <> c then raise (InvalidSuffix (s, suffix));
+  r
+)
+
 let string_last_char s =
   String.(s.[length s - 1])
 

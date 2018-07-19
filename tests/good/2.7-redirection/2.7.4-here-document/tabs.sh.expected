@@ -29,7 +29,7 @@
                       ],
                       [
                         "Word",
-                        "a\n\ta\n\t\ta\nEOF",
+                        "a\n\ta\n\t\ta\n",
                         [ [ "WordLiteral", "a\n\ta\n\t\ta\nEOF" ] ]
                       ]
                     ]
@@ -72,7 +72,7 @@
                       ],
                       [
                         "Word",
-                        "a\na\na\nEOF",
+                        "a\na\na\n",
                         [ [ "WordLiteral", "a\n\ta\n\t\ta\n\t\t\tEOF" ] ]
                       ]
                     ]

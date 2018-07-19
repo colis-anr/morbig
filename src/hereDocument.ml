@@ -126,7 +126,7 @@ end = struct
     assert (!state = InsideHereDocuments);
     let delimiter_info = Queue.take delimiters_queue in
 
-    let store_here_document cst contents doc_start doc_end  =
+    let store_here_document end_marker cst contents doc_start doc_end  =
       (* store in the placeholder the here-document with contents [contents],
          start position [doc_start], and end position [doc_end]. *)
       let contents =
@@ -137,10 +137,13 @@ end = struct
           not be treated specially within a here-document, except when the
           double-quote appears within "$()", "``", or "${}".
          *)
-        if delimiter_info.quoted then
-          QuoteRemoval.backslash_as_in_doublequotes contents
-        else
-          contents
+        let contents =
+          if delimiter_info.quoted then
+            QuoteRemoval.backslash_as_in_doublequotes contents
+          else
+            contents
+        in
+        string_remove_suffix end_marker contents
       in
       let contents =
         (** specification:
@@ -176,7 +179,7 @@ end = struct
         | result ->
            located_word_of result
       in
-      store_here_document cst doc doc_start line_end;
+      store_here_document delimiter_info.word cst doc doc_start line_end;
       if Queue.is_empty delimiters_queue then state := NoHereDocuments;
       let before_stop =
         Lexing.({ line_end with

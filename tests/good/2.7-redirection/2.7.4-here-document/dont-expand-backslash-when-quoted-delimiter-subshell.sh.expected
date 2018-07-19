@@ -77,7 +77,7 @@
                                                 ],
                                                 [
                                                   "Word",
-                                                  "abc ` def\nghi jkl\nEOT",
+                                                  "abc ` def\nghi jkl\n",
                                                   [
                                                     [
                                                       "WordLiteral",

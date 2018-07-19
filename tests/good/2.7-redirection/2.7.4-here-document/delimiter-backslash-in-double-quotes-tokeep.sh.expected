@@ -94,7 +94,7 @@
                                       ],
                                       [
                                         "Word",
-                                        "hello\nE\\OF",
+                                        "hello\n",
                                         [ [ "WordLiteral", "hello\nE\\OF" ] ]
                                       ]
                                     ]

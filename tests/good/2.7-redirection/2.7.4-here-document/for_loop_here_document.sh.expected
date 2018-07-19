@@ -95,11 +95,7 @@
                       "HereEnd_Word",
                       [ "Word", "DATA", [ [ "WordName", "DATA" ] ] ]
                     ],
-                    [
-                      "Word",
-                      "foo\nDATA",
-                      [ [ "WordLiteral", "foo\nDATA" ] ]
-                    ]
+                    [ "Word", "foo\n", [ [ "WordLiteral", "foo\nDATA" ] ] ]
                   ]
                 ]
               ]

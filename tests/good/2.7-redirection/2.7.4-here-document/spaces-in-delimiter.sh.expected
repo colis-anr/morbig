@@ -42,7 +42,7 @@
                       ],
                       [
                         "Word",
-                        "a\nb\n  TEST\nTEST  \na\n  TEST  ",
+                        "a\nb\n  TEST\nTEST  \na\n",
                         [
                           [
                             "WordLiteral",

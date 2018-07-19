@@ -48,7 +48,7 @@
                       ],
                       [
                         "Word",
-                        "# This file lists certificates that you wish to use or to ignore to be\nEOF",
+                        "# This file lists certificates that you wish to use or to ignore to be\n",
                         [
                           [
                             "WordLiteral",

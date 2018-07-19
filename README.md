@@ -4,7 +4,6 @@
 ## Download [![Build Status](https://travis-ci.org/colis-anr/morbig.svg?branch=master)](https://travis-ci.org/colis-anr/morbig)
 
 
-
 ```
     git clone git@github.com:colis-anr/morbig.git
 ```

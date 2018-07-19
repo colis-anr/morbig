@@ -62,7 +62,7 @@
                       "HereEnd_Word",
                       [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
                     ],
-                    [ "Word", "a\nEOF", [ [ "WordLiteral", "a\nEOF" ] ] ]
+                    [ "Word", "a\n", [ [ "WordLiteral", "a\nEOF" ] ] ]
                   ]
                 ]
               ]

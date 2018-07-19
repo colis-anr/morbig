@@ -48,7 +48,7 @@
                         ],
                         [
                           "Word",
-                          "Hi John!\nEOF1",
+                          "Hi John!\n",
                           [ [ "WordLiteral", "Hi John!\nEOF1" ] ]
                         ]
                       ]
@@ -100,7 +100,7 @@
                       ],
                       [
                         "Word",
-                        "    Hi Jane!\nEOF2",
+                        "    Hi Jane!\n",
                         [ [ "WordLiteral", "    Hi Jane!\nEOF2" ] ]
                       ]
                     ]

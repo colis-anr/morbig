@@ -58,7 +58,7 @@
                     ],
                     [
                       "Word",
-                      "blabla\nDATA",
+                      "blabla\n",
                       [ [ "WordLiteral", "blabla\nDATA" ] ]
                     ]
                   ]
