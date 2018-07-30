@@ -250,5 +250,8 @@ let ( <$> ) x f =
 let list_last l =
   list_hd_opt (List.rev l)
 
+let lines s =
+  Str.(split (regexp "\n") s)
+
 let string_last_line s =
-  Str.(split (regexp "\n") s) |> list_last
+  lines s |> list_last

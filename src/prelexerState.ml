@@ -508,7 +508,7 @@ let remove_contents_suffix end_marker (contents : string) (cst : CST.word_cst) =
   let rec aux cst =
     match cst with
     | (WordLiteral contents) :: cst ->
-       begin match String.split_on_char '\n' contents with
+       begin match lines contents with
        | [] ->
           assert false (* Because of split_on_char. *)
        | [_] ->
