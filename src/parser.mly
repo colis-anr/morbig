@@ -176,9 +176,14 @@
 (* -------------------------------------------------------
    The Grammar
    ------------------------------------------------------- *)
-%start<CST.complete_command>  complete_command
+%start<CST.complete_command CST.located>  entry_point
 %start<unit> intented_error
 %%
+
+entry_point: c=located(complete_command) {
+  c
+}
+
 complete_command : l=located(clist) s=located(separator) EOF {
   CompleteCommand_CList_Separator (l, s)
 }

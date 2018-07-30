@@ -120,7 +120,8 @@ let string_of_position p =
 let compare_positions p1 p2 =
   compare p1.start_p.pos_cnum p2.start_p.pos_cnum
 
-let nonempty_complete_command = function
+let nonempty_complete_command c =
+  match c.value with
   | CompleteCommand_Empty -> false
   | _ -> true
 

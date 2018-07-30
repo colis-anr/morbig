@@ -86,7 +86,7 @@ type complete_command =
   | CompleteCommand_CList of clist'
   | CompleteCommand_Empty
 
-and complete_command_list = complete_command list
+and complete_command_list = complete_command located list
 
 and clist =
   (** This non-terminal is called [list] in the grammar but we cannot

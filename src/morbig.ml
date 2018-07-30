@@ -13,7 +13,7 @@
 
 open API
 
-let save input_filename (cst : CST.complete_command list) =
+let save input_filename (cst : CST.complete_command CST.located list) =
   (** write the concrete syntax tree [cst] to the output file corresponding
       to [input_filename]. The format and and the name of the output file
       are determined by the program options. *)

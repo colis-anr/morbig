@@ -13,5 +13,5 @@
 
 let parse =
   ref (fun (current : PrelexerState.t) (lexbuf : Lexing.lexbuf) ->
-      (assert false : CST.complete_command list)
+      (assert false : CST.complete_command CST.located list)
     )
