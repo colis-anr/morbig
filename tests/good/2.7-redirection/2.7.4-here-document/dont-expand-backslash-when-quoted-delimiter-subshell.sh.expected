@@ -81,7 +81,7 @@
                                                   [
                                                     [
                                                       "WordLiteral",
-                                                      "abc ` def\nghi \\\njkl\nEOT"
+                                                      "abc ` def\nghi \\\njkl\n"
                                                     ]
                                                   ]
                                                 ]

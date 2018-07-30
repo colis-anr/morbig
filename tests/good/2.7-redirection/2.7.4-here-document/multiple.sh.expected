@@ -49,7 +49,7 @@
                         [
                           "Word",
                           "Hi John!\n",
-                          [ [ "WordLiteral", "Hi John!\nEOF1" ] ]
+                          [ [ "WordLiteral", "Hi John!\n" ] ]
                         ]
                       ]
                     ]
@@ -101,7 +101,7 @@
                       [
                         "Word",
                         "    Hi Jane!\n",
-                        [ [ "WordLiteral", "    Hi Jane!\nEOF2" ] ]
+                        [ [ "WordLiteral", "    Hi Jane!\n" ] ]
                       ]
                     ]
                   ]

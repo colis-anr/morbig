@@ -43,7 +43,7 @@
                       [
                         "Word",
                         "\\a\\$\\\\\n",
-                        [ [ "WordLiteral", "\\a\\$\\\\\nEOF1" ] ]
+                        [ [ "WordLiteral", "\\a\\$\\\\\n" ] ]
                       ]
                     ]
                   ]
@@ -86,7 +86,7 @@
                       [
                         "Word",
                         "\\a\\$\\\\\n",
-                        [ [ "WordLiteral", "\\a\\$\\\\\nEOF2" ] ]
+                        [ [ "WordLiteral", "\\a\\$\\\\\n" ] ]
                       ]
                     ]
                   ]

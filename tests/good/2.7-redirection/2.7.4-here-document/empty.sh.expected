@@ -27,7 +27,7 @@
                         "HereEnd_Word",
                         [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
                       ],
-                      [ "Word", "", [ [ "WordLiteral", "EOF" ] ] ]
+                      [ "Word", "", [] ]
                     ]
                   ]
                 ]

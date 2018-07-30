@@ -27,7 +27,7 @@
                         "HereEnd_Word",
                         [ "Word", "EOT", [ [ "WordName", "EOT" ] ] ]
                       ],
-                      [ "Word", "'\n", [ [ "WordLiteral", "'\nEOT" ] ] ]
+                      [ "Word", "'\n", [ [ "WordLiteral", "'\n" ] ] ]
                     ]
                   ]
                 ]

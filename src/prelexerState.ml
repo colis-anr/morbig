@@ -503,6 +503,28 @@ let found_current_here_document_delimiter current =
   | _ ->
      false
 
+let remove_contents_suffix end_marker (contents : string) (cst : CST.word_cst) =
+  let contents = string_remove_suffix end_marker contents in
+  let rec aux cst =
+    match cst with
+    | (WordLiteral contents) :: cst ->
+       begin match String.split_on_char '\n' contents with
+       | [] ->
+          assert false (* Because of split_on_char. *)
+       | [_] ->
+          aux cst (* There is no newline character. *)
+       | rest ->
+          let rest = List.(rev (tl (rev rest))) in
+          let suffix = String.concat "\n" rest ^ "\n" in
+          WordLiteral suffix :: cst
+       end
+    | _ :: cst ->
+       aux cst
+    | [] ->
+       []
+  in
+  contents, List.(rev (aux (rev cst)))
+
 let debug ?(rule="") lexbuf current = Lexing.(
     if Options.debug () then
       let curr_pos =

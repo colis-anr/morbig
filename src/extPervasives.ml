@@ -93,6 +93,11 @@ let string_cut_at k s = String.(
 
 exception InvalidSuffix of string * string
 
+let string_split k s =
+  let n = String.length s in
+  let k = min k n in
+  String.sub s 0 k, String.sub s k (n - k)
+
 let string_remove_suffix suffix s = String.(
   let k = length s - length suffix in
   let r = sub s 0 k in

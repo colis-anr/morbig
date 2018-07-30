@@ -81,7 +81,7 @@
                                                   [
                                                     [
                                                       "WordLiteral",
-                                                      "Here document not expanded, may be unbalanced ' \" $(\nand a backslash at the end of the line is NOT removed \\\nEOF"
+                                                      "Here document not expanded, may be unbalanced ' \" $(\nand a backslash at the end of the line is NOT removed \\\n"
                                                     ]
                                                   ]
                                                 ]

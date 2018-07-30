@@ -165,10 +165,7 @@
                       "Word",
                       "/usr/local/share/cacti/scripts\n",
                       [
-                        [
-                          "WordLiteral",
-                          "/usr/local/share/cacti/scripts\nDATA"
-                        ]
+                        [ "WordLiteral", "/usr/local/share/cacti/scripts\n" ]
                       ]
                     ]
                   ]

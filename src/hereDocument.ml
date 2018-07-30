@@ -142,8 +142,8 @@ end = struct
         else
           contents
       in
-      let contents =
-        string_remove_suffix end_marker contents
+      let contents, cst =
+        remove_contents_suffix end_marker contents cst
       in
       let contents =
         (** specification:
@@ -160,24 +160,24 @@ end = struct
           value = Word (contents, cst);
           position = { start_p = doc_start; end_p = doc_end }
         }
+    in
+    let (Word (doc, cst) as here_document), doc_start, line_end =
+      let current =
+        enter_here_document delimiter_info.dashed delimiter_info.word current
       in
-      let (Word (doc, cst) as here_document), doc_start, line_end =
-        let current =
-          enter_here_document delimiter_info.dashed delimiter_info.word current
-        in
-        let result =
-          if delimiter_info.quoted then
-            let current = Prelexer.single_quotes current lexbuf in
-            return lexbuf current []
-          else
-            Prelexer.token current lexbuf
-        in
-        match result with
-        | [Pretoken.NEWLINE, p1, p2] ->
-           (* Special case for empty here document. *)
-           (Word ("", []), p1, p2)
-        | result ->
-           located_word_of result
+      let result =
+        if delimiter_info.quoted then
+          let current = Prelexer.single_quotes current lexbuf in
+          return lexbuf current []
+        else
+          Prelexer.token current lexbuf
+      in
+      match result with
+      | [Pretoken.NEWLINE, p1, p2] ->
+         (* Special case for empty here document. *)
+         (Word ("", []), p1, p2)
+      | result ->
+         located_word_of result
       in
       store_here_document delimiter_info.word cst doc doc_start line_end;
       if Queue.is_empty delimiters_queue then state := NoHereDocuments;

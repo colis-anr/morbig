@@ -105,7 +105,7 @@
                                         [
                                           [
                                             "WordLiteral",
-                                            "contents of the here document\nEOF"
+                                            "contents of the here document\n"
                                           ]
                                         ]
                                       ]

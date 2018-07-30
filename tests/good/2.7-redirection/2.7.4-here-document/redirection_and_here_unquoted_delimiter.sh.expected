@@ -47,7 +47,7 @@
                       [
                         "Word",
                         "coocoo\n",
-                        [ [ "WordLiteral", "coocoo\nEOF" ] ]
+                        [ [ "WordLiteral", "coocoo\n" ] ]
                       ]
                     ]
                   ]

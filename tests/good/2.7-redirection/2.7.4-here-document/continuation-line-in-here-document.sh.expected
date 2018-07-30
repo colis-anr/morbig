@@ -88,7 +88,7 @@
                                         [
                                           [
                                             "WordLiteral",
-                                            "first line\nsecond line\nthird line with continuationEOF\nforth and last line ((\nEOF"
+                                            "first line\nsecond line\nthird line with continuationEOF\nforth and last line ((\n"
                                           ]
                                         ]
                                       ]

@@ -30,7 +30,7 @@
                       [
                         "Word",
                         "a\n\ta\n\t\ta\n",
-                        [ [ "WordLiteral", "a\n\ta\n\t\ta\nEOF" ] ]
+                        [ [ "WordLiteral", "a\n\ta\n\t\ta\n" ] ]
                       ]
                     ]
                   ]
@@ -73,7 +73,7 @@
                       [
                         "Word",
                         "a\na\na\n",
-                        [ [ "WordLiteral", "a\n\ta\n\t\ta\n\t\t\tEOF" ] ]
+                        [ [ "WordLiteral", "a\n\ta\n\t\ta\n" ] ]
                       ]
                     ]
                   ]

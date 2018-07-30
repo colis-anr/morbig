@@ -95,17 +95,7 @@
                                       [
                                         "Word",
                                         "hello\n",
-                                        [
-                                          [ "WordLiteral", "hello\nE" ],
-                                          [
-                                            "WordVariable",
-                                            [
-                                              "VariableAtom",
-                                              "F",
-                                              [ "NoAttribute" ]
-                                            ]
-                                          ]
-                                        ]
+                                        [ [ "WordLiteral", "hello\n" ] ]
                                       ]
                                     ]
                                   ]
