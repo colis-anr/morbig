@@ -129,20 +129,20 @@ end = struct
     let store_here_document end_marker cst contents doc_start doc_end  =
       (* store in the placeholder the here-document with contents [contents],
          start position [doc_start], and end position [doc_end]. *)
-      let contents =
-        (** specification:
+      (** specification:
           If no part of word is quoted ... the <backslash> in the
           input behaves as the <backslash> inside double-quotes (see
           Double-Quotes). However, the double-quote character ( ' )' shall
           not be treated specially within a here-document, except when the
           double-quote appears within "$()", "``", or "${}".
-         *)
-        let contents =
-          if delimiter_info.quoted then
-            QuoteRemoval.backslash_as_in_doublequotes contents
-          else
-            contents
-        in
+      *)
+      let contents =
+        if delimiter_info.quoted then
+          QuoteRemoval.backslash_as_in_doublequotes contents
+        else
+          contents
+      in
+      let contents =
         string_remove_suffix end_marker contents
       in
       let contents =
