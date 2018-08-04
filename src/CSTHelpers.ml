@@ -126,6 +126,8 @@ let nonempty_complete_command c =
   | _ -> true
 
 
+(* CST destructors *)
+
 (** [wordlist_of_cmd_suffix] extracts the list of all words from a cmd_sufix *)
 let rec wordlist_of_cmd_suffix = function
   | CmdSuffix_IoRedirect _io_redirect' ->
@@ -136,3 +138,52 @@ let rec wordlist_of_cmd_suffix = function
      [word'.value]
   | CmdSuffix_CmdSuffix_Word (cmd_suffix',word') ->
      (wordlist_of_cmd_suffix cmd_suffix'.value)@[word'.value]
+
+(* Get redirections from various places where they can occur *)
+
+let cmd_prefix_to_io_redirect_list cmd_prefix =
+  let rec aux acc = function
+    | CmdPrefix_IoRedirect io_redirect' ->
+       io_redirect' :: acc
+    | CmdPrefix_CmdPrefix_IoRedirect (cmd_prefix', io_redirect') ->
+       aux (io_redirect' :: acc) cmd_prefix'.value
+    | CmdPrefix_AssignmentWord _ ->
+       acc
+    | CmdPrefix_CmdPrefix_AssignmentWord (cmd_prefix', _) ->
+       aux acc cmd_prefix'.value
+  in
+  aux [] cmd_prefix
+
+let cmd_suffix_to_io_redirect_list cmd_suffix =
+  let rec aux acc = function
+    | CmdSuffix_IoRedirect io_redirect' ->
+       io_redirect' :: acc
+    | CmdSuffix_CmdSuffix_IoRedirect (cmd_suffix', io_redirect') ->
+       aux (io_redirect' :: acc) cmd_suffix'.value
+    | CmdSuffix_Word _ ->
+       acc
+    | CmdSuffix_CmdSuffix_Word (cmd_suffix', _) ->
+       aux acc cmd_suffix'.value
+  in
+  aux [] cmd_suffix
+
+let redirect_list_to_io_redirect_list redirect_list =
+  let rec aux acc = function
+    | RedirectList_IoRedirect io_redirect' ->
+       io_redirect' :: acc
+    | RedirectList_RedirectList_IoRedirect (redirect_list', io_redirect') ->
+       aux (io_redirect' :: acc) redirect_list'.value
+  in
+  aux [] redirect_list
+
+let simple_command_to_io_redirect_list = function
+  | SimpleCommand_CmdPrefix_CmdWord_CmdSuffix (cmd_prefix', _, cmd_suffix') ->
+     (cmd_prefix_to_io_redirect_list cmd_prefix'.value)
+     @ (cmd_suffix_to_io_redirect_list cmd_suffix'.value)
+  | SimpleCommand_CmdPrefix_CmdWord (cmd_prefix', _)
+  | SimpleCommand_CmdPrefix cmd_prefix' ->
+     cmd_prefix_to_io_redirect_list cmd_prefix'.value
+  | SimpleCommand_CmdName_CmdSuffix (_, cmd_suffix') ->
+     cmd_suffix_to_io_redirect_list cmd_suffix'.value
+  | SimpleCommand_CmdName _ ->
+     []
