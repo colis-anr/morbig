@@ -187,9 +187,9 @@ let parse partial (module Lexer : Lexer) =
             match top env with
             | Some (Element (state, v, _, _)) ->
               let analyse_top : type a. a symbol * a -> _ = function
-                | T T_NAME, Name w when is_reserved_word w -> 
+                | T T_NAME, Name w when is_reserved_word w ->
                    parse_error ()
-                | T T_WORD, Word (w, _) when is_reserved_word w -> 
+                | T T_WORD, Word (w, _) when is_reserved_word w ->
                    parse_error ()
                 | _ ->
                   (* By correctness of the underlying LR automaton. *)
@@ -377,7 +377,7 @@ module Lexer (U : sig end) : Lexer = struct
 
   let last_state = ref None
 
-  let copy_position p = 
+  let copy_position p =
     Lexing.{
         pos_fname = p.pos_fname;
         pos_lnum = p.pos_lnum;
@@ -427,6 +427,6 @@ let parse partial current lexbuf =
   let module Lexer = Lexer (struct end) in
   Lexer.initialize current lexbuf;
   parse partial (module Lexer)
-  |> List.filter CSTHelpers.nonempty_complete_command
+  |> List.filter CSTHelpers.(on_located nonempty_complete_command)
 
 let close_knot = RecursiveParser.parse := (parse true)
