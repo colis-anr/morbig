@@ -20,4 +20,4 @@ exception SyntaxError of CST.position * string
    [filename] and returns a concrete syntax tree if [filename] content
    is syntactically correct.
    Raise {SyntaxError (pos, msg)} otherwise. *)
-val parse_file: string -> CST.complete_command_list
+val parse_file: string -> CST.program

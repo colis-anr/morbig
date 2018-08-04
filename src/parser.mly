@@ -114,7 +114,8 @@
 %token NEWLINE
 %token<CST.io_number>  IO_NUMBER
 
-(* The following are the operators mentioned above. *)
+(* The following are the operators (see XBD Operator)
+    containing more than one character. *)
 
 
 %token  AND_IF    OR_IF    DSEMI
@@ -166,32 +167,38 @@
    strategy. *)
 %token INTENDED_ERROR
 
-(*changes: Conflicts resolution via precedence directives. *)
-
-%left compound_list_newline_list_prec separator_newline_list_prec
-      linebreak_empty_prec
-%left NEWLINE
 
 
 (* -------------------------------------------------------
    The Grammar
    ------------------------------------------------------- *)
-%start<CST.complete_command CST.located>  entry_point
+%start<CST.program CST.located>  entry_point
 %start<unit> intented_error
 %%
 
-entry_point: c=located(complete_command) {
+entry_point: c=located(program) {
   c
 }
 
-complete_command : l=located(clist) s=located(separator) EOF {
-  CompleteCommand_CList_Separator (l, s)
+program : l1=located(linebreak) c=located(complete_commands) l2=located(linebreak) EOF {
+  Program_LineBreak_CompleteCommands_LineBreak (l1, c, l2)
+}
+| l=located(linebreak) {
+  Program_LineBreak l
+}
+;
+complete_commands: cs=located(complete_commands) nl=located(newline_list) c=located(complete_command) {
+  CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (cs, nl, c)
+}
+| c=located(complete_command) {
+  CompleteCommands_CompleteCommand c
+}
+;
+complete_command : l=located(clist) s=located(separator_op) EOF {
+  CompleteCommand_CList_SeparatorOp (l, s)
 }
 | l=located(clist) EOF {
   CompleteCommand_CList l
-}
-| EOF {
-  CompleteCommand_Empty
 }
 ;
 clist:
@@ -267,18 +274,11 @@ subshell         : Lparen c=located(compound_list) Rparen {
   Subshell_Lparen_CompoundList_Rparen c
 }
 ;
-compound_list    : t=located(term) %prec compound_list_newline_list_prec {
-  CompoundList_Term t
+compound_list    : l=located(linebreak) t=located(term) {
+  CompoundList_LineBreak_Term (l, t)
 }
-| n=located(newline_list) t=located(term)
-%prec compound_list_newline_list_prec {
-  CompoundList_NewLineList_Term (n, t)
-}
-| t=located(term) s=located(separator) {
-  CompoundList_Term_Separator (t, s)
-}
-| n=located(newline_list) t=located(term) s=located(separator) {
-  CompoundList_NewLineList_Term_Separator (n, t, s)
+| l=located(linebreak) t=located(term) s=located(separator) {
+  CompoundList_LineBreak_Term_Separator (l, t, s)
 }
 ;
 term             : t=located(term) s=located(separator) a=located(and_or) {
@@ -346,14 +346,14 @@ case_list        : c=located(case_list) ci=located(case_item) {
 case_item_ns     : p=located(pattern) Rparen l=located(linebreak) {
   CaseItemNS_Pattern_Rparen_LineBreak (p, l)
 }
-| p=located(pattern) Rparen c=located(compound_list) l=located(linebreak) {
-  CaseItemNS_Pattern_Rparen_CompoundList_LineBreak (p, c, l)
+| p=located(pattern) Rparen c=located(compound_list) {
+  CaseItemNS_Pattern_Rparen_CompoundList (p, c)
 }
 | Lparen p=located(pattern) Rparen l=located(linebreak) {
   CaseItemNS_Lparen_Pattern_Rparen_LineBreak (p, l)
 }
-| Lparen p=located(pattern) Rparen c=located(compound_list) l=located(linebreak) {
-  CaseItemNS_Lparen_Pattern_Rparen_CompoundList_LineBreak (p, c, l)
+| Lparen p=located(pattern) Rparen c=located(compound_list) {
+  CaseItemNS_Lparen_Pattern_Rparen_CompoundList (p, c)
 }
 ;
 case_item        : p=located(pattern) Rparen l1=located(linebreak) DSEMI l2=located(linebreak) {
@@ -539,10 +539,10 @@ newline_list:
   NewLineList_NewLineList_NewLine l
 }
 ;
-linebreak: n=located(newline_list) %prec linebreak_empty_prec {
+linebreak: n=located(newline_list) {
   LineBreak_NewLineList n
 }
-| /* empty */ %prec linebreak_empty_prec {
+| /* empty */ {
   LineBreak_Empty
 }
 ;
@@ -556,7 +556,7 @@ separator_op : Uppersand {
 separator : s=located(separator_op) l=located(linebreak) {
   Separator_SeparatorOp_LineBreak (s, l)
 }
-| n=located(newline_list) %prec separator_newline_list_prec {
+| n=located(newline_list) {
   Separator_NewLineList n
 }
 ;

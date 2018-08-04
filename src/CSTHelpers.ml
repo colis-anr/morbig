@@ -13,11 +13,11 @@
 
 open CST
 
+let program_to_json p =
+  program_to_yojson p
+
 let complete_command_to_json c =
   complete_command_to_yojson c
-
-let complete_command_list_to_json cl =
-  complete_command_list_to_yojson cl
 
 let unWord (Word (s, _)) = s
 
@@ -120,9 +120,9 @@ let string_of_position p =
 let compare_positions p1 p2 =
   compare p1.start_p.pos_cnum p2.start_p.pos_cnum
 
-let nonempty_complete_command c =
-  match c.value with
-  | CompleteCommand_Empty -> false
+let nonempty_program p =
+  match p.value with
+  | Program_LineBreak _ -> false
   | _ -> true
 
 
