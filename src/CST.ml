@@ -58,35 +58,26 @@ and 'a located = {
 }
 [@@deriving
    yojson,
-   visitors { variety = "iter";
-              name="located_iter";
-              polymorphic = true },
-   visitors { variety = "map";
-              name="located_map";
-              polymorphic = true },
-   visitors { variety = "reduce";
-              name="located_reduce";
-              polymorphic = true },
-   visitors { variety = "mapreduce";
-              name="located_mapreduce";
-              polymorphic = true },
-   visitors { variety = "iter2";
-              name="located_iter2";
-              polymorphic = true },
-   visitors { variety = "map2";
-              name="located_map2";
-              polymorphic = true },
-   visitors { variety = "reduce2";
-              name="located_reduce2";
-              polymorphic = true }
+   visitors { variety = "iter";      name = "located_iter";      polymorphic = true },
+   visitors { variety = "map";       name = "located_map";       polymorphic = true },
+   visitors { variety = "reduce";    name = "located_reduce";    polymorphic = true },
+   visitors { variety = "mapreduce"; name = "located_mapreduce"; polymorphic = true },
+   visitors { variety = "iter2";     name = "located_iter2";     polymorphic = true },
+   visitors { variety = "map2";      name = "located_map2";      polymorphic = true },
+   visitors { variety = "reduce2";   name = "located_reduce2";   polymorphic = true }
 ]
 
-type complete_command =
-  | CompleteCommand_CList_Separator of clist' * separator'
-  | CompleteCommand_CList of clist'
-  | CompleteCommand_Empty
+type program =
+  | Program_LineBreak_CompleteCommands_LineBreak of linebreak' * complete_commands' * linebreak'
+  | Program_LineBreak of linebreak'
 
-and complete_command_list = complete_command located list
+and complete_commands =
+  | CompleteCommands_CompleteCommands_NewlineList_CompleteCommand of complete_commands' * newline_list' * complete_command'
+  | CompleteCommands_CompleteCommand of complete_command'
+
+and complete_command =
+  | CompleteCommand_CList_SeparatorOp of clist' * separator_op'
+  | CompleteCommand_CList of clist'
 
 and clist =
   (** This non-terminal is called [list] in the grammar but we cannot
@@ -129,11 +120,9 @@ and subshell =
   | Subshell_Lparen_CompoundList_Rparen of compound_list'
 
 and compound_list =
-  | CompoundList_Term of term'
-  | CompoundList_NewLineList_Term of newline_list' * term'
-  | CompoundList_Term_Separator of term' * separator'
-  | CompoundList_NewLineList_Term_Separator of
-      newline_list' * term' * separator'
+  | CompoundList_LineBreak_Term of linebreak' * term'
+  | CompoundList_LineBreak_Term_Separator of
+      linebreak' * term' * separator'
 
 and term =
   | Term_Term_Separator_AndOr of term' * separator' * and_or'
@@ -171,12 +160,12 @@ and case_list =
 and case_item_ns =
   | CaseItemNS_Pattern_Rparen_LineBreak of
       pattern' * linebreak'
-  | CaseItemNS_Pattern_Rparen_CompoundList_LineBreak of
-      pattern' * compound_list' * linebreak'
+  | CaseItemNS_Pattern_Rparen_CompoundList of
+      pattern' * compound_list'
   | CaseItemNS_Lparen_Pattern_Rparen_LineBreak of
       pattern' * linebreak'
-  | CaseItemNS_Lparen_Pattern_Rparen_CompoundList_LineBreak of
-      pattern' * compound_list' * linebreak'
+  | CaseItemNS_Lparen_Pattern_Rparen_CompoundList of
+      pattern' * compound_list'
 
 and case_item =
   | CaseItem_Pattern_Rparen_LineBreak_Dsemi_LineBreak of
@@ -329,7 +318,7 @@ and word = Word of string * word_cst
 and word_cst = word_component list
 
 and word_component =
-  | WordSubshell of subshell_kind * complete_command_list
+  | WordSubshell of subshell_kind * complete_commands
   | WordName of string
   | WordAssignmentWord of assignment_word
   | WordDoubleQuoted of word
@@ -368,10 +357,11 @@ and name = Name of string
 
 and assignment_word = name * word
 
-and assignment_word' = assignment_word located
-
 and io_number = IONumber of string
 
+and program' = program located
+and complete_commands' = complete_commands located
+and complete_command' = complete_command located
 and clist' = clist located
 and and_or' = and_or located
 and pipeline' = pipeline located
@@ -416,7 +406,7 @@ and separator' = separator located
 and sequential_sep' = sequential_sep located
 and word' = word located
 and name' = name located
-and complete_command_list' = complete_command_list located
+and assignment_word' = assignment_word located
 
 [@@deriving
    yojson,

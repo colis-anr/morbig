@@ -13,11 +13,15 @@
 
 open CST
 
+
 (* Helpers about complete commands *)
 
 let nonempty_complete_command = function
   | CompleteCommand_Empty -> false
   | _ -> true
+
+let program_to_json p =
+  program_to_yojson p
 
 let complete_command_to_json c =
   complete_command_to_yojson c
@@ -97,6 +101,11 @@ let compare_positions p1 p2 =
 (* Helpers about words and names *)
 
 let unWord (Word (s, _)) = s
+
+let nonempty_program p =
+  match p.value with
+  | Program_LineBreak _ -> false
+  | _ -> true
 
 let unName (Name s) = s
 
