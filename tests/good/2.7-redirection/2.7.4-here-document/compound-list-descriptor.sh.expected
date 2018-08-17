@@ -1,68 +1,74 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand_RedirectList",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_BraceGroup",
+                "Command_CompoundCommand_RedirectList",
                 [
-                  "BraceGroup_LBrace_CompoundList_RBrace",
+                  "CompoundCommand_BraceGroup",
                   [
-                    "CompoundList_Term_Separator",
+                    "BraceGroup_LBrace_CompoundList_RBrace",
                     [
-                      "Term_AndOr",
+                      "CompoundList_LineBreak_Term_Separator",
+                      [ "LineBreak_Empty" ],
                       [
-                        "AndOr_Pipeline",
+                        "Term_AndOr",
                         [
-                          "Pipeline_PipeSequence",
+                          "AndOr_Pipeline",
                           [
-                            "PipeSequence_Command",
+                            "Pipeline_PipeSequence",
                             [
-                              "Command_SimpleCommand",
+                              "PipeSequence_Command",
                               [
-                                "SimpleCommand_CmdName",
+                                "Command_SimpleCommand",
                                 [
-                                  "CmdName_Word",
+                                  "SimpleCommand_CmdName",
                                   [
-                                    "Word",
-                                    "cat",
-                                    [ [ "WordName", "cat" ] ]
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "cat",
+                                      [ [ "WordName", "cat" ] ]
+                                    ]
                                   ]
                                 ]
                               ]
                             ]
                           ]
                         ]
+                      ],
+                      [
+                        "Separator_SeparatorOp_LineBreak",
+                        [ "SeparatorOp_Semicolon" ],
+                        [ "LineBreak_Empty" ]
                       ]
-                    ],
-                    [
-                      "Separator_SeparatorOp_LineBreak",
-                      [ "SeparatorOp_Semicolon" ],
-                      [ "LineBreak_Empty" ]
                     ]
                   ]
-                ]
-              ],
-              [
-                "RedirectList_IoRedirect",
+                ],
                 [
-                  "IoRedirect_IoNumber_IoHere",
-                  [ "IONumber", "9" ],
+                  "RedirectList_IoRedirect",
                   [
-                    "IoHere_DLess_HereEnd",
+                    "IoRedirect_IoNumber_IoHere",
+                    [ "IONumber", "9" ],
                     [
-                      "HereEnd_Word",
-                      [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
-                    ],
-                    [ "Word", "a\n", [ [ "WordLiteral", "a\n" ] ] ]
+                      "IoHere_DLess_HereEnd",
+                      [
+                        "HereEnd_Word",
+                        [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
+                      ],
+                      [ "Word", "a\n", [ [ "WordLiteral", "a\n" ] ] ]
+                    ]
                   ]
                 ]
               ]
@@ -71,5 +77,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

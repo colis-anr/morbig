@@ -1,151 +1,160 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_CaseClause",
+                "Command_CompoundCommand",
                 [
-                  "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseList_Esac",
+                  "CompoundCommand_CaseClause",
                   [
-                    "Word",
-                    "\"$1\"",
+                    "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseList_Esac",
                     [
+                      "Word",
+                      "\"$1\"",
                       [
-                        "WordDoubleQuoted",
                         [
-                          "Word",
-                          "$1",
+                          "WordDoubleQuoted",
                           [
+                            "Word",
+                            "$1",
                             [
-                              "WordVariable",
-                              [ "VariableAtom", "1", [ "NoAttribute" ] ]
+                              [
+                                "WordVariable",
+                                [ "VariableAtom", "1", [ "NoAttribute" ] ]
+                              ]
                             ]
                           ]
                         ]
                       ]
-                    ]
-                  ],
-                  [ "LineBreak_Empty" ],
-                  [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
-                  [
-                    "CaseList_CaseItem",
+                    ],
+                    [ "LineBreak_Empty" ],
+                    [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
                     [
-                      "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
+                      "CaseList_CaseItem",
                       [
-                        "Pattern_Word",
+                        "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                         [
-                          "Word",
-                          "configure",
-                          [ [ "WordName", "configure" ] ]
-                        ]
-                      ],
-                      [
-                        "CompoundList_NewLineList_Term_Separator",
-                        [ "NewLineList_NewLine" ],
-                        [
-                          "Term_AndOr",
+                          "Pattern_Word",
                           [
-                            "AndOr_Pipeline",
+                            "Word",
+                            "configure",
+                            [ [ "WordName", "configure" ] ]
+                          ]
+                        ],
+                        [
+                          "CompoundList_LineBreak_Term_Separator",
+                          [
+                            "LineBreak_NewLineList",
+                            [ "NewLineList_NewLine" ]
+                          ],
+                          [
+                            "Term_AndOr",
                             [
-                              "Pipeline_PipeSequence",
+                              "AndOr_Pipeline",
                               [
-                                "PipeSequence_Command",
+                                "Pipeline_PipeSequence",
                                 [
-                                  "Command_CompoundCommand",
+                                  "PipeSequence_Command",
                                   [
-                                    "CompoundCommand_IfClause",
+                                    "Command_CompoundCommand",
                                     [
-                                      "IfClause_If_CompoundList_Then_CompoundList_Fi",
+                                      "CompoundCommand_IfClause",
                                       [
-                                        "CompoundList_Term_Separator",
+                                        "IfClause_If_CompoundList_Then_CompoundList_Fi",
                                         [
-                                          "Term_AndOr",
+                                          "CompoundList_LineBreak_Term_Separator",
+                                          [ "LineBreak_Empty" ],
                                           [
-                                            "AndOr_Pipeline",
+                                            "Term_AndOr",
                                             [
-                                              "Pipeline_PipeSequence",
+                                              "AndOr_Pipeline",
                                               [
-                                                "PipeSequence_Command",
+                                                "Pipeline_PipeSequence",
                                                 [
-                                                  "Command_SimpleCommand",
+                                                  "PipeSequence_Command",
                                                   [
-                                                    "SimpleCommand_CmdName_CmdSuffix",
+                                                    "Command_SimpleCommand",
                                                     [
-                                                      "CmdName_Word",
+                                                      "SimpleCommand_CmdName_CmdSuffix",
                                                       [
-                                                        "Word",
-                                                        "[",
+                                                        "CmdName_Word",
                                                         [
+                                                          "Word",
+                                                          "[",
                                                           [
-                                                            "WordLiteral",
-                                                            "["
+                                                            [
+                                                              "WordLiteral",
+                                                              "["
+                                                            ]
                                                           ]
                                                         ]
-                                                      ]
-                                                    ],
-                                                    [
-                                                      "CmdSuffix_CmdSuffix_Word",
+                                                      ],
                                                       [
                                                         "CmdSuffix_CmdSuffix_Word",
                                                         [
                                                           "CmdSuffix_CmdSuffix_Word",
                                                           [
-                                                            "CmdSuffix_Word",
+                                                            "CmdSuffix_CmdSuffix_Word",
                                                             [
-                                                              "Word",
-                                                              "$#",
+                                                              "CmdSuffix_Word",
                                                               [
+                                                                "Word",
+                                                                "$#",
                                                                 [
-                                                                  "WordVariable",
                                                                   [
+                                                                    "WordVariable",
+                                                                    [
                                                                     "VariableAtom",
                                                                     "#",
                                                                     [
                                                                     "NoAttribute"
                                                                     ]
+                                                                    ]
                                                                   ]
+                                                                ]
+                                                              ]
+                                                            ],
+                                                            [
+                                                              "Word",
+                                                              "-ge",
+                                                              [
+                                                                [
+                                                                  "WordLiteral",
+                                                                  "-ge"
                                                                 ]
                                                               ]
                                                             ]
                                                           ],
                                                           [
                                                             "Word",
-                                                            "-ge",
+                                                            "3",
                                                             [
                                                               [
                                                                 "WordLiteral",
-                                                                "-ge"
+                                                                "3"
                                                               ]
                                                             ]
                                                           ]
                                                         ],
                                                         [
                                                           "Word",
-                                                          "3",
+                                                          "]",
                                                           [
                                                             [
                                                               "WordLiteral",
-                                                              "3"
+                                                              "]"
                                                             ]
-                                                          ]
-                                                        ]
-                                                      ],
-                                                      [
-                                                        "Word",
-                                                        "]",
-                                                        [
-                                                          [
-                                                            "WordLiteral",
-                                                            "]"
                                                           ]
                                                         ]
                                                       ]
@@ -154,64 +163,67 @@
                                                 ]
                                               ]
                                             ]
+                                          ],
+                                          [
+                                            "Separator_SeparatorOp_LineBreak",
+                                            [ "SeparatorOp_Semicolon" ],
+                                            [ "LineBreak_Empty" ]
                                           ]
                                         ],
                                         [
-                                          "Separator_SeparatorOp_LineBreak",
-                                          [ "SeparatorOp_Semicolon" ],
-                                          [ "LineBreak_Empty" ]
-                                        ]
-                                      ],
-                                      [
-                                        "CompoundList_NewLineList_Term_Separator",
-                                        [ "NewLineList_NewLine" ],
-                                        [
-                                          "Term_AndOr",
+                                          "CompoundList_LineBreak_Term_Separator",
                                           [
-                                            "AndOr_Pipeline",
+                                            "LineBreak_NewLineList",
+                                            [ "NewLineList_NewLine" ]
+                                          ],
+                                          [
+                                            "Term_AndOr",
                                             [
-                                              "Pipeline_PipeSequence",
+                                              "AndOr_Pipeline",
                                               [
-                                                "PipeSequence_Command",
+                                                "Pipeline_PipeSequence",
                                                 [
-                                                  "Command_SimpleCommand",
+                                                  "PipeSequence_Command",
                                                   [
-                                                    "SimpleCommand_CmdName_CmdSuffix",
+                                                    "Command_SimpleCommand",
                                                     [
-                                                      "CmdName_Word",
+                                                      "SimpleCommand_CmdName_CmdSuffix",
                                                       [
-                                                        "Word",
-                                                        "invoke-rc.d",
-                                                        [
-                                                          [
-                                                            "WordLiteral",
-                                                            "invoke-rc.d"
-                                                          ]
-                                                        ]
-                                                      ]
-                                                    ],
-                                                    [
-                                                      "CmdSuffix_CmdSuffix_Word",
-                                                      [
-                                                        "CmdSuffix_Word",
+                                                        "CmdName_Word",
                                                         [
                                                           "Word",
-                                                          "quota",
+                                                          "invoke-rc.d",
+                                                          [
+                                                            [
+                                                              "WordLiteral",
+                                                              "invoke-rc.d"
+                                                            ]
+                                                          ]
+                                                        ]
+                                                      ],
+                                                      [
+                                                        "CmdSuffix_CmdSuffix_Word",
+                                                        [
+                                                          "CmdSuffix_Word",
+                                                          [
+                                                            "Word",
+                                                            "quota",
+                                                            [
+                                                              [
+                                                                "WordName",
+                                                                "quota"
+                                                              ]
+                                                            ]
+                                                          ]
+                                                        ],
+                                                        [
+                                                          "Word",
+                                                          "start",
                                                           [
                                                             [
                                                               "WordName",
-                                                              "quota"
+                                                              "start"
                                                             ]
-                                                          ]
-                                                        ]
-                                                      ],
-                                                      [
-                                                        "Word",
-                                                        "start",
-                                                        [
-                                                          [
-                                                            "WordName",
-                                                            "start"
                                                           ]
                                                         ]
                                                       ]
@@ -220,11 +232,11 @@
                                                 ]
                                               ]
                                             ]
+                                          ],
+                                          [
+                                            "Separator_NewLineList",
+                                            [ "NewLineList_NewLine" ]
                                           ]
-                                        ],
-                                        [
-                                          "Separator_NewLineList",
-                                          [ "NewLineList_NewLine" ]
                                         ]
                                       ]
                                     ]
@@ -232,14 +244,17 @@
                                 ]
                               ]
                             ]
+                          ],
+                          [
+                            "Separator_NewLineList",
+                            [ "NewLineList_NewLine" ]
                           ]
                         ],
                         [
-                          "Separator_NewLineList",
+                          "LineBreak_NewLineList",
                           [ "NewLineList_NewLine" ]
                         ]
-                      ],
-                      [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ]
+                      ]
                     ]
                   ]
                 ]
@@ -249,5 +264,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

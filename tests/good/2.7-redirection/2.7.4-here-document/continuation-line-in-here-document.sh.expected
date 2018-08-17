@@ -1,97 +1,45 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_IfClause",
+                "Command_CompoundCommand",
                 [
-                  "IfClause_If_CompoundList_Then_CompoundList_ElsePart_Fi",
+                  "CompoundCommand_IfClause",
                   [
-                    "CompoundList_Term_Separator",
+                    "IfClause_If_CompoundList_Then_CompoundList_ElsePart_Fi",
                     [
-                      "Term_AndOr",
+                      "CompoundList_LineBreak_Term_Separator",
+                      [ "LineBreak_Empty" ],
                       [
-                        "AndOr_Pipeline",
+                        "Term_AndOr",
                         [
-                          "Pipeline_PipeSequence",
+                          "AndOr_Pipeline",
                           [
-                            "PipeSequence_Command",
+                            "Pipeline_PipeSequence",
                             [
-                              "Command_SimpleCommand",
+                              "PipeSequence_Command",
                               [
-                                "SimpleCommand_CmdName",
+                                "Command_SimpleCommand",
                                 [
-                                  "CmdName_Word",
+                                  "SimpleCommand_CmdName",
                                   [
-                                    "Word",
-                                    "true",
-                                    [ [ "WordName", "true" ] ]
-                                  ]
-                                ]
-                              ]
-                            ]
-                          ]
-                        ]
-                      ]
-                    ],
-                    [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
-                  ],
-                  [
-                    "CompoundList_NewLineList_Term_Separator",
-                    [ "NewLineList_NewLine" ],
-                    [
-                      "Term_AndOr",
-                      [
-                        "AndOr_Pipeline",
-                        [
-                          "Pipeline_PipeSequence",
-                          [
-                            "PipeSequence_Command",
-                            [
-                              "Command_SimpleCommand",
-                              [
-                                "SimpleCommand_CmdName_CmdSuffix",
-                                [
-                                  "CmdName_Word",
-                                  [
-                                    "Word",
-                                    "cat",
-                                    [ [ "WordName", "cat" ] ]
-                                  ]
-                                ],
-                                [
-                                  "CmdSuffix_IoRedirect",
-                                  [
-                                    "IoRedirect_IoHere",
+                                    "CmdName_Word",
                                     [
-                                      "IoHere_DLess_HereEnd",
-                                      [
-                                        "HereEnd_Word",
-                                        [
-                                          "Word",
-                                          "EOF",
-                                          [ [ "WordName", "EOF" ] ]
-                                        ]
-                                      ],
-                                      [
-                                        "Word",
-                                        "first line\nsecond line\nthird line with continuationEOF\nforth and last line ((\n",
-                                        [
-                                          [
-                                            "WordLiteral",
-                                            "first line\nsecond line\nthird line with continuationEOF\nforth and last line ((\n"
-                                          ]
-                                        ]
-                                      ]
+                                      "Word",
+                                      "true",
+                                      [ [ "WordName", "true" ] ]
                                     ]
                                   ]
                                 ]
@@ -99,14 +47,12 @@
                             ]
                           ]
                         ]
-                      ]
+                      ],
+                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
                     ],
-                    [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
-                  ],
-                  [
-                    "ElsePart_Else_CompoundList",
                     [
-                      "CompoundList_Term_Separator",
+                      "CompoundList_LineBreak_Term_Separator",
+                      [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
                       [
                         "Term_AndOr",
                         [
@@ -123,22 +69,32 @@
                                     "CmdName_Word",
                                     [
                                       "Word",
-                                      "echo",
-                                      [ [ "WordName", "echo" ] ]
+                                      "cat",
+                                      [ [ "WordName", "cat" ] ]
                                     ]
                                   ],
                                   [
-                                    "CmdSuffix_Word",
+                                    "CmdSuffix_IoRedirect",
                                     [
-                                      "Word",
-                                      "\"baeh\"",
+                                      "IoRedirect_IoHere",
                                       [
+                                        "IoHere_DLess_HereEnd",
                                         [
-                                          "WordDoubleQuoted",
+                                          "HereEnd_Word",
                                           [
                                             "Word",
-                                            "baeh",
-                                            [ [ "WordLiteral", "baeh" ] ]
+                                            "EOF",
+                                            [ [ "WordName", "EOF" ] ]
+                                          ]
+                                        ],
+                                        [
+                                          "Word",
+                                          "first line\nsecond line\nthird line with continuationEOF\nforth and last line ((\n",
+                                          [
+                                            [
+                                              "WordLiteral",
+                                              "first line\nsecond line\nthird line with continuationEOF\nforth and last line ((\n"
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -151,6 +107,60 @@
                         ]
                       ],
                       [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                    ],
+                    [
+                      "ElsePart_Else_CompoundList",
+                      [
+                        "CompoundList_LineBreak_Term_Separator",
+                        [ "LineBreak_Empty" ],
+                        [
+                          "Term_AndOr",
+                          [
+                            "AndOr_Pipeline",
+                            [
+                              "Pipeline_PipeSequence",
+                              [
+                                "PipeSequence_Command",
+                                [
+                                  "Command_SimpleCommand",
+                                  [
+                                    "SimpleCommand_CmdName_CmdSuffix",
+                                    [
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "echo",
+                                        [ [ "WordName", "echo" ] ]
+                                      ]
+                                    ],
+                                    [
+                                      "CmdSuffix_Word",
+                                      [
+                                        "Word",
+                                        "\"baeh\"",
+                                        [
+                                          [
+                                            "WordDoubleQuoted",
+                                            [
+                                              "Word",
+                                              "baeh",
+                                              [ [ "WordLiteral", "baeh" ] ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        [
+                          "Separator_NewLineList",
+                          [ "NewLineList_NewLine" ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -160,5 +170,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

@@ -1,57 +1,68 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_ForClause",
+                "Command_CompoundCommand",
                 [
-                  "ForClause_For_Name_SequentialSep_DoGroup",
-                  [ "Name", "i" ],
+                  "CompoundCommand_ForClause",
                   [
-                    "SequentialSep_Semicolon_LineBreak",
-                    [ "LineBreak_Empty" ]
-                  ],
-                  [
-                    "DoGroup_Do_CompoundList_Done",
+                    "ForClause_For_Name_SequentialSep_DoGroup",
+                    [ "Name", "i" ],
                     [
-                      "CompoundList_NewLineList_Term_Separator",
-                      [ "NewLineList_NewLine" ],
+                      "SequentialSep_Semicolon_LineBreak",
+                      [ "LineBreak_Empty" ]
+                    ],
+                    [
+                      "DoGroup_Do_CompoundList_Done",
                       [
-                        "Term_AndOr",
+                        "CompoundList_LineBreak_Term_Separator",
                         [
-                          "AndOr_Pipeline",
+                          "LineBreak_NewLineList",
+                          [ "NewLineList_NewLine" ]
+                        ],
+                        [
+                          "Term_AndOr",
                           [
-                            "Pipeline_PipeSequence",
+                            "AndOr_Pipeline",
                             [
-                              "PipeSequence_Command",
+                              "Pipeline_PipeSequence",
                               [
-                                "Command_SimpleCommand",
+                                "PipeSequence_Command",
                                 [
-                                  "SimpleCommand_CmdName",
+                                  "Command_SimpleCommand",
                                   [
-                                    "CmdName_Word",
+                                    "SimpleCommand_CmdName",
                                     [
-                                      "Word",
-                                      "echo",
-                                      [ [ "WordName", "echo" ] ]
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "echo",
+                                        [ [ "WordName", "echo" ] ]
+                                      ]
                                     ]
                                   ]
                                 ]
                               ]
                             ]
                           ]
+                        ],
+                        [
+                          "Separator_NewLineList",
+                          [ "NewLineList_NewLine" ]
                         ]
-                      ],
-                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                      ]
                     ]
                   ]
                 ]
@@ -61,5 +72,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

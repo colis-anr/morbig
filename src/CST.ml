@@ -79,6 +79,8 @@ and complete_command =
   | CompleteCommand_CList_SeparatorOp of clist' * separator_op'
   | CompleteCommand_CList of clist'
 
+and complete_command_list = complete_command located list
+
 and clist =
   (** This non-terminal is called [list] in the grammar but we cannot
       use this type constructor identifier because it is already
@@ -318,7 +320,7 @@ and word = Word of string * word_cst
 and word_cst = word_component list
 
 and word_component =
-  | WordSubshell of subshell_kind * complete_commands
+  | WordSubshell of subshell_kind * program located
   | WordName of string
   | WordAssignmentWord of assignment_word
   | WordDoubleQuoted of word

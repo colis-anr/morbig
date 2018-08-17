@@ -1,355 +1,439 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
       [
-        "AndOr_Pipeline",
+        "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
         [
-          "Pipeline_PipeSequence",
+          "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
           [
-            "PipeSequence_Command",
+            "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
             [
-              "Command_SimpleCommand",
+              "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
                 [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_IoRedirect",
+                  "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
                   [
-                    "IoRedirect_IoFile",
+                    "CompleteCommands_CompleteCommand",
                     [
-                      "IoFile_LessAnd_FileName",
+                      "CompleteCommand_CList",
                       [
-                        "Filename_Word",
-                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_IoRedirect",
-                  [
-                    "IoRedirect_IoNumber_IoFile",
-                    [ "IONumber", "2" ],
-                    [
-                      "IoFile_LessAnd_FileName",
-                      [
-                        "Filename_Word",
-                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_CmdSuffix_IoRedirect",
-                  [
-                    "CmdSuffix_Word",
-                    [ "Word", "4", [ [ "WordLiteral", "4" ] ] ]
-                  ],
-                  [
-                    "IoRedirect_IoFile",
-                    [
-                      "IoFile_LessAnd_FileName",
-                      [
-                        "Filename_Word",
-                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_IoRedirect",
-                  [
-                    "IoRedirect_IoNumber_IoFile",
-                    [ "IONumber", "5" ],
-                    [
-                      "IoFile_LessAnd_FileName",
-                      [
-                        "Filename_Word",
-                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_CmdSuffix_IoRedirect",
-                  [
-                    "CmdSuffix_Word",
-                    [ "Word", "6", [ [ "WordLiteral", "6" ] ] ]
-                  ],
-                  [
-                    "IoRedirect_IoFile",
-                    [
-                      "IoFile_LessAnd_FileName",
-                      [
-                        "Filename_Word",
-                        [ "Word", "word", [ [ "WordName", "word" ] ] ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_IoRedirect",
-                  [
-                    "IoRedirect_IoNumber_IoFile",
-                    [ "IONumber", "7" ],
-                    [
-                      "IoFile_LessAnd_FileName",
-                      [
-                        "Filename_Word",
-                        [ "Word", "2", [ [ "WordLiteral", "2" ] ] ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_CmdSuffix_IoRedirect",
-                  [
-                    "CmdSuffix_Word",
-                    [ "Word", "8", [ [ "WordLiteral", "8" ] ] ]
-                  ],
-                  [
-                    "IoRedirect_IoFile",
-                    [
-                      "IoFile_LessAnd_FileName",
-                      [
-                        "Filename_Word",
-                        [ "Word", "-", [ [ "WordLiteral", "-" ] ] ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_IoRedirect",
-                  [
-                    "IoRedirect_IoNumber_IoFile",
-                    [ "IONumber", "9" ],
-                    [
-                      "IoFile_LessAnd_FileName",
-                      [
-                        "Filename_Word",
+                        "CList_AndOr",
                         [
-                          "Word",
-                          "$(echo 2)",
+                          "AndOr_Pipeline",
                           [
+                            "Pipeline_PipeSequence",
                             [
-                              "WordSubshell",
-                              [ "SubShellKindParentheses" ],
+                              "PipeSequence_Command",
+                              [
+                                "Command_SimpleCommand",
+                                [
+                                  "SimpleCommand_CmdName_CmdSuffix",
+                                  [
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "echo",
+                                      [ [ "WordName", "echo" ] ]
+                                    ]
+                                  ],
+                                  [
+                                    "CmdSuffix_IoRedirect",
+                                    [
+                                      "IoRedirect_IoFile",
+                                      [
+                                        "IoFile_LessAnd_FileName",
+                                        [
+                                          "Filename_Word",
+                                          [
+                                            "Word",
+                                            "word",
+                                            [ [ "WordName", "word" ] ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ],
+                  [ "NewLineList_NewLine" ],
+                  [
+                    "CompleteCommand_CList",
+                    [
+                      "CList_AndOr",
+                      [
+                        "AndOr_Pipeline",
+                        [
+                          "Pipeline_PipeSequence",
+                          [
+                            "PipeSequence_Command",
+                            [
+                              "Command_SimpleCommand",
+                              [
+                                "SimpleCommand_CmdName_CmdSuffix",
+                                [
+                                  "CmdName_Word",
+                                  [
+                                    "Word",
+                                    "echo",
+                                    [ [ "WordName", "echo" ] ]
+                                  ]
+                                ],
+                                [
+                                  "CmdSuffix_IoRedirect",
+                                  [
+                                    "IoRedirect_IoNumber_IoFile",
+                                    [ "IONumber", "2" ],
+                                    [
+                                      "IoFile_LessAnd_FileName",
+                                      [
+                                        "Filename_Word",
+                                        [
+                                          "Word",
+                                          "word",
+                                          [ [ "WordName", "word" ] ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [ "NewLineList_NewLine" ],
+                [
+                  "CompleteCommand_CList",
+                  [
+                    "CList_AndOr",
+                    [
+                      "AndOr_Pipeline",
+                      [
+                        "Pipeline_PipeSequence",
+                        [
+                          "PipeSequence_Command",
+                          [
+                            "Command_SimpleCommand",
+                            [
+                              "SimpleCommand_CmdName_CmdSuffix",
+                              [
+                                "CmdName_Word",
+                                [
+                                  "Word",
+                                  "echo",
+                                  [ [ "WordName", "echo" ] ]
+                                ]
+                              ],
+                              [
+                                "CmdSuffix_CmdSuffix_IoRedirect",
+                                [
+                                  "CmdSuffix_Word",
+                                  [ "Word", "4", [ [ "WordLiteral", "4" ] ] ]
+                                ],
+                                [
+                                  "IoRedirect_IoFile",
+                                  [
+                                    "IoFile_LessAnd_FileName",
+                                    [
+                                      "Filename_Word",
+                                      [
+                                        "Word",
+                                        "word",
+                                        [ [ "WordName", "word" ] ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [ "NewLineList_NewLine" ],
+              [
+                "CompleteCommand_CList",
+                [
+                  "CList_AndOr",
+                  [
+                    "AndOr_Pipeline",
+                    [
+                      "Pipeline_PipeSequence",
+                      [
+                        "PipeSequence_Command",
+                        [
+                          "Command_SimpleCommand",
+                          [
+                            "SimpleCommand_CmdName_CmdSuffix",
+                            [
+                              "CmdName_Word",
+                              [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                            ],
+                            [
+                              "CmdSuffix_IoRedirect",
+                              [
+                                "IoRedirect_IoNumber_IoFile",
+                                [ "IONumber", "5" ],
+                                [
+                                  "IoFile_LessAnd_FileName",
+                                  [
+                                    "Filename_Word",
+                                    [
+                                      "Word",
+                                      "word",
+                                      [ [ "WordName", "word" ] ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [ "NewLineList_NewLine" ],
+            [
+              "CompleteCommand_CList",
+              [
+                "CList_AndOr",
+                [
+                  "AndOr_Pipeline",
+                  [
+                    "Pipeline_PipeSequence",
+                    [
+                      "PipeSequence_Command",
+                      [
+                        "Command_SimpleCommand",
+                        [
+                          "SimpleCommand_CmdName_CmdSuffix",
+                          [
+                            "CmdName_Word",
+                            [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                          ],
+                          [
+                            "CmdSuffix_CmdSuffix_IoRedirect",
+                            [
+                              "CmdSuffix_Word",
+                              [ "Word", "6", [ [ "WordLiteral", "6" ] ] ]
+                            ],
+                            [
+                              "IoRedirect_IoFile",
+                              [
+                                "IoFile_LessAnd_FileName",
+                                [
+                                  "Filename_Word",
+                                  [
+                                    "Word",
+                                    "word",
+                                    [ [ "WordName", "word" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [ "NewLineList_NewLine" ],
+          [
+            "CompleteCommand_CList",
+            [
+              "CList_AndOr",
+              [
+                "AndOr_Pipeline",
+                [
+                  "Pipeline_PipeSequence",
+                  [
+                    "PipeSequence_Command",
+                    [
+                      "Command_SimpleCommand",
+                      [
+                        "SimpleCommand_CmdName_CmdSuffix",
+                        [
+                          "CmdName_Word",
+                          [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                        ],
+                        [
+                          "CmdSuffix_IoRedirect",
+                          [
+                            "IoRedirect_IoNumber_IoFile",
+                            [ "IONumber", "7" ],
+                            [
+                              "IoFile_LessAnd_FileName",
+                              [
+                                "Filename_Word",
+                                [ "Word", "2", [ [ "WordLiteral", "2" ] ] ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [ "NewLineList_NewLine" ],
+        [
+          "CompleteCommand_CList",
+          [
+            "CList_AndOr",
+            [
+              "AndOr_Pipeline",
+              [
+                "Pipeline_PipeSequence",
+                [
+                  "PipeSequence_Command",
+                  [
+                    "Command_SimpleCommand",
+                    [
+                      "SimpleCommand_CmdName_CmdSuffix",
+                      [
+                        "CmdName_Word",
+                        [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                      ],
+                      [
+                        "CmdSuffix_CmdSuffix_IoRedirect",
+                        [
+                          "CmdSuffix_Word",
+                          [ "Word", "8", [ [ "WordLiteral", "8" ] ] ]
+                        ],
+                        [
+                          "IoRedirect_IoFile",
+                          [
+                            "IoFile_LessAnd_FileName",
+                            [
+                              "Filename_Word",
+                              [ "Word", "-", [ [ "WordLiteral", "-" ] ] ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [ "NewLineList_NewLine" ],
+      [
+        "CompleteCommand_CList",
+        [
+          "CList_AndOr",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName_CmdSuffix",
+                    [
+                      "CmdName_Word",
+                      [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    ],
+                    [
+                      "CmdSuffix_IoRedirect",
+                      [
+                        "IoRedirect_IoNumber_IoFile",
+                        [ "IONumber", "9" ],
+                        [
+                          "IoFile_LessAnd_FileName",
+                          [
+                            "Filename_Word",
+                            [
+                              "Word",
+                              "$(echo 2)",
                               [
                                 [
-                                  "CompleteCommand_CList",
+                                  "WordSubshell",
+                                  [ "SubShellKindParentheses" ],
                                   [
-                                    "CList_AndOr",
+                                    "Program_LineBreak_CompleteCommands_LineBreak",
+                                    [ "LineBreak_Empty" ],
                                     [
-                                      "AndOr_Pipeline",
+                                      "CompleteCommands_CompleteCommand",
                                       [
-                                        "Pipeline_PipeSequence",
+                                        "CompleteCommand_CList",
                                         [
-                                          "PipeSequence_Command",
+                                          "CList_AndOr",
                                           [
-                                            "Command_SimpleCommand",
+                                            "AndOr_Pipeline",
                                             [
-                                              "SimpleCommand_CmdName_CmdSuffix",
+                                              "Pipeline_PipeSequence",
                                               [
-                                                "CmdName_Word",
+                                                "PipeSequence_Command",
                                                 [
-                                                  "Word",
-                                                  "echo",
-                                                  [ [ "WordName", "echo" ] ]
-                                                ]
-                                              ],
-                                              [
-                                                "CmdSuffix_Word",
-                                                [
-                                                  "Word",
-                                                  "2",
-                                                  [ [ "WordLiteral", "2" ] ]
+                                                  "Command_SimpleCommand",
+                                                  [
+                                                    "SimpleCommand_CmdName_CmdSuffix",
+                                                    [
+                                                      "CmdName_Word",
+                                                      [
+                                                        "Word",
+                                                        "echo",
+                                                        [
+                                                          [
+                                                            "WordName",
+                                                            "echo"
+                                                          ]
+                                                        ]
+                                                      ]
+                                                    ],
+                                                    [
+                                                      "CmdSuffix_Word",
+                                                      [
+                                                        "Word",
+                                                        "2",
+                                                        [
+                                                          [
+                                                            "WordLiteral",
+                                                            "2"
+                                                          ]
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ]
                                                 ]
                                               ]
                                             ]
                                           ]
                                         ]
                                       ]
-                                    ]
+                                    ],
+                                    [ "LineBreak_Empty" ]
                                   ]
                                 ]
                               ]
@@ -365,42 +449,43 @@
           ]
         ]
       ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
+    ],
+    [ "NewLineList_NewLine" ],
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "Command_SimpleCommand",
                 [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_CmdSuffix_IoRedirect",
+                  "SimpleCommand_CmdName_CmdSuffix",
                   [
-                    "CmdSuffix_Word",
-                    [ "Word", "2", [ [ "WordLiteral", "2" ] ] ]
+                    "CmdName_Word",
+                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
                   ],
                   [
-                    "IoRedirect_IoFile",
+                    "CmdSuffix_CmdSuffix_IoRedirect",
                     [
-                      "IoFile_LessAnd_FileName",
+                      "CmdSuffix_Word",
+                      [ "Word", "2", [ [ "WordLiteral", "2" ] ] ]
+                    ],
+                    [
+                      "IoRedirect_IoFile",
                       [
-                        "Filename_Word",
+                        "IoFile_LessAnd_FileName",
                         [
-                          "Word",
-                          "$((3 + 1))",
-                          [ [ "WordLiteral", "$((3 + 1))" ] ]
+                          "Filename_Word",
+                          [
+                            "Word",
+                            "$((3 + 1))",
+                            [ [ "WordLiteral", "$((3 + 1))" ] ]
+                          ]
                         ]
                       ]
                     ]
@@ -412,5 +497,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

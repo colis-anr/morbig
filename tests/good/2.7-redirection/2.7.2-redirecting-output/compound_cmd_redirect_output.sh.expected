@@ -1,58 +1,69 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommands_CompleteCommand",
       [
-        "AndOr_Pipeline",
+        "CompleteCommand_CList",
         [
-          "Pipeline_PipeSequence",
+          "CList_AndOr",
           [
-            "PipeSequence_Command",
+            "AndOr_Pipeline",
             [
-              "Command_SimpleCommand",
+              "Pipeline_PipeSequence",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "PipeSequence_Command",
                 [
-                  "CmdName_Word",
-                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
-                ],
-                [
-                  "CmdSuffix_CmdSuffix_IoRedirect",
+                  "Command_SimpleCommand",
                   [
-                    "CmdSuffix_IoRedirect",
+                    "SimpleCommand_CmdName_CmdSuffix",
                     [
-                      "IoRedirect_IoFile",
+                      "CmdName_Word",
+                      [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                    ],
+                    [
+                      "CmdSuffix_CmdSuffix_IoRedirect",
                       [
-                        "IoFile_Great_FileName",
+                        "CmdSuffix_IoRedirect",
                         [
-                          "Filename_Word",
+                          "IoRedirect_IoFile",
                           [
-                            "Word",
-                            "/etc/ca-certificates.conf",
+                            "IoFile_Great_FileName",
                             [
-                              [ "WordLiteral", "/etc/ca-certificates.conf" ]
+                              "Filename_Word",
+                              [
+                                "Word",
+                                "/etc/ca-certificates.conf",
+                                [
+                                  [
+                                    "WordLiteral",
+                                    "/etc/ca-certificates.conf"
+                                  ]
+                                ]
+                              ]
                             ]
                           ]
                         ]
-                      ]
-                    ]
-                  ],
-                  [
-                    "IoRedirect_IoHere",
-                    [
-                      "IoHere_DLess_HereEnd",
-                      [
-                        "HereEnd_Word",
-                        [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
                       ],
                       [
-                        "Word",
-                        "# This file lists certificates that you wish to use or to ignore to be\n",
+                        "IoRedirect_IoHere",
                         [
+                          "IoHere_DLess_HereEnd",
                           [
-                            "WordLiteral",
-                            "# This file lists certificates that you wish to use or to ignore to be\n"
+                            "HereEnd_Word",
+                            [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
+                          ],
+                          [
+                            "Word",
+                            "# This file lists certificates that you wish to use or to ignore to be\n",
+                            [
+                              [
+                                "WordLiteral",
+                                "# This file lists certificates that you wish to use or to ignore to be\n"
+                              ]
+                            ]
                           ]
                         ]
                       ]
@@ -64,58 +75,60 @@
           ]
         ]
       ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
+    ],
+    [ "NewLineList_NewLine" ],
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand_RedirectList",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_Subshell",
+                "Command_CompoundCommand_RedirectList",
                 [
-                  "Subshell_Lparen_CompoundList_Rparen",
+                  "CompoundCommand_Subshell",
                   [
-                    "CompoundList_Term",
+                    "Subshell_Lparen_CompoundList_Rparen",
                     [
-                      "Term_AndOr",
+                      "CompoundList_LineBreak_Term",
+                      [ "LineBreak_Empty" ],
                       [
-                        "AndOr_Pipeline",
+                        "Term_AndOr",
                         [
-                          "Pipeline_PipeSequence",
+                          "AndOr_Pipeline",
                           [
-                            "PipeSequence_Command",
+                            "Pipeline_PipeSequence",
                             [
-                              "Command_SimpleCommand",
+                              "PipeSequence_Command",
                               [
-                                "SimpleCommand_CmdName_CmdSuffix",
+                                "Command_SimpleCommand",
                                 [
-                                  "CmdName_Word",
+                                  "SimpleCommand_CmdName_CmdSuffix",
                                   [
-                                    "Word",
-                                    "echo",
-                                    [ [ "WordName", "echo" ] ]
-                                  ]
-                                ],
-                                [
-                                  "CmdSuffix_Word",
-                                  [
-                                    "Word",
-                                    "$CERTS_ENABLED",
+                                    "CmdName_Word",
                                     [
+                                      "Word",
+                                      "echo",
+                                      [ [ "WordName", "echo" ] ]
+                                    ]
+                                  ],
+                                  [
+                                    "CmdSuffix_Word",
+                                    [
+                                      "Word",
+                                      "$CERTS_ENABLED",
                                       [
-                                        "WordVariable",
                                         [
-                                          "VariableAtom",
-                                          "CERTS_ENABLED",
-                                          [ "NoAttribute" ]
+                                          "WordVariable",
+                                          [
+                                            "VariableAtom",
+                                            "CERTS_ENABLED",
+                                            [ "NoAttribute" ]
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -128,20 +141,20 @@
                       ]
                     ]
                   ]
-                ]
-              ],
-              [
-                "RedirectList_IoRedirect",
+                ],
                 [
-                  "IoRedirect_IoFile",
+                  "RedirectList_IoRedirect",
                   [
-                    "IoFile_DGreat_FileName",
+                    "IoRedirect_IoFile",
                     [
-                      "Filename_Word",
+                      "IoFile_DGreat_FileName",
                       [
-                        "Word",
-                        "/etc/ca-certificates.conf",
-                        [ [ "WordLiteral", "/etc/ca-certificates.conf" ] ]
+                        "Filename_Word",
+                        [
+                          "Word",
+                          "/etc/ca-certificates.conf",
+                          [ [ "WordLiteral", "/etc/ca-certificates.conf" ] ]
+                        ]
                       ]
                     ]
                   ]
@@ -152,5 +165,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

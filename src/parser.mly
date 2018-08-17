@@ -31,69 +31,6 @@
 
    - The terminal 'WORD' is replaced by a non terminal 'word'.
 
-   The official grammar contains the following 7 shift/reduce conflicts:
-
-   Conflict 1:
-
-     Consider "case x in 1) foo
-                            bar
-               esac"
-
-     After reading "case x in 1) foo", when we encounter the new line, is
-     it (a) to start a new case_item_ns or (b) to continue with the same case
-    _item?
-
-     We choose (b).
-
-   Conflict 2:
-
-     Consider ""
-
-     After reading "", when we encounter "", is to (a) ... or (b) ...?
-
-     We choose ...
-
-   Conflict 3:
-
-     Consider ""
-
-     After reading "", when we encounter "", is to (a) ... or (b) ...?
-
-     We choose ...
-
-   Conflict 4:
-
-     Consider ""
-
-     After reading "", when we encounter "", is to (a) ... or (b) ...?
-
-     We choose ...
-
-   Conflict 5:
-
-     Consider ""
-
-     After reading "", when we encounter "", is to (a) ... or (b) ...?
-
-     We choose ...
-
-   Conflict 6:
-
-     Consider ""
-
-     After reading "", when we encounter "", is to (a) ... or (b) ...?
-
-     We choose ...
-
-   Conflict 7:
-
-     Consider ""
-
-     After reading "", when we encounter "", is to (a) ... or (b) ...?
-
-     We choose ...
-
-
 *)
 
 %{
@@ -176,11 +113,11 @@
 %start<unit> intented_error
 %%
 
-entry_point: c=located(program) {
+entry_point: c=located(program) EOF {
   c
 }
 
-program : l1=located(linebreak) c=located(complete_commands) l2=located(linebreak) EOF {
+program : l1=located(linebreak) c=located(complete_commands) l2=located(linebreak) {
   Program_LineBreak_CompleteCommands_LineBreak (l1, c, l2)
 }
 | l=located(linebreak) {
@@ -194,10 +131,10 @@ complete_commands: cs=located(complete_commands) nl=located(newline_list) c=loca
   CompleteCommands_CompleteCommand c
 }
 ;
-complete_command : l=located(clist) s=located(separator_op) EOF {
+complete_command : l=located(clist) s=located(separator_op) {
   CompleteCommand_CList_SeparatorOp (l, s)
 }
-| l=located(clist) EOF {
+| l=located(clist) {
   CompleteCommand_CList l
 }
 ;

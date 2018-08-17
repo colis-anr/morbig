@@ -1,91 +1,117 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommands_CompleteCommand",
       [
-        "AndOr_Pipeline",
+        "CompleteCommand_CList",
         [
-          "Pipeline_PipeSequence",
+          "CList_AndOr",
           [
-            "PipeSequence_Command",
+            "AndOr_Pipeline",
             [
-              "Command_SimpleCommand",
+              "Pipeline_PipeSequence",
               [
-                "SimpleCommand_CmdPrefix",
+                "PipeSequence_Command",
                 [
-                  "CmdPrefix_AssignmentWord",
+                  "Command_SimpleCommand",
                   [
-                    [ "Name", "x" ],
+                    "SimpleCommand_CmdPrefix",
                     [
-                      "Word",
-                      "$(echo pi \\) pa pu)",
+                      "CmdPrefix_AssignmentWord",
                       [
+                        [ "Name", "x" ],
                         [
-                          "WordSubshell",
-                          [ "SubShellKindParentheses" ],
+                          "Word",
+                          "$(echo pi \\) pa pu)",
                           [
                             [
-                              "CompleteCommand_CList",
+                              "WordSubshell",
+                              [ "SubShellKindParentheses" ],
                               [
-                                "CList_AndOr",
+                                "Program_LineBreak_CompleteCommands_LineBreak",
+                                [ "LineBreak_Empty" ],
                                 [
-                                  "AndOr_Pipeline",
+                                  "CompleteCommands_CompleteCommand",
                                   [
-                                    "Pipeline_PipeSequence",
+                                    "CompleteCommand_CList",
                                     [
-                                      "PipeSequence_Command",
+                                      "CList_AndOr",
                                       [
-                                        "Command_SimpleCommand",
+                                        "AndOr_Pipeline",
                                         [
-                                          "SimpleCommand_CmdName_CmdSuffix",
+                                          "Pipeline_PipeSequence",
                                           [
-                                            "CmdName_Word",
+                                            "PipeSequence_Command",
                                             [
-                                              "Word",
-                                              "echo",
-                                              [ [ "WordName", "echo" ] ]
-                                            ]
-                                          ],
-                                          [
-                                            "CmdSuffix_CmdSuffix_Word",
-                                            [
-                                              "CmdSuffix_CmdSuffix_Word",
+                                              "Command_SimpleCommand",
                                               [
-                                                "CmdSuffix_CmdSuffix_Word",
+                                                "SimpleCommand_CmdName_CmdSuffix",
                                                 [
-                                                  "CmdSuffix_Word",
+                                                  "CmdName_Word",
                                                   [
                                                     "Word",
-                                                    "pi",
-                                                    [ [ "WordName", "pi" ] ]
+                                                    "echo",
+                                                    [
+                                                      [ "WordName", "echo" ]
+                                                    ]
                                                   ]
                                                 ],
                                                 [
-                                                  "Word",
-                                                  "\\)",
+                                                  "CmdSuffix_CmdSuffix_Word",
                                                   [
-                                                    [ "WordLiteral", "\\)" ]
+                                                    "CmdSuffix_CmdSuffix_Word",
+                                                    [
+                                                      "CmdSuffix_CmdSuffix_Word",
+                                                      [
+                                                        "CmdSuffix_Word",
+                                                        [
+                                                          "Word",
+                                                          "pi",
+                                                          [
+                                                            [
+                                                              "WordName",
+                                                              "pi"
+                                                            ]
+                                                          ]
+                                                        ]
+                                                      ],
+                                                      [
+                                                        "Word",
+                                                        "\\)",
+                                                        [
+                                                          [
+                                                            "WordLiteral",
+                                                            "\\)"
+                                                          ]
+                                                        ]
+                                                      ]
+                                                    ],
+                                                    [
+                                                      "Word",
+                                                      "pa",
+                                                      [
+                                                        [ "WordName", "pa" ]
+                                                      ]
+                                                    ]
+                                                  ],
+                                                  [
+                                                    "Word",
+                                                    "pu",
+                                                    [ [ "WordName", "pu" ] ]
                                                   ]
                                                 ]
-                                              ],
-                                              [
-                                                "Word",
-                                                "pa",
-                                                [ [ "WordName", "pa" ] ]
                                               ]
-                                            ],
-                                            [
-                                              "Word",
-                                              "pu",
-                                              [ [ "WordName", "pu" ] ]
                                             ]
                                           ]
                                         ]
                                       ]
                                     ]
                                   ]
-                                ]
+                                ],
+                                [ "LineBreak_Empty" ]
                               ]
                             ]
                           ]
@@ -99,35 +125,36 @@
           ]
         ]
       ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
+    ],
+    [ "NewLineList_NewLine" ],
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "Command_SimpleCommand",
                 [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_Word",
+                  "SimpleCommand_CmdName_CmdSuffix",
                   [
-                    "Word",
-                    "$x",
+                    "CmdName_Word",
+                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                  ],
+                  [
+                    "CmdSuffix_Word",
                     [
+                      "Word",
+                      "$x",
                       [
-                        "WordVariable",
-                        [ "VariableAtom", "x", [ "NoAttribute" ] ]
+                        [
+                          "WordVariable",
+                          [ "VariableAtom", "x", [ "NoAttribute" ] ]
+                        ]
                       ]
                     ]
                   ]
@@ -138,5 +165,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

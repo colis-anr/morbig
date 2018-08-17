@@ -1,85 +1,44 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand_RedirectList",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_Subshell",
+                "Command_CompoundCommand_RedirectList",
                 [
-                  "Subshell_Lparen_CompoundList_Rparen",
+                  "CompoundCommand_Subshell",
                   [
-                    "CompoundList_NewLineList_Term_Separator",
-                    [ "NewLineList_NewLine" ],
+                    "Subshell_Lparen_CompoundList_Rparen",
                     [
-                      "Term_AndOr",
+                      "CompoundList_LineBreak_Term_Separator",
+                      [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
                       [
-                        "AndOr_Pipeline",
+                        "Term_AndOr",
                         [
-                          "Pipeline_PipeSequence",
+                          "AndOr_Pipeline",
                           [
-                            "PipeSequence_Command",
+                            "Pipeline_PipeSequence",
                             [
-                              "Command_CompoundCommand",
+                              "PipeSequence_Command",
                               [
-                                "CompoundCommand_WhileClause",
+                                "Command_CompoundCommand",
                                 [
-                                  "WhileClause_While_CompoundList_DoGroup",
+                                  "CompoundCommand_WhileClause",
                                   [
-                                    "CompoundList_Term_Separator",
+                                    "WhileClause_While_CompoundList_DoGroup",
                                     [
-                                      "Term_AndOr",
-                                      [
-                                        "AndOr_Pipeline",
-                                        [
-                                          "Pipeline_PipeSequence",
-                                          [
-                                            "PipeSequence_Command",
-                                            [
-                                              "Command_SimpleCommand",
-                                              [
-                                                "SimpleCommand_CmdName_CmdSuffix",
-                                                [
-                                                  "CmdName_Word",
-                                                  [
-                                                    "Word",
-                                                    "read",
-                                                    [
-                                                      [ "WordName", "read" ]
-                                                    ]
-                                                  ]
-                                                ],
-                                                [
-                                                  "CmdSuffix_Word",
-                                                  [
-                                                    "Word",
-                                                    "dir",
-                                                    [ [ "WordName", "dir" ] ]
-                                                  ]
-                                                ]
-                                              ]
-                                            ]
-                                          ]
-                                        ]
-                                      ]
-                                    ],
-                                    [
-                                      "Separator_SeparatorOp_LineBreak",
-                                      [ "SeparatorOp_Semicolon" ],
-                                      [ "LineBreak_Empty" ]
-                                    ]
-                                  ],
-                                  [
-                                    "DoGroup_Do_CompoundList_Done",
-                                    [
-                                      "CompoundList_Term",
+                                      "CompoundList_LineBreak_Term_Separator",
+                                      [ "LineBreak_Empty" ],
                                       [
                                         "Term_AndOr",
                                         [
@@ -96,10 +55,10 @@
                                                     "CmdName_Word",
                                                     [
                                                       "Word",
-                                                      "rmdir",
+                                                      "read",
                                                       [
                                                         [
-                                                          "WordName", "rmdir"
+                                                          "WordName", "read"
                                                         ]
                                                       ]
                                                     ]
@@ -108,21 +67,74 @@
                                                     "CmdSuffix_Word",
                                                     [
                                                       "Word",
-                                                      "\"$dir\"",
+                                                      "dir",
                                                       [
+                                                        [ "WordName", "dir" ]
+                                                      ]
+                                                    ]
+                                                  ]
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ],
+                                      [
+                                        "Separator_SeparatorOp_LineBreak",
+                                        [ "SeparatorOp_Semicolon" ],
+                                        [ "LineBreak_Empty" ]
+                                      ]
+                                    ],
+                                    [
+                                      "DoGroup_Do_CompoundList_Done",
+                                      [
+                                        "CompoundList_LineBreak_Term",
+                                        [ "LineBreak_Empty" ],
+                                        [
+                                          "Term_AndOr",
+                                          [
+                                            "AndOr_Pipeline",
+                                            [
+                                              "Pipeline_PipeSequence",
+                                              [
+                                                "PipeSequence_Command",
+                                                [
+                                                  "Command_SimpleCommand",
+                                                  [
+                                                    "SimpleCommand_CmdName_CmdSuffix",
+                                                    [
+                                                      "CmdName_Word",
+                                                      [
+                                                        "Word",
+                                                        "rmdir",
                                                         [
-                                                          "WordDoubleQuoted",
                                                           [
-                                                            "Word",
-                                                            "$dir",
+                                                            "WordName",
+                                                            "rmdir"
+                                                          ]
+                                                        ]
+                                                      ]
+                                                    ],
+                                                    [
+                                                      "CmdSuffix_Word",
+                                                      [
+                                                        "Word",
+                                                        "\"$dir\"",
+                                                        [
+                                                          [
+                                                            "WordDoubleQuoted",
                                                             [
+                                                              "Word",
+                                                              "$dir",
                                                               [
-                                                                "WordVariable",
                                                                 [
-                                                                  "VariableAtom",
-                                                                  "dir",
+                                                                  "WordVariable",
                                                                   [
+                                                                    "VariableAtom",
+                                                                    "dir",
+                                                                    [
                                                                     "NoAttribute"
+                                                                    ]
                                                                   ]
                                                                 ]
                                                               ]
@@ -145,27 +157,29 @@
                             ]
                           ]
                         ]
-                      ]
-                    ],
-                    [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                      ],
+                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                    ]
                   ]
-                ]
-              ],
-              [
-                "RedirectList_IoRedirect",
+                ],
                 [
-                  "IoRedirect_IoHere",
+                  "RedirectList_IoRedirect",
                   [
-                    "IoHere_DLess_HereEnd",
+                    "IoRedirect_IoHere",
                     [
-                      "HereEnd_Word",
-                      [ "Word", "DATA", [ [ "WordName", "DATA" ] ] ]
-                    ],
-                    [
-                      "Word",
-                      "/usr/local/share/cacti/scripts\n",
+                      "IoHere_DLess_HereEnd",
                       [
-                        [ "WordLiteral", "/usr/local/share/cacti/scripts\n" ]
+                        "HereEnd_Word",
+                        [ "Word", "DATA", [ [ "WordName", "DATA" ] ] ]
+                      ],
+                      [
+                        "Word",
+                        "/usr/local/share/cacti/scripts\n",
+                        [
+                          [
+                            "WordLiteral", "/usr/local/share/cacti/scripts\n"
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -176,5 +190,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

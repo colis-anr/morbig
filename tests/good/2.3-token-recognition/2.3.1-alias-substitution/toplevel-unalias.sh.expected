@@ -1,45 +1,186 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
       [
-        "AndOr_Pipeline",
+        "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
         [
-          "Pipeline_PipeSequence",
+          "CompleteCommands_CompleteCommand",
           [
-            "PipeSequence_Command",
+            "CompleteCommand_CList",
             [
-              "Command_SimpleCommand",
+              "CList_AndOr",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "AndOr_Pipeline",
                 [
-                  "CmdName_Word",
-                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
-                ],
-                [
-                  "CmdSuffix_Word",
+                  "Pipeline_PipeSequence",
                   [
-                    "Word",
-                    "foo='ls -l'",
+                    "PipeSequence_Command",
                     [
+                      "Command_SimpleCommand",
                       [
-                        "WordAssignmentWord",
+                        "SimpleCommand_CmdName_CmdSuffix",
                         [
-                          [ "Name", "foo" ],
+                          "CmdName_Word",
+                          [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                        ],
+                        [
+                          "CmdSuffix_Word",
                           [
                             "Word",
-                            "'ls -l'",
+                            "foo='ls -l'",
                             [
                               [
-                                "WordSingleQuoted",
+                                "WordAssignmentWord",
                                 [
-                                  "Word",
-                                  "ls -l",
-                                  [ [ "WordLiteral", "ls -l" ] ]
+                                  [ "Name", "foo" ],
+                                  [
+                                    "Word",
+                                    "'ls -l'",
+                                    [
+                                      [
+                                        "WordSingleQuoted",
+                                        [
+                                          "Word",
+                                          "ls -l",
+                                          [ [ "WordLiteral", "ls -l" ] ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [ "NewLineList_NewLine" ],
+        [
+          "CompleteCommand_CList",
+          [
+            "CList_AndOr",
+            [
+              "AndOr_Pipeline",
+              [
+                "Pipeline_PipeSequence",
+                [
+                  "PipeSequence_Command",
+                  [
+                    "Command_SimpleCommand",
+                    [
+                      "SimpleCommand_CmdName_CmdSuffix",
+                      [
+                        "CmdName_Word",
+                        [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
+                      ],
+                      [
+                        "CmdSuffix_Word",
+                        [ "Word", ".", [ [ "WordLiteral", "." ] ] ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [ "NewLineList_NewLine" ],
+      [
+        "CompleteCommand_CList",
+        [
+          "CList_AndOr",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName_CmdSuffix",
+                    [
+                      "CmdName_Word",
+                      [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                    ],
+                    [
+                      "CmdSuffix_Word",
+                      [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    [ "NewLineList_NewLine" ],
+    [
+      "CompleteCommand_CList",
+      [
+        "CList_AndOr",
+        [
+          "AndOr_AndOr_OrIf_LineBreak_Pipeline",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName_CmdSuffix",
+                    [
+                      "CmdName_Word",
+                      [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
+                    ],
+                    [
+                      "CmdSuffix_Word",
+                      [ "Word", ".", [ [ "WordLiteral", "." ] ] ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [ "LineBreak_Empty" ],
+          [
+            "Pipeline_PipeSequence",
+            [
+              "PipeSequence_Command",
+              [
+                "Command_SimpleCommand",
+                [
+                  "SimpleCommand_CmdName_CmdSuffix",
+                  [
+                    "CmdName_Word",
+                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                  ],
+                  [
+                    "CmdSuffix_Word",
+                    [
+                      "Word",
+                      "'failed as expected'",
+                      [
+                        [
+                          "WordSingleQuoted",
+                          [
+                            "Word",
+                            "failed as expected",
+                            [ [ "WordLiteral", "failed as expected" ] ]
                           ]
                         ]
                       ]
@@ -53,128 +194,5 @@
       ]
     ]
   ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_Word",
-                  [ "Word", ".", [ [ "WordLiteral", "." ] ] ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
-                ],
-                [
-                  "CmdSuffix_Word",
-                  [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_AndOr_OrIf_LineBreak_Pipeline",
-        [
-          "AndOr_Pipeline",
-          [
-            "Pipeline_PipeSequence",
-            [
-              "PipeSequence_Command",
-              [
-                "Command_SimpleCommand",
-                [
-                  "SimpleCommand_CmdName_CmdSuffix",
-                  [
-                    "CmdName_Word",
-                    [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
-                  ],
-                  [
-                    "CmdSuffix_Word",
-                    [ "Word", ".", [ [ "WordLiteral", "." ] ] ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ],
-        [ "LineBreak_Empty" ],
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_Word",
-                  [
-                    "Word",
-                    "'failed as expected'",
-                    [
-                      [
-                        "WordSingleQuoted",
-                        [
-                          "Word",
-                          "failed as expected",
-                          [ [ "WordLiteral", "failed as expected" ] ]
-                        ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ]
+  [ "LineBreak_Empty" ]
 ]

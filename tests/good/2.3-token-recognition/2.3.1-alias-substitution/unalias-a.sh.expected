@@ -1,52 +1,156 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
       [
-        "AndOr_Pipeline",
+        "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
         [
-          "Pipeline_PipeSequence",
+          "CompleteCommands_CompleteCommand",
           [
-            "PipeSequence_Command",
+            "CompleteCommand_CList",
             [
-              "Command_SimpleCommand",
+              "CList_AndOr",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "AndOr_Pipeline",
                 [
-                  "CmdName_Word",
-                  [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
-                ],
-                [
-                  "CmdSuffix_CmdSuffix_Word",
+                  "Pipeline_PipeSequence",
                   [
-                    "CmdSuffix_Word",
+                    "PipeSequence_Command",
                     [
-                      "Word",
-                      "tata=TATA",
+                      "Command_SimpleCommand",
                       [
+                        "SimpleCommand_CmdName_CmdSuffix",
                         [
-                          "WordAssignmentWord",
+                          "CmdName_Word",
+                          [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                        ],
+                        [
+                          "CmdSuffix_CmdSuffix_Word",
                           [
-                            [ "Name", "tata" ],
-                            [ "Word", "TATA", [ [ "WordLiteral", "TATA" ] ] ]
+                            "CmdSuffix_Word",
+                            [
+                              "Word",
+                              "tata=TATA",
+                              [
+                                [
+                                  "WordAssignmentWord",
+                                  [
+                                    [ "Name", "tata" ],
+                                    [
+                                      "Word",
+                                      "TATA",
+                                      [ [ "WordLiteral", "TATA" ] ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ],
+                          [
+                            "Word",
+                            "titi=TITI",
+                            [
+                              [
+                                "WordAssignmentWord",
+                                [
+                                  [ "Name", "titi" ],
+                                  [
+                                    "Word",
+                                    "TITI",
+                                    [ [ "WordLiteral", "TITI" ] ]
+                                  ]
+                                ]
+                              ]
+                            ]
                           ]
                         ]
                       ]
                     ]
-                  ],
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [ "NewLineList_NewLine" ],
+        [
+          "CompleteCommand_CList",
+          [
+            "CList_AndOr",
+            [
+              "AndOr_Pipeline",
+              [
+                "Pipeline_PipeSequence",
+                [
+                  "PipeSequence_Command",
                   [
-                    "Word",
-                    "titi=TITI",
+                    "Command_SimpleCommand",
                     [
+                      "SimpleCommand_CmdName_CmdSuffix",
                       [
-                        "WordAssignmentWord",
-                        [
-                          [ "Name", "titi" ],
-                          [ "Word", "TITI", [ [ "WordLiteral", "TITI" ] ] ]
-                        ]
+                        "CmdName_Word",
+                        [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                      ],
+                      [
+                        "CmdSuffix_Word",
+                        [ "Word", "-a", [ [ "WordLiteral", "-a" ] ] ]
                       ]
                     ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [ "NewLineList_NewLine" ],
+      [
+        "CompleteCommand_CList",
+        [
+          "CList_AndOr",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName",
+                    [
+                      "CmdName_Word",
+                      [ "Word", "tata", [ [ "WordName", "tata" ] ] ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    [ "NewLineList_NewLine" ],
+    [
+      "CompleteCommand_CList",
+      [
+        "CList_AndOr",
+        [
+          "AndOr_Pipeline",
+          [
+            "Pipeline_PipeSequence",
+            [
+              "PipeSequence_Command",
+              [
+                "Command_SimpleCommand",
+                [
+                  "SimpleCommand_CmdName",
+                  [
+                    "CmdName_Word",
+                    [ "Word", "titi", [ [ "WordName", "titi" ] ] ]
                   ]
                 ]
               ]
@@ -56,83 +160,5 @@
       ]
     ]
   ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
-                ],
-                [
-                  "CmdSuffix_Word",
-                  [ "Word", "-a", [ [ "WordLiteral", "-a" ] ] ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName",
-                [
-                  "CmdName_Word",
-                  [ "Word", "tata", [ [ "WordName", "tata" ] ] ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName",
-                [
-                  "CmdName_Word",
-                  [ "Word", "titi", [ [ "WordName", "titi" ] ] ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ]
+  [ "LineBreak_Empty" ]
 ]

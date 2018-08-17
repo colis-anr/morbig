@@ -56,4 +56,4 @@ let parse_file filename =
               raise e
   in
   close_in cin;
-  cst
+  cst.CST.value

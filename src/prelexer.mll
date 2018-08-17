@@ -386,6 +386,7 @@ rule token current = parse
 *)
 
   | "$" ('(' as op) {
+    debug ~rule:"paren-intro-subshell" lexbuf current;
     if op = '`' && under_backquote current then begin
         let pos = lexbuf.lex_curr_p.pos_cnum in
         lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_cnum = pos - 1 };
@@ -670,16 +671,11 @@ and subshell op escaping_level current = parse
     let current =
       if consumed > 0 then skip consumed current lexbuf else current
     in
-    let subshell_strings, buffer =
-      ExtPervasives.take (List.length cst) current.buffer
-    in
-    let subshell_string =
-      String.concat "" (
-          List.rev_map (function
-              | WordComponent (w, _) -> w
-              | AssignmentMark -> ""
-              | _ -> assert false
-            ) subshell_strings)
+    PrelexerState.debug ~rule:"subshell" lexbuf current;
+    let subshell_string, buffer =
+      match current.buffer with
+      | WordComponent (w, _) :: buffer -> w, buffer
+      | _ -> assert false
     in
     let subshell =
       WordComponent (subshell_string, WordSubshell (k, cst))
@@ -689,6 +685,7 @@ and subshell op escaping_level current = parse
 
 and close_subshell current = parse
   | (")" | "`") as c {
+     debug ~rule:"close_subshell:closing-char" lexbuf current;
      push_word_closing_character current c
   }
   | (blank | newline) as c {

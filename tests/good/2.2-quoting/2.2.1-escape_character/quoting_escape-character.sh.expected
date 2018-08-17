@@ -1,24 +1,26 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "Command_SimpleCommand",
                 [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_CmdSuffix_Word",
+                  "SimpleCommand_CmdName_CmdSuffix",
+                  [
+                    "CmdName_Word",
+                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                  ],
                   [
                     "CmdSuffix_CmdSuffix_Word",
                     [
@@ -30,32 +32,43 @@
                           [
                             "CmdSuffix_CmdSuffix_Word",
                             [
-                              "CmdSuffix_Word",
-                              [ "Word", "\\|", [ [ "WordLiteral", "\\|" ] ] ]
+                              "CmdSuffix_CmdSuffix_Word",
+                              [
+                                "CmdSuffix_Word",
+                                [
+                                  "Word",
+                                  "\\|",
+                                  [ [ "WordLiteral", "\\|" ] ]
+                                ]
+                              ],
+                              [
+                                "Word",
+                                "\\&\\;",
+                                [ [ "WordLiteral", "\\&\\;" ] ]
+                              ]
                             ],
                             [
                               "Word",
-                              "\\&\\;",
-                              [ [ "WordLiteral", "\\&\\;" ] ]
+                              "\\<\\>",
+                              [ [ "WordLiteral", "\\<\\>" ] ]
                             ]
                           ],
                           [
                             "Word",
-                            "\\<\\>",
-                            [ [ "WordLiteral", "\\<\\>" ] ]
+                            "\\(\\)",
+                            [ [ "WordLiteral", "\\(\\)" ] ]
                           ]
                         ],
-                        [ "Word", "\\(\\)", [ [ "WordLiteral", "\\(\\)" ] ] ]
+                        [ "Word", "\\$", [ [ "WordLiteral", "\\$" ] ] ]
                       ],
-                      [ "Word", "\\$", [ [ "WordLiteral", "\\$" ] ] ]
+                      [
+                        "Word",
+                        "\\`\\\\\\\"\\'",
+                        [ [ "WordLiteral", "\\`\\\\\\\"\\'" ] ]
+                      ]
                     ],
-                    [
-                      "Word",
-                      "\\`\\\\\\\"\\'",
-                      [ [ "WordLiteral", "\\`\\\\\\\"\\'" ] ]
-                    ]
-                  ],
-                  [ "Word", "\\\t\\ ", [ [ "WordLiteral", "\\\t\\ " ] ] ]
+                    [ "Word", "\\\t\\ ", [ [ "WordLiteral", "\\\t\\ " ] ] ]
+                  ]
                 ]
               ]
             ]
@@ -63,5 +76,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]
