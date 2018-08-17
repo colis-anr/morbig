@@ -79,7 +79,9 @@ and complete_command =
   | CompleteCommand_CList_SeparatorOp of clist' * separator_op'
   | CompleteCommand_CList of clist'
 
-and complete_command_list = complete_command located list
+and complete_command =
+  | CompleteCommand_CList_SeparatorOp of clist' * separator_op'
+  | CompleteCommand_CList of clist'
 
 and clist =
   (** This non-terminal is called [list] in the grammar but we cannot
