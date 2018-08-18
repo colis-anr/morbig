@@ -13,12 +13,14 @@
 
 open CST
 
-(** {2 Helpers about complete commands} *)
+(** {2 Helpers about programs and complete commands} *)
 
-val nonempty_complete_command : complete_command -> bool
+val empty_program : program
+val nonempty_program : program -> bool
+val concat_programs : program located -> program located -> program located
 
 val complete_command_to_json : complete_command -> Yojson.Safe.json
-val complete_command_list_to_json : complete_command_list -> Yojson.Safe.json
+val program_to_json : program -> Yojson.Safe.json
 
 (** {2 Helpers about words and names} *)
 

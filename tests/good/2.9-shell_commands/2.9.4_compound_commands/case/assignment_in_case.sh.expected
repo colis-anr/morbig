@@ -1,32 +1,88 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_CaseClause",
+                "Command_CompoundCommand",
                 [
-                  "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseList_Esac",
+                  "CompoundCommand_CaseClause",
                   [
-                    "Word",
-                    "$(true)",
+                    "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseList_Esac",
                     [
+                      "Word",
+                      "$(true)",
                       [
-                        "WordSubshell",
-                        [ "SubShellKindParentheses" ],
                         [
+                          "WordSubshell",
+                          [ "SubShellKindParentheses" ],
                           [
-                            "CompleteCommand_CList",
+                            "Program_LineBreak_CompleteCommands_LineBreak",
+                            [ "LineBreak_Empty" ],
                             [
-                              "CList_AndOr",
+                              "CompleteCommands_CompleteCommand",
+                              [
+                                "CompleteCommand_CList",
+                                [
+                                  "CList_AndOr",
+                                  [
+                                    "AndOr_Pipeline",
+                                    [
+                                      "Pipeline_PipeSequence",
+                                      [
+                                        "PipeSequence_Command",
+                                        [
+                                          "Command_SimpleCommand",
+                                          [
+                                            "SimpleCommand_CmdName",
+                                            [
+                                              "CmdName_Word",
+                                              [
+                                                "Word",
+                                                "true",
+                                                [ [ "WordName", "true" ] ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ],
+                            [ "LineBreak_Empty" ]
+                          ]
+                        ]
+                      ]
+                    ],
+                    [ "LineBreak_Empty" ],
+                    [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                    [
+                      "CaseList_CaseList_CaseItem",
+                      [
+                        "CaseList_CaseItem",
+                        [
+                          "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
+                          [
+                            "Pattern_Word",
+                            [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                          ],
+                          [
+                            "CompoundList_LineBreak_Term",
+                            [ "LineBreak_Empty" ],
+                            [
+                              "Term_AndOr",
                               [
                                 "AndOr_Pipeline",
                                 [
@@ -36,13 +92,16 @@
                                     [
                                       "Command_SimpleCommand",
                                       [
-                                        "SimpleCommand_CmdName",
+                                        "SimpleCommand_CmdPrefix",
                                         [
-                                          "CmdName_Word",
+                                          "CmdPrefix_AssignmentWord",
                                           [
-                                            "Word",
-                                            "true",
-                                            [ [ "WordName", "true" ] ]
+                                            [ "Name", "UPDATE_OPTS" ],
+                                            [
+                                              "Word",
+                                              "y",
+                                              [ [ "WordLiteral", "y" ] ]
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -51,25 +110,22 @@
                                 ]
                               ]
                             ]
+                          ],
+                          [
+                            "LineBreak_NewLineList",
+                            [ "NewLineList_NewLine" ]
                           ]
                         ]
-                      ]
-                    ]
-                  ],
-                  [ "LineBreak_Empty" ],
-                  [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
-                  [
-                    "CaseList_CaseList_CaseItem",
-                    [
-                      "CaseList_CaseItem",
+                      ],
                       [
                         "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                         [
                           "Pattern_Word",
-                          [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                          [ "Word", "b", [ [ "WordName", "b" ] ] ]
                         ],
                         [
-                          "CompoundList_Term",
+                          "CompoundList_LineBreak_Term",
+                          [ "LineBreak_Empty" ],
                           [
                             "Term_AndOr",
                             [
@@ -88,8 +144,8 @@
                                           [ "Name", "UPDATE_OPTS" ],
                                           [
                                             "Word",
-                                            "y",
-                                            [ [ "WordLiteral", "y" ] ]
+                                            "ok",
+                                            [ [ "WordLiteral", "ok" ] ]
                                           ]
                                         ]
                                       ]
@@ -105,46 +161,6 @@
                           [ "NewLineList_NewLine" ]
                         ]
                       ]
-                    ],
-                    [
-                      "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
-                      [
-                        "Pattern_Word",
-                        [ "Word", "b", [ [ "WordName", "b" ] ] ]
-                      ],
-                      [
-                        "CompoundList_Term",
-                        [
-                          "Term_AndOr",
-                          [
-                            "AndOr_Pipeline",
-                            [
-                              "Pipeline_PipeSequence",
-                              [
-                                "PipeSequence_Command",
-                                [
-                                  "Command_SimpleCommand",
-                                  [
-                                    "SimpleCommand_CmdPrefix",
-                                    [
-                                      "CmdPrefix_AssignmentWord",
-                                      [
-                                        [ "Name", "UPDATE_OPTS" ],
-                                        [
-                                          "Word",
-                                          "ok",
-                                          [ [ "WordLiteral", "ok" ] ]
-                                        ]
-                                      ]
-                                    ]
-                                  ]
-                                ]
-                              ]
-                            ]
-                          ]
-                        ]
-                      ],
-                      [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ]
                     ]
                   ]
                 ]
@@ -154,5 +170,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

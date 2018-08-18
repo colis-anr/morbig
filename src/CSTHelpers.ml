@@ -13,18 +13,6 @@
 
 open CST
 
-(* Helpers about complete commands *)
-
-let nonempty_complete_command = function
-  | CompleteCommand_Empty -> false
-  | _ -> true
-
-let complete_command_to_json c =
-  complete_command_to_yojson c
-
-let complete_command_list_to_json cl =
-  complete_command_list_to_yojson cl
-
 (* Helpers about positions *)
 
 let on_located f x = f x.value
@@ -93,6 +81,68 @@ let string_of_position p =
 
 let compare_positions p1 p2 =
   compare p1.start_p.pos_cnum p2.start_p.pos_cnum
+
+let merge_positions p1 p2 =
+  { start_p = p1.start_p; end_p = p2.end_p }
+
+(* Helpers about complete commands *)
+
+let nonempty_program = function
+  | Program_LineBreak _ -> false
+  | _ -> true
+
+let empty_linebreak' =
+  with_pos dummy_position LineBreak_Empty
+
+let empty_program =
+  Program_LineBreak empty_linebreak'
+
+let nonempty_program p =
+  match p with
+  | Program_LineBreak _ ->
+     false
+  | _ ->
+     true
+
+let rec concat_complete_commands' cs1 cs2 =
+  let pos = merge_positions cs1.position cs2.position in
+  with_pos pos @@
+    match cs2.value with
+    | CompleteCommands_CompleteCommand c2 ->
+       let nl = with_pos cs1.position NewLineList_NewLine in
+       CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (
+           cs1,
+           nl,
+           c2)
+    | CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (cs2, nl, c2) ->
+       CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (
+           concat_complete_commands' cs1 cs2,
+           nl,
+           c2
+         )
+
+let concat_programs p1 p2 =
+  let pos = merge_positions p1.position p2.position in
+  with_pos pos @@
+    match p1.value, p2.value with
+    | Program_LineBreak _, p | p, Program_LineBreak _ ->
+       p
+    | Program_LineBreak_CompleteCommands_LineBreak (pnl1, cs1, snl1),
+      Program_LineBreak_CompleteCommands_LineBreak (pnl2, cs2, snl2) ->
+       Program_LineBreak_CompleteCommands_LineBreak (
+           pnl1,
+           concat_complete_commands' cs1 cs2,
+           snl2
+         )
+
+let program_to_json p =
+  program_to_yojson p
+
+let complete_command_to_json c =
+  complete_command_to_yojson c
+
+let program_to_json cl =
+  program_to_yojson cl
 
 (* Helpers about words and names *)
 

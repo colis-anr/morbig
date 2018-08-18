@@ -1,37 +1,42 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "Command_SimpleCommand",
                 [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_Word",
+                  "SimpleCommand_CmdName_CmdSuffix",
                   [
-                    "Word",
-                    "'| & ; <> () $ ` \\ \" \t\n * ? [ # ~ = %'",
+                    "CmdName_Word",
+                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                  ],
+                  [
+                    "CmdSuffix_Word",
                     [
+                      "Word",
+                      "'| & ; <> () $ ` \\ \" \t\n * ? [ # ~ = %'",
                       [
-                        "WordSingleQuoted",
                         [
-                          "Word",
-                          "| & ; <> () $ ` \\ \" \t\n * ? [ # ~ = %",
+                          "WordSingleQuoted",
                           [
+                            "Word",
+                            "| & ; <> () $ ` \\ \" \t\n * ? [ # ~ = %",
                             [
-                              "WordLiteral",
-                              "| & ; <> () $ ` \\ \" \t\n * ? [ # ~ = %"
+                              [
+                                "WordLiteral",
+                                "| & ; <> () $ ` \\ \" \t\n * ? [ # ~ = %"
+                              ]
                             ]
                           ]
                         ]
@@ -45,5 +50,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

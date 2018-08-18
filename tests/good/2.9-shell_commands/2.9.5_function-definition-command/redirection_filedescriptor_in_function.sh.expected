@@ -1,95 +1,106 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_FunctionDefinition",
+              "PipeSequence_Command",
               [
-                "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
-                [ "Fname_Name", [ "Name", "dump_databases" ] ],
-                [ "LineBreak_Empty" ],
+                "Command_FunctionDefinition",
                 [
-                  "FunctionBody_CompoundCommand",
+                  "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
+                  [ "Fname_Name", [ "Name", "dump_databases" ] ],
+                  [ "LineBreak_Empty" ],
                   [
-                    "CompoundCommand_BraceGroup",
+                    "FunctionBody_CompoundCommand",
                     [
-                      "BraceGroup_LBrace_CompoundList_RBrace",
+                      "CompoundCommand_BraceGroup",
                       [
-                        "CompoundList_NewLineList_Term_Separator",
-                        [ "NewLineList_NewLine" ],
+                        "BraceGroup_LBrace_CompoundList_RBrace",
                         [
-                          "Term_AndOr",
+                          "CompoundList_LineBreak_Term_Separator",
                           [
-                            "AndOr_Pipeline",
+                            "LineBreak_NewLineList",
+                            [ "NewLineList_NewLine" ]
+                          ],
+                          [
+                            "Term_AndOr",
                             [
-                              "Pipeline_PipeSequence",
+                              "AndOr_Pipeline",
                               [
-                                "PipeSequence_Command",
+                                "Pipeline_PipeSequence",
                                 [
-                                  "Command_CompoundCommand_RedirectList",
+                                  "PipeSequence_Command",
                                   [
-                                    "CompoundCommand_Subshell",
+                                    "Command_CompoundCommand_RedirectList",
                                     [
-                                      "Subshell_Lparen_CompoundList_Rparen",
+                                      "CompoundCommand_Subshell",
                                       [
-                                        "CompoundList_Term",
+                                        "Subshell_Lparen_CompoundList_Rparen",
                                         [
-                                          "Term_AndOr",
+                                          "CompoundList_LineBreak_Term",
+                                          [ "LineBreak_Empty" ],
                                           [
-                                            "AndOr_Pipeline",
+                                            "Term_AndOr",
                                             [
-                                              "Pipeline_PipeSequence",
+                                              "AndOr_Pipeline",
                                               [
-                                                "PipeSequence_PipeSequence_Pipe_LineBreak_Command",
+                                                "Pipeline_PipeSequence",
                                                 [
-                                                  "PipeSequence_Command",
+                                                  "PipeSequence_PipeSequence_Pipe_LineBreak_Command",
                                                   [
-                                                    "Command_SimpleCommand",
+                                                    "PipeSequence_Command",
                                                     [
-                                                      "SimpleCommand_CmdName",
+                                                      "Command_SimpleCommand",
                                                       [
-                                                        "CmdName_Word",
+                                                        "SimpleCommand_CmdName",
                                                         [
-                                                          "Word",
-                                                          "get_suffix",
+                                                          "CmdName_Word",
                                                           [
+                                                            "Word",
+                                                            "get_suffix",
                                                             [
-                                                              "WordName",
-                                                              "get_suffix"
+                                                              [
+                                                                "WordName",
+                                                                "get_suffix"
+                                                              ]
                                                             ]
                                                           ]
                                                         ]
                                                       ]
                                                     ]
-                                                  ]
-                                                ],
-                                                [ "LineBreak_Empty" ],
-                                                [
-                                                  "Command_CompoundCommand",
+                                                  ],
+                                                  [ "LineBreak_Empty" ],
                                                   [
-                                                    "CompoundCommand_WhileClause",
+                                                    "Command_CompoundCommand",
                                                     [
-                                                      "WhileClause_While_CompoundList_DoGroup",
+                                                      "CompoundCommand_WhileClause",
                                                       [
-                                                        "CompoundList_Term_Separator",
+                                                        "WhileClause_While_CompoundList_DoGroup",
                                                         [
-                                                          "Term_AndOr",
+                                                          "CompoundList_LineBreak_Term_Separator",
                                                           [
-                                                            "AndOr_Pipeline",
+                                                            "LineBreak_Empty"
+                                                          ],
+                                                          [
+                                                            "Term_AndOr",
                                                             [
-                                                              "Pipeline_PipeSequence",
+                                                              "AndOr_Pipeline",
                                                               [
-                                                                "PipeSequence_Command",
+                                                                "Pipeline_PipeSequence",
                                                                 [
-                                                                  "Command_SimpleCommand",
+                                                                  "PipeSequence_Command",
                                                                   [
+                                                                    "Command_SimpleCommand",
+                                                                    [
                                                                     "SimpleCommand_CmdName_CmdSuffix",
                                                                     [
                                                                     "CmdName_Word",
@@ -117,38 +128,41 @@
                                                                     ]
                                                                     ]
                                                                     ]
+                                                                    ]
                                                                   ]
                                                                 ]
                                                               ]
                                                             ]
+                                                          ],
+                                                          [
+                                                            "Separator_SeparatorOp_LineBreak",
+                                                            [
+                                                              "SeparatorOp_Semicolon"
+                                                            ],
+                                                            [
+                                                              "LineBreak_Empty"
+                                                            ]
                                                           ]
                                                         ],
                                                         [
-                                                          "Separator_SeparatorOp_LineBreak",
+                                                          "DoGroup_Do_CompoundList_Done",
                                                           [
-                                                            "SeparatorOp_Semicolon"
-                                                          ],
-                                                          [
-                                                            "LineBreak_Empty"
-                                                          ]
-                                                        ]
-                                                      ],
-                                                      [
-                                                        "DoGroup_Do_CompoundList_Done",
-                                                        [
-                                                          "CompoundList_NewLineList_Term_Separator",
-                                                          [
-                                                            "NewLineList_NewLine"
-                                                          ],
-                                                          [
-                                                            "Term_AndOr",
+                                                            "CompoundList_LineBreak_Term_Separator",
                                                             [
-                                                              "AndOr_Pipeline",
+                                                              "LineBreak_NewLineList",
                                                               [
-                                                                "Pipeline_PipeSequence",
+                                                                "NewLineList_NewLine"
+                                                              ]
+                                                            ],
+                                                            [
+                                                              "Term_AndOr",
+                                                              [
+                                                                "AndOr_Pipeline",
                                                                 [
-                                                                  "PipeSequence_Command",
+                                                                  "Pipeline_PipeSequence",
                                                                   [
+                                                                    "PipeSequence_Command",
+                                                                    [
                                                                     "Command_SimpleCommand",
                                                                     [
                                                                     "SimpleCommand_CmdPrefix",
@@ -172,15 +186,16 @@
                                                                     ]
                                                                     ]
                                                                     ]
+                                                                    ]
                                                                   ]
                                                                 ]
                                                               ]
-                                                            ]
-                                                          ],
-                                                          [
-                                                            "Separator_NewLineList",
+                                                            ],
                                                             [
-                                                              "NewLineList_NewLine"
+                                                              "Separator_NewLineList",
+                                                              [
+                                                                "NewLineList_NewLine"
+                                                              ]
                                                             ]
                                                           ]
                                                         ]
@@ -193,39 +208,41 @@
                                           ]
                                         ]
                                       ]
-                                    ]
-                                  ],
-                                  [
-                                    "RedirectList_RedirectList_IoRedirect",
+                                    ],
                                     [
-                                      "RedirectList_IoRedirect",
+                                      "RedirectList_RedirectList_IoRedirect",
                                       [
-                                        "IoRedirect_IoNumber_IoFile",
-                                        [ "IONumber", "5" ],
+                                        "RedirectList_IoRedirect",
                                         [
-                                          "IoFile_LessAnd_FileName",
+                                          "IoRedirect_IoNumber_IoFile",
+                                          [ "IONumber", "5" ],
+                                          [
+                                            "IoFile_LessAnd_FileName",
+                                            [
+                                              "Filename_Word",
+                                              [
+                                                "Word",
+                                                "0",
+                                                [ [ "WordLiteral", "0" ] ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ],
+                                      [
+                                        "IoRedirect_IoFile",
+                                        [
+                                          "IoFile_Less_FileName",
                                           [
                                             "Filename_Word",
                                             [
                                               "Word",
-                                              "0",
-                                              [ [ "WordLiteral", "0" ] ]
-                                            ]
-                                          ]
-                                        ]
-                                      ]
-                                    ],
-                                    [
-                                      "IoRedirect_IoFile",
-                                      [
-                                        "IoFile_Less_FileName",
-                                        [
-                                          "Filename_Word",
-                                          [
-                                            "Word",
-                                            "/dev/null",
-                                            [
-                                              [ "WordLiteral", "/dev/null" ]
+                                              "/dev/null",
+                                              [
+                                                [
+                                                  "WordLiteral", "/dev/null"
+                                                ]
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -235,11 +252,11 @@
                                 ]
                               ]
                             ]
+                          ],
+                          [
+                            "Separator_NewLineList",
+                            [ "NewLineList_NewLine" ]
                           ]
-                        ],
-                        [
-                          "Separator_NewLineList",
-                          [ "NewLineList_NewLine" ]
                         ]
                       ]
                     ]
@@ -251,5 +268,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

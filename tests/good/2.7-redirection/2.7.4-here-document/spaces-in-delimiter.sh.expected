@@ -1,49 +1,59 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommands_CompleteCommand",
       [
-        "AndOr_Pipeline",
+        "CompleteCommand_CList",
         [
-          "Pipeline_PipeSequence",
+          "CList_AndOr",
           [
-            "PipeSequence_Command",
+            "AndOr_Pipeline",
             [
-              "Command_SimpleCommand",
+              "Pipeline_PipeSequence",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "PipeSequence_Command",
                 [
-                  "CmdName_Word",
-                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
-                ],
-                [
-                  "CmdSuffix_IoRedirect",
+                  "Command_SimpleCommand",
                   [
-                    "IoRedirect_IoHere",
+                    "SimpleCommand_CmdName_CmdSuffix",
                     [
-                      "IoHere_DLess_HereEnd",
+                      "CmdName_Word",
+                      [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                    ],
+                    [
+                      "CmdSuffix_IoRedirect",
                       [
-                        "HereEnd_Word",
+                        "IoRedirect_IoHere",
                         [
-                          "Word",
-                          "'  TEST  '",
+                          "IoHere_DLess_HereEnd",
                           [
+                            "HereEnd_Word",
                             [
-                              "WordSingleQuoted",
+                              "Word",
+                              "'  TEST  '",
                               [
-                                "Word",
-                                "  TEST  ",
-                                [ [ "WordLiteral", "  TEST  " ] ]
+                                [
+                                  "WordSingleQuoted",
+                                  [
+                                    "Word",
+                                    "  TEST  ",
+                                    [ [ "WordLiteral", "  TEST  " ] ]
+                                  ]
+                                ]
                               ]
+                            ]
+                          ],
+                          [
+                            "Word",
+                            "a\nb\n  TEST\nTEST  \na\n",
+                            [
+                              [ "WordLiteral", "a\nb\n  TEST\nTEST  \na\n" ]
                             ]
                           ]
                         ]
-                      ],
-                      [
-                        "Word",
-                        "a\nb\n  TEST\nTEST  \na\n",
-                        [ [ "WordLiteral", "a\nb\n  TEST\nTEST  \na\n" ] ]
                       ]
                     ]
                   ]
@@ -53,28 +63,33 @@
           ]
         ]
       ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
+    ],
+    [ "NewLineList_NewLine" ],
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "a", [ [ "WordName", "a" ] ] ] ]
+                "Command_SimpleCommand",
+                [
+                  "SimpleCommand_CmdName",
+                  [
+                    "CmdName_Word",
+                    [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                  ]
+                ]
               ]
             ]
           ]
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

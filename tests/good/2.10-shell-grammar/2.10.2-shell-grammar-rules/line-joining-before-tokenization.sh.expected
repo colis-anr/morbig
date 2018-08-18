@@ -1,21 +1,26 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdName",
+                "Command_SimpleCommand",
                 [
-                  "CmdName_Word",
-                  [ "Word", "true", [ [ "WordName", "true" ] ] ]
+                  "SimpleCommand_CmdName",
+                  [
+                    "CmdName_Word",
+                    [ "Word", "true", [ [ "WordName", "true" ] ] ]
+                  ]
                 ]
               ]
             ]
@@ -23,5 +28,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

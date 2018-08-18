@@ -34,7 +34,7 @@ let rec json_filter_positions =
   | `Variant (s, Some j) -> `Variant (s, Some (json_filter_positions j))
 
 let convert_to_json simplified csts =
-  CSTHelpers.complete_command_list_to_json csts
+  CSTHelpers.program_to_json csts
   |> (if simplified then json_filter_positions else function x-> x)
 
 let save_as_json simplified cout csts =

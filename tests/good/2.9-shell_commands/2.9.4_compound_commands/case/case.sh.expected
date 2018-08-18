@@ -1,41 +1,88 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_CaseClause",
+                "Command_CompoundCommand",
                 [
-                  "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseListNS_Esac",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ],
-                  [ "LineBreak_Empty" ],
-                  [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                  "CompoundCommand_CaseClause",
                   [
-                    "CaseListNS_CaseList_CaseItemNS",
+                    "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseListNS_Esac",
+                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ],
+                    [ "LineBreak_Empty" ],
+                    [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
                     [
-                      "CaseList_CaseList_CaseItem",
+                      "CaseListNS_CaseList_CaseItemNS",
                       [
                         "CaseList_CaseList_CaseItem",
                         [
                           "CaseList_CaseList_CaseItem",
                           [
-                            "CaseList_CaseItem",
+                            "CaseList_CaseList_CaseItem",
                             [
-                              "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
+                              "CaseList_CaseItem",
+                              [
+                                "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
+                                [
+                                  "Pattern_Word",
+                                  [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                                ],
+                                [
+                                  "CompoundList_LineBreak_Term",
+                                  [ "LineBreak_Empty" ],
+                                  [
+                                    "Term_AndOr",
+                                    [
+                                      "AndOr_Pipeline",
+                                      [
+                                        "Pipeline_PipeSequence",
+                                        [
+                                          "PipeSequence_Command",
+                                          [
+                                            "Command_SimpleCommand",
+                                            [
+                                              "SimpleCommand_CmdName",
+                                              [
+                                                "CmdName_Word",
+                                                [
+                                                  "Word",
+                                                  "b",
+                                                  [ [ "WordName", "b" ] ]
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ],
+                                [
+                                  "LineBreak_NewLineList",
+                                  [ "NewLineList_NewLine" ]
+                                ]
+                              ]
+                            ],
+                            [
+                              "CaseItem_Lparen_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                               [
                                 "Pattern_Word",
-                                [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                                [ "Word", "c", [ [ "WordName", "c" ] ] ]
                               ],
                               [
-                                "CompoundList_Term",
+                                "CompoundList_LineBreak_Term",
+                                [ "LineBreak_Empty" ],
                                 [
                                   "Term_AndOr",
                                   [
@@ -52,8 +99,8 @@
                                               "CmdName_Word",
                                               [
                                                 "Word",
-                                                "b",
-                                                [ [ "WordName", "b" ] ]
+                                                "d",
+                                                [ [ "WordName", "d" ] ]
                                               ]
                                             ]
                                           ]
@@ -72,11 +119,16 @@
                           [
                             "CaseItem_Lparen_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                             [
-                              "Pattern_Word",
-                              [ "Word", "c", [ [ "WordName", "c" ] ] ]
+                              "Pattern_Pattern_Pipe_Word",
+                              [
+                                "Pattern_Word",
+                                [ "Word", "e", [ [ "WordName", "e" ] ] ]
+                              ],
+                              [ "Word", "f", [ [ "WordName", "f" ] ] ]
                             ],
                             [
-                              "CompoundList_Term",
+                              "CompoundList_LineBreak_Term",
+                              [ "LineBreak_Empty" ],
                               [
                                 "Term_AndOr",
                                 [
@@ -93,8 +145,8 @@
                                             "CmdName_Word",
                                             [
                                               "Word",
-                                              "d",
-                                              [ [ "WordName", "d" ] ]
+                                              "g",
+                                              [ [ "WordName", "g" ] ]
                                             ]
                                           ]
                                         ]
@@ -113,15 +165,12 @@
                         [
                           "CaseItem_Lparen_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                           [
-                            "Pattern_Pattern_Pipe_Word",
-                            [
-                              "Pattern_Word",
-                              [ "Word", "e", [ [ "WordName", "e" ] ] ]
-                            ],
-                            [ "Word", "f", [ [ "WordName", "f" ] ] ]
+                            "Pattern_Word",
+                            [ "Word", "h", [ [ "WordName", "h" ] ] ]
                           ],
                           [
-                            "CompoundList_Term",
+                            "CompoundList_LineBreak_Term",
+                            [ "LineBreak_Empty" ],
                             [
                               "Term_AndOr",
                               [
@@ -131,74 +180,36 @@
                                   [
                                     "PipeSequence_Command",
                                     [
-                                      "Command_SimpleCommand",
+                                      "Command_CompoundCommand",
                                       [
-                                        "SimpleCommand_CmdName",
+                                        "CompoundCommand_Subshell",
                                         [
-                                          "CmdName_Word",
+                                          "Subshell_Lparen_CompoundList_Rparen",
                                           [
-                                            "Word",
-                                            "g",
-                                            [ [ "WordName", "g" ] ]
-                                          ]
-                                        ]
-                                      ]
-                                    ]
-                                  ]
-                                ]
-                              ]
-                            ]
-                          ],
-                          [
-                            "LineBreak_NewLineList",
-                            [ "NewLineList_NewLine" ]
-                          ]
-                        ]
-                      ],
-                      [
-                        "CaseItem_Lparen_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
-                        [
-                          "Pattern_Word",
-                          [ "Word", "h", [ [ "WordName", "h" ] ] ]
-                        ],
-                        [
-                          "CompoundList_Term",
-                          [
-                            "Term_AndOr",
-                            [
-                              "AndOr_Pipeline",
-                              [
-                                "Pipeline_PipeSequence",
-                                [
-                                  "PipeSequence_Command",
-                                  [
-                                    "Command_CompoundCommand",
-                                    [
-                                      "CompoundCommand_Subshell",
-                                      [
-                                        "Subshell_Lparen_CompoundList_Rparen",
-                                        [
-                                          "CompoundList_Term",
-                                          [
-                                            "Term_AndOr",
+                                            "CompoundList_LineBreak_Term",
+                                            [ "LineBreak_Empty" ],
                                             [
-                                              "AndOr_Pipeline",
+                                              "Term_AndOr",
                                               [
-                                                "Pipeline_PipeSequence",
+                                                "AndOr_Pipeline",
                                                 [
-                                                  "PipeSequence_Command",
+                                                  "Pipeline_PipeSequence",
                                                   [
-                                                    "Command_SimpleCommand",
+                                                    "PipeSequence_Command",
                                                     [
-                                                      "SimpleCommand_CmdName",
+                                                      "Command_SimpleCommand",
                                                       [
-                                                        "CmdName_Word",
+                                                        "SimpleCommand_CmdName",
                                                         [
-                                                          "Word",
-                                                          "i",
+                                                          "CmdName_Word",
                                                           [
+                                                            "Word",
+                                                            "i",
                                                             [
-                                                              "WordName", "i"
+                                                              [
+                                                                "WordName",
+                                                                "i"
+                                                              ]
                                                             ]
                                                           ]
                                                         ]
@@ -216,21 +227,24 @@
                                 ]
                               ]
                             ]
+                          ],
+                          [
+                            "LineBreak_NewLineList",
+                            [ "NewLineList_NewLine" ]
                           ]
+                        ]
+                      ],
+                      [
+                        "CaseItemNS_Lparen_Pattern_Rparen_LineBreak",
+                        [
+                          "Pattern_Word",
+                          [ "Word", "j", [ [ "WordName", "j" ] ] ]
                         ],
                         [
                           "LineBreak_NewLineList",
                           [ "NewLineList_NewLine" ]
                         ]
                       ]
-                    ],
-                    [
-                      "CaseItemNS_Lparen_Pattern_Rparen_LineBreak",
-                      [
-                        "Pattern_Word",
-                        [ "Word", "j", [ [ "WordName", "j" ] ] ]
-                      ],
-                      [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ]
                     ]
                   ]
                 ]
@@ -240,5 +254,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

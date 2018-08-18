@@ -1,31 +1,39 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommands_CompleteCommand",
       [
-        "AndOr_Pipeline",
+        "CompleteCommand_CList",
         [
-          "Pipeline_PipeSequence",
+          "CList_AndOr",
           [
-            "PipeSequence_Command",
+            "AndOr_Pipeline",
             [
-              "Command_SimpleCommand",
+              "Pipeline_PipeSequence",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "PipeSequence_Command",
                 [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_Word",
+                  "Command_SimpleCommand",
                   [
-                    "Word",
-                    "\"\\\"\"",
+                    "SimpleCommand_CmdName_CmdSuffix",
                     [
+                      "CmdName_Word",
+                      [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    ],
+                    [
+                      "CmdSuffix_Word",
                       [
-                        "WordDoubleQuoted",
-                        [ "Word", "\\\"", [ [ "WordLiteral", "\\\"" ] ] ]
+                        "Word",
+                        "\"\\\"\"",
+                        [
+                          [
+                            "WordDoubleQuoted",
+                            [ "Word", "\\\"", [ [ "WordLiteral", "\\\"" ] ] ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -35,88 +43,102 @@
           ]
         ]
       ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
+    ],
+    [ "NewLineList_NewLine" ],
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
+                "Command_SimpleCommand",
                 [
-                  "CmdName_Word",
-                  [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                ],
-                [
-                  "CmdSuffix_Word",
+                  "SimpleCommand_CmdName_CmdSuffix",
                   [
-                    "Word",
-                    "\" $(echo `echo \"\\\\\"\"` )\"",
+                    "CmdName_Word",
+                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                  ],
+                  [
+                    "CmdSuffix_Word",
                     [
+                      "Word",
+                      "\" $(echo `echo \"\\\\\"\"` )\"",
                       [
-                        "WordDoubleQuoted",
                         [
-                          "Word",
-                          " $(echo `echo \"\\\\\"\"` )",
+                          "WordDoubleQuoted",
                           [
-                            [ "WordLiteral", " " ],
+                            "Word",
+                            " $(echo `echo \"\\\\\"\"` )",
                             [
-                              "WordSubshell",
-                              [ "SubShellKindParentheses" ],
+                              [ "WordLiteral", " " ],
                               [
+                                "WordSubshell",
+                                [ "SubShellKindParentheses" ],
                                 [
-                                  "CompleteCommand_CList",
+                                  "Program_LineBreak_CompleteCommands_LineBreak",
+                                  [ "LineBreak_Empty" ],
                                   [
-                                    "CList_AndOr",
+                                    "CompleteCommands_CompleteCommand",
                                     [
-                                      "AndOr_Pipeline",
+                                      "CompleteCommand_CList",
                                       [
-                                        "Pipeline_PipeSequence",
+                                        "CList_AndOr",
                                         [
-                                          "PipeSequence_Command",
+                                          "AndOr_Pipeline",
                                           [
-                                            "Command_SimpleCommand",
+                                            "Pipeline_PipeSequence",
                                             [
-                                              "SimpleCommand_CmdName_CmdSuffix",
+                                              "PipeSequence_Command",
                                               [
-                                                "CmdName_Word",
+                                                "Command_SimpleCommand",
                                                 [
-                                                  "Word",
-                                                  "echo",
-                                                  [ [ "WordName", "echo" ] ]
-                                                ]
-                                              ],
-                                              [
-                                                "CmdSuffix_Word",
-                                                [
-                                                  "Word",
-                                                  "`echo \"\\\\\"\"`",
+                                                  "SimpleCommand_CmdName_CmdSuffix",
                                                   [
+                                                    "CmdName_Word",
                                                     [
-                                                      "WordSubshell",
-                                                      [
-                                                        "SubShellKindBackQuote"
-                                                      ],
+                                                      "Word",
+                                                      "echo",
                                                       [
                                                         [
-                                                          "CompleteCommand_CList",
+                                                          "WordName", "echo"
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ],
+                                                  [
+                                                    "CmdSuffix_Word",
+                                                    [
+                                                      "Word",
+                                                      "`echo \"\\\\\"\"`",
+                                                      [
+                                                        [
+                                                          "WordSubshell",
                                                           [
-                                                            "CList_AndOr",
+                                                            "SubShellKindBackQuote"
+                                                          ],
+                                                          [
+                                                            "Program_LineBreak_CompleteCommands_LineBreak",
                                                             [
-                                                              "AndOr_Pipeline",
+                                                              "LineBreak_Empty"
+                                                            ],
+                                                            [
+                                                              "CompleteCommands_CompleteCommand",
                                                               [
-                                                                "Pipeline_PipeSequence",
+                                                                "CompleteCommand_CList",
                                                                 [
-                                                                  "PipeSequence_Command",
+                                                                  "CList_AndOr",
                                                                   [
+                                                                    "AndOr_Pipeline",
+                                                                    [
+                                                                    "Pipeline_PipeSequence",
+                                                                    [
+                                                                    "PipeSequence_Command",
+                                                                    [
                                                                     "Command_SimpleCommand",
                                                                     [
                                                                     "SimpleCommand_CmdName_CmdSuffix",
@@ -156,9 +178,15 @@
                                                                     ]
                                                                     ]
                                                                     ]
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                   ]
                                                                 ]
                                                               ]
+                                                            ],
+                                                            [
+                                                              "LineBreak_Empty"
                                                             ]
                                                           ]
                                                         ]
@@ -172,7 +200,8 @@
                                         ]
                                       ]
                                     ]
-                                  ]
+                                  ],
+                                  [ "LineBreak_Empty" ]
                                 ]
                               ]
                             ]
@@ -188,5 +217,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

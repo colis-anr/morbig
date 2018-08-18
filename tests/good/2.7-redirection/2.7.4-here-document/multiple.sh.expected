@@ -1,10 +1,70 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_CList_SeparatorOp_AndOr",
+      "CompleteCommand_CList",
       [
-        "CList_AndOr",
+        "CList_CList_SeparatorOp_AndOr",
+        [
+          "CList_AndOr",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName_CmdSuffix",
+                    [
+                      "CmdName_Word",
+                      [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                    ],
+                    [
+                      "CmdSuffix_CmdSuffix_IoRedirect",
+                      [
+                        "CmdSuffix_IoRedirect",
+                        [
+                          "IoRedirect_IoFile",
+                          [
+                            "IoFile_Great_FileName",
+                            [
+                              "Filename_Word",
+                              [
+                                "Word",
+                                "toJohn",
+                                [ [ "WordName", "toJohn" ] ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "IoRedirect_IoHere",
+                        [
+                          "IoHere_DLess_HereEnd",
+                          [
+                            "HereEnd_Word",
+                            [ "Word", "EOF1", [ [ "WordName", "EOF1" ] ] ]
+                          ],
+                          [
+                            "Word",
+                            "Hi John!\n",
+                            [ [ "WordLiteral", "Hi John!\n" ] ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [ "SeparatorOp_Semicolon" ],
         [
           "AndOr_Pipeline",
           [
@@ -31,8 +91,8 @@
                             "Filename_Word",
                             [
                               "Word",
-                              "toJohn",
-                              [ [ "WordName", "toJohn" ] ]
+                              "toJane",
+                              [ [ "WordName", "toJane" ] ]
                             ]
                           ]
                         ]
@@ -41,67 +101,16 @@
                     [
                       "IoRedirect_IoHere",
                       [
-                        "IoHere_DLess_HereEnd",
+                        "IoHere_DLessDash_HereEnd",
                         [
                           "HereEnd_Word",
-                          [ "Word", "EOF1", [ [ "WordName", "EOF1" ] ] ]
+                          [ "Word", "EOF2", [ [ "WordName", "EOF2" ] ] ]
                         ],
                         [
                           "Word",
-                          "Hi John!\n",
-                          [ [ "WordLiteral", "Hi John!\n" ] ]
+                          "    Hi Jane!\n",
+                          [ [ "WordLiteral", "    Hi Jane!\n" ] ]
                         ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ],
-      [ "SeparatorOp_Semicolon" ],
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [
-                  "CmdName_Word",
-                  [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
-                ],
-                [
-                  "CmdSuffix_CmdSuffix_IoRedirect",
-                  [
-                    "CmdSuffix_IoRedirect",
-                    [
-                      "IoRedirect_IoFile",
-                      [
-                        "IoFile_Great_FileName",
-                        [
-                          "Filename_Word",
-                          [ "Word", "toJane", [ [ "WordName", "toJane" ] ] ]
-                        ]
-                      ]
-                    ]
-                  ],
-                  [
-                    "IoRedirect_IoHere",
-                    [
-                      "IoHere_DLessDash_HereEnd",
-                      [
-                        "HereEnd_Word",
-                        [ "Word", "EOF2", [ [ "WordName", "EOF2" ] ] ]
-                      ],
-                      [
-                        "Word",
-                        "    Hi Jane!\n",
-                        [ [ "WordLiteral", "    Hi Jane!\n" ] ]
                       ]
                     ]
                   ]
@@ -112,5 +121,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

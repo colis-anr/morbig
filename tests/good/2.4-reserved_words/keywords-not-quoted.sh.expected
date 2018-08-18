@@ -1,27 +1,113 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
       [
-        "AndOr_Pipeline",
+        "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
         [
-          "Pipeline_PipeSequence",
+          "CompleteCommands_CompleteCommand",
           [
-            "PipeSequence_Command",
+            "CompleteCommand_CList",
             [
-              "Command_SimpleCommand",
+              "CList_AndOr",
               [
-                "SimpleCommand_CmdName",
+                "AndOr_Pipeline",
                 [
-                  "CmdName_Word",
+                  "Pipeline_PipeSequence",
                   [
-                    "Word",
-                    "'if'",
+                    "PipeSequence_Command",
                     [
+                      "Command_SimpleCommand",
                       [
-                        "WordSingleQuoted",
-                        [ "Word", "if", [ [ "WordLiteral", "if" ] ] ]
+                        "SimpleCommand_CmdName",
+                        [
+                          "CmdName_Word",
+                          [
+                            "Word",
+                            "'if'",
+                            [
+                              [
+                                "WordSingleQuoted",
+                                [ "Word", "if", [ [ "WordLiteral", "if" ] ] ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [ "NewLineList_NewLine" ],
+        [
+          "CompleteCommand_CList",
+          [
+            "CList_AndOr",
+            [
+              "AndOr_Pipeline",
+              [
+                "Pipeline_PipeSequence",
+                [
+                  "PipeSequence_Command",
+                  [
+                    "Command_SimpleCommand",
+                    [
+                      "SimpleCommand_CmdName",
+                      [
+                        "CmdName_Word",
+                        [
+                          "Word",
+                          "i'f'",
+                          [
+                            [ "WordLiteral", "i" ],
+                            [
+                              "WordSingleQuoted",
+                              [ "Word", "f", [ [ "WordLiteral", "f" ] ] ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [ "NewLineList_NewLine" ],
+      [
+        "CompleteCommand_CList",
+        [
+          "CList_AndOr",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName",
+                    [
+                      "CmdName_Word",
+                      [
+                        "Word",
+                        "i\"f\"",
+                        [
+                          [ "WordLiteral", "i" ],
+                          [
+                            "WordDoubleQuoted",
+                            [ "Word", "f", [ [ "WordLiteral", "f" ] ] ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -31,34 +117,25 @@
           ]
         ]
       ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
+    ],
+    [ "NewLineList_NewLine" ],
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdName",
+                "Command_SimpleCommand",
                 [
-                  "CmdName_Word",
+                  "SimpleCommand_CmdName",
                   [
-                    "Word",
-                    "i'f'",
-                    [
-                      [ "WordLiteral", "i" ],
-                      [
-                        "WordSingleQuoted",
-                        [ "Word", "f", [ [ "WordLiteral", "f" ] ] ]
-                      ]
-                    ]
+                    "CmdName_Word",
+                    [ "Word", "i\\f", [ [ "WordLiteral", "i\\f" ] ] ]
                   ]
                 ]
               ]
@@ -68,64 +145,5 @@
       ]
     ]
   ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName",
-                [
-                  "CmdName_Word",
-                  [
-                    "Word",
-                    "i\"f\"",
-                    [
-                      [ "WordLiteral", "i" ],
-                      [
-                        "WordDoubleQuoted",
-                        [ "Word", "f", [ [ "WordLiteral", "f" ] ] ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName",
-                [
-                  "CmdName_Word",
-                  [ "Word", "i\\f", [ [ "WordLiteral", "i\\f" ] ] ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ]
+  [ "LineBreak_Empty" ]
 ]

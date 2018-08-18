@@ -144,7 +144,10 @@ let substitute aliases w =
 let rec about_to_reduce_cmd_name checkpoint =
   match checkpoint with
   | AboutToReduce (_, production) ->
-    lhs production = X (N N_cmd_name)
+    if lhs production = X (N N_linebreak) then
+      about_to_reduce_cmd_name (resume checkpoint)
+    else
+      lhs production = X (N N_cmd_name)
   | InputNeeded _ ->
     let dummy = Lexing.dummy_pos in
     let token = NAME (Name "a_word"), dummy, dummy in

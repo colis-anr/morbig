@@ -1,87 +1,97 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdPrefix",
+                "Command_SimpleCommand",
                 [
-                  "CmdPrefix_AssignmentWord",
+                  "SimpleCommand_CmdPrefix",
                   [
-                    [ "Name", "x" ],
+                    "CmdPrefix_AssignmentWord",
                     [
-                      "Word",
-                      "$(cat <<'EOT'\nabc ` def\nghi \\\njkl\nEOT\n)",
+                      [ "Name", "x" ],
                       [
+                        "Word",
+                        "$(cat <<'EOT'\nabc ` def\nghi \\\njkl\nEOT\n)",
                         [
-                          "WordSubshell",
-                          [ "SubShellKindParentheses" ],
                           [
+                            "WordSubshell",
+                            [ "SubShellKindParentheses" ],
                             [
-                              "CompleteCommand_CList",
+                              "Program_LineBreak_CompleteCommands_LineBreak",
+                              [ "LineBreak_Empty" ],
                               [
-                                "CList_AndOr",
+                                "CompleteCommands_CompleteCommand",
                                 [
-                                  "AndOr_Pipeline",
+                                  "CompleteCommand_CList",
                                   [
-                                    "Pipeline_PipeSequence",
+                                    "CList_AndOr",
                                     [
-                                      "PipeSequence_Command",
+                                      "AndOr_Pipeline",
                                       [
-                                        "Command_SimpleCommand",
+                                        "Pipeline_PipeSequence",
                                         [
-                                          "SimpleCommand_CmdName_CmdSuffix",
+                                          "PipeSequence_Command",
                                           [
-                                            "CmdName_Word",
+                                            "Command_SimpleCommand",
                                             [
-                                              "Word",
-                                              "cat",
-                                              [ [ "WordName", "cat" ] ]
-                                            ]
-                                          ],
-                                          [
-                                            "CmdSuffix_IoRedirect",
-                                            [
-                                              "IoRedirect_IoHere",
+                                              "SimpleCommand_CmdName_CmdSuffix",
                                               [
-                                                "IoHere_DLess_HereEnd",
+                                                "CmdName_Word",
                                                 [
-                                                  "HereEnd_Word",
+                                                  "Word",
+                                                  "cat",
+                                                  [ [ "WordName", "cat" ] ]
+                                                ]
+                                              ],
+                                              [
+                                                "CmdSuffix_IoRedirect",
+                                                [
+                                                  "IoRedirect_IoHere",
                                                   [
-                                                    "Word",
-                                                    "'EOT'",
+                                                    "IoHere_DLess_HereEnd",
                                                     [
+                                                      "HereEnd_Word",
                                                       [
-                                                        "WordSingleQuoted",
+                                                        "Word",
+                                                        "'EOT'",
                                                         [
-                                                          "Word",
-                                                          "EOT",
                                                           [
+                                                            "WordSingleQuoted",
                                                             [
-                                                              "WordLiteral",
-                                                              "EOT"
+                                                              "Word",
+                                                              "EOT",
+                                                              [
+                                                                [
+                                                                  "WordLiteral",
+                                                                  "EOT"
+                                                                ]
+                                                              ]
                                                             ]
                                                           ]
                                                         ]
                                                       ]
-                                                    ]
-                                                  ]
-                                                ],
-                                                [
-                                                  "Word",
-                                                  "abc ` def\nghi jkl\n",
-                                                  [
+                                                    ],
                                                     [
-                                                      "WordLiteral",
-                                                      "abc ` def\nghi \\\njkl\n"
+                                                      "Word",
+                                                      "abc ` def\nghi jkl\n",
+                                                      [
+                                                        [
+                                                          "WordLiteral",
+                                                          "abc ` def\nghi \\\njkl\n"
+                                                        ]
+                                                      ]
                                                     ]
                                                   ]
                                                 ]
@@ -93,7 +103,8 @@
                                     ]
                                   ]
                                 ]
-                              ]
+                              ],
+                              [ "LineBreak_Empty" ]
                             ]
                           ]
                         ]
@@ -107,5 +118,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

@@ -1,200 +1,304 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
       [
-        "AndOr_Pipeline",
+        "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
         [
-          "Pipeline_PipeSequence",
+          "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
           [
-            "PipeSequence_Command",
+            "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
             [
-              "Command_SimpleCommand",
+              "CompleteCommands_CompleteCommand",
               [
-                "SimpleCommand_CmdName",
+                "CompleteCommand_CList",
                 [
-                  "CmdName_Word",
+                  "CList_AndOr",
                   [
-                    "Word",
-                    "a'='b",
+                    "AndOr_Pipeline",
                     [
-                      [ "WordLiteral", "a" ],
+                      "Pipeline_PipeSequence",
                       [
-                        "WordSingleQuoted",
-                        [ "Word", "=", [ [ "WordLiteral", "=" ] ] ]
-                      ],
-                      [ "WordLiteral", "b" ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName",
-                [
-                  "CmdName_Word",
-                  [
-                    "Word",
-                    "a\"=\"b",
-                    [
-                      [ "WordLiteral", "a" ],
-                      [
-                        "WordDoubleQuoted",
-                        [ "Word", "=", [ [ "WordLiteral", "=" ] ] ]
-                      ],
-                      [ "WordLiteral", "b" ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName",
-                [
-                  "CmdName_Word",
-                  [
-                    "Word",
-                    "a$(=)b",
-                    [
-                      [ "WordLiteral", "a" ],
-                      [
-                        "WordSubshell",
-                        [ "SubShellKindParentheses" ],
+                        "PipeSequence_Command",
                         [
+                          "Command_SimpleCommand",
                           [
-                            "CompleteCommand_CList",
+                            "SimpleCommand_CmdName",
                             [
-                              "CList_AndOr",
+                              "CmdName_Word",
                               [
-                                "AndOr_Pipeline",
+                                "Word",
+                                "a'='b",
                                 [
-                                  "Pipeline_PipeSequence",
+                                  [ "WordLiteral", "a" ],
                                   [
-                                    "PipeSequence_Command",
+                                    "WordSingleQuoted",
                                     [
-                                      "Command_SimpleCommand",
-                                      [
-                                        "SimpleCommand_CmdName",
-                                        [
-                                          "CmdName_Word",
-                                          [
-                                            "Word",
-                                            "=",
-                                            [ [ "WordLiteral", "=" ] ]
-                                          ]
-                                        ]
-                                      ]
+                                      "Word",
+                                      "=",
+                                      [ [ "WordLiteral", "=" ] ]
                                     ]
-                                  ]
+                                  ],
+                                  [ "WordLiteral", "b" ]
                                 ]
                               ]
                             ]
                           ]
                         ]
-                      ],
-                      [ "WordLiteral", "b" ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [ "NewLineList_NewLine" ],
+            [
+              "CompleteCommand_CList",
+              [
+                "CList_AndOr",
+                [
+                  "AndOr_Pipeline",
+                  [
+                    "Pipeline_PipeSequence",
+                    [
+                      "PipeSequence_Command",
+                      [
+                        "Command_SimpleCommand",
+                        [
+                          "SimpleCommand_CmdName",
+                          [
+                            "CmdName_Word",
+                            [
+                              "Word",
+                              "a\"=\"b",
+                              [
+                                [ "WordLiteral", "a" ],
+                                [
+                                  "WordDoubleQuoted",
+                                  [ "Word", "=", [ [ "WordLiteral", "=" ] ] ]
+                                ],
+                                [ "WordLiteral", "b" ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [ "NewLineList_NewLine" ],
+          [
+            "CompleteCommand_CList",
+            [
+              "CList_AndOr",
+              [
+                "AndOr_Pipeline",
+                [
+                  "Pipeline_PipeSequence",
+                  [
+                    "PipeSequence_Command",
+                    [
+                      "Command_SimpleCommand",
+                      [
+                        "SimpleCommand_CmdName",
+                        [
+                          "CmdName_Word",
+                          [
+                            "Word",
+                            "a$(=)b",
+                            [
+                              [ "WordLiteral", "a" ],
+                              [
+                                "WordSubshell",
+                                [ "SubShellKindParentheses" ],
+                                [
+                                  "Program_LineBreak_CompleteCommands_LineBreak",
+                                  [ "LineBreak_Empty" ],
+                                  [
+                                    "CompleteCommands_CompleteCommand",
+                                    [
+                                      "CompleteCommand_CList",
+                                      [
+                                        "CList_AndOr",
+                                        [
+                                          "AndOr_Pipeline",
+                                          [
+                                            "Pipeline_PipeSequence",
+                                            [
+                                              "PipeSequence_Command",
+                                              [
+                                                "Command_SimpleCommand",
+                                                [
+                                                  "SimpleCommand_CmdName",
+                                                  [
+                                                    "CmdName_Word",
+                                                    [
+                                                      "Word",
+                                                      "=",
+                                                      [
+                                                        [
+                                                          "WordLiteral", "="
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ]
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ],
+                                  [ "LineBreak_Empty" ]
+                                ]
+                              ],
+                              [ "WordLiteral", "b" ]
+                            ]
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
               ]
             ]
           ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
+        ],
+        [ "NewLineList_NewLine" ],
         [
-          "Pipeline_PipeSequence",
+          "CompleteCommand_CList",
           [
-            "PipeSequence_Command",
+            "CList_AndOr",
             [
-              "Command_SimpleCommand",
+              "AndOr_Pipeline",
               [
-                "SimpleCommand_CmdName",
+                "Pipeline_PipeSequence",
                 [
-                  "CmdName_Word",
+                  "PipeSequence_Command",
                   [
-                    "Word",
-                    "a`=`b",
+                    "Command_SimpleCommand",
                     [
-                      [ "WordLiteral", "a" ],
+                      "SimpleCommand_CmdName",
                       [
-                        "WordSubshell",
-                        [ "SubShellKindBackQuote" ],
+                        "CmdName_Word",
                         [
+                          "Word",
+                          "a`=`b",
                           [
-                            "CompleteCommand_CList",
+                            [ "WordLiteral", "a" ],
                             [
-                              "CList_AndOr",
+                              "WordSubshell",
+                              [ "SubShellKindBackQuote" ],
                               [
-                                "AndOr_Pipeline",
+                                "Program_LineBreak_CompleteCommands_LineBreak",
+                                [ "LineBreak_Empty" ],
                                 [
-                                  "Pipeline_PipeSequence",
+                                  "CompleteCommands_CompleteCommand",
                                   [
-                                    "PipeSequence_Command",
+                                    "CompleteCommand_CList",
                                     [
-                                      "Command_SimpleCommand",
+                                      "CList_AndOr",
                                       [
-                                        "SimpleCommand_CmdName",
+                                        "AndOr_Pipeline",
                                         [
-                                          "CmdName_Word",
+                                          "Pipeline_PipeSequence",
                                           [
-                                            "Word",
-                                            "=",
-                                            [ [ "WordLiteral", "=" ] ]
+                                            "PipeSequence_Command",
+                                            [
+                                              "Command_SimpleCommand",
+                                              [
+                                                "SimpleCommand_CmdName",
+                                                [
+                                                  "CmdName_Word",
+                                                  [
+                                                    "Word",
+                                                    "=",
+                                                    [
+                                                      [ "WordLiteral", "=" ]
+                                                    ]
+                                                  ]
+                                                ]
+                                              ]
+                                            ]
                                           ]
                                         ]
                                       ]
                                     ]
                                   ]
-                                ]
+                                ],
+                                [ "LineBreak_Empty" ]
                               ]
-                            ]
+                            ],
+                            [ "WordLiteral", "b" ]
                           ]
                         ]
-                      ],
-                      [ "WordLiteral", "b" ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [ "NewLineList_NewLine" ],
+      [
+        "CompleteCommand_CList",
+        [
+          "CList_AndOr",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName",
+                    [
+                      "CmdName_Word",
+                      [
+                        "Word",
+                        "a$((=))b",
+                        [ [ "WordLiteral", "a$((=))b" ] ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    [ "NewLineList_NewLine" ],
+    [
+      "CompleteCommand_CList",
+      [
+        "CList_AndOr",
+        [
+          "AndOr_Pipeline",
+          [
+            "Pipeline_PipeSequence",
+            [
+              "PipeSequence_Command",
+              [
+                "Command_SimpleCommand",
+                [
+                  "SimpleCommand_CmdPrefix",
+                  [
+                    "CmdPrefix_AssignmentWord",
+                    [
+                      [ "Name", "a" ],
+                      [ "Word", "b", [ [ "WordLiteral", "b" ] ] ]
                     ]
                   ]
                 ]
@@ -205,57 +309,5 @@
       ]
     ]
   ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdName",
-                [
-                  "CmdName_Word",
-                  [ "Word", "a$((=))b", [ [ "WordLiteral", "a$((=))b" ] ] ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ],
-  [
-    "CompleteCommand_CList",
-    [
-      "CList_AndOr",
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdPrefix",
-                [
-                  "CmdPrefix_AssignmentWord",
-                  [
-                    [ "Name", "a" ],
-                    [ "Word", "b", [ [ "WordLiteral", "b" ] ] ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ]
+  [ "LineBreak_Empty" ]
 ]

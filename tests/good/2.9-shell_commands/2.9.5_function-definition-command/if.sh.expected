@@ -1,107 +1,33 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_FunctionDefinition",
+              "PipeSequence_Command",
               [
-                "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
-                [ "Fname_Name", [ "Name", "a" ] ],
-                [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                "Command_FunctionDefinition",
                 [
-                  "FunctionBody_CompoundCommand",
+                  "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
+                  [ "Fname_Name", [ "Name", "a" ] ],
+                  [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
                   [
-                    "CompoundCommand_IfClause",
+                    "FunctionBody_CompoundCommand",
                     [
-                      "IfClause_If_CompoundList_Then_CompoundList_ElsePart_Fi",
+                      "CompoundCommand_IfClause",
                       [
-                        "CompoundList_Term_Separator",
+                        "IfClause_If_CompoundList_Then_CompoundList_ElsePart_Fi",
                         [
-                          "Term_AndOr",
-                          [
-                            "AndOr_Pipeline",
-                            [
-                              "Pipeline_PipeSequence",
-                              [
-                                "PipeSequence_Command",
-                                [
-                                  "Command_SimpleCommand",
-                                  [
-                                    "SimpleCommand_CmdName",
-                                    [
-                                      "CmdName_Word",
-                                      [
-                                        "Word",
-                                        "true",
-                                        [ [ "WordName", "true" ] ]
-                                      ]
-                                    ]
-                                  ]
-                                ]
-                              ]
-                            ]
-                          ]
-                        ],
-                        [
-                          "Separator_SeparatorOp_LineBreak",
-                          [ "SeparatorOp_Semicolon" ],
-                          [ "LineBreak_Empty" ]
-                        ]
-                      ],
-                      [
-                        "CompoundList_Term_Separator",
-                        [
-                          "Term_AndOr",
-                          [
-                            "AndOr_Pipeline",
-                            [
-                              "Pipeline_PipeSequence",
-                              [
-                                "PipeSequence_Command",
-                                [
-                                  "Command_SimpleCommand",
-                                  [
-                                    "SimpleCommand_CmdName_CmdSuffix",
-                                    [
-                                      "CmdName_Word",
-                                      [
-                                        "Word",
-                                        "echo",
-                                        [ [ "WordName", "echo" ] ]
-                                      ]
-                                    ],
-                                    [
-                                      "CmdSuffix_Word",
-                                      [
-                                        "Word",
-                                        "true",
-                                        [ [ "WordName", "true" ] ]
-                                      ]
-                                    ]
-                                  ]
-                                ]
-                              ]
-                            ]
-                          ]
-                        ],
-                        [
-                          "Separator_SeparatorOp_LineBreak",
-                          [ "SeparatorOp_Uppersand" ],
-                          [ "LineBreak_Empty" ]
-                        ]
-                      ],
-                      [
-                        "ElsePart_Else_CompoundList",
-                        [
-                          "CompoundList_NewLineList_Term_Separator",
-                          [ "NewLineList_NewLine" ],
+                          "CompoundList_LineBreak_Term_Separator",
+                          [ "LineBreak_Empty" ],
                           [
                             "Term_AndOr",
                             [
@@ -118,8 +44,8 @@
                                         "CmdName_Word",
                                         [
                                           "Word",
-                                          "false",
-                                          [ [ "WordName", "false" ] ]
+                                          "true",
+                                          [ [ "WordName", "true" ] ]
                                         ]
                                       ]
                                     ]
@@ -133,6 +59,90 @@
                             [ "SeparatorOp_Semicolon" ],
                             [ "LineBreak_Empty" ]
                           ]
+                        ],
+                        [
+                          "CompoundList_LineBreak_Term_Separator",
+                          [ "LineBreak_Empty" ],
+                          [
+                            "Term_AndOr",
+                            [
+                              "AndOr_Pipeline",
+                              [
+                                "Pipeline_PipeSequence",
+                                [
+                                  "PipeSequence_Command",
+                                  [
+                                    "Command_SimpleCommand",
+                                    [
+                                      "SimpleCommand_CmdName_CmdSuffix",
+                                      [
+                                        "CmdName_Word",
+                                        [
+                                          "Word",
+                                          "echo",
+                                          [ [ "WordName", "echo" ] ]
+                                        ]
+                                      ],
+                                      [
+                                        "CmdSuffix_Word",
+                                        [
+                                          "Word",
+                                          "true",
+                                          [ [ "WordName", "true" ] ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ],
+                          [
+                            "Separator_SeparatorOp_LineBreak",
+                            [ "SeparatorOp_Uppersand" ],
+                            [ "LineBreak_Empty" ]
+                          ]
+                        ],
+                        [
+                          "ElsePart_Else_CompoundList",
+                          [
+                            "CompoundList_LineBreak_Term_Separator",
+                            [
+                              "LineBreak_NewLineList",
+                              [ "NewLineList_NewLine" ]
+                            ],
+                            [
+                              "Term_AndOr",
+                              [
+                                "AndOr_Pipeline",
+                                [
+                                  "Pipeline_PipeSequence",
+                                  [
+                                    "PipeSequence_Command",
+                                    [
+                                      "Command_SimpleCommand",
+                                      [
+                                        "SimpleCommand_CmdName",
+                                        [
+                                          "CmdName_Word",
+                                          [
+                                            "Word",
+                                            "false",
+                                            [ [ "WordName", "false" ] ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ],
+                            [
+                              "Separator_SeparatorOp_LineBreak",
+                              [ "SeparatorOp_Semicolon" ],
+                              [ "LineBreak_Empty" ]
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -144,5 +154,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

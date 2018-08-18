@@ -1,70 +1,76 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand_RedirectList",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_ForClause",
+                "Command_CompoundCommand_RedirectList",
                 [
-                  "ForClause_For_Name_LineBreak_In_WordList_SequentialSep_DoGroup",
-                  [ "Name", "i" ],
-                  [ "LineBreak_Empty" ],
+                  "CompoundCommand_ForClause",
                   [
-                    "WordList_WordList_Word",
+                    "ForClause_For_Name_LineBreak_In_WordList_SequentialSep_DoGroup",
+                    [ "Name", "i" ],
+                    [ "LineBreak_Empty" ],
                     [
-                      "WordList_Word",
-                      [ "Word", "foo", [ [ "WordName", "foo" ] ] ]
-                    ],
-                    [ "Word", "bar", [ [ "WordName", "bar" ] ] ]
-                  ],
-                  [
-                    "SequentialSep_Semicolon_LineBreak",
-                    [ "LineBreak_Empty" ]
-                  ],
-                  [
-                    "DoGroup_Do_CompoundList_Done",
-                    [
-                      "CompoundList_Term_Separator",
+                      "WordList_WordList_Word",
                       [
-                        "Term_AndOr",
+                        "WordList_Word",
+                        [ "Word", "foo", [ [ "WordName", "foo" ] ] ]
+                      ],
+                      [ "Word", "bar", [ [ "WordName", "bar" ] ] ]
+                    ],
+                    [
+                      "SequentialSep_Semicolon_LineBreak",
+                      [ "LineBreak_Empty" ]
+                    ],
+                    [
+                      "DoGroup_Do_CompoundList_Done",
+                      [
+                        "CompoundList_LineBreak_Term_Separator",
+                        [ "LineBreak_Empty" ],
                         [
-                          "AndOr_Pipeline",
+                          "Term_AndOr",
                           [
-                            "Pipeline_PipeSequence",
+                            "AndOr_Pipeline",
                             [
-                              "PipeSequence_Command",
+                              "Pipeline_PipeSequence",
                               [
-                                "Command_SimpleCommand",
+                                "PipeSequence_Command",
                                 [
-                                  "SimpleCommand_CmdName_CmdSuffix",
+                                  "Command_SimpleCommand",
                                   [
-                                    "CmdName_Word",
+                                    "SimpleCommand_CmdName_CmdSuffix",
                                     [
-                                      "Word",
-                                      "echo",
-                                      [ [ "WordName", "echo" ] ]
-                                    ]
-                                  ],
-                                  [
-                                    "CmdSuffix_Word",
-                                    [
-                                      "Word",
-                                      "$i",
+                                      "CmdName_Word",
                                       [
+                                        "Word",
+                                        "echo",
+                                        [ [ "WordName", "echo" ] ]
+                                      ]
+                                    ],
+                                    [
+                                      "CmdSuffix_Word",
+                                      [
+                                        "Word",
+                                        "$i",
                                         [
-                                          "WordVariable",
                                           [
-                                            "VariableAtom",
-                                            "i",
-                                            [ "NoAttribute" ]
+                                            "WordVariable",
+                                            [
+                                              "VariableAtom",
+                                              "i",
+                                              [ "NoAttribute" ]
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -74,28 +80,28 @@
                               ]
                             ]
                           ]
+                        ],
+                        [
+                          "Separator_SeparatorOp_LineBreak",
+                          [ "SeparatorOp_Semicolon" ],
+                          [ "LineBreak_Empty" ]
                         ]
-                      ],
-                      [
-                        "Separator_SeparatorOp_LineBreak",
-                        [ "SeparatorOp_Semicolon" ],
-                        [ "LineBreak_Empty" ]
                       ]
                     ]
                   ]
-                ]
-              ],
-              [
-                "RedirectList_IoRedirect",
+                ],
                 [
-                  "IoRedirect_IoHere",
+                  "RedirectList_IoRedirect",
                   [
-                    "IoHere_DLess_HereEnd",
+                    "IoRedirect_IoHere",
                     [
-                      "HereEnd_Word",
-                      [ "Word", "DATA", [ [ "WordName", "DATA" ] ] ]
-                    ],
-                    [ "Word", "foo\n", [ [ "WordLiteral", "foo\n" ] ] ]
+                      "IoHere_DLess_HereEnd",
+                      [
+                        "HereEnd_Word",
+                        [ "Word", "DATA", [ [ "WordName", "DATA" ] ] ]
+                      ],
+                      [ "Word", "foo\n", [ [ "WordLiteral", "foo\n" ] ] ]
+                    ]
                   ]
                 ]
               ]
@@ -104,5 +110,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

@@ -1,10 +1,35 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_CList_SeparatorOp_AndOr",
+      "CompleteCommand_CList",
       [
-        "CList_AndOr",
+        "CList_CList_SeparatorOp_AndOr",
+        [
+          "CList_AndOr",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName",
+                    [
+                      "CmdName_Word",
+                      [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [ "SeparatorOp_Uppersand" ],
         [
           "AndOr_Pipeline",
           [
@@ -14,37 +39,17 @@
               [
                 "Command_SimpleCommand",
                 [
-                  "SimpleCommand_CmdName",
+                  "SimpleCommand_CmdPrefix",
                   [
-                    "CmdName_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ],
-      [ "SeparatorOp_Uppersand" ],
-      [
-        "AndOr_Pipeline",
-        [
-          "Pipeline_PipeSequence",
-          [
-            "PipeSequence_Command",
-            [
-              "Command_SimpleCommand",
-              [
-                "SimpleCommand_CmdPrefix",
-                [
-                  "CmdPrefix_IoRedirect",
-                  [
-                    "IoRedirect_IoFile",
+                    "CmdPrefix_IoRedirect",
                     [
-                      "IoFile_Great_FileName",
+                      "IoRedirect_IoFile",
                       [
-                        "Filename_Word",
-                        [ "Word", "foo", [ [ "WordName", "foo" ] ] ]
+                        "IoFile_Great_FileName",
+                        [
+                          "Filename_Word",
+                          [ "Word", "foo", [ [ "WordName", "foo" ] ] ]
+                        ]
                       ]
                     ]
                   ]
@@ -55,5 +60,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

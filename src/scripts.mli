@@ -24,4 +24,4 @@ val is_elf: string -> bool
 
 (** [parse_file s] attempts to parse the file with name [s], and returns
     its concrete syntax tree. *)
-val parse_file: string -> CST.complete_command_list
+val parse_file: string -> CST.program

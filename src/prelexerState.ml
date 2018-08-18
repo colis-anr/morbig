@@ -509,10 +509,8 @@ let remove_contents_suffix end_marker (contents : string) (cst : CST.word_cst) =
     match cst with
     | (WordLiteral contents) :: cst ->
        begin match lines contents with
-       | [] ->
-          assert false (* Because of split_on_char. *)
-       | [_] ->
-          aux cst (* There is no newline character. *)
+       | [] | [_] ->
+          aux cst
        | rest ->
           let rest = List.(rev (tl (rev rest))) in
           let suffix = String.concat "\n" rest ^ "\n" in

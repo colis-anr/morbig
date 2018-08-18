@@ -1,66 +1,77 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_Subshell",
+                "Command_CompoundCommand",
                 [
-                  "Subshell_Lparen_CompoundList_Rparen",
+                  "CompoundCommand_Subshell",
                   [
-                    "CompoundList_Term",
+                    "Subshell_Lparen_CompoundList_Rparen",
                     [
-                      "Term_AndOr",
+                      "CompoundList_LineBreak_Term",
+                      [ "LineBreak_Empty" ],
                       [
-                        "AndOr_Pipeline",
+                        "Term_AndOr",
                         [
-                          "Pipeline_PipeSequence",
+                          "AndOr_Pipeline",
                           [
-                            "PipeSequence_Command",
+                            "Pipeline_PipeSequence",
                             [
-                              "Command_CompoundCommand",
+                              "PipeSequence_Command",
                               [
-                                "CompoundCommand_Subshell",
+                                "Command_CompoundCommand",
                                 [
-                                  "Subshell_Lparen_CompoundList_Rparen",
+                                  "CompoundCommand_Subshell",
                                   [
-                                    "CompoundList_Term",
+                                    "Subshell_Lparen_CompoundList_Rparen",
                                     [
-                                      "Term_AndOr",
+                                      "CompoundList_LineBreak_Term",
+                                      [ "LineBreak_Empty" ],
                                       [
-                                        "AndOr_Pipeline",
+                                        "Term_AndOr",
                                         [
-                                          "Pipeline_PipeSequence",
+                                          "AndOr_Pipeline",
                                           [
-                                            "PipeSequence_Command",
+                                            "Pipeline_PipeSequence",
                                             [
-                                              "Command_SimpleCommand",
+                                              "PipeSequence_Command",
                                               [
-                                                "SimpleCommand_CmdName_CmdSuffix",
+                                                "Command_SimpleCommand",
                                                 [
-                                                  "CmdName_Word",
+                                                  "SimpleCommand_CmdName_CmdSuffix",
                                                   [
-                                                    "Word",
-                                                    "echo",
+                                                    "CmdName_Word",
                                                     [
-                                                      [ "WordName", "echo" ]
+                                                      "Word",
+                                                      "echo",
+                                                      [
+                                                        [
+                                                          "WordName", "echo"
+                                                        ]
+                                                      ]
                                                     ]
-                                                  ]
-                                                ],
-                                                [
-                                                  "CmdSuffix_Word",
+                                                  ],
                                                   [
-                                                    "Word",
-                                                    "foo",
-                                                    [ [ "WordName", "foo" ] ]
+                                                    "CmdSuffix_Word",
+                                                    [
+                                                      "Word",
+                                                      "foo",
+                                                      [
+                                                        [ "WordName", "foo" ]
+                                                      ]
+                                                    ]
                                                   ]
                                                 ]
                                               ]
@@ -85,5 +96,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

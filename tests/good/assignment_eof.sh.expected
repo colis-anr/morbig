@@ -1,30 +1,38 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_SimpleCommand",
+              "PipeSequence_Command",
               [
-                "SimpleCommand_CmdName_CmdSuffix",
-                [ "CmdName_Word", [ "Word", "a", [ [ "WordName", "a" ] ] ] ],
+                "Command_SimpleCommand",
                 [
-                  "CmdSuffix_Word",
+                  "SimpleCommand_CmdName_CmdSuffix",
                   [
-                    "Word",
-                    "b=c",
+                    "CmdName_Word",
+                    [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                  ],
+                  [
+                    "CmdSuffix_Word",
                     [
+                      "Word",
+                      "b=c",
                       [
-                        "WordAssignmentWord",
                         [
-                          [ "Name", "b" ],
-                          [ "Word", "c", [ [ "WordLiteral", "c" ] ] ]
+                          "WordAssignmentWord",
+                          [
+                            [ "Name", "b" ],
+                            [ "Word", "c", [ [ "WordLiteral", "c" ] ] ]
+                          ]
                         ]
                       ]
                     ]
@@ -36,5 +44,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]

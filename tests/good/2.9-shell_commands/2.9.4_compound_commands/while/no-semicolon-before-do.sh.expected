@@ -1,49 +1,27 @@
 [
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
   [
-    "CompleteCommand_CList",
+    "CompleteCommands_CompleteCommand",
     [
-      "CList_AndOr",
+      "CompleteCommand_CList",
       [
-        "AndOr_Pipeline",
+        "CList_AndOr",
         [
-          "Pipeline_PipeSequence",
+          "AndOr_Pipeline",
           [
-            "PipeSequence_Command",
+            "Pipeline_PipeSequence",
             [
-              "Command_CompoundCommand",
+              "PipeSequence_Command",
               [
-                "CompoundCommand_WhileClause",
+                "Command_CompoundCommand",
                 [
-                  "WhileClause_While_CompoundList_DoGroup",
+                  "CompoundCommand_WhileClause",
                   [
-                    "CompoundList_Term",
+                    "WhileClause_While_CompoundList_DoGroup",
                     [
-                      "Term_AndOr",
-                      [
-                        "AndOr_Pipeline",
-                        [
-                          "Pipeline_PipeSequence",
-                          [
-                            "PipeSequence_Command",
-                            [
-                              "Command_SimpleCommand",
-                              [
-                                "SimpleCommand_CmdName",
-                                [
-                                  "CmdName_Word",
-                                  [ "Word", "a", [ [ "WordName", "a" ] ] ]
-                                ]
-                              ]
-                            ]
-                          ]
-                        ]
-                      ]
-                    ]
-                  ],
-                  [
-                    "DoGroup_Do_CompoundList_Done",
-                    [
-                      "CompoundList_Term_Separator",
+                      "CompoundList_LineBreak_Term",
+                      [ "LineBreak_Empty" ],
                       [
                         "Term_AndOr",
                         [
@@ -58,18 +36,51 @@
                                   "SimpleCommand_CmdName",
                                   [
                                     "CmdName_Word",
-                                    [ "Word", "b", [ [ "WordName", "b" ] ] ]
+                                    [ "Word", "a", [ [ "WordName", "a" ] ] ]
                                   ]
                                 ]
                               ]
                             ]
                           ]
                         ]
-                      ],
+                      ]
+                    ],
+                    [
+                      "DoGroup_Do_CompoundList_Done",
                       [
-                        "Separator_SeparatorOp_LineBreak",
-                        [ "SeparatorOp_Semicolon" ],
-                        [ "LineBreak_Empty" ]
+                        "CompoundList_LineBreak_Term_Separator",
+                        [ "LineBreak_Empty" ],
+                        [
+                          "Term_AndOr",
+                          [
+                            "AndOr_Pipeline",
+                            [
+                              "Pipeline_PipeSequence",
+                              [
+                                "PipeSequence_Command",
+                                [
+                                  "Command_SimpleCommand",
+                                  [
+                                    "SimpleCommand_CmdName",
+                                    [
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "b",
+                                        [ [ "WordName", "b" ] ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        [
+                          "Separator_SeparatorOp_LineBreak",
+                          [ "SeparatorOp_Semicolon" ],
+                          [ "LineBreak_Empty" ]
+                        ]
                       ]
                     ]
                   ]
@@ -80,5 +91,6 @@
         ]
       ]
     ]
-  ]
+  ],
+  [ "LineBreak_Empty" ]
 ]
