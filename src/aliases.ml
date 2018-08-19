@@ -160,10 +160,10 @@ let rec about_to_reduce_cmd_name checkpoint =
 (** [alias_substitution aliases checkpoint word] substitutes an
     alias by its definition if word is not a reserved word and
     if the parsing context is about to reduce a [cmd_name]. *)
-let alias_substitution aliases checkpoint word = FirstSuccessMonad.(
+let alias_substitution aliases checkpoint word =
     if about_to_reduce_cmd_name checkpoint then (
       if not (Keyword.is_reserved_word word) then
         substitute aliases word
       else
         word
-    ) else word)
+    ) else word
