@@ -1,12 +1,12 @@
 #!/bin/sh
-set -e
+set -euC
 
 fold_start () { printf 'travis_fold:start:%s\r\033[33;1m%s\033[0m\n' "$1" "$2"; }
 fold_end () { printf 'travis_fold:end:%s\r' "$1"; }
 
 ## Initialize OPAM
 export PATH=~/.local/bin:$PATH
-eval `opam config env`
+eval "$(opam config env)"
 
 ## Make
 fold_start make 'Build the project'
@@ -14,7 +14,7 @@ make
 fold_end make
 
 ## Make install
-if [ -z "$INSTALL" ]; then
+if [ -n "$INSTALL" ]; then
     fold_start install 'Install the project'
     make install
     fold_end install

@@ -1,7 +1,7 @@
 language: c
 sudo: required
 
-install: sudo apt-get install ocaml aspcud
+install: sh .travis.install.sh
 script: sh .travis.script.sh
 
 os: linux
