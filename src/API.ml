@@ -23,6 +23,11 @@ type ccst =
   | Data     of string
 
 let ccst_of_json_program j =
+  let unexpected_case json =
+    Printf.eprintf "Unexpected json: %s\n" (Yojson.Safe.pretty_to_string json);
+    Printexc.print_backtrace stderr;
+    exit 1
+  in
   let rec aux = function
     | `Assoc [ "value", v; "position", p ] ->
        let start_p, end_p = location p in
@@ -38,16 +43,14 @@ let ccst_of_json_program j =
     | `List l ->
        Node ("Tuple", aux' (`List l))
     | json ->
-       Printf.eprintf "Unexpected json: %s\n" (Yojson.Safe.pretty_to_string json);
-       assert false
+       unexpected_case json
   and aux' = function
     | `List c ->
        Array.of_list (List.map aux c)
     | `Assoc m ->
        aux' (`List (snd (List.split m)))
     | json ->
-       Printf.eprintf "Unexpected json: %s\n" (Yojson.Safe.pretty_to_string json);
-       assert false
+       unexpected_case json
   and position = function
     | `Assoc [ "pos_fname", `String pos_fname;
                "pos_lnum", `Int pos_lnum;
@@ -55,15 +58,12 @@ let ccst_of_json_program j =
                "pos_cnum", `Int pos_cnum ] ->
        CST.({ pos_fname; pos_lnum; pos_bol; pos_cnum })
     | json ->
-       Printf.eprintf "Unexpected json: %s\n" (Yojson.Safe.pretty_to_string json);
-       assert false
-
+       unexpected_case json
   and location = function
     | `Assoc [ "start_p", start_p; "end_p", end_p ] ->
        (position start_p, position end_p)
     | json ->
-       Printf.eprintf "Unexpected json: %s\n" (Yojson.Safe.pretty_to_string json);
-       assert false
+       unexpected_case json
   in
   aux j
 
