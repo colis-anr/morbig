@@ -76,13 +76,10 @@ let register cst =
 exception CSTDisposalFailed
 
 let dispose_cst cst =
-  let rec aux = function
-    | [] ->
-       raise CSTDisposalFailed
-    | cst' :: ccsts ->
-       if cst == cst' then ccsts else cst' :: aux ccsts
-  in
-  aux !ccst_roots
+  if List.memq cst !ccst_roots then
+    ccst_roots := List.filter (( == ) cst) !ccst_roots
+  else
+    raise CSTDisposalFailed
 
 let untyped_parse_file s =
   parse_file s |> CSTHelpers.program_to_json |> ccst_of_json_program |> register
