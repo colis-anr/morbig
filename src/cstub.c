@@ -23,7 +23,7 @@ typedef value position_t;
 
 static char* error_msg = NULL;
 
-cst_t* parse_file (char* filename)
+cst_t parse_file (char* filename)
 {
   static value* closure = NULL;
   value result;
@@ -33,10 +33,10 @@ cst_t* parse_file (char* filename)
   if (Is_exception_result (result)) {
     result = Extract_exception (result);
     error_msg = String_val (Field (result, 0));
-    return NULL;
+    return (cst_t)NULL;
   }
   error_msg = NULL;
-  return result;
+  return (cst_t)result;
 }
 
 char* get_error_message () {
@@ -70,7 +70,7 @@ kind_t get_kind (value cst) {
 
 void must_be_location (value cst) {
   if (get_kind (cst) != LOCATION) {
-    fprintf (stderr, "Not a location at %p.\n", cst);
+    fprintf (stderr, "Not a location at %p.\n", (void*)cst);
     exit (EXIT_FAILURE);
   }
 }
@@ -108,7 +108,7 @@ int get_cnum_of_position (position_t p) {
 
 void must_be_node (value cst) {
   if (get_kind (cst) != NODE) {
-    fprintf (stderr, "Not a node at %p.\n", cst);
+    fprintf (stderr, "Not a node at %p.\n", (void*)cst);
     exit (EXIT_FAILURE);
   }
 }
@@ -130,7 +130,7 @@ cst_t get_children (value cst, int k) {
 
 void must_be_data (value cst) {
   if (get_kind (cst) != DATA) {
-    fprintf (stderr, "Not a data at %p.\n", cst);
+    fprintf (stderr, "Not a data at %p.\n", (void*)cst);
     exit (EXIT_FAILURE);
   }
 }

@@ -35,13 +35,13 @@ all:
 	echo "let commithash = \"`git log -1 --pretty=format:%H`\"" >> version.ml
 	if (which ocamlopt > /dev/null); then \
 		echo "compilation to native code"; \
-		cp `ocamlc -where`/libasmrun.a _build/libocaml.a; \
 		$(OCAMLBUILD) morbig.native \
 			libmorbig.cma libmorbig.cmxa libmorbig.cmxs API.native.o libmorbigcstub.a; \
+		cp `ocamlc -where`/libasmrun.a _build/libocaml.a; \
 	else \
 		echo "compilation to byte code" ;\
-		cp `ocamlc -where`/libocamlrun.a _build/libocaml.a; \
 		$(OCAMLBUILD) morbig.byte libmorbig.cma libmorbigcstub.a; \
+		cp `ocamlc -where`/libocamlrun.a _build/libocaml.a; \
 	fi
 	echo "create _build/libmorbigc.a"      > libmorbigc.mri
 	echo "addlib _build/libocaml.a"       >> libmorbigc.mri
