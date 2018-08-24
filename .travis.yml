@@ -1,16 +1,22 @@
 language: c
 sudo: required
-install: sudo apt-get install ocaml aspcud
-script: sh .travis.sh
+
+install: sh .travis.install.sh
+script: sh .travis.script.sh
+
 os: linux
 env:
   - OCAML_VERSION=4.02.3
   - OCAML_VERSION=4.03.0
   - OCAML_VERSION=4.04.0
-  - OCAML_VERSION=4.04.1
-  - OCAML_VERSION=4.04.2
   - OCAML_VERSION=4.05.0
   - OCAML_VERSION=4.06.0
   - OCAML_VERSION=4.06.1
   - OCAML_VERSION=4.07.0
+  - INSTALL=yes OCAML_VERSION=4.06.0
   - RUN_TESTS=yes OCAML_VERSION=4.06.0
+
+matrix:
+  include:
+  - os: osx
+    env: RUN_TESTS=yes INSTALL=yes OCAML_VERSION=4.06.0
