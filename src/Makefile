@@ -2,12 +2,13 @@
 .PHONY: all clean debug doc .headers
 
 OCAMLBUILD=ocamlbuild -use-ocamlfind
+ODIR=`ocamlc -where`
 
 # Menhir can be told to produce a parser that explains what
 # it is doing.
 MENHIROPT_COMMON=\
    -yaccflag --explain -yaccflag --inspection -yaccflag --table \
-   -yaccflag --dump
+   -yaccflag --dump -tag debug
 
 ifeq ($(DEBUGPARSING), yes)
   MENHIROPT=$(MENHIROPT_COMMON) -yaccflag --trace
@@ -35,11 +36,19 @@ all:
 	if (which ocamlopt > /dev/null); then \
 		echo "compilation to native code"; \
 		$(OCAMLBUILD) morbig.native \
-			libmorbig.cma libmorbig.cmxa libmorbig.cmxs; \
+			libmorbig.cma libmorbig.cmxa libmorbig.cmxs CAPI.native.o libmorbigcstub.a; \
+		cp `ocamlc -where`/libasmrun.a _build/libocaml.a; \
 	else \
 		echo "compilation to byte code" ;\
-		$(OCAMLBUILD) morbig.byte libmorbig.cma; \
+		$(OCAMLBUILD) morbig.byte libmorbig.cma libmorbigcstub.a; \
+		cp `ocamlc -where`/libocamlrun.a _build/libocaml.a; \
 	fi
+	ar -rc _build/libmorbigc.a		\
+	  _build/libocaml.a			\
+	  $(ODIR)/libcamlstr.a			\
+	  $(ODIR)/dynlink.a			\
+	  _build/libmorbigcstub.a		\
+	  _build/CAPI.native.o
 
 debug:
 	$(OCAMLBUILD) -tag debug morbig.byte libmorbig.cma
@@ -52,4 +61,3 @@ doc:
 
 headers:
 	headache -h .header *.ml *.mli *.mll *.mly
-

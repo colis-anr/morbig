@@ -7,6 +7,8 @@ fold_end () { printf 'travis_fold:end:%s\r' "$1"; }
 ## Initialize OPAM
 export PATH=~/.local/bin:$PATH
 eval "$(opam config env)"
+opam update
+opam upgrade -y
 
 ## Make
 fold_start make 'Build the project'

@@ -10,10 +10,10 @@ all:
 	if [ -e src/morbig.native ]; then \
 		cp src/morbig.native bin/morbig ;\
 		cp src/_build/libmorbig.o src/_build/libmorbig.cm* \
-			src/_build/libmorbig.a lib; \
+			src/_build/libmorbig.a src/_build/libmorbigc.a lib; \
 	else \
 		cp src/morbig.byte bin/morbig ;\
-		cp src/_build/libmorbig.cm* lib; \
+		cp src/_build/libmorbig.cm* src/_build/libmorbigc.a lib; \
 	fi
 
 doc:
@@ -26,26 +26,27 @@ debug:
 	cp src/morbig.byte bin/morbig
 
 install:
-	@ if [ x$(PREFIX) = x ]; then								\
-	  echo "Selecting OPAM based install."; 						\
-	  echo "Specify PREFIX=... for system-wide install.";					\
-	  cp bin/morbig `opam config var bin`;							\
-	  cp man/morbig.1 `opam config var man`;						\
-	  mkdir -p `opam config var doc`/libmorbig;						\
-	  cp -fr doc/* `opam config var doc`/libmorbig;						\
-	  ocamlfind remove libmorbig;								\
-	  ocamlfind install libmorbig META lib/* $(EXPORTED_SOURCES);				\
-	else											\
-	  echo "Selecting system-wide install. PREFIX is $(PREFIX)";				\
-	  mkdir -p $(PREFIX)/bin;                                                               \
-	  cp bin/morbig $(PREFIX)/bin;								\
-	  mkdir -p $(PREFIX)/share/man/man1;							\
-	  cp man/morbig.1 $(PREFIX)/share/man/man1;						\
-	  mkdir -p $(PREFIX)/share/doc/libmorbig;						\
-	  cp -fr doc/* $(PREFIX)/share/doc/libmorbig;						\
-	  mkdir -p $(PREFIX)/lib/ocaml;                                                               \
-	  ocamlfind remove -destdir $(PREFIX)/lib/ocaml libmorbig;					\
-	  ocamlfind install -destdir $(PREFIX)/lib/ocaml libmorbig META $(EXPORTED_SOURCES) lib/*;	\
+	@ if [ x$(PREFIX) = x ]; then						\
+	  echo "Selecting OPAM based install.";					\
+	  echo "Specify PREFIX=... for system-wide install.";			\
+	  cp bin/morbig `opam config var bin`;					\
+	  cp man/morbig.1 `opam config var man`;				\
+	  mkdir -p `opam config var doc`/libmorbig;				\
+	  cp -fr doc/* `opam config var doc`/libmorbig;				\
+	  ocamlfind remove libmorbig;						\
+	  ocamlfind install libmorbig META lib/* include/* $(EXPORTED_SOURCES);	\
+	else									\
+	  echo "Selecting system-wide install. PREFIX is $(PREFIX)";		\
+	  mkdir -p $(PREFIX)/bin;						\
+	  cp bin/morbig $(PREFIX)/bin;						\
+	  mkdir -p $(PREFIX)/share/man/man1;					\
+	  cp man/morbig.1 $(PREFIX)/share/man/man1;				\
+	  mkdir -p $(PREFIX)/share/doc/libmorbig;				\
+	  cp -fr doc/* $(PREFIX)/share/doc/libmorbig;				\
+	  mkdir -p $(PREFIX)/lib/ocaml;						\
+	  ocamlfind remove -destdir $(PREFIX)/lib/ocaml libmorbig;		\
+	  ocamlfind install -destdir $(PREFIX)/lib/ocaml			\
+	  libmorbig META $(EXPORTED_SOURCES) lib/* include/*;			\
          fi
 
 install-local:
