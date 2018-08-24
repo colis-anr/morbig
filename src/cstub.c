@@ -32,7 +32,7 @@ cst_t parse_file (char* filename)
   result = caml_callback_exn (*closure, caml_copy_string (filename));
   if (Is_exception_result (result)) {
     result = Extract_exception (result);
-    error_msg = String_val (Field (result, 0));
+    error_msg = String_val (Field (result, 1));
     return (cst_t)NULL;
   }
   error_msg = NULL;

@@ -8,7 +8,7 @@ ODIR=`ocamlc -where`
 # it is doing.
 MENHIROPT_COMMON=\
    -yaccflag --explain -yaccflag --inspection -yaccflag --table \
-   -yaccflag --dump
+   -yaccflag --dump -tag debug
 
 ifeq ($(DEBUGPARSING), yes)
   MENHIROPT=$(MENHIROPT_COMMON) -yaccflag --trace
@@ -36,7 +36,7 @@ all:
 	if (which ocamlopt > /dev/null); then \
 		echo "compilation to native code"; \
 		$(OCAMLBUILD) morbig.native \
-			libmorbig.cma libmorbig.cmxa libmorbig.cmxs API.native.o libmorbigcstub.a; \
+			libmorbig.cma libmorbig.cmxa libmorbig.cmxs CAPI.native.o libmorbigcstub.a; \
 		cp `ocamlc -where`/libasmrun.a _build/libocaml.a; \
 	else \
 		echo "compilation to byte code" ;\
@@ -48,7 +48,7 @@ all:
 	echo "addlib $(ODIR)/libcamlstr.a"    >> libmorbigc.mri
 	echo "addlib $(ODIR)/dynlink.a"       >> libmorbigc.mri
 	echo "addlib _build/libmorbigcstub.a" >> libmorbigc.mri
-	echo "addmod _build/API.native.o"     >> libmorbigc.mri
+	echo "addmod _build/CAPI.native.o"    >> libmorbigc.mri
 	echo "save"                           >> libmorbigc.mri
 	echo "end"                            >> libmorbigc.mri
 	ar -M < libmorbigc.mri

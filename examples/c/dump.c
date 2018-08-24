@@ -91,6 +91,10 @@ int main (int argc, char** argv) {
   }
   initialize_morbig (argv);
   cst_t cst = parse_file (argv[1]);
+  if (!cst) {
+    fprintf (stderr, "Parse error:\n%s\n", get_error_message ());
+    exit (EXIT_FAILURE);
+  }
   dump (cst);
   dispose_cst (cst);
   exit (EXIT_SUCCESS);

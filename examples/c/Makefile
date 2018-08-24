@@ -5,7 +5,7 @@ LIBDIR=$(shell ocamlfind query libmorbig)
 
 all:
 	$(CC) -o dump -I $(STDDIR) -I $(LIBDIR) \
-            dump.c -lm -ldl `ocamlc -where`/libcamlrun.a $(LIBDIR)/libmorbigc.a $(LIBDIR)/libmorbig.a
+            dump.c -lm -ldl $(LIBDIR)/libmorbigc.a
 
 clean:
-	rm dump
+	rm -f dump
