@@ -12,6 +12,7 @@
 (**************************************************************************)
 
 open API
+open CAPI
 
 let save input_filename (cst : CST.program) =
   (** write the concrete syntax tree [cst] to the output file corresponding
