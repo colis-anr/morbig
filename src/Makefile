@@ -43,15 +43,12 @@ all:
 		$(OCAMLBUILD) morbig.byte libmorbig.cma libmorbigcstub.a; \
 		cp `ocamlc -where`/libocamlrun.a _build/libocaml.a; \
 	fi
-	echo "create _build/libmorbigc.a"      > libmorbigc.mri
-	echo "addlib _build/libocaml.a"       >> libmorbigc.mri
-	echo "addlib $(ODIR)/libcamlstr.a"    >> libmorbigc.mri
-	echo "addlib $(ODIR)/dynlink.a"       >> libmorbigc.mri
-	echo "addlib _build/libmorbigcstub.a" >> libmorbigc.mri
-	echo "addmod _build/CAPI.native.o"    >> libmorbigc.mri
-	echo "save"                           >> libmorbigc.mri
-	echo "end"                            >> libmorbigc.mri
-	ar -M < libmorbigc.mri
+	ar -rc _build/libmorbigc.a		\
+	  _build/libocaml.a			\
+	  $(ODIR)/libcamlstr.a			\
+	  $(ODIR)/dynlink.a			\
+	  _build/libmorbigcstub.a		\
+	  _build/CAPI.native.o
 
 debug:
 	$(OCAMLBUILD) -tag debug morbig.byte libmorbig.cma
