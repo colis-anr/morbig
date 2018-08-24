@@ -11,6 +11,8 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+open API
+
 type ccst =
   | Location of CST.lexing_position * CST.lexing_position * ccst
   | Node     of string * ccst array
