@@ -22,6 +22,8 @@ if [ -z "$OCAML_VERSION" ]; then
 fi
 opam switch "$OCAML_VERSION"
 eval $(opam config env)
+opam update
+opam upgrade -y
 fold_end   prepare_opam
 
 fold_start install_dependencies 'Install required dependencies...'
