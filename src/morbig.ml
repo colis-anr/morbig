@@ -67,6 +67,7 @@ let show_stats () =
     end
 
 let parse_one_file input_filename =
+  Debug.printf "Trying to open: %s\n" input_filename;
   incr nb_inputs;
   if not_a_script input_filename then
     incr nb_inputs_skipped
