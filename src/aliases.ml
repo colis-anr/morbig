@@ -49,18 +49,23 @@ open CST
 
 open CST
 
-type t = (string * string) list
+type t = {
+    definitions : (string * string) list
+  }
 
-let empty = []
+let empty = {
+    definitions = []
+  }
 
 (** [bind_aliases to_bind aliases] returns an alias table obtained from
     [aliases] by adding all entries from [to_bind]. *)
-let bind_aliases to_bind aliases = to_bind @ aliases
+let bind_aliases to_bind aliases =
+  { aliases with definitions = to_bind @ aliases.definitions }
 
 (** [unbind_aliases to_unbind aliases] returns an alias table obtained from
     [aliases] by omitting all entries from [to_unbind]. *)
 let unbind_aliases to_unbind aliases =
-  List.filter (fun (x, _) -> not (List.mem x to_unbind)) aliases
+  List.filter (fun (x, _) -> not (List.mem x to_unbind)) aliases.definitions
 
 exception NestedAliasingCommand
 
@@ -92,9 +97,7 @@ let rec as_aliasing_related_command = function
       Some (Alias l)
     | Word ("unalias", _) ->
       let l = unalias_argument suffix.value in
-      if l=["-a"]
-      then Some Reset
-      else Some (Unalias l)
+      Some (if l = ["-a"] then Reset else Unalias l)
     | _ ->
       None
     end
@@ -111,6 +114,7 @@ let rec as_aliasing_related_command = function
 let interpret aliases cst =
   let aliases = ref aliases in
   let level = ref 0 in
+  let at_toplevel () = !level = 0 in
   let analyzer = object (self : 'self)
       inherit [_] CST.iter as super
       method! visit_compound_command env cmd =
@@ -121,7 +125,7 @@ let interpret aliases cst =
       method! visit_simple_command _ cmd =
         match as_aliasing_related_command cmd with
         | Some alias_command ->
-          if !level = 0 then match alias_command with
+          if at_toplevel () then match alias_command with
             | Alias x -> aliases := bind_aliases x !aliases
             | Unalias x -> aliases := unbind_aliases x !aliases
             | Reset -> aliases := empty
@@ -136,7 +140,7 @@ let interpret aliases cst =
 
 let substitute aliases w =
   try
-    List.assoc w aliases
+    List.assoc w aliases.definitions
   with Not_found ->
     w
 
@@ -161,9 +165,9 @@ let rec about_to_reduce_cmd_name checkpoint =
     alias by its definition if word is not a reserved word and
     if the parsing context is about to reduce a [cmd_name]. *)
 let alias_substitution aliases checkpoint word =
-    if about_to_reduce_cmd_name checkpoint then (
-      if not (Keyword.is_reserved_word word) then
-        substitute aliases word
-      else
-        word
-    ) else word
+  if about_to_reduce_cmd_name checkpoint
+     && not (Keyword.is_reserved_word word)
+  then
+    substitute aliases word
+  else
+    word
