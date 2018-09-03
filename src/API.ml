@@ -12,3 +12,5 @@
 (**************************************************************************)
 
 let parse_file = Scripts.parse_file
+
+let parse_string = Scripts.parse_string

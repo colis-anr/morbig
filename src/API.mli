@@ -18,3 +18,7 @@
    is syntactically correct.
    Raise {Errors.ParseError pos} or {Errors.LexicalError pos} otherwise. *)
 val parse_file: string -> CST.program
+
+(** [parse_string filename content] is similar to [parse_file] except the
+    script source code is provided as a string. *)
+val parse_string: string -> string -> CST.program

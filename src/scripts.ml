@@ -44,16 +44,20 @@ let is_elf filename =
     else Bytes.compare buf elf_magic_number = 0
   end
 
+let parse_string filename contents =
+  let lexbuf = ExtPervasives.lexing_make filename contents in
+  let cst = Engine.parse false PrelexerState.initial_state lexbuf in
+  cst.CST.value
+
 let parse_file filename =
-  (** We assume that scripts are no longer than 16M. *)
   let cin = open_in filename in
   let cst =
     try
-      let contents = ExtPervasives.string_of_channel cin in
-      let lexbuf = ExtPervasives.lexing_make filename contents in
-      Engine.parse false PrelexerState.initial_state lexbuf
-    with e -> close_in cin;
-              raise e
+      (** We assume that scripts are no longer than 16M. *)
+      ExtPervasives.string_of_channel cin |> parse_string filename
+    with e ->
+      close_in cin;
+      raise e
   in
   close_in cin;
-  cst.CST.value
+  cst

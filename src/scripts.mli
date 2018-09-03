@@ -25,3 +25,7 @@ val is_elf: string -> bool
 (** [parse_file s] attempts to parse the file with name [s], and returns
     its concrete syntax tree. *)
 val parse_file: string -> CST.program
+
+(** [parse_string s c] attempts to parse the file with name [s] whose contents
+    is [c], and returns its concrete syntax tree. *)
+val parse_string: string -> string -> CST.program
