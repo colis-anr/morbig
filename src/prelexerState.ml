@@ -284,7 +284,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
             | WordComponent (_, WordEmpty) -> []
             | WordComponent (_, s) -> [s]
             | AssignmentMark -> []
-            | QuotingMark _ -> assert false
+            | QuotingMark _ -> []
          ) current.buffer))
       in
       [Pretoken.PreWord (w, csts)]

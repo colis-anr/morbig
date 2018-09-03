@@ -202,7 +202,8 @@ let inside_a_substitution_combo = function
   | _ -> false
 
 let quoted word =
-  word.[0] = '\'' && word.[String.length word - 1] = '\''
+  let len = String.length word in
+  len >= 2 && word.[0] = '\'' && word.[len - 1] = '\''
 
 let unquote word =
   String.(sub word 1 (length word - 2))
@@ -211,7 +212,8 @@ let rec end_of_with_whitespace word =
   if quoted word then
     end_of_with_whitespace (unquote word)
   else
-    word.[String.length word - 1] = ' '
+    let len = String.length word - 1 in
+    len >= 1 && word.[String.length word - 1] = ' '
 
 let only_if_end_with_whitespace word aliases state =
   if end_of_with_whitespace word then (
