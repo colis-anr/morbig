@@ -2,6 +2,7 @@
 
 EXPORTED_SOURCES=				\
 	src/CST.ml				\
+	src/errors.mli                          \
 	src/API.mli
 
 all:

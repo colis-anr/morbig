@@ -11,20 +11,11 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+(** Raise in case of parsing error. *)
 exception ParseError of Lexing.position
 
+(** Raise in case of parsing error. *)
 exception LexicalError of Lexing.position * string
 
-let string_of_error = function
-  | ParseError pos ->
-     Printf.sprintf "%s: Syntax error."
-       CSTHelpers.(string_of_lexing_position pos)
-  | LexicalError (pos, msg) ->
-     Printf.sprintf "%s: Lexical error (%s)."
-       CSTHelpers.(string_of_lexing_position pos)
-       msg
-  | Failure s ->
-     "Failure: " ^ s ^ "."
-  | Sys_error s ->
-     "Error: " ^ s ^ "."
-  | e -> raise e
+(** Returns a human-readable representation of Morbig's errors. *)
+val string_of_error : exn -> string

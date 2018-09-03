@@ -11,6 +11,4 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-exception SyntaxError of CST.position * string
-
 let parse_file = Scripts.parse_file

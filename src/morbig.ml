@@ -37,20 +37,6 @@ let save_error input_filename message =
   output_string eout "\n";
   close_out eout
 
-let string_of_exn = function
-  | Errors.ParseError pos ->
-     Printf.sprintf "%s: Syntax error."
-       CSTHelpers.(string_of_lexing_position pos)
-  | Errors.LexicalError (pos, msg) ->
-     Printf.sprintf "%s: Lexical error (%s)."
-       CSTHelpers.(string_of_lexing_position pos)
-       msg
-  | Failure s ->
-     "Failure: " ^ s ^ "."
-  | Sys_error s ->
-     "Error: " ^ s ^ "."
-  | e -> raise e
-
 let not_a_script input_filename =
   MorbigOptions.skip_nosh ()
   && (Scripts.(is_elf input_filename || is_other_script input_filename))
@@ -77,9 +63,9 @@ let parse_one_file input_filename =
     with e ->
       incr nb_inputs_erroneous;
       if MorbigOptions.continue_after_error () then
-        save_error input_filename (string_of_exn e)
+        save_error input_filename (Errors.string_of_error e)
       else (
-        output_string stderr (string_of_exn e ^ "\n");
+        output_string stderr (Errors.string_of_error e ^ "\n");
         exit 1
       )
 
