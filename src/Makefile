@@ -36,13 +36,13 @@ all:
 	if (which ocamlopt > /dev/null); then \
 		echo "compilation to native code"; \
 		$(OCAMLBUILD) morbig.native \
-			libmorbig.cma libmorbig.cmxa libmorbig.cmxs CAPI.native.o libmorbigcstub.a; \
-		cp `ocamlc -where`/libasmrun.a _build/libocaml.a; \
+			libmorbig.cma libmorbig.cmxa libmorbig.cmxs CAPI.native.o libmorbigcstub.a \
+		&& cp `ocamlc -where`/libasmrun.a _build/libocaml.a; \
 	else \
 		echo "compilation to byte code" ;\
-		$(OCAMLBUILD) morbig.byte libmorbig.cma libmorbigcstub.a; \
-		cp `ocamlc -where`/libocamlrun.a _build/libocaml.a; \
-	fi
+		$(OCAMLBUILD) morbig.byte libmorbig.cma libmorbigcstub.a \
+		&& cp `ocamlc -where`/libocamlrun.a _build/libocaml.a; \
+	fi && \
 	ar -rc _build/libmorbigc.a		\
 	  _build/libocaml.a			\
 	  $(ODIR)/libcamlstr.a			\

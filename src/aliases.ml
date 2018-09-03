@@ -49,11 +49,18 @@ open CST
 
 open CST
 
+type state =
+  | NoRecentSubstitution
+  | CommandNameSubstituted
+  | NextWordSubstituted
+
 type t = {
+    state       : state;
     definitions : (string * string) list
   }
 
 let empty = {
+    state       = NoRecentSubstitution;
     definitions = []
   }
 
@@ -65,7 +72,10 @@ let bind_aliases to_bind aliases =
 (** [unbind_aliases to_unbind aliases] returns an alias table obtained from
     [aliases] by omitting all entries from [to_unbind]. *)
 let unbind_aliases to_unbind aliases =
-  List.filter (fun (x, _) -> not (List.mem x to_unbind)) aliases.definitions
+  { aliases with
+    definitions =
+      List.filter (fun (x, _) -> not (List.mem x to_unbind)) aliases.definitions
+  }
 
 exception NestedAliasingCommand
 
@@ -148,10 +158,10 @@ let substitute aliases w =
 let rec about_to_reduce_cmd_name checkpoint =
   match checkpoint with
   | AboutToReduce (_, production) ->
-    if lhs production = X (N N_linebreak) then
-      about_to_reduce_cmd_name (resume checkpoint)
-    else
-      lhs production = X (N N_cmd_name)
+     if lhs production = X (N N_linebreak) || lhs production = X (N N_word) then
+       about_to_reduce_cmd_name (resume checkpoint)
+     else
+        lhs production = X (N N_cmd_name)
   | InputNeeded _ ->
     let dummy = Lexing.dummy_pos in
     let token = NAME (Name "a_word"), dummy, dummy in
@@ -161,6 +171,54 @@ let rec about_to_reduce_cmd_name checkpoint =
   | _ ->
     false
 
+(** [about_to_reduce_word checkpoint] *)
+let rec about_to_reduce_word checkpoint =
+  match checkpoint with
+  | AboutToReduce (_, production) ->
+    if lhs production = X (N N_linebreak) then
+      about_to_reduce_word (resume checkpoint)
+    else
+      lhs production = X (N N_word)
+  | InputNeeded _ ->
+    let dummy = Lexing.dummy_pos in
+    let token = NAME (Name "a_word"), dummy, dummy in
+    about_to_reduce_word (offer checkpoint token)
+  | Shifting _ ->
+    about_to_reduce_word (resume checkpoint)
+  | _ ->
+    false
+
+(** [inside_a_substitution_combo state] is true if a sequence of alias
+   substitution is triggered by the following cornercase rule of the
+   standard.*)
+(*specification
+ If the value of the alias replacing the word ends in a <blank>, the
+ shell shall check the next command word for alias substitution; this
+ process shall continue until a word is found that is not a valid alias
+ or an alias value does not end in a <blank>.
+*)
+let inside_a_substitution_combo = function
+  | CommandNameSubstituted | NextWordSubstituted -> true
+  | _ -> false
+
+let quoted word =
+  word.[0] = '\'' && word.[String.length word - 1] = '\''
+
+let unquote word =
+  String.(sub word 1 (length word - 2))
+
+let rec end_of_with_whitespace word =
+  if quoted word then
+    end_of_with_whitespace (unquote word)
+  else
+    word.[String.length word - 1] = ' '
+
+let only_if_end_with_whitespace word aliases state =
+  if end_of_with_whitespace word then (
+    ({ aliases with state }, word)
+  ) else
+    ({ aliases with state = NoRecentSubstitution }, word)
+
 (** [alias_substitution aliases checkpoint word] substitutes an
     alias by its definition if word is not a reserved word and
     if the parsing context is about to reduce a [cmd_name]. *)
@@ -168,6 +226,13 @@ let alias_substitution aliases checkpoint word =
   if about_to_reduce_cmd_name checkpoint
      && not (Keyword.is_reserved_word word)
   then
-    substitute aliases word
+    let word = substitute aliases word in
+    only_if_end_with_whitespace word aliases CommandNameSubstituted
   else
-    word
+    if about_to_reduce_word checkpoint
+       && inside_a_substitution_combo aliases.state
+    then
+      let word' = substitute aliases word in
+      only_if_end_with_whitespace word' aliases NextWordSubstituted
+    else
+      (aliases, word)

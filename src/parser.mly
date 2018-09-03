@@ -504,7 +504,7 @@ sequential_sep : Semicolon l=located(linebreak) {
   SequentialSep_NewLineList n
 }
 
-%inline word: w=WORD {
+word: w=WORD {
   w
 }
 | n=NAME {

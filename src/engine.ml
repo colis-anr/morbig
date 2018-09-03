@@ -32,7 +32,7 @@ type state = {
 module type Lexer =
   sig
     val initialize : PrelexerState.t -> Lexing.lexbuf -> unit
-    val next_token : state -> token * Lexing.position * Lexing.position
+    val next_token : state -> token * Lexing.position * Lexing.position * Aliases.t
     val at_eof : unit -> bool option
     val shift : unit -> unit
     val empty_input : unit -> bool
@@ -56,7 +56,7 @@ let parse partial (module Lexer : Lexer) =
 
       *)
       | InputNeeded parsing_state ->
-        let (token, ps, pe) as input =
+        let (token, ps, pe, aliases) =
           Lexer.next_token { aliases; checkpoint }
         in
         parse { aliases; checkpoint = offer checkpoint (token, ps, pe) }
@@ -190,6 +190,8 @@ let parse partial (module Lexer : Lexer) =
                    parse_error ()
                 | T T_WORD, Word (w, _) when is_reserved_word w ->
                    parse_error ()
+                | N N_word, Word (w, _) when is_reserved_word w ->
+                   parse_error ()
                 | _ ->
                   (* By correctness of the underlying LR automaton. *)
                   raise Not_found
@@ -294,10 +296,11 @@ module Lexer (U : sig end) : Lexer = struct
     )
     else
       let (pretoken, pstart, pstop) as p = !next_pretoken () in
-      let return token =
+      let return ?new_aliases token =
+        let aliases = match new_aliases with None -> aliases | Some a -> a in
         if token = EOF then eof := true else eof := false;
         let token = if !eof then EOF else token in
-        (token, pstart, pstop)
+        (token, pstart, pstop, aliases)
       in
       match pretoken with
         | Pretoken.IoNumber i ->
@@ -330,7 +333,7 @@ module Lexer (U : sig end) : Lexer = struct
            rules, or applies globally.
 
         *)
-          let w = alias_substitution aliases checkpoint w in
+          let new_aliases, w = alias_substitution aliases checkpoint w in
           let token = FirstSuccessMonad.(
             (recognize_assignment checkpoint p cst)
             +> (recognize_reserved_word_if_relevant checkpoint p w)
@@ -349,7 +352,7 @@ module Lexer (U : sig end) : Lexer = struct
 
             *)
             HDL.push_here_document_delimiter w cst;
-          return (FirstSuccessMonad.should_succeed token)
+          return ~new_aliases (FirstSuccessMonad.should_succeed token)
 
         | Pretoken.EOF ->
           real_eof := true;
@@ -401,7 +404,8 @@ module Lexer (U : sig end) : Lexer = struct
 
   let next_token ({ aliases; checkpoint } as state) =
     let curr_p = copy_position (lexbuf ()).Lexing.lex_curr_p in
-    let (raw, _, _) as token = next_token { aliases; checkpoint } in
+    let (raw, _, _, aliases) as token = next_token { aliases; checkpoint } in
+    let state = { state with aliases } in
     tokens := raw :: !tokens;
     last_state := Some (state, token, curr_p);
     token
