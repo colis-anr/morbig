@@ -4,6 +4,7 @@
 /tests.org
 *.json
 *.sjson
+_build/
 
 ## Emacs files
 *~
