@@ -1,4 +1,4 @@
-.PHONY: all debug clean checks uninstall doc install install-local
+.PHONY: all debug clean checks uninstall doc install install-local dist
 
 EXPORTED_SOURCES=				\
 	src/CST.ml				\
@@ -94,3 +94,9 @@ clean:
 	tests/run clean
 	[ ! -d bin ] || rm -fr bin
 	[ ! -d lib ] || rm -fr lib
+
+PACKAGE=$(shell echo morbig-`cat VERSION`)
+
+dist:
+	git archive -o $(PACKAGE).tar --format tar --prefix $(PACKAGE)/  master
+	gzip -9 $(PACKAGE).tar
