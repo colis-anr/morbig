@@ -1,6 +1,12 @@
 # Morbig
 ## A trustworthy static parser for POSIX shell
 
+Morbig is a parser for shell scripts written in the POSIX shell script
+language. It parses the scripts statically, that is without executing
+them, and constructs a concrete syntax tree for each of them.  The
+concrete syntax trees are built using constructors according to the
+shell grammar of the POSIX standard.
+
 ## Download [![Build Status](https://travis-ci.org/colis-anr/morbig.svg?branch=master)](https://travis-ci.org/colis-anr/morbig)
 
 
