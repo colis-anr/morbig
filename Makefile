@@ -1,4 +1,5 @@
 .PHONY: all debug clean checks uninstall doc install install-local dist
+.PHONY: docker-image publish-docker-image
 
 EXPORTED_SOURCES=				\
 	src/CST.ml				\
@@ -100,3 +101,10 @@ PACKAGE=$(shell echo morbig-`cat VERSION`)
 dist:
 	git archive -o $(PACKAGE).tar --format tar --prefix $(PACKAGE)/  master
 	gzip -9 $(PACKAGE).tar
+
+docker-image: Dockerfile
+	@docker build -t morbig .
+
+publish-docker-image: docker-image
+	docker tag morbig colisanr/morbig:latest
+	docker image push colisanr/morbig:latest

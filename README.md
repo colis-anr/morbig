@@ -14,10 +14,9 @@
 
 ## Are you in a hurry?
 
-   Yes? Build a docker image from the root of this repository:
-
+   Yes? Pull our docker image:
 ```
-   docker build -t morbig . # to build a docker image with morbig inside.
+   docker pull colisanr/morbig:latest
 ```
 
    Then, define the following shell function:
@@ -28,7 +27,7 @@
       B=$(basename "$1")
       docker run \
          -v "$D":/mnt \
-         morbig --as simple /mnt/"$B"
+         colisanr/morbig:latest --as simple /mnt/"$B"
    }
 ```
 
@@ -39,6 +38,12 @@
 ```
 
    This will create a JSON file named ``my-script.sh.sjson``.
+
+   You can also build a local docker image from the root of this repository:
+
+```
+   docker build -t morbig . # to build a docker image with morbig inside.
+```
 
    Now if you want to use more features of ``morbig``, take the time
    to follow the building instructions of the next section.
