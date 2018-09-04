@@ -344,7 +344,7 @@ let escape_analysis ?(for_backquote=false) level current =
        if for_backquote then
          [3]
        else
-         [1]
+         [1; 2]
     | _ ->
        [1]
   )
