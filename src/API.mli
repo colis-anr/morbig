@@ -22,3 +22,9 @@ val parse_file: string -> CST.program
 (** [parse_string filename content] is similar to [parse_file] except the
     script source code is provided as a string. *)
 val parse_string: string -> string -> CST.program
+
+(** [load_cst cin] retrieves a serialized CST from input_channel [cin]. *)
+val load_cst: in_channel -> CST.program
+
+(** [save_cst cout cst] stores a [cst] as binary in [cout]. *)
+val save_cst: out_channel -> CST.program -> unit

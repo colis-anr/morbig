@@ -14,3 +14,9 @@
 let parse_file = Scripts.parse_file
 
 let parse_string = Scripts.parse_string
+
+let load_cst cin =
+  (input_value cin : CST.program)
+
+let save_cst cout cst =
+  output_value cout cst
