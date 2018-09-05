@@ -9,7 +9,6 @@ Token
 ExtPervasives
 Parser
 Nesting
-Escaping
 Errors
 PrelexerState
 Pretoken
