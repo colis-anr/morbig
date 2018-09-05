@@ -1,6 +1,6 @@
 FROM ocaml/opam
 MAINTAINER Yann Regis-Gianas
-
+RUN sudo apt-get install time # For demonstration purpose
 RUN opam update
 RUN opam switch 4.02.3
 RUN eval `opam config env`
