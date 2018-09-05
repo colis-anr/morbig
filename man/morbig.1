@@ -58,6 +58,9 @@ one of the following:
 binary format. This format can be read by applications using the
 morbig OCaml library. This is the default.
 .TP
+.I dot
+graphic representation in the dot format.
+.TP
 .I json
 complete JSON output, including position information.
 .TP
@@ -80,6 +83,15 @@ without creating a new UNIX process for each of them, like this:
 .B \-\-display-stats
 Print at the end the total number of treated input files, the number of
 skipped input files, and the number of rejected input files.
+.TP
+.B \-\-debug
+Activate debugging information.
+.TP
+.B \-\-version
+Show version number and exit.
+.TP
+.B \-\-help
+Display usage information.
 .SH AUTHORS
 morbig has been written for the project CoLiS by
 Yann Régis-Gianas, Nicolas Jeannerod and Ralf Treinen.
