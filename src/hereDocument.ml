@@ -97,7 +97,7 @@ end = struct
            let s = Str.(global_replace (regexp "\\") "" s) in
            s ^ unquote w
         | _ ->
-           failwith "Unsuppported expansion in here document delimiter"
+           failwith "Unsupported expansion in here document delimiter"
       in
       unquote cst
     in

@@ -16,7 +16,7 @@ open CAPI
 
 let save input_filename (cst : CST.program) =
   (** write the concrete syntax tree [cst] to the output file corresponding
-      to [input_filename]. The format and and the name of the output file
+      to [input_filename]. The format and the name of the output file
       are determined by the program options. *)
   MorbigOptions.(
     let cout = open_out (output_file_of_input_file input_filename) in

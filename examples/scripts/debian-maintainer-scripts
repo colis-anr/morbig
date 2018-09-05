@@ -1,6 +1,6 @@
 #!/bin/sh
 # runs morbig on all debian maintainer scripts found under directory $1,
-# producing for each of them a concrete syntaxe tree in bin format.
+# producing for each of them a concrete syntax tree in bin format.
 
 corpusroot=${1:?}
 

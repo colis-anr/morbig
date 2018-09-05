@@ -11,7 +11,7 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-(* handling the alias and unalias buildins when they occur at toplevel *)
+(* handling the alias and unalias builtins when they occur at toplevel *)
 
 (** Type for a table of active aliases. *)
 type t
@@ -21,7 +21,7 @@ val empty : t
 
 (** Exception raised in case of an alias or unalias invocation inside
     a composite command. These are allowed in POSIX, but we have to
-    refuse them as they cannnot be expanded statically. *)
+    refuse them as they cannot be expanded statically. *)
 exception NestedAliasingCommand
 
 (** [interpret aliases cst] traverses [cst] to check that there are no

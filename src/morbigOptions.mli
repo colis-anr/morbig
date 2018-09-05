@@ -22,20 +22,20 @@ val backend : unit -> backend
 (* the list of input files specified on the command line *)
 val input_files : unit -> string list
 
-(* return an ouput file name for a given input file name *)
+(* return an output file name for a given input file name *)
 val output_file_of_input_file : string -> string
 
 (* tells whether input files which are ELF, or have a bash or perl magic *)
 (* string, should be skipped. *)
 val skip_nosh : unit -> bool
 
-(* tells whether final statistics are dmanded *)
+(* tells whether final statistics are demanded *)
 val display_stats : unit -> bool
 
 (* tell whether names of input files are to be read from stdin *)
 val from_stdin : unit -> bool
 
-(* tells whether parsing shoudl continue with the next input file after *)
+(* tells whether parsing should continue with the next input file after *)
 (* an error. *)
 val continue_after_error : unit -> bool
 
