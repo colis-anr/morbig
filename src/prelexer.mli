@@ -24,7 +24,6 @@
 
 (** [token b l] advances in the lexbuf [l], and produces a list of
     pretokens from [l], using a queue of symbols in the buffer [b] *)
-(* FIXME: we probably have that [b] is always empty when [token] is called *)
 val token :
   PrelexerState.t ->
   Lexing.lexbuf ->
