@@ -57,16 +57,10 @@ let usage_msg = "\
 Usage: morbig [options] file...
 "
 
-(*                  
-let show_version_and_exit () =
-  Printf.printf "morbig %s (compiled from commit %s, committed on %s)\n"
-    Version.current Version.commithash Version.commitdate;
-  exit 0
-*)
 let show_version_and_exit () =
   Printf.printf "morbig %s\n" Version.current;
   exit 0
-                  
+
 let analyze_command_line_arguments () = Arg.(
     let options = [
       "--as", Symbol ([ "json"; "bin"; "simple"; "dot" ], set_backend),
