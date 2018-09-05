@@ -231,7 +231,7 @@ let parse partial (module Lexer : Lexer) =
         parse { aliases; checkpoint = resume checkpoint }
 
     and parse_error () =
-      raise (Errors.ParseError (Lexer.current_position ()))
+      raise (Errors.DuringParsing (Lexer.current_position ()))
   in
   parse {
       aliases = Aliases.empty;

@@ -41,6 +41,13 @@ let save_as_json simplified cout csts =
   convert_to_json simplified csts
   |> Yojson.Safe.pretty_to_channel cout
 
+let load_from_json cin =
+  Yojson.Safe.from_channel cin |> CST.program_of_yojson
+  |> Ppx_deriving_yojson_runtime.Result.(function
+    | Ok cst -> cst
+    | Error msg -> raise (Errors.DuringIO msg)
+  )
+
 let json_to_dot cout json =
   Printf.(
     let fresh =

@@ -21,8 +21,8 @@ let save input_filename (cst : CST.program) =
   MorbigOptions.(
     let cout = open_out (output_file_of_input_file input_filename) in
     begin match backend () with
-    | Bin -> API.save_cst cout cst
-    | Json -> JsonHelpers.save_as_json false cout cst
+    | Bin -> API.save_binary_cst cout cst
+    | Json -> API.save_json_cst cout cst
     | SimpleJson -> JsonHelpers.save_as_json true cout cst
     | Dot -> JsonHelpers.save_as_dot cout cst
     end;
