@@ -10,11 +10,11 @@ all:
 	$(MAKE) -C src
 	mkdir -p bin lib
 	if [ -e src/morbig.native ]; then \
-		cp src/morbig.native bin/morbig ;\
+		cp src/morbigDriver.native bin/morbig ;\
 		cp src/_build/libmorbig.o src/_build/libmorbig.cm* \
 			src/_build/libmorbig.a src/_build/libmorbigc.a lib; \
 	else \
-		cp src/morbig.byte bin/morbig ;\
+		cp src/morbigDriver.byte bin/morbig ;\
 		cp src/_build/libmorbig.cm* src/_build/libmorbigc.a lib; \
 	fi
 
@@ -25,7 +25,7 @@ doc:
 debug:
 	DEBUGPARSING=yes $(MAKE) -C src debug
 	mkdir -p bin
-	cp src/morbig.byte bin/morbig
+	cp src/morbigDriver.byte bin/morbig
 
 install:
 	@ if [ x$(PREFIX) = x ]; then						\
