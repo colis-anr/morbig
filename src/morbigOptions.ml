@@ -80,7 +80,7 @@ let analyze_command_line_arguments () = Arg.(
       " Get names of scripts to parse from standard input.";
 
       "--debug", Set _debug,
-      " Active debugging information.";
+      " Activate debugging information.";
 
       "--version", Unit show_version_and_exit,
       " Show version number and exit."
