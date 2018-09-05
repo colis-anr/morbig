@@ -20,7 +20,7 @@
    Changes with respect to the specification:
 
    - There are semantic actions producing concrete syntax trees, of which
-     the type definitiosn are in the module {!CST}.
+     the type definitions are in the module {!CST}.
 
    - Extra tokens have been introduced to denote character-level lexemes.
 
@@ -110,7 +110,7 @@
    The Grammar
    ------------------------------------------------------- *)
 %start<CST.program CST.located>  entry_point
-%start<unit> intented_error
+%start<unit> intended_error
 %%
 
 entry_point: c=located(program) EOF {
@@ -519,6 +519,6 @@ word: w=WORD {
    This non terminal is here to avoid Menhir warning
    about unused terminal INTENDED_ERROR.
 *)
-intented_error: INTENDED_ERROR {
+intended_error: INTENDED_ERROR {
   ()
 }

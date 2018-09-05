@@ -10,7 +10,7 @@ echo 2<>word
 # open word for reading and writing, 4 is argument to echo
 echo 4 <>word
 
-# open word for reading and writring from file descriptor 5
+# open word for reading and writing from file descriptor 5
 echo 5<> word
 
 # open word for reading and writing, 6 is argument to echo

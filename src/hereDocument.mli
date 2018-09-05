@@ -30,7 +30,7 @@ module Lexer :
        *) 
       val push_here_document_delimiter : string -> CST.word_cst -> unit
       (** [push_here_document_delimiter word] registers [word] as the 
-          delimiting word pertaining to the preceeding redirecion operator.
+          delimiting word pertaining to the preceding redirection operator.
        *)
 
       val start_here_document_lexing : unit -> unit
@@ -39,7 +39,7 @@ module Lexer :
         Lexing.lexbuf -> PrelexerState.t ->
         Pretoken.t * Lexing.position * Lexing.position
       (** scans the contents of a here document including the line containing
-          the delimiter. Returns the pretoken containg the contents of the
+          the delimiter. Returns the pretoken containing the contents of the
           here document. As a side effect, assigns the contents of the here
           document to the reference that was registered by
           [push_here_document_operator].
