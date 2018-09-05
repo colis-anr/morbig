@@ -31,3 +31,15 @@ let save_json_cst cout cst =
 
 let save_dot_cst cout cst =
   JsonHelpers.save_as_dot cout cst
+
+let on_located = CSTHelpers.on_located
+
+let start_of_position = CSTHelpers.start_of_position
+
+let end_of_position = CSTHelpers.end_of_position
+
+let filename_of_position = CSTHelpers.filename_of_position
+
+let string_of_lexing_position = CSTHelpers.string_of_lexing_position
+
+let remove_quotes = QuoteRemoval.on_string

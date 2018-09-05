@@ -60,3 +60,28 @@ val save_json_cst: out_channel -> CST.program -> unit
 
 (** [save_dot_cst cout cst] stores a [cst] using DOT format in [cout]. *)
 val save_dot_cst: out_channel -> CST.program -> unit
+
+(** {1 CST helpers} *)
+
+(** [on_located f] applies [f] on a located value, preserving its location. *)
+val on_located : ('a -> 'b) -> 'a CST.located -> 'b
+
+(** [start_of_position p] returns the beginning of a position [p]. *)
+val start_of_position : CST.position -> Lexing.position
+
+(** [end_of_position p] returns the end of a position [p]. *)
+val end_of_position : CST.position -> Lexing.position
+
+(** [filename_of_position p] returns the filename of a position [p]. *)
+val filename_of_position : CST.position -> string
+
+(** [string_of_lexing_position p] returns a human-readable
+    representation of the lexing position [p], using a format
+    recognized by Emacs, and other decent editors. *)
+val string_of_lexing_position : Lexing.position -> string
+
+(** {1 POSIX related helpers} *)
+
+(** [remove_quotes s] yields a copy of string [s], with all
+   quotes removed as described in the POSIX specification.*)
+val remove_quotes : string -> string
