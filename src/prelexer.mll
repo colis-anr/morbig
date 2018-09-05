@@ -305,7 +305,6 @@ rule token current = parse
    by the longest match/first rule strategy of lex.
 
 *)
-(* FIXME: To be checked. *)
 
 (**specification:
 
