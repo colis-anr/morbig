@@ -65,7 +65,7 @@ let json_to_dot cout json =
          nodeid
       | `String name ->
          let nodeid = fresh () in
-         fprintf cout "%s [label=\"%s\"];\n" nodeid (ExtPervasives.escape name);
+         fprintf cout "%s [label=\"%s\"];\n" nodeid (String.escaped name);
          nodeid
       | `List [x] ->
          traverse x
@@ -76,7 +76,7 @@ let json_to_dot cout json =
          List.iter (fun c -> fprintf cout "%s -> %s;\n" nodeid c) childrenids;
          nodeid
       | _ ->
-         failwith "unsupported feature in json_to_dot"
+         assert false
     in
     fprintf cout "digraph {\n";
     ignore (traverse json);
