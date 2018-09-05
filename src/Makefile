@@ -36,11 +36,11 @@ all:
 	if (which ocamlopt > /dev/null); then \
 		echo "compilation to native code"; \
 		$(OCAMLBUILD) morbigDriver.native \
-			libmorbig.cma libmorbig.cmxa libmorbig.cmxs CAPI.native.o libmorbigcstub.a \
+			morbig.cma morbig.cmxa morbig.cmxs CAPI.native.o libmorbigcstub.a \
 		&& cp `ocamlc -where`/libasmrun.a _build/libocaml.a; \
 	else \
 		echo "compilation to byte code" ;\
-		$(OCAMLBUILD) morbigDriver.byte libmorbig.cma libmorbigcstub.a \
+		$(OCAMLBUILD) morbigDriver.byte morbig.cma libmorbigcstub.a \
 		&& cp `ocamlc -where`/libocamlrun.a _build/libocaml.a; \
 	fi && \
 	ar -rc _build/libmorbigc.a		\
@@ -51,13 +51,13 @@ all:
 	  _build/CAPI.native.o
 
 debug:
-	$(OCAMLBUILD) -tag debug morbigDriver.byte libmorbig.cma
+	$(OCAMLBUILD) -tag debug morbigDriver.byte morbig.cma
 
 clean:
 	$(OCAMLBUILD) -clean
 
 doc:
-	$(OCAMLBUILD) libmorbig.docdir/index.html
+	$(OCAMLBUILD) morbig.docdir/index.html
 
 headers:
 	headache -h .header *.ml *.mli *.mll *.mly
