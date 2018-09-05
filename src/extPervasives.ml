@@ -255,3 +255,17 @@ let lines s =
 
 let string_last_line s =
   lines s |> list_last
+
+let escape ?(chars="\\\"") ?(esc='\\') s =
+  let buf = Bytes.create (2 * String.length s) in
+  let j = ref 0 in
+  for i = 0 to String.length s - 1 do
+    if String.contains chars s.[i] then
+      (
+        Bytes.set buf !j esc;
+        incr j
+      );
+    Bytes.set buf !j s.[i];
+    incr j
+  done;
+  Bytes.sub_string buf 0 !j
