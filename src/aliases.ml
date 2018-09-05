@@ -85,19 +85,22 @@ type alias_related_command =
   | Reset
 
 let binder_from_alias (x:CST.cmd_suffix) =
-  let wl = CSTHelpers.wordlist_of_cmd_suffix x
-  in List.fold_right
-       (fun a accu ->
-         let s = Str.(bounded_split (regexp "=") CSTHelpers.(on_located unWord a) 2)
-         in if List.length s < 2
-            then accu
-            else (List.hd s, List.hd (List.tl s)):: accu)
-       wl
-       []
+  let open CSTHelpers in
+  let open Str in
+  let open List in
+  let wl = wordlist_of_cmd_suffix x in
+  fold_right (fun a accu ->
+       let s = bounded_split (regexp "=") (on_located unWord a) 2 in
+       if List.length s < 2 then
+         accu
+       else
+         (hd s, hd (tl s)):: accu)
+    wl
+    []
 
-let unalias_argument (x:CST.cmd_suffix) =
-  let wl = CSTHelpers.wordlist_of_cmd_suffix x
-  in List.map CSTHelpers.(on_located unWord) wl
+let unalias_argument (x:CST.cmd_suffix) = CSTHelpers.(
+  List.map (on_located unWord) (wordlist_of_cmd_suffix x)
+)
 
 let rec as_aliasing_related_command = function
   | SimpleCommand_CmdName_CmdSuffix ({ value = CmdName_Word w }, suffix) ->

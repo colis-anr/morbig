@@ -91,7 +91,7 @@ let subshell_parsing op escaping_level current lexbuf =
     (consumed_characters, (subshell_kind, cst))
 
 let lexing_error lexbuf msg =
-  raise (Errors.LexicalError (lexbuf.Lexing.lex_curr_p, msg))
+  raise (Errors.DuringLexing (lexbuf.Lexing.lex_curr_p, msg))
 
 }
 
@@ -305,7 +305,6 @@ rule token current = parse
    by the longest match/first rule strategy of lex.
 
 *)
-(* FIXME: To be checked. *)
 
 (**specification:
 

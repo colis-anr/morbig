@@ -32,7 +32,8 @@ type state = {
 module type Lexer =
   sig
     val initialize : PrelexerState.t -> Lexing.lexbuf -> unit
-    val next_token : state -> token * Lexing.position * Lexing.position * Aliases.t
+    val next_token :
+      state -> token * Lexing.position * Lexing.position * Aliases.t
     val at_eof : unit -> bool option
     val shift : unit -> unit
     val empty_input : unit -> bool
@@ -231,7 +232,7 @@ let parse partial (module Lexer : Lexer) =
         parse { aliases; checkpoint = resume checkpoint }
 
     and parse_error () =
-      raise (Errors.ParseError (Lexer.current_position ()))
+      raise (Errors.DuringParsing (Lexer.current_position ()))
   in
   parse {
       aliases = Aliases.empty;

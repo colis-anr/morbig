@@ -24,13 +24,13 @@
 
 (** [token b l] advances in the lexbuf [l], and produces a list of
     pretokens from [l], using a queue of symbols in the buffer [b] *)
-(* FIXME: we probably have that [b] is always empty when [token] is called *)
 val token :
   PrelexerState.t ->
   Lexing.lexbuf ->
   (Pretoken.t * Lexing.position * Lexing.position) list
 
+(** [single_quotes b l] advances in the lexing buffer [l] to
+    recognize a word between single quotes. This is used by
+    here-document recognition. *)
 val single_quotes :
-  PrelexerState.t ->
-  Lexing.lexbuf ->
-  PrelexerState.t
+  PrelexerState.t -> Lexing.lexbuf -> PrelexerState.t

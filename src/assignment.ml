@@ -62,27 +62,3 @@ let recognize_assignment checkpoint pretoken word_cst = FirstSuccessMonad.(
     | _ ->
        fail
 )
-
-(*
-  match Str.(split_delim (regexp "=") w) with
-    | [w] ->
-      fail
-    | [""; w] ->
-      return (word_literal ("=" ^ w))
-    | name :: rhs ->
-      let rhs = String.concat "=" rhs in
-      if is_name name then
-        let aword = CST.(AssignmentWord (Name name, Word.parse rhs)) in
-        let (_, pstart, pstop) = pretoken in
-        let token = ASSIGNMENT_WORD aword in
-        if accepted_token checkpoint (token, pstart, pstop) <> Wrong then
-          return token
-        else
-          return (WORD (Word.parse w))
-      else
-        (* We choose to return a WORD. *)
-        return (WORD (Word.parse w))
-    | _ ->
-      return (WORD (Word.parse w))
-)
- *)

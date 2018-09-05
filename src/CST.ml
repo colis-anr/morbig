@@ -68,11 +68,13 @@ and 'a located = {
 ]
 
 type program =
-  | Program_LineBreak_CompleteCommands_LineBreak of linebreak' * complete_commands' * linebreak'
+  | Program_LineBreak_CompleteCommands_LineBreak of
+      linebreak' * complete_commands' * linebreak'
   | Program_LineBreak of linebreak'
 
 and complete_commands =
-  | CompleteCommands_CompleteCommands_NewlineList_CompleteCommand of complete_commands' * newline_list' * complete_command'
+  | CompleteCommands_CompleteCommands_NewlineList_CompleteCommand of
+      complete_commands' * newline_list' * complete_command'
   | CompleteCommands_CompleteCommand of complete_command'
 
 and complete_command =

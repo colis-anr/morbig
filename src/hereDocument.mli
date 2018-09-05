@@ -27,9 +27,9 @@ module Lexer :
           - [dashed] is [true] when the operator is <<-, and [false] if <<-
           - [word_ref] is a reference to a located word. This reference will
              later be assigned the contents of the here document.
-       *) 
+       *)
       val push_here_document_delimiter : string -> CST.word_cst -> unit
-      (** [push_here_document_delimiter word] registers [word] as the 
+      (** [push_here_document_delimiter word] registers [word] as the
           delimiting word pertaining to the preceding redirection operator.
        *)
 
@@ -46,7 +46,7 @@ module Lexer :
        *)
 
       val inside_here_document : unit -> bool
-      (** Are we currently reading a sequence of here documents? *)  
+      (** Are we currently reading a sequence of here documents? *)
       val next_word_is_here_document_delimiter : unit -> bool
       (** Must the next word be a here document delimiter? *)
       val next_line_is_here_document : unit -> bool

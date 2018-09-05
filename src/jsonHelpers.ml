@@ -41,6 +41,13 @@ let save_as_json simplified cout csts =
   convert_to_json simplified csts
   |> Yojson.Safe.pretty_to_channel cout
 
+let load_from_json cin =
+  Yojson.Safe.from_channel cin |> CST.program_of_yojson
+  |> Ppx_deriving_yojson_runtime.Result.(function
+    | Ok cst -> cst
+    | Error msg -> raise (Errors.DuringIO msg)
+  )
+
 let json_to_dot cout json =
   Printf.(
     let fresh =
@@ -58,7 +65,7 @@ let json_to_dot cout json =
          nodeid
       | `String name ->
          let nodeid = fresh () in
-         fprintf cout "%s [label=\"%s\"];\n" nodeid (ExtPervasives.escape name);
+         fprintf cout "%s [label=\"%s\"];\n" nodeid (String.escaped name);
          nodeid
       | `List [x] ->
          traverse x
@@ -69,7 +76,7 @@ let json_to_dot cout json =
          List.iter (fun c -> fprintf cout "%s -> %s;\n" nodeid c) childrenids;
          nodeid
       | _ ->
-         failwith "unsupported feature in json_to_dot"
+         assert false
     in
     fprintf cout "digraph {\n";
     ignore (traverse json);

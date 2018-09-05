@@ -58,8 +58,7 @@ Usage: morbig [options] file...
 "
 
 let show_version_and_exit () =
-  Printf.printf "morbig %s (compiled from commit %s, committed on %s)\n"
-    Version.current Version.commithash Version.commitdate;
+  Printf.printf "morbig %s\n" Version.current;
   exit 0
 
 let analyze_command_line_arguments () = Arg.(
@@ -80,7 +79,7 @@ let analyze_command_line_arguments () = Arg.(
       " Get names of scripts to parse from standard input.";
 
       "--debug", Set _debug,
-      " Active debugging information.";
+      " Activate debugging information.";
 
       "--version", Unit show_version_and_exit,
       " Show version number and exit."

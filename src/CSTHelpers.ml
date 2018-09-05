@@ -114,7 +114,9 @@ let rec concat_complete_commands' cs1 cs2 =
            cs1,
            nl,
            c2)
-    | CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (cs2, nl, c2) ->
+    | CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (cs2,
+                                                                     nl,
+                                                                     c2) ->
        CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (
            concat_complete_commands' cs1 cs2,
            nl,

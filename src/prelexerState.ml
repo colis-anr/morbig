@@ -475,9 +475,10 @@ let rec closest_backquote_depth = function
 
 let backquote_depth current =
   let current_depth =
-    match escape_analysis ~for_backquote:true current.nesting_context current with
-    | Some d -> d
-    | None -> assert false (* By usage of backquote_depth. *)
+    escape_analysis ~for_backquote:true current.nesting_context current
+    |> function
+      | Some d -> d
+      | None -> assert false (* By usage of backquote_depth. *)
   in
   if MorbigOptions.debug () then
     Printf.eprintf "Backquote depth: %d =?= %d\n"
@@ -487,10 +488,6 @@ let backquote_depth current =
     None
   else
     Some current_depth
-  (* match current.nesting_context with
-   * | Nesting.Backquotes ('`', depth) :: _ -> None
-   * | _ :: nesting -> Some (closest_backquote_depth nesting)
-   * | [] -> Some 0 *)
 
 let found_current_here_document_delimiter current =
   match current.nesting_context with
@@ -532,7 +529,9 @@ let debug ?(rule="") lexbuf current = Lexing.(
                       %s [ ] %s     { %s } %s @ %s #\n[%s]\n"
         (Bytes.(to_string (sub lexbuf.lex_buffer 0 curr_pos)))
         (let k = lexbuf.lex_buffer_len - curr_pos - 1 in
-         if k > 0 then Bytes.(to_string (sub lexbuf.lex_buffer curr_pos k)) else "")
+         if k > 0 then
+           Bytes.(to_string (sub lexbuf.lex_buffer curr_pos k))
+         else "")
         (Lexing.lexeme lexbuf)
         rule
         (String.concat " " (List.map Nesting.to_string current.nesting_context))
