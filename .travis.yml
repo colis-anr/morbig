@@ -11,8 +11,19 @@ env:
   - OCAML_VERSION=4.07
 
 script:
-  - docker build --build-arg tag=$OCAML_VERSION --tag colisanr/morbig .
-  - docker run --entrypoint /bin/sh colisanr/morbig -c 'cd /home/opam/morbig && make check'
+  - docker build --build-arg tag=$OCAML_VERSION --tag colisanr/morbig:$TRAVIS_BRANCH .
+  - docker run --entrypoint /bin/sh colisanr/morbig:$TRAVIS_BRANCH -c 'cd /home/opam/morbig && make check'
+
+before_deploy:
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: docker push colisanr/morbig:$TRAVIS_BRANCH
+  on:
+    branch: master
+    condition: $OCAML_VERSION = 4.04
 
 matrix:
   include:
