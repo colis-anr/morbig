@@ -12,10 +12,13 @@
 (**************************************************************************)
 
 (** Raise in case of parsing error. *)
-exception ParseError of Lexing.position
+exception DuringParsing of Lexing.position
 
 (** Raise in case of parsing error. *)
-exception LexicalError of Lexing.position * string
+exception DuringLexing of Lexing.position * string
+
+(** Raise in case of I/O error. *)
+exception DuringIO of string
 
 (** Returns a human-readable representation of Morbig's errors. *)
 val string_of_error : exn -> string

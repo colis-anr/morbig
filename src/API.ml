@@ -15,8 +15,19 @@ let parse_file = Scripts.parse_file
 
 let parse_string = Scripts.parse_string
 
-let load_cst cin =
+module Errors = Errors
+
+let load_binary_cst cin =
   (input_value cin : CST.program)
 
-let save_cst cout cst =
+let save_binary_cst cout cst =
   output_value cout cst
+
+let load_json_cst cin =
+  JsonHelpers.load_from_json cin
+
+let save_json_cst cout cst =
+  JsonHelpers.save_as_json false cout cst
+
+let save_dot_cst cout cst =
+  JsonHelpers.save_as_dot cout cst

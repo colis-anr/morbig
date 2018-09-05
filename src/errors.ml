@@ -11,18 +11,22 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-exception ParseError of Lexing.position
+exception DuringParsing of Lexing.position
 
-exception LexicalError of Lexing.position * string
+exception DuringLexing of Lexing.position * string
+
+exception DuringIO of string
 
 let string_of_error = function
-  | ParseError pos ->
+  | DuringParsing pos ->
      Printf.sprintf "%s: Syntax error."
        CSTHelpers.(string_of_lexing_position pos)
-  | LexicalError (pos, msg) ->
+  | DuringLexing (pos, msg) ->
      Printf.sprintf "%s: Lexical error (%s)."
        CSTHelpers.(string_of_lexing_position pos)
        msg
+  | DuringIO msg ->
+     Printf.sprintf "Input/Output error (%s)." msg
   | Failure s ->
      "Failure: " ^ s ^ "."
   | Sys_error s ->
