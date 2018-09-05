@@ -76,7 +76,7 @@ check:
 	  echo "$$output" | tee tests.org ; \
 	  exit $$status
 
-VERSION := $(shell cat src/VERSION)
+VERSION := $(shell cat VERSION)
 NAME_VERSION := morbig.${VERSION}
 ARCHIVE := https://github.com/colis-anr/morbig/archive/v${VERSION}.tar.gz
 CHECKSUM := $$(wget -qO- "${ARCHIVE}" | md5sum | cut -d ' ' -f 1)
