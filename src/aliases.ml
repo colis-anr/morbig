@@ -98,9 +98,9 @@ let binder_from_alias (x:CST.cmd_suffix) =
     wl
     []
 
-let unalias_argument (x:CST.cmd_suffix) =
-  let wl = CSTHelpers.wordlist_of_cmd_suffix x
-  in List.map CSTHelpers.(on_located unWord) wl
+let unalias_argument (x:CST.cmd_suffix) = CSTHelpers.(
+  List.map (on_located unWord) (wordlist_of_cmd_suffix x)
+)
 
 let rec as_aliasing_related_command = function
   | SimpleCommand_CmdName_CmdSuffix ({ value = CmdName_Word w }, suffix) ->
