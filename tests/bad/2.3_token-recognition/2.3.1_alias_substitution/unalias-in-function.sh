@@ -1,0 +1,4 @@
+f () {
+	unalias foo
+}	
+true

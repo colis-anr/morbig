@@ -1,0 +1,4 @@
+f () {
+	alias foo
+}	
+true
