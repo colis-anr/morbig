@@ -1,22 +1,50 @@
 language: c
 sudo: required
+services:
+  - docker
 
-install: sh .travis.install.sh
-script: sh .travis.script.sh
+## We build on as many OCaml version as we can support.
+## These versions are infact tags for the ocaml/opam2 Docker image that we pull.
 
-os: linux
 env:
-  - OCAML_VERSION=4.02.3
-  - OCAML_VERSION=4.03.0
-  - OCAML_VERSION=4.04.0
-  - OCAML_VERSION=4.05.0
-  - OCAML_VERSION=4.06.0
-  - OCAML_VERSION=4.06.1
-  - OCAML_VERSION=4.07.0
-  - INSTALL=yes OCAML_VERSION=4.06.0
-  - RUN_TESTS=yes OCAML_VERSION=4.06.0
+  - OCAML_VERSION=4.03
+  - OCAML_VERSION=4.04
+  - OCAML_VERSION=4.05
+  - OCAML_VERSION=4.06
+  - OCAML_VERSION=4.07
+
+script:
+  - docker build --build-arg tag=$OCAML_VERSION --tag colisanr/morbig:$TRAVIS_BRANCH .
+  - docker run --entrypoint /bin/sh colisanr/morbig:$TRAVIS_BRANCH -c 'cd /home/opam/morbig && make check'
+
+## We add one particular build that does not use Docker. This is the
+## one testing on OSX.
 
 matrix:
   include:
-  - os: osx
-    env: RUN_TESTS=yes INSTALL=yes OCAML_VERSION=4.06.0
+    - os: osx
+      services: null
+      env: null
+      install:
+        - brew install opam
+        - opam init --no-setup
+        - eval $(opam config env) && opam install --yes menhir yojson ppx_deriving_yojson visitors
+      script:
+        - make
+        - make install
+        - make uninstall
+        - make check
+
+
+## We automatically deploy sucessfull branch builds to DockerHub.
+
+before_deploy:
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: docker push colisanr/morbig:$TRAVIS_BRANCH
+  on:
+    branch: master
+    condition: $OCAML_VERSION = 4.04

@@ -1,11 +1,27 @@
-FROM ocaml/opam
+## Get an OPAM image. By default, OCaml 4.06, but the tag can be
+## changed by the `docker build` command line.
+
+ARG tag=4.06
+FROM ocaml/opam2:$tag
 MAINTAINER Yann Regis-Gianas
-RUN sudo apt-get install time # For demonstration purpose
-RUN opam update
-RUN opam switch 4.02.3
-RUN eval `opam config env`
-RUN opam install menhir yojson ppx_deriving_yojson visitors
-RUN echo 'Compiling Morbig development version.'
-RUN git clone https://github.com/colis-anr/morbig.git
-RUN eval `opam config env` && cd morbig && make
+
+## Install dependencies. `opam depext` installs first the non-opam
+## dependencies that are required and then the OPAM packages.
+
+RUN opam depext -i menhir yojson ppx_deriving_yojson visitors
+
+## Work in /home/opam/morbig, copy all the file there with the right
+## owner and group.
+
+WORKDIR /home/opam/morbig
+ADD . .
+RUN sudo chown -R opam:nogroup .
+
+## Build Morbig
+
+RUN eval $(opam config env) && make
+
+## Set up the entry point of this Dockerfile to Morbig's binary that
+## has just been built.
+
 ENTRYPOINT [ "/home/opam/morbig/bin/morbig" ]
