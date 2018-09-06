@@ -42,19 +42,23 @@ all:
 		echo "compilation to byte code" ;\
 		$(OCAMLBUILD) morbigDriver.byte morbig.cma libmorbigcstub.a \
 		&& cp `ocamlc -where`/libocamlrun.a _build/libocaml.a; \
-	fi && \
-	ar -rc _build/libmorbigc.a		\
-	  _build/libocaml.a			\
-	  $(ODIR)/libcamlstr.a			\
-	  $(ODIR)/dynlink.a			\
-	  _build/libmorbigcstub.a		\
-	  _build/CAPI.native.o
+	fi
+	echo "create _build/libmorbigc.a"      > libmorbigc.mri
+	echo "addlib _build/libocaml.a"       >> libmorbigc.mri
+	echo "addlib $(ODIR)/libcamlstr.a"    >> libmorbigc.mri
+	echo "addlib $(ODIR)/dynlink.a"       >> libmorbigc.mri
+	echo "addlib _build/libmorbigcstub.a" >> libmorbigc.mri
+	echo "addmod _build/CAPI.native.o"    >> libmorbigc.mri
+	echo "save"                           >> libmorbigc.mri
+	echo "end"                            >> libmorbigc.mri
+	ar -M < libmorbigc.mri
 
 debug:
 	$(OCAMLBUILD) -tag debug morbigDriver.byte morbig.cma
 
 clean:
 	$(OCAMLBUILD) -clean
+	rm -f libmorbigc.mri
 
 doc:
 	$(OCAMLBUILD) morbig.docdir/index.html

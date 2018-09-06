@@ -1,7 +1,7 @@
 .PHONY: all clean
 
 STDDIR=$(shell ocamlfind ocamlc -where)
-LIBDIR=$(shell ocamlfind query libmorbig)
+LIBDIR=$(shell ocamlfind query morbig)
 
 all:
 	$(CC) -o dump -I $(STDDIR) -I $(LIBDIR) \
