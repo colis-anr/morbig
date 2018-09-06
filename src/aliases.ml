@@ -77,8 +77,6 @@ let unbind_aliases to_unbind aliases =
       List.filter (fun (x, _) -> not (List.mem x to_unbind)) aliases.definitions
   }
 
-exception NestedAliasingCommand
-
 type alias_related_command =
   | Alias of (string * string) list
   | Unalias of string list
@@ -135,15 +133,18 @@ let interpret aliases cst =
         super # visit_compound_command env cmd;
         decr level
 
-      method! visit_simple_command _ cmd =
-        match as_aliasing_related_command cmd with
+      method! visit_simple_command' _ cmd' =
+        match as_aliasing_related_command cmd'.value with
         | Some alias_command ->
           if at_toplevel () then match alias_command with
             | Alias x -> aliases := bind_aliases x !aliases
             | Unalias x -> aliases := unbind_aliases x !aliases
             | Reset -> aliases := empty
           else
-            raise NestedAliasingCommand
+            raise (Errors.DuringAliasing(
+                       cmd'.position.start_p,
+                       "(un)alias in a nested command structure"
+                  ))
         | None ->
           ()
     end

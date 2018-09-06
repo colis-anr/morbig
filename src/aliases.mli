@@ -19,16 +19,14 @@ type t
 (** [empty] is an empty alias table. *)
 val empty : t
 
-(** Exception raised in case of an alias or unalias invocation inside
-    a composite command. These are allowed in POSIX, but we have to
-    refuse them as they cannot be expanded statically. *)
-exception NestedAliasingCommand
-
 (** [interpret aliases cst] traverses [cst] to check that there are no
-    alias or unalias invocations in a nested command:
+    alias or unalias invocations in a nested command (that is, a
+    compound command, or a function definition). These are allowed in
+    POSIX, but we have to refuse them as they cannot be expanded
+    statically.
     - if this is the case then it returns an alias table which is obtained
       from [aliases] by executing all alias and unalias invocations in [cst];
-    - if this is not the case then it raises [NestedAliasingCommand]. *)
+    - if this is not the case then it raises [Errors.DuringAliasing]. *)
 val interpret :
   t -> CST.complete_command -> t
 

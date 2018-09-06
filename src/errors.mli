@@ -17,6 +17,9 @@ exception DuringParsing of Lexing.position
 (** Raise in case of parsing error. *)
 exception DuringLexing of Lexing.position * string
 
+(** Raise in case of a limitation in alias handling. *)
+exception DuringAliasing of Lexing.position * string
+
 (** Raise in case of I/O error. *)
 exception DuringIO of string
 

@@ -15,6 +15,8 @@ exception DuringParsing of Lexing.position
 
 exception DuringLexing of Lexing.position * string
 
+exception DuringAliasing of Lexing.position * string
+
 exception DuringIO of string
 
 let string_of_error = function
@@ -27,6 +29,10 @@ let string_of_error = function
        msg
   | DuringIO msg ->
      Printf.sprintf "Input/Output error (%s)." msg
+  | DuringAliasing (pos,msg) ->
+     Printf.sprintf "%s: Alias handling limitation (%s)."
+       CSTHelpers.(string_of_lexing_position pos)
+       msg
   | Failure s ->
      "Failure: " ^ s ^ "."
   | Sys_error s ->
