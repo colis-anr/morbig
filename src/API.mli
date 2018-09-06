@@ -11,7 +11,7 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-(** This interface defines the API of libmorbig *)
+(** This interface defines the API of Morbig *)
 
 (** {1 Parsing shell scripts} *)
 
