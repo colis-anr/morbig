@@ -19,7 +19,7 @@ RUN sudo chown -R opam:nogroup .
 
 ## Build Morbig
 
-RUN eval $(opam config env) && make
+RUN eval $(opam env) && make
 
 ## Set up the entry point of this Dockerfile to Morbig's binary that
 ## has just been built.

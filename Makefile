@@ -1,4 +1,4 @@
-.PHONY: all debug clean checks uninstall doc install install-local dist
+.PHONY: all debug clean checks uninstall doc install install-local dist examples
 .PHONY: docker-image publish-docker-image
 
 EXPORTED_SOURCES=				\
@@ -75,6 +75,11 @@ check:
 	  status=$$? ;                      \
 	  echo "$$output" | tee tests.org ; \
 	  exit $$status
+
+examples:
+	find examples -name 'Makefile' | \
+	    while read file; do dirname "$$file"; done | \
+	    xargs -n1 make -C
 
 VERSION := $(shell cat VERSION)
 NAME_VERSION := morbig.${VERSION}

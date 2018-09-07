@@ -15,7 +15,7 @@ env:
 
 script:
   - docker build --build-arg tag=$OCAML_VERSION --tag colisanr/morbig:$TRAVIS_BRANCH .
-  - docker run --entrypoint /bin/sh colisanr/morbig:$TRAVIS_BRANCH -c 'cd /home/opam/morbig && make check'
+  - docker run --entrypoint /bin/sh colisanr/morbig:$TRAVIS_BRANCH -c 'eval $(opam env) && cd /home/opam/morbig && make check && make install && make examples && make uninstall'
 
 ## We add one particular build that does not use Docker. This is the
 ## one testing on OSX.
@@ -30,13 +30,10 @@ matrix:
         - opam init --no-setup
         - eval $(opam config env) && opam install --yes menhir yojson ppx_deriving_yojson visitors
       script:
-        - make
-        - make install
-        - make uninstall
-        - make check
+        - make && make check && make install && make examples && make uninstall
 
-
-## We automatically deploy sucessfull branch builds to DockerHub.
+## We automatically deploy sucessfull branch builds to DockerHub. The
+## variables DOCKER_* are filled in on Travis.
 
 before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
