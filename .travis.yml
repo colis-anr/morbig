@@ -7,14 +7,24 @@ services:
 ## These versions are infact tags for the ocaml/opam2 Docker image that we pull.
 
 env:
-  - OCAML_VERSION=4.03
-  - OCAML_VERSION=4.04
-  - OCAML_VERSION=4.05
-  - OCAML_VERSION=4.06
-  - OCAML_VERSION=4.07
+  - TAG=4.03
+  - TAG=4.04
+  - TAG=4.05
+  - TAG=4.06
+  - TAG=4.07
+  - TAG=alpine
+  - TAG=centos
+  - TAG=debian-stable
+  - TAG=debian-testing
+  - TAG=debian-unstable
+  - TAG=fedora
+  - TAG=opensuse
+  - TAG=oraclelinux
+  - TAG=ubuntu
+  - TAG=ubuntu-lts
 
 script:
-  - docker build --build-arg tag=$OCAML_VERSION --tag colisanr/morbig:$TRAVIS_BRANCH .
+  - docker build --build-arg tag=$TAG --tag colisanr/morbig:$TRAVIS_BRANCH .
   - docker run --entrypoint /bin/sh colisanr/morbig:$TRAVIS_BRANCH -c 'eval $(opam env) && cd /home/opam/morbig && make check && make install && make examples && make uninstall'
 
 ## We add one particular build that does not use Docker. This is the
@@ -44,4 +54,6 @@ deploy:
   script: docker push colisanr/morbig:$TRAVIS_BRANCH
   on:
     branch: master
-    condition: $OCAML_VERSION = 4.04
+    condition:
+      - $DEPLOY = true
+      - $TAG = 4.04

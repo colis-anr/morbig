@@ -2,7 +2,8 @@
 ## changed by the `docker build` command line.
 
 ARG tag=4.06
-FROM ocaml/opam2:$tag
+ARG image=ocaml/opam2:$tag
+FROM $image
 MAINTAINER Yann Regis-Gianas
 
 ## Install dependencies. `opam depext` installs first the non-opam
@@ -15,7 +16,7 @@ RUN opam depext -i menhir yojson ppx_deriving_yojson visitors
 
 WORKDIR /home/opam/morbig
 ADD . .
-RUN sudo chown -R opam:nogroup .
+RUN sudo chown -R opam .
 
 ## Build Morbig
 
