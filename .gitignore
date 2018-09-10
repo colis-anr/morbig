@@ -9,6 +9,3 @@ _build/
 ## Emacs files
 *~
 *#
-
-## OPAM package
-/morbig.*

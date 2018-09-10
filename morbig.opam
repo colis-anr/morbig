@@ -1,0 +1,36 @@
+opam-version: "1.2"
+
+synopsis: "A trustworthy parser for POSIX shell"
+description: """
+Morbig is a parser for shell scripts written in the POSIX shell script
+language. It parses the scripts statically, that is without executing
+them, and constructs a concrete syntax tree for each of them.  The
+concrete syntax trees are built using constructors according to the
+shell grammar of the POSIX standard.
+"""
+
+maintainer: "Nicolas Jeannerod <nicolas.jeannerod@irif.fr>"
+authors: [
+  "Yann Régis-Gianas <yann.regis-gianas@irif.fr>"
+  "Ralf Treinen <ralf.treinen@irif.fr>"
+  "Nicolas Jeannerod <nicolas.jeannerod@irif.fr>"
+]
+license: "GPL3"
+
+homepage: "https://github.com/colis-anr/morbig"
+bug-reports: "https://github.com/colis-anr/morbig/issues"
+dev-repo: "git://github.com/colis-anr/morbig.git"
+
+available: [os != "macos" & ocaml-version >= "4.03" & ocaml-version < "4.07"]
+depends: [
+  "menhir"               {build}
+  "ocamlbuild"           {build}
+  "ppx_deriving_yojson"
+  "visitors"
+  "yojson"
+]
+
+build: [make]
+install: [make "install"]
+remove: [make "uninstall"]
+build-test: [make "check"]
