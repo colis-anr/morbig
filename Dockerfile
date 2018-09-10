@@ -1,13 +1,22 @@
-## Get an OPAM image. By default, OCaml 4.06, but the tag can be
-## changed by the `docker build` command line.
+## Get an OPAM image. The tag can be changed by the `--build-arg`
+## argument to the `docker build` command line. The full image name
+## can also be changed by the same mean.
 
-ARG tag=4.06
+ARG tag=latest
 ARG image=ocaml/opam2:$tag
 FROM $image
 MAINTAINER Yann Regis-Gianas
 
-## Install dependencies. `opam depext` installs first the non-opam
-## dependencies that are required and then the OPAM packages.
+## Choose the right version of the OPAM switch. By default, we use the
+## one coming from the dist image. But one can specify a specific
+## switch with the `--build-arg`.
+
+ARG switch=
+RUN [ -z "$switch" ] || opam switch create "$switch"
+
+## Install dependencies. `opam depext` installs (in a distribution
+## independant way) first the non-opam dependencies that are required
+## and then the OPAM packages.
 
 RUN opam depext -i menhir yojson ppx_deriving_yojson visitors
 

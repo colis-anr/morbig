@@ -3,14 +3,15 @@ sudo: required
 services:
   - docker
 
-## We build on as many OCaml version as we can support.
-## These versions are infact tags for the ocaml/opam2 Docker image that we pull.
+## We build on as many OCaml version as we can support. These versions
+## are infact tags for the ocaml/opam2 Docker image that we pull.
 
 env:
+  - TAG=latest SWITCH=4.02.3
   - TAG=4.03
   - TAG=4.04
   - TAG=4.05
-  - TAG=4.06
+  - TAG=4.06 DEPLOY=true
   - TAG=4.07
   - TAG=alpine
   - TAG=centos
@@ -24,7 +25,7 @@ env:
   - TAG=ubuntu-lts
 
 script:
-  - docker build --build-arg tag=$TAG --tag colisanr/morbig:$TRAVIS_BRANCH .
+  - docker build --build-arg tag=$TAG --build-arg switch=$SWITCH --tag colisanr/morbig:$TRAVIS_BRANCH .
   - docker run --entrypoint /bin/sh colisanr/morbig:$TRAVIS_BRANCH -c 'eval $(opam env) && cd /home/opam/morbig && make check && make install && make examples && make uninstall'
 
 ## We add one particular build that does not use Docker. This is the
@@ -42,8 +43,11 @@ matrix:
       script:
         - make && make check && make install && make examples && make uninstall
 
-## We automatically deploy sucessfull branch builds to DockerHub. The
-## variables DOCKER_* are filled in on Travis.
+## We automatically deploy sucessfull branch builds to DockerHub. This
+## deployment only happens on builds that have the environment
+## variable DEPLOY set to true and in Travis repositories that set the
+## variable TRAVIS_DEPLOY to true. The variables DOCKER_* are filled
+## in on Travis.
 
 before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
@@ -56,4 +60,4 @@ deploy:
     branch: master
     condition:
       - $DEPLOY = true
-      - $TAG = 4.04
+      - $TRAVIS_DEPLOY = true
