@@ -82,7 +82,7 @@ examples:
 	    xargs -n1 make -C
 
 opam-release:
-	opam publish --split
+	opam publish
 
 clean:
 	$(MAKE) -C src clean

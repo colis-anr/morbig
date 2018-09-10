@@ -1,4 +1,4 @@
-opam-version: "1.2"
+opam-version: "2.0"
 
 synopsis: "A trustworthy parser for POSIX shell"
 description: """
@@ -21,9 +21,10 @@ homepage: "https://github.com/colis-anr/morbig"
 bug-reports: "https://github.com/colis-anr/morbig/issues"
 dev-repo: "git://github.com/colis-anr/morbig.git"
 
-available: [os != "macos" & ocaml-version >= "4.03" & ocaml-version < "4.07"]
+available: [os != "macos"]
 depends: [
   "menhir"               {build}
+  "ocaml"                {build & >= "4.03"}
   "ocamlbuild"           {build}
   "ppx_deriving_yojson"
   "visitors"
@@ -33,4 +34,5 @@ depends: [
 build: [make]
 install: [make "install"]
 remove: [make "uninstall"]
-build-test: [make "check"]
+
+run-test: [make "check"]
