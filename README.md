@@ -61,8 +61,8 @@ shell grammar of the POSIX standard.
 ``morbig`` depends on the following software:
 
 ```
-    - ocaml               (>= 4.02.1)
-    - ocamlbuild	  [ if ocaml >= 4.05 ]
+    - ocaml               (>= 4.02.3)
+    - ocamlbuild	      [ if ocaml >= 4.05 ]
     - ocamlfind
     - menhir              (>= 20170509)
     - yojson              (>= 1.3.2)
