@@ -82,6 +82,7 @@ examples:
 	    xargs -n1 make -C
 
 opam-release:
+	@printf 'You need `opam-publish` installed with `tls`.\n'
 	opam publish
 
 clean:
