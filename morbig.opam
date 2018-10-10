@@ -23,7 +23,7 @@ dev-repo: "git://github.com/colis-anr/morbig.git"
 
 available: [os != "macos"]
 depends: [
-  "menhir"               {build}
+  "menhir"
   "ocaml"                {build & >= "4.03"}
   "ocamlbuild"           {build}
   "ppx_deriving_yojson"
