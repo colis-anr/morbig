@@ -164,48 +164,41 @@ let parse partial (module Lexer : Lexer) =
          detect when a simple word, which is also a reserved word, has
          been reduced to a [cmd_word].
 
+         The reduction of a [cmd_word] is also the place where we
+         can detect if an alias command is invoked.
+
       *)
       | AboutToReduce (env, production) ->
-        begin try
-          if lhs production = X (N N_cmd_word)
-          || lhs production = X (N N_cmd_name) then
-            match top env with
-            | Some (Element (state, v, _, _)) ->
-              let analyse_top : type a. a symbol * a -> _ = function
-                | T T_NAME, Name w when is_reserved_word w ->
-                   parse_error ()
-                | T T_WORD, Word (w, _) when is_reserved_word w ->
-                   parse_error ()
-                | N N_word, Word (w, _) when is_reserved_word w ->
-                   parse_error ()
-                | _ ->
-                  (* By correctness of the underlying LR automaton. *)
-                  raise Not_found
-              in
-              analyse_top (incoming_symbol state, v)
-            | _ ->
-              (* By correction of the underlying LR automaton. *)
-              assert false
-          else if lhs production = X (N N_complete_commands) then
-            match top env with
-            | Some (Element (state, v, _, _)) ->
-              let analyse_top : type a. a symbol * a -> _ = function
-                | N N_complete_command, cst ->
-                   let aliases = Aliases.interpret aliases cst in
-                   parse { aliases; checkpoint = resume checkpoint }
-                | _ ->
-                  (* By correctness of the underlying LR automaton. *)
-                  raise Not_found
-              in
-              analyse_top (incoming_symbol state, v)
-            | _ ->
-              (* By correction of the underlying LR automaton. *)
-              assert false
+        let nt = nonterminal_of_production production in
+
+        let rec detection_of_cmd_words_which_are_reserved_words () =
+          if is_cmd () && top_is_keyword () then
+            parse_error ()
+        and is_cmd () =
+          nt = AnyN N_cmd_word || nt = AnyN N_cmd_name
+        and top_is_keyword () =
+          on_top_symbol env { perform }
+        and perform : type a. a symbol * a -> _ = function
+          | T T_NAME, Name w -> is_reserved_word w
+          | T T_WORD, Word (w, _) -> is_reserved_word w
+          | N N_word, Word (w, _) -> is_reserved_word w
+          | _ -> false
+        in
+
+        let rec check_for_alias_command () =
+          if nt = AnyN N_complete_commands then
+            on_top_symbol env { perform = interpret_alias_command }
           else
-            raise Not_found
-        with Not_found ->
-          parse { aliases; checkpoint = resume checkpoint }
-      end
+            parse { aliases; checkpoint = resume checkpoint }
+        and interpret_alias_command: type a. a symbol * a -> _ = function
+          | N N_complete_command, cst ->
+             let aliases = Aliases.interpret aliases cst in
+             parse { aliases; checkpoint = resume checkpoint }
+          | _ ->
+             assert false (* By correctness of the underlying LR automaton. *)
+        in
+        detection_of_cmd_words_which_are_reserved_words ();
+        check_for_alias_command ()
 
     (**
 
@@ -216,7 +209,7 @@ let parse partial (module Lexer : Lexer) =
       | Shifting (_, _, _) ->
         parse { aliases; checkpoint = resume checkpoint }
 
-    and parse_error () =
+    and parse_error : type a. unit -> a = fun () ->
       raise (Errors.DuringParsing (Lexer.current_position ()))
   in
   parse {
