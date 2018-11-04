@@ -86,16 +86,15 @@ let parse partial (module Lexer : Lexer) =
            CSTHelpers.concat_programs cst (parse { aliases; checkpoint })
         end
 
-    (**
+      (**
 
-       The parser has rejected the input.
+        The parser has rejected the input.
 
-    *)
-      (* FIXME: Generate a better error message. *)
+      *)
       | Rejected ->
         (**
 
-           We want to recognize a *prefix* of the input stream.
+           We sometimes want to recognize a *prefix* of the input stream.
 
            Therefore, if a token produces a parse error, it might be
            possible that the currently read prefix of the input
@@ -103,6 +102,8 @@ let parse partial (module Lexer : Lexer) =
            back to the previous state and we inject EOF to check if
            the fragment of the input already read can be recognized as
            a complete command.
+
+           This procedure leads to a longest-prefix parsing.
 
          *)
          if partial then (
@@ -135,7 +136,7 @@ let parse partial (module Lexer : Lexer) =
          FIXME: Is that clear that we do not introduce more scripts in
          the language?
 
-    *)
+      *)
 
       | HandlingError env ->
          if Lexer.empty_input () then (
