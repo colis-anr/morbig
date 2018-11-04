@@ -76,7 +76,7 @@ let parse partial (module Lexer : Lexer) =
                to have been concluded by an EOF. (See the grammar.) *)
            assert false
         | Some true ->
-           (** The EOF token was a real end of file marker. *)
+           (** The EOF token was a real end-of-file marker. *)
            cst
         | Some false ->
            (** The EOF token was a pseudo end of file marker.
