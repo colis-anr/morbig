@@ -62,13 +62,13 @@ let parse partial (module Lexer : Lexer) =
         in
         parse { aliases; checkpoint = offer checkpoint (token, ps, pe) }
 
-    (**
+      (**
 
-       If the parser has recognized a complete command and
-       we are not at the end of the input, we restart a parser
-       on the sequel.
+        If the parser has recognized a complete command and
+        we are not at the end of the input, we restart a parser
+        on the sequel.
 
-    *)
+      *)
       | Accepted cst ->
         begin
             match Lexer.at_eof () with
