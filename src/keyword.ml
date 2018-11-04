@@ -64,10 +64,12 @@ let keywords = [
 let keyword_of_string =
   let t = Hashtbl.create 13 in
   List.iter (fun (s, kwd, _) -> Hashtbl.add t s kwd) keywords;
-  Hashtbl.find t
+  fun w -> FirstSuccessMonad.(
+    try return (Hashtbl.find t w) with Not_found -> fail
+  )
 
 let is_reserved_word w =
-  try ignore (keyword_of_string w); true with _ -> false
+  FirstSuccessMonad.run (keyword_of_string w) <> None
 
 let terminal_of_keyword k =
   let (_, _, t) = List.find (fun (_, k', _) -> k = k') keywords in
@@ -75,15 +77,12 @@ let terminal_of_keyword k =
 
 let recognize_reserved_word_if_relevant checkpoint (pretoken, pstart, pstop) w =
   FirstSuccessMonad.(
-    try
-      let kwd = keyword_of_string w in
-      if accepted_token checkpoint (kwd, pstart, pstop) <> Wrong then
-        return kwd
-      else
-        raise Not_found
-    with Not_found ->
-      if Name.is_name w then
-        return (NAME (CST.Name w))
-      else
-        fail
+    let as_keyword =
+      keyword_of_string w >>= fun kwd ->
+      return_if (accepted_token checkpoint (kwd, pstart, pstop) <> Wrong) kwd
+    in
+    let as_name =
+      return_if (Name.is_name w) (NAME (CST.Name w))
+    in
+    as_keyword +> as_name
   )

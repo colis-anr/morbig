@@ -186,6 +186,7 @@ let list_hd_opt = function
 module FirstSuccessMonad : sig
   type 'a t
   val return : 'a -> 'a t
+  val return_if : bool -> 'a -> 'a t
   val fail : 'a t
   val reduce : 'b -> ('b -> 'a -> 'b) -> 'a t list -> 'b t
   val ( >>= ) : 'a t -> ('a -> 'b t) -> 'b t
@@ -193,14 +194,16 @@ module FirstSuccessMonad : sig
   val run : 'a t -> 'a option
   val should_succeed :'a t -> 'a
 end = struct
-  type 'a t = 'a option Lazy.t
+  type 'a t = 'a option
 
-  let return x = lazy (Some x)
+  let return x = Some x
 
-  let fail = lazy None
+  let fail = None
+
+  let return_if b x = if b then return x else fail
 
   let ( >>= ) x f =
-    match Lazy.force x with
+    match x with
       | None -> fail
       | Some x -> f x
 
@@ -209,11 +212,11 @@ end = struct
     | c :: cs -> c >>= fun a -> reduce (f default a) f cs
 
   let ( +> ) x y =
-    match Lazy.force x with
+    match x with
       | None -> y
       | Some _ -> x
 
-  let run x = Lazy.force x
+  let run x = x
 
   exception ShouldHaveSucceeded
   let should_succeed x = match run x with

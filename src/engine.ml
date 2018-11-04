@@ -171,17 +171,18 @@ let parse partial (module Lexer : Lexer) =
       | AboutToReduce (env, production) ->
         let nt = nonterminal_of_production production in
 
-        let rec detection_of_cmd_words_which_are_reserved_words () =
-          if is_cmd () && top_is_keyword () then
-            parse_error ()
+        let rec reject_cmd_words_which_are_reserved_words () =
+          if is_cmd () && top_is_keyword () then parse_error ()
         and is_cmd () =
           nt = AnyN N_cmd_word || nt = AnyN N_cmd_name
         and top_is_keyword () =
           on_top_symbol env { perform }
-        and perform : type a. a symbol * a -> _ = function
-          | T T_NAME, Name w -> is_reserved_word w
-          | T T_WORD, Word (w, _) -> is_reserved_word w
-          | N N_word, Word (w, _) -> is_reserved_word w
+        and perform : type a. a symbol * a -> _ = fun w ->
+          check_word is_reserved_word w
+        and check_word : type a. _ -> a symbol * a -> _ = fun f -> function
+          | T T_NAME, Name w -> f w
+          | T T_WORD, Word (w, _) -> f w
+          | N N_word, Word (w, _) -> f w
           | _ -> false
         in
 
@@ -197,7 +198,7 @@ let parse partial (module Lexer : Lexer) =
           | _ ->
              assert false (* By correctness of the underlying LR automaton. *)
         in
-        detection_of_cmd_words_which_are_reserved_words ();
+        reject_cmd_words_which_are_reserved_words ();
         check_for_alias_command ()
 
     (**
