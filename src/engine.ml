@@ -21,6 +21,7 @@ open MenhirLib.General
 open CST
 open Name
 open Keyword
+open PrelexerState
 open Assignment
 open Aliases
 
@@ -31,12 +32,12 @@ type state = {
 
 module type Lexer =
   sig
-    val initialize: PrelexerState.t -> Lexing.lexbuf -> unit
+    val initialize: prelexer_state -> Lexing.lexbuf -> unit
     val next_token: state -> token * lexing_position * lexing_position * aliases
     val at_eof: unit -> bool option
     val shift: unit -> unit
     val empty_input: unit -> bool
-    val current_position: unit -> Lexing.position
+    val current_position: unit -> lexing_position
     val roll_back_to_last_parsing_state: unit -> state
   end
 
