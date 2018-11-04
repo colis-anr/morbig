@@ -127,7 +127,6 @@ let parse partial (module Lexer : Lexer) =
          We have no specific treatment of parsing errors.
 
       *)
-
       | HandlingError env ->
          parse { aliases; checkpoint = resume checkpoint }
 
