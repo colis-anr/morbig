@@ -124,26 +124,12 @@ let parse partial (module Lexer : Lexer) =
 
       (**
 
-         The specification grammar has a minor incompleteness problem:
-         the start symbol should have an extra rule to accept an empty
-         input.
-
-         To deal with this incompleteness of the grammar, we
-         detect parsing errors that are raised when an empty input is
-         provided to the parser. In that case, we simply accept the
-         program.
-
-         FIXME: Is that clear that we do not introduce more scripts in
-         the language?
+         We have no specific treatment of parsing errors.
 
       *)
 
       | HandlingError env ->
-         if Lexer.empty_input () then (
-           CSTHelpers.(with_pos dummy_position empty_program)
-         )
-         else
-           parse { aliases; checkpoint = resume checkpoint }
+         parse { aliases; checkpoint = resume checkpoint }
 
       (**
 
