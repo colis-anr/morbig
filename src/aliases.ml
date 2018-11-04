@@ -59,6 +59,8 @@ type t = {
     definitions : (string * string) list
   }
 
+type aliases = t
+
 let empty = {
     state       = NoRecentSubstitution;
     definitions = []

@@ -15,6 +15,7 @@
 
 (** Type for a table of active aliases. *)
 type t
+type aliases = t
 
 (** [empty] is an empty alias table. *)
 val empty : t
