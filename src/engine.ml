@@ -177,16 +177,12 @@ let parse partial (module Lexer : Lexer) =
           nt = AnyN N_cmd_word || nt = AnyN N_cmd_name
         and top_is_keyword () =
           on_top_symbol env { perform }
-        and perform : type a. a symbol * a -> _ = fun w ->
-          check_word is_reserved_word w
-        and check_word : type a. _ -> a symbol * a -> _ = fun f -> function
-          | T T_NAME, Name w -> f w
-          | T T_WORD, Word (w, _) -> f w
-          | N N_word, Word (w, _) -> f w
+        and perform : type a. a symbol * a -> _ = function
+          | N N_word, Word (w, _) -> is_reserved_word w
           | _ -> false
         in
 
-        let rec check_for_alias_command () =
+        let rec process_alias_command_if_present () =
           if nt = AnyN N_complete_commands then
             on_top_symbol env { perform = interpret_alias_command }
           else
@@ -199,14 +195,13 @@ let parse partial (module Lexer : Lexer) =
              assert false (* By correctness of the underlying LR automaton. *)
         in
         reject_cmd_words_which_are_reserved_words ();
-        check_for_alias_command ()
+        process_alias_command_if_present ()
 
-    (**
+      (**
 
-       The other intermediate steps of the parser are ignored.
+         The other intermediate steps of the parser are ignored.
 
-    *)
-
+      *)
       | Shifting (_, _, _) ->
         parse { aliases; checkpoint = resume checkpoint }
 
