@@ -95,7 +95,7 @@ clean:
 
 PACKAGE=$(shell echo morbig-`cat VERSION`)
 
-dist:
+dist: clean
 	git archive -o $(PACKAGE).tar --format tar --prefix $(PACKAGE)/  master
 	gzip -9 $(PACKAGE).tar
 
