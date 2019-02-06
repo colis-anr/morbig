@@ -16,7 +16,7 @@
     The type for concrete syntax trees of POSIX shell scripts. These
     trees are produced by the Morbig parser.
 
-    This type definition refers directly to the grammar production
+    These type definitions refer directly to the grammar production
     rules of the POSIX standard. We use the following convention to
     name data constructors: given a rule [A -> P1 ... PN] of the
     grammar, the constructor for this rule starts with the name of the
