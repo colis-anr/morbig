@@ -1,0 +1,21 @@
+(ocamllex prelexer)
+(menhir (flags --explain --inspection --table) (modules parser))
+
+(rule
+ (targets version.ml)
+ (action
+  (with-stdout-to version.ml
+   (echo "let current=\"%{version:morbig}\""))))
+
+(library
+ (name morbig)
+ (public_name morbig)
+ (libraries str menhirLib ppx_deriving_yojson.runtime visitors.runtime)
+ (preprocess (pps ppx_deriving_yojson visitors.ppx))
+ (modules :standard \ morbigDriver CAPI))
+
+(executable
+ (name morbigDriver)
+ (public_name morbig)
+ (libraries morbig)
+ (modules morbigDriver))

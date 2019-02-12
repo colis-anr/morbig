@@ -9,3 +9,8 @@ _build/
 ## Emacs files
 *~
 *#
+
+## Dune
+/_build
+.merlin
+*.install

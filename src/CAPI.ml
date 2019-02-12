@@ -11,6 +11,7 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+open Morbig
 open API
 
 type ccst =

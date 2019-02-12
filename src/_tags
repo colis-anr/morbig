@@ -1,5 +1,0 @@
-true: package(menhirLib),package(str)
-true: use_menhir, package(menhirLib), package(str), package(ppx_deriving_yojson)
-true : package(visitors.ppx), package(visitors.runtime)
-<*.cmx> and not <morbig.cmx>: for-pack(Morbig)
-<*.cm*> : custom

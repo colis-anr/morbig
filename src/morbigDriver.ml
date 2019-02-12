@@ -11,13 +11,10 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+open Morbig
 open API
-open CAPI
 
 let save input_filename (cst : CST.program) =
-  (** write the concrete syntax tree [cst] to the output file corresponding
-      to [input_filename]. The format and the name of the output file
-      are determined by the program options. *)
   MorbigOptions.(
     let cout = open_out (output_file_of_input_file input_filename) in
     begin match backend () with
@@ -28,14 +25,17 @@ let save input_filename (cst : CST.program) =
     end;
     close_out cout
   )
+(** write the concrete syntax tree [cst] to the output file
+   corresponding to [input_filename]. The format and the name of the
+   output file are determined by the program options. *)
 
 let save_error input_filename message =
-  (** write string [message] to the error file corresponding to
-      [input_filename]. *)
   let eout = open_out (input_filename ^ ".morbigerror") in
   output_string eout message;
   output_string eout "\n";
   close_out eout
+(** write string [message] to the error file corresponding to
+   [input_filename]. *)
 
 let not_a_script input_filename =
   MorbigOptions.skip_nosh ()

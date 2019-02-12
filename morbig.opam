@@ -1,5 +1,8 @@
 opam-version: "2.0"
 
+name: "morbig"
+version: "0.9.1"
+
 synopsis: "A trustworthy parser for POSIX shell"
 description: """
 Morbig is a parser for shell scripts written in the POSIX shell script
@@ -23,16 +26,14 @@ dev-repo: "git://github.com/colis-anr/morbig.git"
 
 available: [os != "macos"]
 depends: [
+  "dune"                 {build}
   "menhir"
   "ocaml"                {build & >= "4.03"}
-  "ocamlbuild"           {build}
+  "odoc"                 {with-doc}
   "ppx_deriving_yojson"
   "visitors"
   "yojson"
 ]
 
-build: [make]
-install: [make "install"]
-remove: [make "uninstall"]
-
+build: ["dune" "build" "-p" name "-j" jobs]
 run-test: [make "check"]
