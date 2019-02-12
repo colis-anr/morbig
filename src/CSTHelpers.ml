@@ -87,10 +87,6 @@ let merge_positions p1 p2 =
 
 (* Helpers about complete commands *)
 
-let nonempty_program = function
-  | Program_LineBreak _ -> false
-  | _ -> true
-
 let empty_linebreak' =
   with_pos dummy_position LineBreak_Empty
 
@@ -129,16 +125,13 @@ let concat_programs p1 p2 =
     match p1.value, p2.value with
     | Program_LineBreak _, p | p, Program_LineBreak _ ->
        p
-    | Program_LineBreak_CompleteCommands_LineBreak (pnl1, cs1, snl1),
-      Program_LineBreak_CompleteCommands_LineBreak (pnl2, cs2, snl2) ->
+    | Program_LineBreak_CompleteCommands_LineBreak (pnl1, cs1, _snl1),
+      Program_LineBreak_CompleteCommands_LineBreak (_pnl2, cs2, snl2) ->
        Program_LineBreak_CompleteCommands_LineBreak (
            pnl1,
            concat_complete_commands' cs1 cs2,
            snl2
          )
-
-let program_to_json p =
-  program_to_yojson p
 
 let complete_command_to_json c =
   complete_command_to_yojson c

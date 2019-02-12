@@ -17,9 +17,7 @@ open Lexing
 open Parser
 open Parser.Incremental
 open Parser.MenhirInterpreter
-open MenhirLib.General
 open CST
-open Name
 open Keyword
 open PrelexerState
 open Assignment
@@ -56,7 +54,7 @@ let parse partial (module Lexer : Lexer) =
          parsing state as argument.
 
       *)
-      | InputNeeded parsing_state ->
+      | InputNeeded _parsing_state ->
         let (token, ps, pe, aliases) =
           Lexer.next_token { aliases; checkpoint }
         in
@@ -116,7 +114,7 @@ let parse partial (module Lexer : Lexer) =
                   Put back the token that caused the syntax error.
                   Return the CST  *)
               cst
-           | status ->
+           | _status ->
               (** 2.a No? It is a syntax error. *)
               parse_error ()
          ) else
@@ -127,7 +125,7 @@ let parse partial (module Lexer : Lexer) =
          We have no specific treatment of parsing errors.
 
       *)
-      | HandlingError env ->
+      | HandlingError _env ->
          parse { aliases; checkpoint = resume checkpoint }
 
       (**
@@ -221,7 +219,7 @@ module Lexer (U : sig end) : Lexer = struct
 
   let next_pretoken = ref (fun () -> assert false)
 
-  let push_pretoken = ref (fun token -> assert false)
+  let push_pretoken = ref (fun _token -> assert false)
 
   let global_lexbuf = ref None
 
@@ -389,7 +387,7 @@ module Lexer (U : sig end) : Lexer = struct
   let roll_back_to_last_parsing_state () =
     match !last_state with
     | None -> assert false (** By precondition. *)
-    | Some (state, token, curr_p) ->
+    | Some (state, _token, _curr_p) ->
        (* FIXME: Temporary adhoc treatment of rollback. *)
        let pos = (lexbuf ()).lex_curr_p.pos_cnum in
        (lexbuf ()).lex_curr_p <-

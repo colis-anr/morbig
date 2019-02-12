@@ -37,8 +37,8 @@
 
   open CST
 
-  type here_document_content =
-      CST.word ref
+  (* type here_document_content =
+   *     CST.word ref *)
 
 %}
 

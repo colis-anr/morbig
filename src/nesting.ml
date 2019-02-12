@@ -30,8 +30,6 @@ let to_string = function
   | HereDocument (dashed, delimiter) ->
      Printf.sprintf "HereDoc[%B, %s]" dashed delimiter
 
-let string_of_level l = String.concat " : " (List.map to_string l)
-
 let rec under_backquoted_style_command_substitution = function
   | [] -> false
   | Backquotes ('`', _) :: _ -> true
