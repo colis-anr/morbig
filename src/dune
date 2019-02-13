@@ -1,5 +1,8 @@
 (ocamllex prelexer)
-(menhir (flags --explain --inspection --table) (modules parser))
+
+(menhir
+ (flags --explain --inspection --table)
+ (modules parser))
 
 (rule
  (targets version.ml)
@@ -36,4 +39,6 @@
 
 (install
  (section lib)
- (files libmorbigc.a))
+ (files
+  libmorbigc.a
+  (cstub.h as libmorbigc.h)))
