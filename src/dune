@@ -5,7 +5,7 @@
  (targets version.ml)
  (action
   (with-stdout-to version.ml
-   (echo "let current=\"%{version:morbig}\""))))
+   (echo "let current=\"%{version:morbig}\"\n"))))
 
 (library
  (name morbig)
