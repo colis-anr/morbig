@@ -11,6 +11,8 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+[@@@ocaml.warning "-3"] (* FIXME: because of ppx_deriving_yojson *)
+
 (**
 
     The type for concrete syntax trees of POSIX shell scripts. These
