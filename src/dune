@@ -12,6 +12,7 @@
  (public_name morbig)
  (libraries str menhirLib ppx_deriving_yojson.runtime visitors.runtime)
  (preprocess (pps ppx_deriving_yojson visitors.ppx))
+ (flags :standard -w -3) ; FIXME: remove this when Yojson and its PPX are fixed.
  (c_names cstub)
  (modules :standard \ morbigDriver CAPI))
 
