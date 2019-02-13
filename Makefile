@@ -10,10 +10,12 @@ ODIR=$(shell ocamlc -where)
 
 build:
 	dune build @install
+	[ -e bin ] || ln -sf _build/install/default/bin bin
+	[ -e lib ] || ln -sf _build/install/default/lib/morbig lib
 
 doc: build
 	dune build @doc
-	mkdir -p doc && cp -rf _build/ doc
+	[ -e doc ] || ln -sf _build/default/_doc/_html doc
 
 ifneq ($(PREFIX),)
 INSTALL_ARGS := $(INSTALL_ARGS) --prefix $(PREFIX)
@@ -42,11 +44,9 @@ examples:
 
 clean:
 	dune clean
-	rm -f src/version.ml
+	rm -f bin lib doc
 	rm -f tests.org
 	tests/run clean
-	[ ! -d bin ] || rm -rf bin
-	[ ! -d lib ] || rm -rf lib
 
 PACKAGE=$(shell echo morbig-`cat VERSION`)
 

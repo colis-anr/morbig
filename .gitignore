@@ -1,16 +1,20 @@
-/bin
-/lib
-/src/version.ml
-/tests.org
-*.json
-*.sjson
-_build/
-
 ## Emacs files
+
 *~
 *#
 
 ## Dune
+
 /_build
 .merlin
 *.install
+
+## Project
+
+/bin
+/lib
+/doc
+
+/tests.org
+*.json
+*.sjson
