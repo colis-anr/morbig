@@ -28,7 +28,7 @@ available: [os != "macos"]
 depends: [
   "dune"                 {build}
   "menhir"
-  "ocaml"                {build & >= "4.03"}
+  "ocaml"                {build & >= "4.04"}
   "odoc"                 {with-doc}
   "ppx_deriving_yojson"
   "visitors"
