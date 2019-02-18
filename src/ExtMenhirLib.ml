@@ -11,8 +11,6 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-open Parser
-open Parser.Incremental
 open Parser.MenhirInterpreter
 open MenhirLib.General
 

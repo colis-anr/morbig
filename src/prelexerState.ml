@@ -54,8 +54,8 @@ let push_character b c =
 let push_separated_string b s =
   { b with buffer = WordComponent (s, WordLiteral s) :: b.buffer }
 
-let rec pop_character = function
-  | WordComponent (s, WordLiteral c) :: buffer ->
+let pop_character = function
+  | WordComponent (s, WordLiteral _c) :: buffer ->
      let sequel = String.(sub s 0 (length s - 1)) in
      if sequel = "" then
        buffer
@@ -461,7 +461,7 @@ let under_here_document current =
   | Nesting.HereDocument _ :: _ -> true
   | _ -> false
 
-let is_escaping_backslash current lexbuf c =
+let is_escaping_backslash current _lexbuf c =
   match c with
   | '"' -> escaped_double_quote current
   | '\'' -> escaped_single_quote current

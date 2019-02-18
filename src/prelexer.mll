@@ -22,7 +22,6 @@
 
 {
 open Lexing
-open ExtPervasives
 open Parser
 open CST
 open PrelexerState
@@ -624,12 +623,6 @@ and variable_attribute current = parse
      word_of prewords
 }
 
-and eat c = parse
-| _ as c' {
-    if c <> c' then
-      lexing_error lexbuf (Printf.sprintf "Expecting `%c'." c)
-}
-
 and skip k current = parse
 | eof {
   assert false (* By subshell_parsing. *)
@@ -638,18 +631,6 @@ and skip k current = parse
 | _ as c {
   let current = push_character current c in
   if k <= 1 then current else skip (k - 1) current lexbuf
-}
-
-and close op = parse
-| "`" {
-  if op <> '`' then lexing_error lexbuf "Lexing error: unbalanced backquotes."
-}
-| (")" | "}" as op') {
-  if (op = '(' && op' <> ')') || (op = '{' && op' <> '}') then
-    lexing_error lexbuf (Printf.sprintf "Lexing error: unbalanced $%c." op)
-}
-| _ as c {
-  lexing_error lexbuf (Printf.sprintf "Unclosed %c (got %c)." op c)
 }
 
 and comment = parse

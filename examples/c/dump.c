@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <morbig.h>
+#include <libmorbigc.h>
 
 void dump (cst_t cst);
 void dump_location (cst_t cst);

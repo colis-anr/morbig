@@ -116,7 +116,7 @@ let string_minus_last_char s =
 let rec preceded_by n c cs =
   match cs with
   | [] -> n = 0
-  | c' :: cs when n = 0 -> not (c = c')
+  | c' :: _cs when n = 0 -> not (c = c')
   | c' :: cs -> c' = c && preceded_by (n - 1) c cs
 
 let rec preceding c cs =

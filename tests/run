@@ -16,16 +16,18 @@ printf "* Testsuite configuration\n"
 find . \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
 [ "$1" = 'clean' ] && exit 0
 
-# Find morbig; either in this directory, or in the $PATH
+## ========= Find morbig; either in this directory, or in the $PATH ========= ##
+
 localmorbig=../bin/morbig
-if [ -e  "$localmorbig" ]
-then
-    printf 'Using local %s.\n' "$(realpath $localmorbig)"
-    morbig=../bin/morbig
-elif which morbig >/dev/null 2>&1
-then
-    printf '[WARN] Using from $PATH: %s.\n' `which morbig`
-    morbig=morbig
+
+if [ -e "$localmorbig" ]; then
+    morbig=$(realpath "$localmorbig")
+    printf 'Using local %s.\n' "$morbig"
+
+elif command -v morbig >/dev/null 2>&1; then
+    morbig=$(command -v morbig)
+    printf '[WARN] Using from $PATH: %s.\n' "$morbig"
+
 else
     printf '[FAIL] Could not find morbig. Did you compile it?\n'
     exit 1

@@ -11,7 +11,5 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-let parse =
-  ref (fun (current : PrelexerState.t) (lexbuf : Lexing.lexbuf) ->
-      (assert false : CST.program CST.located)
-    )
+let parse : (PrelexerState.t -> Lexing.lexbuf -> CST.program CST.located) ref =
+  ref (fun _ _ -> assert false)

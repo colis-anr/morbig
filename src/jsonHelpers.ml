@@ -11,16 +11,14 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-let rec json_filter_positions =
-  let open Yojson.Safe in
-  function
+let rec json_filter_positions = function
   | `Assoc sjl ->
-     if List.for_all (fun (s, j) -> s = "value" || s = "position") sjl then
+     if List.for_all (fun (s, _j) -> s = "value" || s = "position") sjl then
        let (_, j) = List.find (fun (s, _) -> s = "value") sjl in
        json_filter_positions j
      else
        `Assoc (List.map (fun (s, j) ->
-           Format.printf "%s@." s; (s, json_filter_positions j)) sjl
+                   Format.printf "%s@." s; (s, json_filter_positions j)) sjl
          )
   | `Bool b -> `Bool b
   | `Float f -> `Float f

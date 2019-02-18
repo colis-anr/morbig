@@ -14,9 +14,7 @@
 open ExtPervasives
 open ExtMenhirLib
 open Parser
-open Parser.Incremental
 open Parser.MenhirInterpreter
-open MenhirLib.General
 
 (**specification
 
@@ -75,7 +73,7 @@ let terminal_of_keyword k =
   let (_, _, t) = List.find (fun (_, k', _) -> k = k') keywords in
   t
 
-let recognize_reserved_word_if_relevant checkpoint (pretoken, pstart, pstop) w =
+let recognize_reserved_word_if_relevant checkpoint (_pretoken, pstart, pstop) w =
   FirstSuccessMonad.(
     let as_keyword =
       keyword_of_string w >>= fun kwd ->

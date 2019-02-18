@@ -11,7 +11,6 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-open ExtPervasives
 open CST
 open PrelexerState
 
@@ -74,7 +73,7 @@ end = struct
     word_ref_tmp := Some word_ref;
     state := HereDocumentsStartOnNextLine
 
-  let push_here_document_delimiter w cst =
+  let push_here_document_delimiter _w cst =
     (* we accept a push of a delimiting word only if we have already received
        information about an operator which has not yet been used.
      *)
@@ -161,7 +160,7 @@ end = struct
           position = { start_p = doc_start; end_p = doc_end }
         }
     in
-    let (Word (doc, cst) as here_document), doc_start, line_end =
+    let (Word (doc, cst)), doc_start, line_end =
       let current =
         enter_here_document delimiter_info.dashed delimiter_info.word current
       in

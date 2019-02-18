@@ -14,12 +14,8 @@
 open ExtPervasives
 open ExtMenhirLib
 open Parser
-open Parser.Incremental
-open Parser.MenhirInterpreter
-open MenhirLib.General
 open CST
 open Name
-open Keyword
 
 (**specification
 

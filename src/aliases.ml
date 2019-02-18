@@ -11,13 +11,8 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-open ExtPervasives
-open ExtMenhirLib
 open Parser
-open Parser.Incremental
 open Parser.MenhirInterpreter
-open MenhirLib.General
-open CST
 
 (**
 
@@ -102,8 +97,8 @@ let unalias_argument (x:CST.cmd_suffix) = CSTHelpers.(
   List.map (on_located unWord) (wordlist_of_cmd_suffix x)
 )
 
-let rec as_aliasing_related_command = function
-  | SimpleCommand_CmdName_CmdSuffix ({ value = CmdName_Word w }, suffix) ->
+let as_aliasing_related_command = function
+  | SimpleCommand_CmdName_CmdSuffix ({ value = CmdName_Word w ; _ }, suffix) ->
     begin match w.value with
     | Word ("alias", _) ->
       let l = binder_from_alias suffix.value in
@@ -128,7 +123,7 @@ let interpret aliases cst =
   let aliases = ref aliases in
   let level = ref 0 in
   let at_toplevel () = !level = 0 in
-  let analyzer = object (self : 'self)
+  let analyzer = object
       inherit [_] CST.iter as super
       method! visit_compound_command env cmd =
         incr level;

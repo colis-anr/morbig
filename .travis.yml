@@ -7,8 +7,6 @@ services:
 ## are infact tags for the ocaml/opam2 Docker image that we pull.
 
 env:
-  - TAG=latest SWITCH=4.02.3
-  - TAG=4.03
   - TAG=4.04
   - TAG=4.05
   - TAG=4.06 DEPLOY=true

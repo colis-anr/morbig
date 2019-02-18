@@ -1,0 +1,44 @@
+(ocamllex prelexer)
+
+(menhir
+ (flags --explain --inspection --table)
+ (modules parser))
+
+(rule
+ (targets version.ml)
+ (action
+  (with-stdout-to version.ml
+   (echo "let current=\"%{version:morbig}\"\n"))))
+
+(library
+ (name morbig)
+ (public_name morbig)
+ (libraries str menhirLib ppx_deriving_yojson.runtime visitors.runtime)
+ (preprocess (pps ppx_deriving_yojson visitors.ppx))
+ (flags :standard -w -3) ; FIXME: remove this when Yojson and its PPX are fixed.
+ (c_names cstub)
+ (modules :standard \ morbigDriver CAPI))
+
+(executable
+ (name morbigDriver)
+ (public_name morbig)
+ (libraries morbig)
+ (modules morbigDriver))
+
+(executable
+ (name CAPI)
+ (libraries morbig)
+ (modes object)
+ (modules CAPI))
+
+(rule
+ (deps cstub.o CAPI.exe.o)
+ (targets libmorbigc.a)
+ (action
+  (run ar cq %{targets} %{deps})))
+
+(install
+ (section lib)
+ (files
+  libmorbigc.a
+  (cstub.h as libmorbigc.h)))

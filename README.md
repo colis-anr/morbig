@@ -60,15 +60,12 @@ shell grammar of the POSIX standard.
 
 ``morbig`` depends on the following software:
 
-```
-    - ocaml               (>= 4.02.3)
-    - ocamlbuild	      [ if ocaml >= 4.05 ]
-    - ocamlfind
-    - menhir              (>= 20170509)
-    - yojson              (>= 1.3.2)
-    - ppx_deriving_yojson (>= 3.0)
-    - visitors            (>= 20170404)
-```
+- dune
+- menhir
+- ocaml (≥ 4.04)
+- odoc (for documentation only)
+- yojson and ppx_deriving_yojson
+- visitors
 
 ### Building
 
