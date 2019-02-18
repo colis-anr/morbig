@@ -26,7 +26,7 @@ dev-repo: "git://github.com/colis-anr/morbig.git"
 
 available: [os != "macos"]
 depends: [
-  "dune"                 {build}
+  "dune"                 {build & >= "20180513"}
   "menhir"
   "ocaml"                {build & >= "4.04"}
   "odoc"                 {with-doc}
