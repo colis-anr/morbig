@@ -11,6 +11,12 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+(** {2 Main API points} *)
+
+include API
+
+(** {2 Other modules} *)
+
 module Aliases = Aliases
 module Assignment = Assignment
 module CSTHelpers = CSTHelpers
@@ -34,5 +40,3 @@ module QuoteRemoval = QuoteRemoval
 module RecursiveParser = RecursiveParser
 module Scripts = Scripts
 module Token = Token
-
-include API
