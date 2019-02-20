@@ -12,7 +12,6 @@
 (**************************************************************************)
 
 open Morbig
-open API
 
 type ccst =
   | Location of CST.lexing_position * CST.lexing_position * ccst
@@ -84,7 +83,7 @@ let untyped_parse_file s =
 external _dummy_external : unit -> unit = "dummy_external"
 (* This dummy external is here to add a virtual dependency between
    this module and the C stubs. If we don't have such a dependency,
-   OCaml optimizes the code and removes the C stubs. *)
+   OCaml (or ld) optimizes the code and removes the C stubs. *)
 
 let _ =
   Callback.register "untyped_parse_file" untyped_parse_file;

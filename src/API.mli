@@ -25,23 +25,6 @@ val parse_file: string -> CST.program
     script source code is provided as a string. *)
 val parse_string: string -> string -> CST.program
 
-(** {1 Errors} *)
-module Errors : sig
-
-  (** Raise in case of parsing error. *)
-  exception DuringParsing of Lexing.position
-
-  (** Raise in case of parsing error. *)
-  exception DuringLexing of Lexing.position * string
-
-  (** Raise in case of I/O error. *)
-  exception DuringIO of string
-
-  (** Returns a human-readable representation of Morbig's errors. *)
-  val string_of_error : exn -> string
-
-end
-
 (** {1 Serialization of CST} *)
 
 (** [load_binary_cst cin] retrieves a serialized CST from

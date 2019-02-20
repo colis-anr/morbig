@@ -11,33 +11,28 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-let parse_file = Scripts.parse_file
+module Aliases = Aliases
+module Assignment = Assignment
+module CSTHelpers = CSTHelpers
+module CST = CST
+module Debug = Debug
+module Engine = Engine
+module Errors = Errors
+module ExtMenhirLib = ExtMenhirLib
+module HereDocument = HereDocument
+module JsonHelpers = JsonHelpers
+module Keyword = Keyword
+module Name = Name
+module Nesting = Nesting
+module Options = Options
+module Parser = Parser
+module Prelexer = Prelexer
+module PrelexerState = PrelexerState
+module Pretokenizer = Pretokenizer
+module Pretoken = Pretoken
+module QuoteRemoval = QuoteRemoval
+module RecursiveParser = RecursiveParser
+module Scripts = Scripts
+module Token = Token
 
-let parse_string = Scripts.parse_string
-
-let load_binary_cst cin =
-  (input_value cin : CST.program)
-
-let save_binary_cst cout cst =
-  output_value cout cst
-
-let load_json_cst cin =
-  JsonHelpers.load_from_json cin
-
-let save_json_cst cout cst =
-  JsonHelpers.save_as_json false cout cst
-
-let save_dot_cst cout cst =
-  JsonHelpers.save_as_dot cout cst
-
-let on_located = CSTHelpers.on_located
-
-let start_of_position = CSTHelpers.start_of_position
-
-let end_of_position = CSTHelpers.end_of_position
-
-let filename_of_position = CSTHelpers.filename_of_position
-
-let string_of_lexing_position = CSTHelpers.string_of_lexing_position
-
-let remove_quotes = QuoteRemoval.on_string
+include API
