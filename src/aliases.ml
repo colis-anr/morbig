@@ -24,7 +24,7 @@ open Parser.MenhirInterpreter
 
 *)
 
-(*specification
+(*specification:
 
    After a token has been delimited, but before applying the
    grammatical rules in Shell Grammar, a resulting word that is
@@ -192,7 +192,7 @@ let rec about_to_reduce_word checkpoint =
 (** [inside_a_substitution_combo state] is true if a sequence of alias
    substitution is triggered by the following cornercase rule of the
    standard.*)
-(*specification
+(*specification:
  If the value of the alias replacing the word ends in a <blank>, the
  shell shall check the next command word for alias substitution; this
  process shall continue until a word is found that is not a valid alias

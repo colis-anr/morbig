@@ -11,7 +11,7 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-(**specification
+(*specification:
 
    2.6.7 Quote Removal
 

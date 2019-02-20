@@ -115,7 +115,7 @@ let parameter_identifier = name | digit | special_character
 
 let quote_removal_special_characters = "$" | "\\" | "`" | "\""
 
-(**specification:
+(*specification:
 
    When it is not processing an io_here, the shell shall break its
    input into tokens by applying the first applicable rule below to the
@@ -158,7 +158,7 @@ rule token current = parse
     debug ~rule:"eof" lexbuf current;
     (** The end of file cannot occur inside a nested construction. *)
     if at_toplevel current then
-      (**specification:
+      (*specification:
 
          If the end of input is recognized, the current token shall be
          delimited. If there is no current token, the end-of-input
@@ -175,7 +175,7 @@ rule token current = parse
 
 (** Quotations *)
 
-(**specification:
+(*specification:
 
    If the current character is <backslash>, single-quote, or
    double-quote and it is not quoted, it shall affect quoting for
@@ -190,7 +190,7 @@ rule token current = parse
 
 *)
 
-(**specification
+(*specification:
 
    2.2.1 Escape Character (Backslash)
 
@@ -235,7 +235,7 @@ rule token current = parse
     )
   }
 
-(**specification
+(*specification:
 
    2.2.2 Single-Quotes
 
@@ -305,7 +305,7 @@ rule token current = parse
 
 *)
 
-(**specification:
+(*specification:
 
    If the previous character was used as part of an operator and the
    current character is not quoted and can be used with the current
@@ -314,7 +314,7 @@ rule token current = parse
 
 *)
 
-(**specification:
+(*specification:
 
    If the previous character was used as part of an operator and the
    current character cannot be used with the current characters to form
@@ -323,7 +323,7 @@ rule token current = parse
 
 *)
 
-(**specification:
+(*specification:
 
   If the current character is not quoted and can be used as the first
   character of a new operator, the current token (if any) shall be
@@ -332,7 +332,7 @@ rule token current = parse
 
 *)
 
-(**specification:
+(*specification:
 
    /* The following are the operators mentioned above. */
 
@@ -362,7 +362,7 @@ rule token current = parse
     )
   }
 
-(**specification
+(*specification:
 
    If the current character is an unquoted '$' or '`', the shell shall
    identify the start of any candidates for parameter expansion
@@ -423,7 +423,7 @@ rule token current = parse
     token current lexbuf
   }
 
-(**specification
+(*specification:
 
    If the parameter is not enclosed in braces, and is a name, the
    expansion shall use the longest valid name (see XBD Name), whether
@@ -439,7 +439,7 @@ rule token current = parse
   token current lexbuf
 }
 
-(**specification
+(*specification:
 
    Within the string of characters from an enclosed "${" to the
    matching '}', an even number of unescaped double-quotes or
@@ -467,7 +467,7 @@ rule token current = parse
     push_current_string current lexbuf @@ token
 }
 
-(**specification:
+(*specification:
 
   If the current character is an unquoted <newline>, the current
   token shall be delimited.
@@ -482,7 +482,7 @@ rule token current = parse
     )
   }
 
-(**specification:
+(*specification:
 
   If the current character is an unquoted <blank>, any token
   containing the previous character is delimited and the current
@@ -496,7 +496,7 @@ rule token current = parse
     )
   }
 
-(**specification:
+(*specification:
 
   If the current character is a '#', it and all subsequent characters
   up to, but excluding, the next <newline> shall be discarded as a
@@ -527,7 +527,7 @@ rule token current = parse
     )
   }
 
-(**specification
+(*specification:
 
    [Assignment preceding command name]
 
@@ -559,14 +559,14 @@ rule token current = parse
     token current lexbuf
   }
 
-(**specification:
+(*specification:
 
    If the previous character was part of a word, the current character
    shall be appended to that word.
 
 *)
 
-(**specification:
+(*specification:
 
   The current character is used as the start of a new word.
 
@@ -709,7 +709,7 @@ and next_double_rparen dplevel current = parse
     next_double_rparen dplevel (push_character current c) lexbuf
   }
 
-(**specification
+(*specification:
 
    2.2.2 Single-Quotes
 

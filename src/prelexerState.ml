@@ -1,7 +1,7 @@
 open CST
 open ExtPervasives
 
-(**specification:
+(*specification:
 
    The shell breaks the input into tokens: words and operators; see
    Token Recognition.
@@ -250,7 +250,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
       false
   ) in
 
-  (*specification
+  (*specification:
 
     2.10.1 Shell Grammar Lexical Conventions
 

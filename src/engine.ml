@@ -281,7 +281,7 @@ module Lexer (U : sig end) : Lexer = struct
 
         | Pretoken.PreWord (w, cst) ->
 
-        (**specification
+        (*specification:
 
            [Command Name]
 
@@ -314,7 +314,7 @@ module Lexer (U : sig end) : Lexer = struct
           )
           in
           if HDL.next_word_is_here_document_delimiter () then
-            (**specification
+            (*specification:
 
                 2.7.4 Here-Document
 

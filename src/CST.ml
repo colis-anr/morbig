@@ -12,7 +12,6 @@
 (**************************************************************************)
 
 (**
-
     The type for concrete syntax trees of POSIX shell scripts. These
     trees are produced by the Morbig parser.
 
@@ -30,8 +29,9 @@
     mere tokens. For instance, [echo `cat bar`] is interpreted by the
     grammar as a simple command with two WORDs [echo] and [`cat bar`].
     Morbig does not stop its work here: it also parses `cat bar` and
-    the resulting concrete syntax tree is attached to the WORD [`cat
-    bar`]. See the type definition for [word] below for more details.
+    the resulting concrete syntax tree is attached to the WORD
+    [`cat bar`]. See the type definition for [word] below for more
+    details.
 
     The PPX syntax extension package "visitors", written by François
     Pottier, is used to macro-generate many traversal functions over

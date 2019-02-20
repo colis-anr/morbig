@@ -17,7 +17,7 @@ open Parser
 open CST
 open Name
 
-(**specification
+(*specification:
 
    [Assignment preceding command name]
 
