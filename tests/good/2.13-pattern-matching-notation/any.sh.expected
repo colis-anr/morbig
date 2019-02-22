@@ -58,7 +58,16 @@
                                         [
                                           "Word",
                                           "'any'",
-                                          [ [ "WordLiteral", "'any'" ] ]
+                                          [
+                                            [
+                                              "WordSingleQuoted",
+                                              [
+                                                "Word",
+                                                "any",
+                                                [ [ "WordLiteral", "any" ] ]
+                                              ]
+                                            ]
+                                          ]
                                         ]
                                       ]
                                     ]

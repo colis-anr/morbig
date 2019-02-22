@@ -77,8 +77,14 @@
                                                                   "$1",
                                                                   [
                                                                     [
-                                                                    "WordLiteral",
-                                                                    "$1"
+                                                                    "WordVariable",
+                                                                    [
+                                                                    "VariableAtom",
+                                                                    "1",
+                                                                    [
+                                                                    "NoAttribute"
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                   ]
                                                                 ],
@@ -212,8 +218,17 @@
                                                                     "'a, b, or c'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "a, b, or c",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'a, b, or c'"
+                                                                    "a, b, or c"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -313,8 +328,17 @@
                                                                     "'hyphen'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "hyphen",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'hyphen'"
+                                                                    "hyphen"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -342,6 +366,10 @@
                                                                     "Word",
                                                                     "a[a-]",
                                                                     [
+                                                                    [
+                                                                    "WordLiteral",
+                                                                    "]"
+                                                                    ],
                                                                     [
                                                                     "WordReBracketExpression",
                                                                     [
@@ -379,10 +407,6 @@
                                                                     ]
                                                                     ]
                                                                     ]
-                                                                    ],
-                                                                    [
-                                                                    "WordLiteral",
-                                                                    "]"
                                                                     ]
                                                                     ]
                                                                     ]
@@ -424,8 +448,17 @@
                                                                     "'a and (an a or an hypen)'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "a and (an a or an hypen)",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'a and (an a or an hypen)'"
+                                                                    "a and (an a or an hypen)"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -453,6 +486,10 @@
                                                                     "Word",
                                                                     "a[b!]",
                                                                     [
+                                                                    [
+                                                                    "WordLiteral",
+                                                                    "]"
+                                                                    ],
                                                                     [
                                                                     "WordReBracketExpression",
                                                                     [
@@ -490,10 +527,6 @@
                                                                     ]
                                                                     ]
                                                                     ]
-                                                                    ],
-                                                                    [
-                                                                    "WordLiteral",
-                                                                    "]"
                                                                     ]
                                                                     ]
                                                                     ]
@@ -535,8 +568,17 @@
                                                                     "'a then b or hat'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "a then b or hat",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'a then b or hat'"
+                                                                    "a then b or hat"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -629,8 +671,17 @@
                                                                     "'equivalent to e'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "equivalent to e",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'equivalent to e'"
+                                                                    "equivalent to e"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -726,8 +777,17 @@
                                                                     "'right bracket'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "right bracket",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'right bracket'"
+                                                                    "right bracket"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -823,8 +883,17 @@
                                                                     "'hat'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "hat",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'hat'"
+                                                                    "hat"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -930,8 +999,17 @@
                                                                     "'digit >= 2'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "digit >= 2",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'digit >= 2'"
+                                                                    "digit >= 2"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -1024,8 +1102,17 @@
                                                                     "'not zero'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "not zero",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'not zero'"
+                                                                    "not zero"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -1121,8 +1208,17 @@
                                                                     "'zero'",
                                                                     [
                                                                     [
+                                                                    "WordSingleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "zero",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "'zero'"
+                                                                    "zero"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -1193,8 +1289,17 @@
                                                                     "\"default\"",
                                                                     [
                                                                     [
+                                                                    "WordDoubleQuoted",
+                                                                    [
+                                                                    "Word",
+                                                                    "default",
+                                                                    [
+                                                                    [
                                                                     "WordLiteral",
-                                                                    "\"default\""
+                                                                    "default"
+                                                                    ]
+                                                                    ]
+                                                                    ]
                                                                     ]
                                                                     ]
                                                                     ]
@@ -1265,7 +1370,16 @@
                                           [
                                             "Word",
                                             "']'",
-                                            [ [ "WordLiteral", "']'" ] ]
+                                            [
+                                              [
+                                                "WordSingleQuoted",
+                                                [
+                                                  "Word",
+                                                  "]",
+                                                  [ [ "WordLiteral", "]" ] ]
+                                                ]
+                                              ]
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -1304,7 +1418,16 @@
                                         [
                                           "Word",
                                           "'!'",
-                                          [ [ "WordLiteral", "'!'" ] ]
+                                          [
+                                            [
+                                              "WordSingleQuoted",
+                                              [
+                                                "Word",
+                                                "!",
+                                                [ [ "WordLiteral", "!" ] ]
+                                              ]
+                                            ]
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -1343,7 +1466,16 @@
                                       [
                                         "Word",
                                         "'-'",
-                                        [ [ "WordLiteral", "'-'" ] ]
+                                        [
+                                          [
+                                            "WordSingleQuoted",
+                                            [
+                                              "Word",
+                                              "-",
+                                              [ [ "WordLiteral", "-" ] ]
+                                            ]
+                                          ]
+                                        ]
                                       ]
                                     ]
                                   ]
@@ -1382,7 +1514,16 @@
                                     [
                                       "Word",
                                       "'a-'",
-                                      [ [ "WordLiteral", "'a-'" ] ]
+                                      [
+                                        [
+                                          "WordSingleQuoted",
+                                          [
+                                            "Word",
+                                            "a-",
+                                            [ [ "WordLiteral", "a-" ] ]
+                                          ]
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -1421,7 +1562,16 @@
                                   [
                                     "Word",
                                     "'0'",
-                                    [ [ "WordLiteral", "'0'" ] ]
+                                    [
+                                      [
+                                        "WordSingleQuoted",
+                                        [
+                                          "Word",
+                                          "0",
+                                          [ [ "WordLiteral", "0" ] ]
+                                        ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -1460,7 +1610,16 @@
                                 [
                                   "Word",
                                   "'1'",
-                                  [ [ "WordLiteral", "'1'" ] ]
+                                  [
+                                    [
+                                      "WordSingleQuoted",
+                                      [
+                                        "Word",
+                                        "1",
+                                        [ [ "WordLiteral", "1" ] ]
+                                      ]
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]
@@ -1492,7 +1651,20 @@
                             ],
                             [
                               "CmdSuffix_Word",
-                              [ "Word", "'2'", [ [ "WordLiteral", "'2'" ] ] ]
+                              [
+                                "Word",
+                                "'2'",
+                                [
+                                  [
+                                    "WordSingleQuoted",
+                                    [
+                                      "Word",
+                                      "2",
+                                      [ [ "WordLiteral", "2" ] ]
+                                    ]
+                                  ]
+                                ]
+                              ]
                             ]
                           ]
                         ]
@@ -1523,7 +1695,16 @@
                           ],
                           [
                             "CmdSuffix_Word",
-                            [ "Word", "'e'", [ [ "WordLiteral", "'e'" ] ] ]
+                            [
+                              "Word",
+                              "'e'",
+                              [
+                                [
+                                  "WordSingleQuoted",
+                                  [ "Word", "e", [ [ "WordLiteral", "e" ] ] ]
+                                ]
+                              ]
+                            ]
                           ]
                         ]
                       ]
@@ -1554,7 +1735,16 @@
                         ],
                         [
                           "CmdSuffix_Word",
-                          [ "Word", "'a'", [ [ "WordLiteral", "'a'" ] ] ]
+                          [
+                            "Word",
+                            "'a'",
+                            [
+                              [
+                                "WordSingleQuoted",
+                                [ "Word", "a", [ [ "WordLiteral", "a" ] ] ]
+                              ]
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -1585,7 +1775,16 @@
                       ],
                       [
                         "CmdSuffix_Word",
-                        [ "Word", "'a!'", [ [ "WordLiteral", "'a!'" ] ] ]
+                        [
+                          "Word",
+                          "'a!'",
+                          [
+                            [
+                              "WordSingleQuoted",
+                              [ "Word", "a!", [ [ "WordLiteral", "a!" ] ] ]
+                            ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -1616,7 +1815,16 @@
                     ],
                     [
                       "CmdSuffix_Word",
-                      [ "Word", "'ab'", [ [ "WordLiteral", "'ab'" ] ] ]
+                      [
+                        "Word",
+                        "'ab'",
+                        [
+                          [
+                            "WordSingleQuoted",
+                            [ "Word", "ab", [ [ "WordLiteral", "ab" ] ] ]
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -1650,7 +1858,16 @@
                     [
                       "Word",
                       "'something else'",
-                      [ [ "WordLiteral", "'something else'" ] ]
+                      [
+                        [
+                          "WordSingleQuoted",
+                          [
+                            "Word",
+                            "something else",
+                            [ [ "WordLiteral", "something else" ] ]
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
