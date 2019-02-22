@@ -184,7 +184,7 @@ meta_char: MINUS {
   '-'
 }
 | HAT {
-  '^'
+  '!'
 }
 | RBRACKET {
   ']'
