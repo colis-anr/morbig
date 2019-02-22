@@ -145,6 +145,17 @@ let recognize_re_bracket_expression s start =
            (* by 2.13.1, <circumflex> is <exclamation-mark> in the context of
               shell. *)
            COLL_ELEM_SINGLE '!'
+      | (COLL_ELEM_SINGLE '^') as token ->
+         if Prelexer.after_starting_bracket ()
+            && MorbigOptions.error_on_unspecified ()
+         then
+           let msg =
+             "Unquoted <circumflex> at the beginning of a bracket expression \
+              has an unspecified semantics."
+           in
+           raise (Errors.DuringLexing (Prelexer.lexing_position (), msg))
+         else
+           token
       | (RBRACKET | MINUS) as token ->
          let final_minus =
            (token = MINUS) && (Prelexer.just_before_ending_bracket ())

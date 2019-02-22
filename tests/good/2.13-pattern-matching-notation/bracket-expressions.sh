@@ -10,6 +10,7 @@ test () {
        [[.].]]) echo 'right bracket';;
        [[.!.]]) echo 'hat';;
        [2-]) echo 'digit >= 2';;
+       [^0]) echo 'this is not "not zero"';;
        [!0]) echo 'not zero';;
        [[:digit:]]) echo 'zero';;
        *) echo "default";;
