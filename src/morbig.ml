@@ -11,23 +11,32 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-(*specification:
+(** {2 Main API points} *)
 
-   3.231 Name
+include API
 
-   In the shell command language, a word consisting solely of
-   underscores, digits, and alphabetics from the portable character
-   set. The first character of a name is not a digit.
+(** {2 Other modules} *)
 
-   Note:
-   The Portable Character Set is defined in detail in Portable Character Set.
-
-*)
-(**
-    This definition implies that a name is not empty.
-
-*)
-let is_name s =
-  s <> ""
-  && Str.(string_match (
-              regexp "^\\([a-zA-Z]\\|_\\)\\([a-zA-Z]\\|_\\|[0-9]\\)*$") s 0)
+module Aliases = Aliases
+module Assignment = Assignment
+module CSTHelpers = CSTHelpers
+module CST = CST
+module Debug = Debug
+module Engine = Engine
+module Errors = Errors
+module ExtMenhirLib = ExtMenhirLib
+module HereDocument = HereDocument
+module JsonHelpers = JsonHelpers
+module Keyword = Keyword
+module Name = Name
+module Nesting = Nesting
+module Options = Options
+module Parser = Parser
+module Prelexer = Prelexer
+module PrelexerState = PrelexerState
+module Pretokenizer = Pretokenizer
+module Pretoken = Pretoken
+module QuoteRemoval = QuoteRemoval
+module RecursiveParser = RecursiveParser
+module Scripts = Scripts
+module Token = Token

@@ -1,7 +1,7 @@
 open CST
 open ExtPervasives
 
-(**specification:
+(*specification:
 
    The shell breaks the input into tokens: words and operators; see
    Token Recognition.
@@ -250,7 +250,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
       false
   ) in
 
-  (*specification
+  (*specification:
 
     2.10.1 Shell Grammar Lexical Conventions
 
@@ -351,7 +351,7 @@ let escape_analysis ?(for_backquote=false) level current =
   in
   let current' = List.(concat (map rev (map string_to_char_list current))) in
 
-  if MorbigOptions.debug () then
+  if Options.debug () then
     Printf.eprintf "N = %s | %s\n"
       (String.concat " "
          (List.map string_of_int number_of_backslashes_to_escape)
@@ -480,7 +480,7 @@ let backquote_depth current =
       | Some d -> d
       | None -> assert false (* By usage of backquote_depth. *)
   in
-  if MorbigOptions.debug () then
+  if Options.debug () then
     Printf.eprintf "Backquote depth: %d =?= %d\n"
       current_depth
       (closest_backquote_depth current.nesting_context);
@@ -521,7 +521,7 @@ let remove_contents_suffix end_marker (contents : string) (cst : CST.word_cst) =
   contents, List.(rev (aux (rev cst)))
 
 let debug ?(rule="") lexbuf current = Lexing.(
-    if MorbigOptions.debug () then
+    if Options.debug () then
       let curr_pos =
         min lexbuf.lex_curr_pos lexbuf.lex_buffer_len
       in

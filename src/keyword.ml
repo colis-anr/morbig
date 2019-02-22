@@ -16,7 +16,7 @@ open ExtMenhirLib
 open Parser
 open Parser.MenhirInterpreter
 
-(**specification
+(*specification:
 
    /* The following are the reserved words. */
 
