@@ -130,9 +130,6 @@ let recognize_re_bracket_expression s start =
          let final_minus =
            (token = MINUS) && (Prelexer.just_before_ending_bracket ())
          in
-         (** The case of MINUS is a bit subtle: we only have to handle the
-             first subcase (being at the first position or after the starting
-             hat) because the grammar is handling the next two subcases. *)
          if Prelexer.(after_starting_bracket ()
                       || after_starting_hat ()
                       || final_minus)
