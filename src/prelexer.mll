@@ -607,6 +607,9 @@ and close_parameter current = parse
 | "##" {
   RemoveLargestPrefixPattern (variable_attribute current lexbuf)
 }
+| _ {
+  lexing_error lexbuf "Invalid variable parameter"
+}
 
 and variable_attribute current = parse
 | "" {
@@ -620,7 +623,8 @@ and variable_attribute current = parse
      Word ("", [WordEmpty])
   | prewords ->
      (** Not null, must be unique. *)
-     word_of prewords
+     try word_of prewords with NotAWord _ ->
+       lexing_error lexbuf "Invalid variable parameter"
 }
 
 and skip k current = parse
