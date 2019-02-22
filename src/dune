@@ -16,7 +16,7 @@
  (libraries str menhirLib ppx_deriving_yojson.runtime visitors.runtime)
  (preprocess (pps ppx_deriving_yojson visitors.ppx))
  (flags :standard -w -3) ; FIXME: remove this when Yojson and its PPX are fixed.
- (c_names cstub)
+ (c_names cstub) ; FIXME: this should go in the last (executable ...) stanza.
  (modules :standard \ morbigDriver CAPI))
 
 (executable
@@ -31,14 +31,8 @@
  (modes object)
  (modules CAPI))
 
-(rule
- (deps cstub.o CAPI.exe.o)
- (targets libmorbigc.a)
- (action
-  (run ar cq %{targets} %{deps})))
-
 (install
  (section lib)
  (files
-  libmorbigc.a
-  (cstub.h as libmorbigc.h)))
+  (CAPI.exe.o as libmorbigc.o)
+  (cstub.h    as libmorbigc.h)))

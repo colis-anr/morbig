@@ -12,4 +12,4 @@
 (**************************************************************************)
 
 let printf fmt =
-  if MorbigOptions.debug () then Printf.printf fmt else ignore
+  if Options.debug () then Printf.printf fmt else ignore

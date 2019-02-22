@@ -26,7 +26,7 @@ module Lexer (U : sig end) : sig
   val next_line_is_here_document: unit -> bool
 end = struct
 
-  (** specification:
+  (*specification:
 
       If more than one "<<" or "<<-" operator is specified on a line, the
       here-document associated with the first operator shall be supplied
@@ -104,7 +104,7 @@ end = struct
       List.exists (function WordSingleQuoted _ -> true | _ -> false) cst
     in
     Queue.add {
-      (** specification:
+      (*specification:
           If any part of word is quoted, the delimiter shall be formed by
           performing quote removal on word, and the here-document lines shall
           not be expanded. Otherwise, the delimiter shall be the word itself.
@@ -116,7 +116,7 @@ end = struct
       } delimiters_queue
 
   let next_here_document lexbuf current =
-    (**specification:
+    (*specification:
        The here-document shall be treated as a single word that begins after
        the next <newline> and continues until there is a line containing only
        the delimiter and a <newline>, with no <blank> characters in
@@ -128,7 +128,7 @@ end = struct
     let store_here_document end_marker cst contents doc_start doc_end  =
       (* store in the placeholder the here-document with contents [contents],
          start position [doc_start], and end position [doc_end]. *)
-      (** specification:
+      (*specification:
           If no part of word is quoted ... the <backslash> in the
           input behaves as the <backslash> inside double-quotes (see
           Double-Quotes). However, the double-quote character ( ' )' shall
@@ -145,7 +145,7 @@ end = struct
         remove_contents_suffix end_marker contents cst
       in
       let contents =
-        (** specification:
+        (*specification:
             If the redirection operator is "<<-", all leading <tab>
             characters shall be stripped from input lines ...
          *)

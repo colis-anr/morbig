@@ -12,14 +12,13 @@
 (**************************************************************************)
 
 open Morbig
-open API
 
 let save input_filename (cst : CST.program) =
-  MorbigOptions.(
+  Options.(
     let cout = open_out (output_file_of_input_file input_filename) in
     begin match backend () with
-    | Bin -> API.save_binary_cst cout cst
-    | Json -> API.save_json_cst cout cst
+    | Bin -> save_binary_cst cout cst
+    | Json -> save_json_cst cout cst
     | SimpleJson -> JsonHelpers.save_as_json true cout cst
     | Dot -> JsonHelpers.save_as_dot cout cst
     end;
@@ -38,7 +37,7 @@ let save_error input_filename message =
    [input_filename]. *)
 
 let not_a_script input_filename =
-  MorbigOptions.skip_nosh ()
+  Options.skip_nosh ()
   && (Scripts.(is_elf input_filename || is_other_script input_filename))
 
 let nb_inputs = ref 0
@@ -46,7 +45,7 @@ let nb_inputs_skipped = ref 0
 let nb_inputs_erroneous = ref 0
 
 let show_stats () =
-  if MorbigOptions.display_stats () then begin
+  if Options.display_stats () then begin
       Printf.printf "Number of input files: %i\n" !nb_inputs;
       Printf.printf "Number of skipped files: %i\n" !nb_inputs_skipped;
       Printf.printf "Number of rejected files: %i\n" !nb_inputs_erroneous
@@ -62,7 +61,7 @@ let parse_one_file input_filename =
       parse_file input_filename |> save input_filename
     with e ->
       incr nb_inputs_erroneous;
-      if MorbigOptions.continue_after_error () then
+      if Options.continue_after_error () then
         save_error input_filename (Errors.string_of_error e)
       else (
         output_string stderr (Errors.string_of_error e ^ "\n");
@@ -77,19 +76,19 @@ let parse_input_files_provided_via_stdin () =
   with End_of_file -> ()
 
 let parse_input_files_provided_on_command_line () =
-  if List.length (MorbigOptions.input_files ()) <= 0 then begin
+  if List.length (Options.input_files ()) <= 0 then begin
       Printf.eprintf "morbig: no input files.\n";
       exit 1
     end;
-  List.iter parse_one_file (MorbigOptions.input_files ())
+  List.iter parse_one_file (Options.input_files ())
 
 let parse_input_files () =
-  if MorbigOptions.from_stdin () then
+  if Options.from_stdin () then
     parse_input_files_provided_via_stdin ()
   else
     parse_input_files_provided_on_command_line ()
 
 let main =
-  MorbigOptions.analyze_command_line_arguments ();
+  Options.analyze_command_line_arguments ();
   parse_input_files ();
   show_stats ()

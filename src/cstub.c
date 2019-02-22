@@ -140,6 +140,10 @@ char* get_data (value cst) {
   return String_val (Field (cst, 0));
 }
 
+void dummy_external () {
+  return; // See CAPI.ml
+}
+
 void initialize_morbig (char** argv) {
   caml_startup (argv);
 }
