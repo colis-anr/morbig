@@ -329,10 +329,63 @@ and word_component =
   | WordVariable of variable
   | WordGlobAll
   | WordGlobAny
-  | WordGlobRange of character_range
+  | WordReBracketExpression of bracket_expression
   | WordOther
   (* Empty CST. Useful to represent the absence of relevant CSTs. *)
   | WordEmpty
+
+and bracket_expression =
+  | BracketExpression_LBRACKET_MatchingList_RBRACKET of matching_list
+  | BracketExpression_LBRACKET_NonMatchingList_RBRACKET of nonmatching_list
+
+and matching_list =
+  | MatchingList_BracketList of bracket_list
+
+and nonmatching_list =
+  | NonMatchingList_BracketList of bracket_list
+
+and bracket_list =
+  | BracketList_FollowList of follow_list
+  | BracketList_FollowList_MINUS of follow_list
+
+and follow_list =
+  | FollowList_ExpressionTerm of expression_term
+  | FollowList_FollowList_ExpressionTerm of follow_list * expression_term
+
+and expression_term =
+  | ExpressionTerm_SingleExpression of single_expression
+  | ExpressionTerm_RangeExpression of range_expression
+
+and single_expression =
+  | SingleExpression_EndRange of end_range
+  | SingleExpression_CharacterClass of character_class
+  | SingleExpression_EquivalenceClass of equivalence_class
+
+and range_expression =
+  | RangeExpression_StartRange_EndRange of start_range * end_range
+  | RangeExpression_StartRange_MINUS of start_range
+
+and start_range =
+  | StartRange_EndRange_MINUS of end_range
+
+and end_range =
+  | EndRange_COLLELEMSINGLE of char
+  | EndRangeCollatingSymbol of collating_symbol
+
+and collating_symbol =
+  | CollatingSymbol_OpenDot_COLLELEMSINGLE_DotClose of char
+  | CollatingSymbol_OpenDot_COLLELEMMULTI_DotClose of string
+  | CollatingSymbol_OpenDot_METACHAR_DotClose of char
+
+and equivalence_class =
+  | EquivalenceClass_OpenEqual_COLLELEMSINGLE_EqualClose of char
+  | EquivalenceClass_OpenEqual_COLLELEMMULTI_EqualClose of string
+
+and character_class =
+  | CharacterClass_OpenColon_CLASSNAME_ColonClose of class_name
+
+and class_name =
+  | ClassName of string (* Keyword in the current LC_CTYPE category. *)
 
 and character_range =
   | Range of char list

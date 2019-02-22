@@ -310,7 +310,7 @@ module Lexer (U : sig end) : Lexer = struct
           let token = FirstSuccessMonad.(
             (recognize_assignment checkpoint p cst)
             +> (recognize_reserved_word_if_relevant checkpoint p w)
-            +> return (WORD (Word (w, cst)))
+            +> return (WORD (Word (w, List.(flatten (map parse_pattern cst)))))
           )
           in
           if HDL.next_word_is_here_document_delimiter () then
