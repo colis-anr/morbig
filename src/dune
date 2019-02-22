@@ -1,8 +1,8 @@
-(ocamllex prelexer)
+(ocamllex prelexer REBracketExpressionLexer)
 
 (menhir
  (flags --explain --inspection --table)
- (modules parser))
+ (modules parser REBracketExpressionParser))
 
 (rule
  (targets version.ml)

@@ -13,7 +13,6 @@
 
 open REBracketExpressionParser
 open REBracketExpressionParser.MenhirInterpreter
-open MenhirLib.General
 open CST
 
 (** [re_bracket_lexing_mode] is used to interpret some special
@@ -24,7 +23,6 @@ let recognize_re_bracket_expression s start =
 
   let module Prelexer : sig
         val current_position : unit -> int
-        val eof_reached : unit -> bool
         val lexing_position : unit -> Lexing.position
         val next_token : unit -> token * Lexing.position * Lexing.position
         val after_starting_hat : unit -> bool
@@ -70,11 +68,6 @@ let recognize_re_bracket_expression s start =
           with_positions REBracketExpressionParser.EOF
         else
           Queue.pop lookahead_buffer
-
-      let lookahead () =
-        let token = lex () in
-        Queue.add token lookahead_buffer;
-        token
 
       let read_string () =
         String.sub s start (!current_position - start)
@@ -152,7 +145,7 @@ let recognize_re_bracket_expression s start =
   in
   let rec parse checkpoint =
     match checkpoint with
-    | InputNeeded parsing_state ->
+    | InputNeeded _ ->
        parse (offer checkpoint (next_token ()))
     | Accepted cst ->
        Some (cst, Prelexer.read_string (), Prelexer.current_position ())
