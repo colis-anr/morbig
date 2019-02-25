@@ -147,7 +147,7 @@ let recognize_re_bracket_expression s start =
            COLL_ELEM_SINGLE '!'
       | (COLL_ELEM_SINGLE '^') as token ->
          if Prelexer.after_starting_bracket ()
-            && MorbigOptions.error_on_unspecified ()
+            && Options.error_on_unspecified ()
          then
            let msg =
              "Unquoted <circumflex> at the beginning of a bracket expression \
