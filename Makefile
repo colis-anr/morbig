@@ -1,5 +1,5 @@
 .PHONY: build doc install uninstall check examples clean
-.PHONY: dist docker-image publish-docker-image
+.PHONY: dist docker-image publish-docker-image headers
 
 EXPORTED_SOURCES=				\
 	src/CST.ml				\
@@ -60,3 +60,6 @@ docker-image: Dockerfile
 publish-docker-image: docker-image
 	docker tag morbig colisanr/morbig:latest
 	docker image push colisanr/morbig:latest
+
+headers:
+	cd src && headache -c .headache.conf -h .header *.ml *.ml[ily]
