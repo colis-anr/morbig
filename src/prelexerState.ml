@@ -295,10 +295,17 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
 
 exception NotAWord of string
 
-let word_of = function
-  | ((Pretoken.PreWord (w, cst), _, _)) :: _ -> Word (w, cst)
-  | (p, _, _) :: _ -> raise (NotAWord (Pretoken.string_of_pretoken p))
-  | [] -> raise (NotAWord "empty")
+let word_of b =
+  let rec aux w cst = Pretoken.(function
+      | [] ->
+         Word (w, cst)
+      | (p, _, _) :: ps ->
+         match preword_of_pretoken p with
+         | EOF -> assert false (* Because of [word_of] calling context. *)
+         | PreWord (w', cst') -> aux (w ^ w') (cst @ cst') ps
+         | _ -> assert false (* By preword_of_pretoken. *)
+  ) in
+  aux "" [] b
 
 let located_word_of = function
   | ((Pretoken.PreWord (w, cst), p1, p2)) :: _ -> (Word (w, cst), p1, p2)

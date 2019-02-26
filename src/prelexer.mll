@@ -477,7 +477,8 @@ rule token current = parse
     Lexing.new_line lexbuf;
     if found_current_here_document_delimiter current then
       return ~with_newline:true lexbuf current []
-    else if_unprotected_by_double_quote current lexbuf token (fun () ->
+    else if_unprotected_by_double_quote_or_braces current lexbuf token
+    (fun () ->
       return ~with_newline:true lexbuf current []
     )
   }
@@ -616,14 +617,13 @@ and variable_attribute current = parse
   let current =
     { initial_state with nesting_context = current.nesting_context }
   in
-  let current = push_quoting_mark OpeningBrace current in
   match token current lexbuf with
   | [] ->
      (** Null attribute. *)
      Word ("", [WordEmpty])
   | prewords ->
      (** Not null, must be unique. *)
-     try word_of prewords with NotAWord _ ->
+     try word_of prewords with NotAWord  _->
        lexing_error lexbuf "Invalid variable parameter"
 }
 
