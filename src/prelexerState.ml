@@ -53,13 +53,26 @@ let at_toplevel current =
 let enter_assignment_rhs current name =
   { current with lexing_context = AssignmentRHS name }
 
-let push_string b s =
+let push_word_component csts w =
+  match csts, w with
+  | WordComponent (s', WordLiteral l') :: csts, (s, WordLiteral l) ->
+     WordComponent (s' ^ s, WordLiteral (l' ^ l)) :: csts
+  | _, (s, a) ->
+     WordComponent (s, a) :: csts
+
+ let push_string b s =
   (* FIXME: Is string concatenation too slow here? *)
   match b.buffer with
   | WordComponent (s', WordLiteral l) :: csts ->
      { b with buffer = WordComponent (s' ^ s, WordLiteral (l ^ s)) :: csts }
   | _ ->
      { b with buffer = WordComponent (s, WordLiteral s) :: b.buffer }
+
+let parse_pattern : word_component -> word_component list = function
+  | WordLiteral w ->
+     snd (List.split (PatternMatchingRecognizer.process w))
+  | c ->
+     [c]
 
 let push_character b c =
   push_string b (String.make 1 c)
