@@ -92,7 +92,7 @@ let recognize_re_bracket_expression s start =
         String.sub s start (!current_position - start)
 
       let current_position () =
-        lexbuf.Lexing.lex_start_p.pos_cnum
+        start + lexbuf.Lexing.lex_start_p.pos_cnum
 
       let lexing_position () = lexbuf.Lexing.lex_start_p
 
@@ -189,6 +189,7 @@ let recognize_re_bracket_expression s start =
 let process s : (string * word_component) list =
   let b = Buffer.create 31 in
   let rec analyze output i =
+
     let flush () =
       if Buffer.length b > 0 then
         let w = Buffer.contents b in
@@ -197,8 +198,9 @@ let process s : (string * word_component) list =
         output
     in
     let produce ?(next=i+1) char ast =
+      let output = flush () in
       Buffer.clear b;
-      analyze ((char, ast) :: flush ()) next
+      analyze ((char, ast) :: output) next
     in
     let push char =
       Buffer.add_char b char;
@@ -218,4 +220,4 @@ let process s : (string * word_component) list =
                end
       | c -> push c
   in
-  analyze [] 0
+  analyze [] 0 |> List.rev

@@ -370,7 +370,7 @@
                                                                     [
                                                                     [
                                                                     "WordLiteral",
-                                                                    "]"
+                                                                    "a"
                                                                     ],
                                                                     [
                                                                     "WordReBracketExpression",
@@ -490,7 +490,7 @@
                                                                     [
                                                                     [
                                                                     "WordLiteral",
-                                                                    "]"
+                                                                    "a"
                                                                     ],
                                                                     [
                                                                     "WordReBracketExpression",
