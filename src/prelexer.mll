@@ -623,7 +623,9 @@ and variable_attribute current = parse
      Word ("", [WordEmpty])
   | prewords ->
      (** Not null, must be unique. *)
-     try word_of prewords with NotAWord  _->
+     try
+       word_of prewords
+     with NotAWord _ ->
        lexing_error lexbuf "Invalid variable parameter"
 }
 
