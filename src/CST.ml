@@ -330,7 +330,6 @@ and word_component =
   | WordGlobAll
   | WordGlobAny
   | WordGlobRange of character_range
-  | WordOther
   (* Empty CST. Useful to represent the absence of relevant CSTs. *)
   | WordEmpty
 
