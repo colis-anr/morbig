@@ -21,7 +21,7 @@
                     "CmdName_Word",
                     [
                       "Word",
-                      "${parameter=$(echo foo)}",
+                      "${parameter:=$(echo foo)}",
                       [
                         [
                           "WordVariable",
@@ -30,6 +30,7 @@
                             "parameter",
                             [
                               "AssignDefaultValues",
+                              ":=",
                               [
                                 "Word",
                                 "$(echo foo)",

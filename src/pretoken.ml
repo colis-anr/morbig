@@ -57,3 +57,27 @@ let optoken_of_string s =
       "Internal error: `%s' is not a valid operator token.\n"
        s;
     assert false
+
+let preword_of_operator = function
+    | AND_IF -> "&&"
+    | OR_IF -> "||"
+    | DSEMI -> ";;"
+    | LESSAND -> "<&"
+    | GREATAND -> ">&"
+    | LESSGREAT -> "<>"
+    | DGREAT -> ">>"
+    | CLOBBER -> ">|"
+    | Pipe -> "|"
+    | Lparen -> "("
+    | Rparen -> ")"
+    | LESS -> "<"
+    | GREAT -> ">"
+    | Semicolon -> ";"
+    | Uppersand -> "&"
+    | _ -> assert false (* By definition of operators. *)
+
+let preword_of_pretoken = function
+  | IoNumber s -> PreWord (s, [WordLiteral s])
+  | Operator o -> let s = preword_of_operator o in PreWord (s, [WordLiteral s])
+  | NEWLINE -> PreWord ("\n", [WordLiteral "\n"])
+  | p -> p

@@ -51,7 +51,7 @@
                                                   "CmdName_Word",
                                                   [
                                                     "Word",
-                                                    "${parameter-'}'}",
+                                                    "${parameter:-'}'}",
                                                     [
                                                       [
                                                         "WordVariable",
@@ -60,6 +60,7 @@
                                                           "parameter",
                                                           [
                                                             "UseDefaultValues",
+                                                            ":-",
                                                             [
                                                               "Word",
                                                               "'}'",
@@ -121,7 +122,7 @@
                                                 "CmdName_Word",
                                                 [
                                                   "Word",
-                                                  "${parameter-\\}}",
+                                                  "${parameter:-\\}}",
                                                   [
                                                     [
                                                       "WordVariable",
@@ -130,6 +131,7 @@
                                                         "parameter",
                                                         [
                                                           "UseDefaultValues",
+                                                          ":-",
                                                           [
                                                             "Word",
                                                             "\\}",
@@ -191,6 +193,7 @@
                                                       "parameter",
                                                       [
                                                         "UseDefaultValues",
+                                                        "-",
                                                         [
                                                           "Word",
                                                           "'}'",
@@ -261,6 +264,7 @@
                                                     "parameter",
                                                     [
                                                       "UseDefaultValues",
+                                                      "-",
                                                       [
                                                         "Word",
                                                         "\\}",
@@ -313,7 +317,7 @@
                                           "CmdName_Word",
                                           [
                                             "Word",
-                                            "${parameter='}'}",
+                                            "${parameter:='}'}",
                                             [
                                               [
                                                 "WordVariable",
@@ -322,6 +326,7 @@
                                                   "parameter",
                                                   [
                                                     "AssignDefaultValues",
+                                                    ":=",
                                                     [
                                                       "Word",
                                                       "'}'",
@@ -383,7 +388,7 @@
                                         "CmdName_Word",
                                         [
                                           "Word",
-                                          "${parameter=\\}}",
+                                          "${parameter:=\\}}",
                                           [
                                             [
                                               "WordVariable",
@@ -392,6 +397,7 @@
                                                 "parameter",
                                                 [
                                                   "AssignDefaultValues",
+                                                  ":=",
                                                   [
                                                     "Word",
                                                     "\\}",
@@ -453,6 +459,7 @@
                                               "parameter",
                                               [
                                                 "AssignDefaultValues",
+                                                "=",
                                                 [
                                                   "Word",
                                                   "'}'",
@@ -523,6 +530,7 @@
                                             "parameter",
                                             [
                                               "AssignDefaultValues",
+                                              "=",
                                               [
                                                 "Word",
                                                 "\\}",
@@ -575,7 +583,7 @@
                                   "CmdName_Word",
                                   [
                                     "Word",
-                                    "${parameter?'}'}",
+                                    "${parameter:?'}'}",
                                     [
                                       [
                                         "WordVariable",
@@ -584,6 +592,7 @@
                                           "parameter",
                                           [
                                             "IndicateErrorifNullorUnset",
+                                            ":?",
                                             [
                                               "Word",
                                               "'}'",
@@ -645,7 +654,7 @@
                                 "CmdName_Word",
                                 [
                                   "Word",
-                                  "${parameter?\\}}",
+                                  "${parameter:?\\}}",
                                   [
                                     [
                                       "WordVariable",
@@ -654,6 +663,7 @@
                                         "parameter",
                                         [
                                           "IndicateErrorifNullorUnset",
+                                          ":?",
                                           [
                                             "Word",
                                             "\\}",
@@ -712,6 +722,7 @@
                                       "parameter",
                                       [
                                         "IndicateErrorifNullorUnset",
+                                        "?",
                                         [
                                           "Word",
                                           "'}'",
@@ -781,6 +792,7 @@
                                     "parameter",
                                     [
                                       "IndicateErrorifNullorUnset",
+                                      "?",
                                       [
                                         "Word",
                                         "\\}",
@@ -828,7 +840,7 @@
                           "CmdName_Word",
                           [
                             "Word",
-                            "${parameter+'}'}",
+                            "${parameter:+'}'}",
                             [
                               [
                                 "WordVariable",
@@ -837,6 +849,7 @@
                                   "parameter",
                                   [
                                     "UseAlternativeValue",
+                                    ":+",
                                     [
                                       "Word",
                                       "'}'",
@@ -893,7 +906,7 @@
                         "CmdName_Word",
                         [
                           "Word",
-                          "${parameter+\\}}",
+                          "${parameter:+\\}}",
                           [
                             [
                               "WordVariable",
@@ -902,6 +915,7 @@
                                 "parameter",
                                 [
                                   "UseAlternativeValue",
+                                  ":+",
                                   [
                                     "Word",
                                     "\\}",
@@ -958,6 +972,7 @@
                               "parameter",
                               [
                                 "UseAlternativeValue",
+                                "+",
                                 [
                                   "Word",
                                   "'}'",
@@ -1023,6 +1038,7 @@
                             "parameter",
                             [
                               "UseAlternativeValue",
+                              "+",
                               [
                                 "Word",
                                 "\\}",

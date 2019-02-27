@@ -464,7 +464,7 @@ rule token current = parse
   | "${" (parameter_identifier as id) {
   debug ~rule:"parameter-opening-braces" lexbuf current;
   let current = enter_braces current in
-  let attribute = close_parameter current lexbuf in
+  let attribute = close_parameter id current lexbuf in
   let current = quit_braces current in
   let current = push_parameter ~with_braces:true ~attribute current id in
   token current lexbuf
@@ -490,7 +490,8 @@ rule token current = parse
     Lexing.new_line lexbuf;
     if found_current_here_document_delimiter current then
       return ~with_newline:true lexbuf current []
-    else if_unprotected_by_double_quote current lexbuf token (fun () ->
+    else if_unprotected_by_double_quote_or_braces current lexbuf token
+    (fun () ->
       return ~with_newline:true lexbuf current []
     )
   }
@@ -590,23 +591,23 @@ rule token current = parse
     token (push_character current c) lexbuf
   }
 
-and close_parameter current = parse
+and close_parameter id current = parse
 | "}" {
   debug ~rule:"close-parameter-closing-brace" lexbuf current;
   (** The word is not here. *)
   NoAttribute
 }
-| ":"?"-" {
-  UseDefaultValues (variable_attribute current lexbuf)
+| ":"?"-" as s {
+  UseDefaultValues (s, variable_attribute current lexbuf)
 }
-| ":"?"=" {
-  AssignDefaultValues (variable_attribute current lexbuf)
+| ":"?"=" as s {
+  AssignDefaultValues (s, variable_attribute current lexbuf)
 }
-| ":"?"?" {
-  IndicateErrorifNullorUnset (variable_attribute current lexbuf)
+| ":"?"?" as s {
+  IndicateErrorifNullorUnset (s, variable_attribute current lexbuf)
 }
-| ":"?"+" {
-  UseAlternativeValue (variable_attribute current lexbuf)
+| ":"?"+" as s {
+  UseAlternativeValue (s, variable_attribute current lexbuf)
 }
 | "%" {
   RemoveSmallestSuffixPattern (variable_attribute current lexbuf)
@@ -620,20 +621,28 @@ and close_parameter current = parse
 | "##" {
   RemoveLargestPrefixPattern (variable_attribute current lexbuf)
 }
+| _ {
+  if id = "#" then
+    ParameterLength (variable_attribute current lexbuf)
+  else
+    lexing_error lexbuf "Invalid variable parameter"
+}
 
 and variable_attribute current = parse
 | "" {
   let current =
     { initial_state with nesting_context = current.nesting_context }
   in
-  let current = push_quoting_mark OpeningBrace current in
   match token current lexbuf with
   | [] ->
      (** Null attribute. *)
      Word ("", [WordEmpty])
   | prewords ->
      (** Not null, must be unique. *)
-     word_of prewords
+     try
+       word_of prewords
+     with NotAWord _ ->
+       lexing_error lexbuf "Invalid variable parameter"
 }
 
 and skip k current = parse

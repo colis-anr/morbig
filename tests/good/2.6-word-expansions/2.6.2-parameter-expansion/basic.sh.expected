@@ -35,7 +35,7 @@
                                   "CmdName_Word",
                                   [
                                     "Word",
-                                    "${parameter-word}",
+                                    "${parameter:-word}",
                                     [
                                       [
                                         "WordVariable",
@@ -44,6 +44,7 @@
                                           "parameter",
                                           [
                                             "UseDefaultValues",
+                                            ":-",
                                             [
                                               "Word",
                                               "word",
@@ -104,6 +105,7 @@
                                         "parameter",
                                         [
                                           "UseDefaultValues",
+                                          "-",
                                           [
                                             "Word",
                                             "word",
@@ -153,7 +155,7 @@
                               "CmdName_Word",
                               [
                                 "Word",
-                                "${parameter=word}",
+                                "${parameter:=word}",
                                 [
                                   [
                                     "WordVariable",
@@ -162,6 +164,7 @@
                                       "parameter",
                                       [
                                         "AssignDefaultValues",
+                                        ":=",
                                         [
                                           "Word",
                                           "word",
@@ -218,6 +221,7 @@
                                     "parameter",
                                     [
                                       "AssignDefaultValues",
+                                      "=",
                                       [
                                         "Word",
                                         "word",
@@ -265,7 +269,7 @@
                           "CmdName_Word",
                           [
                             "Word",
-                            "${parameter?word}",
+                            "${parameter:?word}",
                             [
                               [
                                 "WordVariable",
@@ -274,6 +278,7 @@
                                   "parameter",
                                   [
                                     "IndicateErrorifNullorUnset",
+                                    ":?",
                                     [
                                       "Word",
                                       "word",
@@ -330,6 +335,7 @@
                                 "parameter",
                                 [
                                   "IndicateErrorifNullorUnset",
+                                  "?",
                                   [
                                     "Word",
                                     "word",
@@ -377,7 +383,7 @@
                       "CmdName_Word",
                       [
                         "Word",
-                        "${parameter+word}",
+                        "${parameter:+word}",
                         [
                           [
                             "WordVariable",
@@ -386,6 +392,7 @@
                               "parameter",
                               [
                                 "UseAlternativeValue",
+                                ":+",
                                 [
                                   "Word",
                                   "word",
@@ -442,6 +449,7 @@
                             "parameter",
                             [
                               "UseAlternativeValue",
+                              "+",
                               [
                                 "Word",
                                 "word",
