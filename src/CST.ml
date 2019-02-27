@@ -343,10 +343,10 @@ and variable =
 and variable_attribute =
   | NoAttribute
   | ParameterLength of word
-  | UseDefaultValues of word
-  | AssignDefaultValues of word
-  | IndicateErrorifNullorUnset of word
-  | UseAlternativeValue of word
+  | UseDefaultValues of string * word
+  | AssignDefaultValues of string * word
+  | IndicateErrorifNullorUnset of string * word
+  | UseAlternativeValue of string * word
   | RemoveSmallestSuffixPattern of word
   | RemoveLargestSuffixPattern of word
   | RemoveSmallestPrefixPattern of word

@@ -584,17 +584,17 @@ and close_parameter id current = parse
   (** The word is not here. *)
   NoAttribute
 }
-| ":"?"-" {
-  UseDefaultValues (variable_attribute current lexbuf)
+| ":"?"-" as s {
+  UseDefaultValues (s, variable_attribute current lexbuf)
 }
-| ":"?"=" {
-  AssignDefaultValues (variable_attribute current lexbuf)
+| ":"?"=" as s {
+  AssignDefaultValues (s, variable_attribute current lexbuf)
 }
-| ":"?"?" {
-  IndicateErrorifNullorUnset (variable_attribute current lexbuf)
+| ":"?"?" as s {
+  IndicateErrorifNullorUnset (s, variable_attribute current lexbuf)
 }
-| ":"?"+" {
-  UseAlternativeValue (variable_attribute current lexbuf)
+| ":"?"+" as s {
+  UseAlternativeValue (s, variable_attribute current lexbuf)
 }
 | "%" {
   RemoveSmallestSuffixPattern (variable_attribute current lexbuf)

@@ -80,10 +80,10 @@ let string_of_word (Word (s, _)) = s
 let string_of_attribute = function
   | NoAttribute -> ""
   | ParameterLength w -> string_of_word w
-  | UseDefaultValues w -> "-" ^ string_of_word w
-  | AssignDefaultValues w -> "=" ^ string_of_word w
-  | IndicateErrorifNullorUnset w -> "?" ^ string_of_word w
-  | UseAlternativeValue w -> "+" ^ string_of_word w
+  | UseDefaultValues (p, w) -> p ^ string_of_word w
+  | AssignDefaultValues (p, w) -> p ^ string_of_word w
+  | IndicateErrorifNullorUnset (p, w) -> p ^ string_of_word w
+  | UseAlternativeValue (p, w) -> p ^ string_of_word w
   | RemoveSmallestSuffixPattern w -> "%" ^ string_of_word w
   | RemoveLargestSuffixPattern w -> "%%" ^ string_of_word w
   | RemoveSmallestPrefixPattern w -> "#" ^ string_of_word w
