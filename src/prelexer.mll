@@ -617,7 +617,7 @@ and variable_attribute current = parse
   match token current lexbuf with
   | [] ->
      (** Null attribute. *)
-     Word ("", [WordLiteral ""])
+     Word ("", [WordEmpty])
   | prewords ->
      (** Not null, must be unique. *)
      word_of prewords
