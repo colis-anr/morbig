@@ -79,6 +79,7 @@ let string_of_word (Word (s, _)) = s
 
 let string_of_attribute = function
   | NoAttribute -> ""
+  | ParameterLength w -> string_of_word w
   | UseDefaultValues w -> "-" ^ string_of_word w
   | AssignDefaultValues w -> "=" ^ string_of_word w
   | IndicateErrorifNullorUnset w -> "?" ^ string_of_word w

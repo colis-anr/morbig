@@ -451,7 +451,7 @@ rule token current = parse
   | "${" (parameter_identifier as id) {
   debug ~rule:"parameter-opening-braces" lexbuf current;
   let current = enter_braces current in
-  let attribute = close_parameter current lexbuf in
+  let attribute = close_parameter id current lexbuf in
   let current = quit_braces current in
   let current = push_parameter ~with_braces:true ~attribute current id in
   token current lexbuf
@@ -578,7 +578,7 @@ rule token current = parse
     token (push_character current c) lexbuf
   }
 
-and close_parameter current = parse
+and close_parameter id current = parse
 | "}" {
   debug ~rule:"close-parameter-closing-brace" lexbuf current;
   (** The word is not here. *)
@@ -609,7 +609,10 @@ and close_parameter current = parse
   RemoveLargestPrefixPattern (variable_attribute current lexbuf)
 }
 | _ {
-  lexing_error lexbuf "Invalid variable parameter"
+  if id = "#" then
+    ParameterLength (variable_attribute current lexbuf)
+  else
+    lexing_error lexbuf "Invalid variable parameter"
 }
 
 and variable_attribute current = parse

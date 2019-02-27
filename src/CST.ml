@@ -342,6 +342,7 @@ and variable =
 
 and variable_attribute =
   | NoAttribute
+  | ParameterLength of word
   | UseDefaultValues of word
   | AssignDefaultValues of word
   | IndicateErrorifNullorUnset of word

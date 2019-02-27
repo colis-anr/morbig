@@ -2,6 +2,16 @@
 
 echo ${1#;}
 
+# Reported by @niols
+
+echo ${#*}
+
+echo ${#@}
+
+echo ${#foo}
+
+# Extra tests
+
 echo ${1#
 
 }
