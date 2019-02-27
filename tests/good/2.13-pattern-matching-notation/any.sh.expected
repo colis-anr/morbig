@@ -1,0 +1,96 @@
+[
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
+  [
+    "CompleteCommands_CompleteCommand",
+    [
+      "CompleteCommand_CList",
+      [
+        "CList_AndOr",
+        [
+          "AndOr_Pipeline",
+          [
+            "Pipeline_PipeSequence",
+            [
+              "PipeSequence_Command",
+              [
+                "Command_CompoundCommand",
+                [
+                  "CompoundCommand_CaseClause",
+                  [
+                    "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseList_Esac",
+                    [ "Word", "a", [ [ "WordName", "a" ] ] ],
+                    [ "LineBreak_Empty" ],
+                    [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                    [
+                      "CaseList_CaseItem",
+                      [
+                        "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
+                        [
+                          "Pattern_Word",
+                          [ "Word", "*", [ [ "WordGlobAll" ] ] ]
+                        ],
+                        [
+                          "CompoundList_LineBreak_Term",
+                          [ "LineBreak_Empty" ],
+                          [
+                            "Term_AndOr",
+                            [
+                              "AndOr_Pipeline",
+                              [
+                                "Pipeline_PipeSequence",
+                                [
+                                  "PipeSequence_Command",
+                                  [
+                                    "Command_SimpleCommand",
+                                    [
+                                      "SimpleCommand_CmdName_CmdSuffix",
+                                      [
+                                        "CmdName_Word",
+                                        [
+                                          "Word",
+                                          "echo",
+                                          [ [ "WordName", "echo" ] ]
+                                        ]
+                                      ],
+                                      [
+                                        "CmdSuffix_Word",
+                                        [
+                                          "Word",
+                                          "'any'",
+                                          [
+                                            [
+                                              "WordSingleQuoted",
+                                              [
+                                                "Word",
+                                                "any",
+                                                [ [ "WordLiteral", "any" ] ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        [
+                          "LineBreak_NewLineList",
+                          [ "NewLineList_NewLine" ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [ "LineBreak_Empty" ]
+]

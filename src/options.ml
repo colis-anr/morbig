@@ -1,7 +1,7 @@
 (**************************************************************************)
 (*  -*- tuareg -*-                                                        *)
 (*                                                                        *)
-(*  Copyright (C) 2017,2018 Yann Régis-Gianas, Nicolas Jeannerod,         *)
+(*  Copyright (C) 2017,2018,2019 Yann Régis-Gianas, Nicolas Jeannerod,    *)
 (*  Ralf Treinen.                                                         *)
 (*                                                                        *)
 (*  This is free software: you can redistribute it and/or modify it       *)
@@ -50,6 +50,9 @@ let display_stats () = !_display_stats
 let _from_stdin = ref false
 let from_stdin () = !_from_stdin
 
+let _error_on_unspecified = ref false
+let error_on_unspecified () = !_error_on_unspecified
+
 let _debug = ref false
 let debug () = !_debug
 
@@ -67,13 +70,16 @@ let analyze_command_line_arguments () = Arg.(
       " Set the output format. (default is json.)";
 
       "--skip-nosh", Set _skip_nosh,
-      " Skip input files that are ELF, or have a bash or perl magic string";
+      " Skip input files that are ELF, or have a bash or perl magic string.";
 
       "--continue-after-error", Set _continue_after_error,
-      " Continue after error with the next script";
+      " Continue after error with the next script.";
+
+      "--error-on-unspecified", Set _error_on_unspecified,
+      " Stop when an unspecified syntax is used.";
 
       "--display-stats", Set _display_stats,
-      " Display statistics on failures and skipped files";
+      " Display statistics on failures and skipped files.";
 
       "--from-stdin", Set _from_stdin,
       " Get names of scripts to parse from standard input.";
