@@ -330,7 +330,6 @@ and word_component =
   | WordGlobAll
   | WordGlobAny
   | WordReBracketExpression of bracket_expression
-  | WordOther
   (* Empty CST. Useful to represent the absence of relevant CSTs. *)
   | WordEmpty
 
