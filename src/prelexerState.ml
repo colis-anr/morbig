@@ -73,7 +73,8 @@ let pop_character = function
     CST [WordSubshell (_, _)] associated to this word so we do not
     push ')' as a WordLiteral CST. *)
 let push_word_closing_character b c =
-  { b with buffer = WordComponent (String.make 1 c, WordEmpty) :: b.buffer }
+  { b with buffer = WordComponent (String.make 1 c, WordLiteral "")
+                    :: b.buffer }
 
 let string_of_word (Word (s, _)) = s
 
@@ -115,7 +116,6 @@ let contents b =
 let components_of_atom_list atoms =
   let rec aux accu = function
     | [] -> accu
-    | (WordComponent (_, WordEmpty)) :: b -> aux accu b
     | (WordComponent (_, c)) :: b -> aux (c :: accu) b
     | _ :: b -> aux accu b
   in
@@ -135,8 +135,6 @@ let pop_quotation k b =
        (squote, quote, buffer)
     | (AssignmentMark | QuotingMark _) :: buffer ->
        aux squote quote buffer (* FIXME: Check twice. *)
-    | WordComponent (w, WordEmpty) :: buffer ->
-       aux (w ^ squote) quote buffer
     | WordComponent (w, c) :: buffer ->
        aux (w ^ squote) (c :: quote) buffer
   in
@@ -281,7 +279,6 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
     | w ->
       let csts =
         List.(flatten (rev_map (function
-            | WordComponent (_, WordEmpty) -> []
             | WordComponent (_, s) -> [s]
             | AssignmentMark -> []
             | QuotingMark _ -> []
