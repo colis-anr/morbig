@@ -1,0 +1,18 @@
+(library
+ (name CAPI)
+ (libraries morbig)
+ (c_names cstub)
+ (modes native)
+ (modules CAPI))
+
+(executable
+ (name cstub)
+ (libraries CAPI)
+ (modes (native object))
+ (modules cstub))
+
+(install
+ (section lib)
+ (files
+  (cstub.exe.o as libmorbigc.o)
+  (cstub.h     as libmorbigc.h)))

@@ -9,6 +9,7 @@ EXPORTED_SOURCES=				\
 ODIR=$(shell ocamlc -where)
 
 build:
+	if command -v ocamlopt >/dev/null; then cp src/c/dune.native src/c/dune; fi
 	dune build @install
 	[ -e bin ] || ln -sf _build/install/default/bin bin
 	[ -e lib ] || ln -sf _build/install/default/lib/morbig lib
@@ -43,6 +44,7 @@ examples:
 	    xargs -n1 make -C
 
 clean:
+	rm -f src/c/dune
 	dune clean
 	rm -f bin lib doc
 	rm -f tests.org

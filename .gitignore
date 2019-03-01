@@ -18,3 +18,5 @@
 /tests.org
 *.json
 *.sjson
+
+/src/c/dune
