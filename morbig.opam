@@ -24,7 +24,6 @@ homepage: "https://github.com/colis-anr/morbig"
 bug-reports: "https://github.com/colis-anr/morbig/issues"
 dev-repo: "git://github.com/colis-anr/morbig.git"
 
-available: [os != "macos"]
 depends: [
   "dune"                 {build & >= "1.4.0"}
   "menhir"               {>= "20170509"}
