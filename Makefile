@@ -32,7 +32,7 @@ install:
 uninstall:
 	dune uninstall $(INSTALL_ARGS)
 
-check:
+check: build
 	@ output=$$(./tests/run 2>&1) ;     \
 	  status=$$? ;                      \
 	  echo "$$output" | tee tests.org ; \
