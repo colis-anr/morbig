@@ -1,45 +1,37 @@
 language: c
 sudo: required
+os: linux
 services:
   - docker
-
-## We build on as many OCaml version as we can support. These versions
-## are infact tags for the ocaml/opam2 Docker image that we pull.
-
-env:
-  - TAG=4.04
-  - TAG=4.05
-  - TAG=4.06 DEPLOY=true
-  - TAG=4.07
-  - TAG=alpine
-  - TAG=centos
-  - TAG=debian-stable
-  - TAG=debian-testing
-  - TAG=debian-unstable
-  - TAG=fedora
-  - TAG=opensuse
-  - TAG=oraclelinux
-  - TAG=ubuntu
-  - TAG=ubuntu-lts
 
 script:
   - docker build --build-arg tag=$TAG --build-arg switch=$SWITCH --tag colisanr/morbig:$TRAVIS_BRANCH .
   - docker run --entrypoint /bin/sh colisanr/morbig:$TRAVIS_BRANCH -c 'eval $(opam env) && cd /home/opam/morbig && make check && make install && make examples && make uninstall'
 
-## We add one particular build that does not use Docker. This is the
-## one testing on OSX.
-
 matrix:
   include:
     - os: osx
       services: null
-      env: null
       install:
         - brew install opam
         - opam init --no-setup
         - eval $(opam config env) && opam install --yes menhir yojson ppx_deriving_yojson visitors
       script:
         - make && make check && make install && make examples && make uninstall
+    - env: TAG=4.04
+    - env: TAG=4.05
+    - env: TAG=4.06 DEPLOY=true
+    - env: TAG=4.07
+    - env: TAG=alpine
+    - env: TAG=centos
+    - env: TAG=debian-stable
+    - env: TAG=debian-testing
+    - env: TAG=debian-unstable
+    - env: TAG=fedora
+    - env: TAG=opensuse
+    - env: TAG=oraclelinux
+    - env: TAG=ubuntu
+    - env: TAG=ubuntu-lts
 
 ## We automatically deploy sucessfull branch builds to DockerHub. This
 ## deployment only happens on builds that have the environment
