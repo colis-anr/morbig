@@ -26,10 +26,10 @@ ifneq ($(LIBDIR),)
 INSTALL_ARGS := $(INSTALL_ARGS) --libdir $(LIBDIR)
 endif
 
-install:
+install: build
 	dune install $(INSTALL_ARGS)
 
-uninstall:
+uninstall: build
 	dune uninstall $(INSTALL_ARGS)
 
 check: build
