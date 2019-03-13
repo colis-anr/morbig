@@ -1,4 +1,5 @@
 # Morbig
+
 ## A trustworthy static parser for POSIX shell
 
 Morbig is a parser for shell scripts written in the POSIX shell script
@@ -9,50 +10,49 @@ shell grammar of the POSIX standard.
 
 ## Download [![Build Status](https://travis-ci.org/colis-anr/morbig.svg?branch=master)](https://travis-ci.org/colis-anr/morbig)
 
-
-```
     git clone git@github.com:colis-anr/morbig.git
-```
 
 ## License and Copyright
 
-   please see the file COPYING
+Please see the file COPYING.
+
+## Documentation
+
+You can have a look at the
+[online API documentation](https://colis-anr.github.io/docs/) or build
+it yourself:
+
+    make doc
 
 ## Are you in a hurry?
 
-   Yes? Pull our docker image:
-```
-   docker pull colisanr/morbig:latest
-```
+Yes? Pull our docker image:
 
-   Then, define the following shell function:
+    docker pull colisanr/morbig:latest
 
-```
-   morbig () {
+Then, define the following shell function:
+
+    morbig () {
       D=$(cd "$(dirname "$1")"; pwd)
       B=$(basename "$1")
       docker run \
-         -v "$D":/mnt \
-         colisanr/morbig:latest --as simple /mnt/"$B"
-   }
-```
+        -v "$D":/mnt \
+        colisanr/morbig:latest --as simple /mnt/"$B"
+    }
 
-   After that, you should be able to run ``morbig`` like this:
+After that, you should be able to run ``morbig`` like this:
 
-```
-   morbig my-script.sh
-```
+    morbig my-script.sh
 
-   This will create a JSON file named ``my-script.sh.sjson``.
+This will create a JSON file named ``my-script.sh.sjson``.
 
-   You can also build a local docker image from the root of this repository:
+You can also build a local docker image from the root of this
+repository:
 
-```
-   docker build -t morbig . # to build a docker image with morbig inside.
-```
+    docker build -t morbig . # to build a docker image with morbig inside.
 
-   Now if you want to use more features of ``morbig``, take the time
-   to follow the building instructions of the next section.
+Now if you want to use more features of ``morbig``, take the time to
+follow the building instructions of the next section.
 
 ## Building instructions
 
