@@ -327,8 +327,8 @@ and word_component =
   | WordSingleQuoted of word
   | WordLiteral of string
   | WordVariable of variable
-  | WordGlobAll
-  | WordGlobAny
+  | WordGlobAll   (* asterisk *)
+  | WordGlobAny   (* question mark *)
   | WordReBracketExpression of bracket_expression
   (* Empty CST. Useful to represent the absence of relevant CSTs. *)
   | WordEmpty
