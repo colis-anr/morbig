@@ -111,7 +111,7 @@
                                         "CmdSuffix_Word",
                                         [
                                           "Word",
-                                          "${#}",
+                                          "${#*}",
                                           [
                                             [
                                               "WordVariable",
@@ -122,8 +122,22 @@
                                                   "ParameterLength",
                                                   [
                                                     "Word",
-                                                    "",
-                                                    [ [ "WordEmpty" ] ]
+                                                    "*",
+                                                    [
+                                                      [
+                                                        "WordDoubleQuoted",
+                                                        [
+                                                          "Word",
+                                                          "*",
+                                                          [
+                                                            [
+                                                              "WordLiteral",
+                                                              "*"
+                                                            ]
+                                                          ]
+                                                        ]
+                                                      ]
+                                                    ]
                                                   ]
                                                 ]
                                               ]
@@ -166,7 +180,7 @@
                                       "CmdSuffix_Word",
                                       [
                                         "Word",
-                                        "${#}",
+                                        "${#@}",
                                         [
                                           [
                                             "WordVariable",
@@ -177,8 +191,22 @@
                                                 "ParameterLength",
                                                 [
                                                   "Word",
-                                                  "",
-                                                  [ [ "WordEmpty" ] ]
+                                                  "@",
+                                                  [
+                                                    [
+                                                      "WordDoubleQuoted",
+                                                      [
+                                                        "Word",
+                                                        "@",
+                                                        [
+                                                          [
+                                                            "WordLiteral",
+                                                            "@"
+                                                          ]
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -221,7 +249,7 @@
                                     "CmdSuffix_Word",
                                     [
                                       "Word",
-                                      "${#oo}",
+                                      "${#foo}",
                                       [
                                         [
                                           "WordVariable",
@@ -232,16 +260,17 @@
                                               "ParameterLength",
                                               [
                                                 "Word",
-                                                "oo",
+                                                "foo",
                                                 [
                                                   [
                                                     "WordDoubleQuoted",
                                                     [
                                                       "Word",
-                                                      "oo",
+                                                      "foo",
                                                       [
                                                         [
-                                                          "WordLiteral", "oo"
+                                                          "WordLiteral",
+                                                          "foo"
                                                         ]
                                                       ]
                                                     ]
