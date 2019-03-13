@@ -54,7 +54,17 @@ repository:
 Now if you want to use more features of ``morbig``, take the time to
 follow the building instructions of the next section.
 
-## Building instructions
+## Manual instructions
+
+### Install using OPAM
+
+Please type
+``
+opam install morbig
+``
+to get the latest public release of `morbig`.
+
+If you want to use the development version of `morbig`, read the next sections.
 
 ### Dependencies
 
