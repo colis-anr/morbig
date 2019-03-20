@@ -27,6 +27,14 @@ open CST
 open PrelexerState
 open Pretoken
 
+let char_buffer () =
+  Buffer.create 31
+
+let flush_buffer buffer =
+  let s = Buffer.contents buffer in
+  Buffer.clear buffer;
+  s
+
 let push_current_string current lexbuf continue =
   let current = push_string current (Lexing.lexeme lexbuf) in
   continue current lexbuf
@@ -244,7 +252,7 @@ rule token current = parse
     debug ~rule:"single-quote" lexbuf current;
     if_unprotected_by_double_quote current lexbuf token (fun () ->
       let current = push_quoting_mark SingleQuote current in
-      let current = single_quotes current lexbuf in
+      let current = single_quotes (char_buffer ()) current lexbuf in
       let current = pop_quotation SingleQuote current in
       token current lexbuf
      )
@@ -730,12 +738,13 @@ and next_double_rparen dplevel current = parse
    single-quote cannot occur within single-quotes.
 
 *)
-and single_quotes current = parse
-  | '\'' {
-    if under_here_document current then
-      push_current_string current lexbuf @@ single_quotes
-    else
-      current
+and single_quotes buffer current = parse
+  | '\'' as c {
+    if under_here_document current then (
+      Buffer.add_char buffer c;
+      single_quotes buffer current lexbuf
+    ) else
+      push_string current (flush_buffer buffer)
   }
 
 (** Single quotes must be terminated before the end of file. *)
@@ -743,15 +752,18 @@ and single_quotes current = parse
     lexing_error lexbuf "Unterminated quote."
   }
 
-  | newline {
+  | newline as s {
     Lexing.new_line lexbuf;
-    if found_current_here_document_delimiter current then
-      current
-    else
-      push_current_string current lexbuf @@ single_quotes
+    if found_current_here_document_delimiter ~buffer current then
+      push_string current (flush_buffer buffer)
+    else (
+      Buffer.add_string buffer s;
+      single_quotes buffer current lexbuf
+    )
   }
 
 (** Otherwise, we simply copy the character. *)
   | _ as c {
-    single_quotes (push_character current c) lexbuf
+    Buffer.add_char buffer c;
+    single_quotes buffer current lexbuf
   }

@@ -523,10 +523,20 @@ let backquote_depth current =
   else
     Some current_depth
 
-let found_current_here_document_delimiter current =
+let found_current_here_document_delimiter ?buffer current =
   match current.nesting_context with
   | Nesting.HereDocument (dashed, delimiter) :: _ ->
-     let last_chunk = contents current in
+     let last_chunk =
+       match buffer with
+         | None ->
+            contents current
+         | Some buffer ->
+            Buffer.(
+             let n = length buffer in
+             let k = String.length delimiter * 2 in
+             sub buffer (max 0 (n - k)) (min k n)
+            )
+     in
      let open QuoteRemoval in
      let preprocess = if dashed then remove_tabs_at_linestart else fun x -> x in
      let last_line = option_map (string_last_line last_chunk) preprocess in

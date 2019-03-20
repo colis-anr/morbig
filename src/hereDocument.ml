@@ -166,7 +166,8 @@ end = struct
       in
       let result =
         if delimiter_info.quoted then
-          let current = Prelexer.single_quotes current lexbuf in
+          let buffer = Buffer.create 13 in
+          let current = Prelexer.single_quotes buffer current lexbuf in
           return lexbuf current []
         else
           Prelexer.token current lexbuf

@@ -33,4 +33,4 @@ val token :
     recognize a word between single quotes. This is used by
     here-document recognition. *)
 val single_quotes :
-  PrelexerState.t -> Lexing.lexbuf -> PrelexerState.t
+  Buffer.t -> PrelexerState.t -> Lexing.lexbuf -> PrelexerState.t
