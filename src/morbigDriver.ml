@@ -15,14 +15,19 @@ open Morbig
 
 let save input_filename (cst : CST.program) =
   Options.(
-    let cout = open_out (output_file_of_input_file input_filename) in
-    begin match backend () with
-    | Bin -> save_binary_cst cout cst
-    | Json -> save_json_cst cout cst
-    | SimpleJson -> JsonHelpers.save_as_json true cout cst
-    | Dot -> JsonHelpers.save_as_dot cout cst
-    end;
-    close_out cout
+    if backend () = NoSerialisation
+    then
+      ()
+    else
+      let cout = open_out (output_file_of_input_file input_filename) in
+      begin match backend () with
+      | Bin -> save_binary_cst cout cst
+      | Json -> save_json_cst cout cst
+      | SimpleJson -> JsonHelpers.save_as_json true cout cst
+      | Dot -> JsonHelpers.save_as_dot cout cst
+      | NoSerialisation -> assert false
+      end;
+      close_out cout
   )
 (** write the concrete syntax tree [cst] to the output file
    corresponding to [input_filename]. The format and the name of the

@@ -16,6 +16,7 @@ type backend =
   | Bin
   | SimpleJson
   | Dot
+  | NoSerialisation
 
 let _backend = ref Json
 let backend_of_string = function
@@ -23,6 +24,7 @@ let backend_of_string = function
   | "bin" -> Bin
   | "simple" -> SimpleJson
   | "dot" -> Dot
+  | "none" -> NoSerialisation
   | _ -> assert false
 let set_backend x = x |> backend_of_string |> (( := ) _backend)
 let backend () = !_backend
@@ -37,6 +39,7 @@ let output_file_of_input_file s =
   | Bin -> s ^ ".morbig"
   | SimpleJson -> s ^ ".sjson"
   | Dot -> s ^ ".dot"
+  | NoSerialisation -> assert false
 
 let _skip_nosh = ref false
 let skip_nosh () = !_skip_nosh
@@ -66,7 +69,7 @@ let show_version_and_exit () =
 
 let analyze_command_line_arguments () = Arg.(
     let options = [
-      "--as", Symbol ([ "json"; "bin"; "simple"; "dot" ], set_backend),
+      "--as", Symbol ([ "json"; "bin"; "simple"; "dot"; "none" ], set_backend),
       " Set the output format. (default is json.)";
 
       "--skip-nosh", Set _skip_nosh,
