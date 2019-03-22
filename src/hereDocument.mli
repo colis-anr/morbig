@@ -24,7 +24,7 @@ module Lexer :
         bool -> CST.word CST.located ref -> unit
       (** [push_here_document_operator dashed word_ref] registers a redirection
           operator:
-          - [dashed] is [true] when the operator is <<-, and [false] if <<-
+          - [dashed] is [true] when the operator is <<-, and [false] if <<
           - [word_ref] is a reference to a located word. This reference will
              later be assigned the contents of the here document.
        *)

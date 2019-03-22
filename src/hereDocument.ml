@@ -34,7 +34,7 @@ end = struct
 
    *)
 
-  type delim_info = {
+  type delimiter_info = {
         (** information about a delimiter of a here document: *)
       word: string;
         (** delimiting word, with quotes removed *)
@@ -45,7 +45,7 @@ end = struct
       contents_placeholder: CST.word CST.located ref
         (** placeholder for the contents of the here document *)
     }
-  let delimiters_queue = (Queue.create (): delim_info Queue.t)
+  let delimiters_queue = (Queue.create (): delimiter_info Queue.t)
   let dashed_tmp = ref (None: bool option)
   let word_ref_tmp = ref (None: word located ref option)
 
@@ -53,31 +53,34 @@ end = struct
     | NoHereDocuments
     (* we are currently not reading any here documents, nor have we seen
        a here document operator on the current line. *)
-    | HereDocumentsStartOnNextLine
-    (* we have seen a here document operator but we haven't yet finished
-       the line, so reading of here documents has to start on the next line. *)
+    | GotHereOperator
+    (* we have seen a here document operator but we haven't seen the 
+       corresponding delimite word yet.  *)
+    | GotDelimiter
+    (* we have seen a here document operator and its delimiter word. *)
     | InsideHereDocuments
     (* we are currently in the process of reading here documents. *)
   let state = ref NoHereDocuments
 
   let push_here_document_operator dashed word_ref =
-    assert (!state <> InsideHereDocuments);
+    assert (!state = NoHereDocuments || !state = GotDelimiter);
     (* we accept a push of an operator only when the two variables
-       dashed_tmp and word_ref_tmp hold value None, that is either they
-       have never been assigned a value, or they have been assigned a value
-       which has been used up by push_here_document_delimiter.
+       dashed_tmp and word_ref_tmp hold value None, that is either
+       - they have not been assigned a value (state NoHereDocuments),
+       - or they have been assigned a value which has been used up by
+         push_here_document_delimiter (state GotDelimiter).
      *)
     assert (!dashed_tmp = None);
     dashed_tmp := Some dashed;
     assert (!word_ref_tmp = None);
     word_ref_tmp := Some word_ref;
-    state := HereDocumentsStartOnNextLine
+    state := GotHereOperator
 
   let push_here_document_delimiter _w cst =
     (* we accept a push of a delimiting word only if we have already received
        information about an operator which has not yet been used.
      *)
-    assert (!state <> InsideHereDocuments);
+    assert (!state = GotHereOperator);
     let dashed = match !dashed_tmp with
       | Some b -> dashed_tmp:= None; b
       | None -> assert false
@@ -113,7 +116,8 @@ end = struct
         quoted;
         dashed;
         contents_placeholder = word_ref
-      } delimiters_queue
+      } delimiters_queue;
+    state := GotDelimiter
 
   let next_here_document lexbuf current =
     (*specification:
@@ -123,7 +127,11 @@ end = struct
        between. Then the next here-document starts, if there is one.
      *)
     assert (!state = InsideHereDocuments);
-    let delimiter_info = Queue.take delimiters_queue in
+    let delimiter_info =
+      try
+        Queue.take delimiters_queue
+      with Queue.Empty -> failwith "here document problem" 
+    in
 
     let store_here_document end_marker cst contents doc_start doc_end  =
       (* store in the placeholder the here-document with contents [contents],
@@ -190,7 +198,7 @@ end = struct
       (Pretoken.NEWLINE, before_stop, line_end)
 
   let start_here_document_lexing () =
-    assert (!state = HereDocumentsStartOnNextLine);
+    assert (!state = GotDelimiter);
     state := InsideHereDocuments
 
   let next_word_is_here_document_delimiter () =
@@ -201,7 +209,7 @@ end = struct
     !dashed_tmp <> None
 
   let next_line_is_here_document () =
-    !state = HereDocumentsStartOnNextLine
+    !state = GotDelimiter
 
   let inside_here_document () =
     !state = InsideHereDocuments
