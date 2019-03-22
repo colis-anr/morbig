@@ -63,6 +63,10 @@ end = struct
   let state = ref NoHereDocuments
 
   let push_here_document_operator dashed word_ref =
+    if !state = GotHereOperator then
+      (* FIXME: we should raise an Error.DuringParsing here if we can
+         get the current lexing position. *)
+      failwith "redirection operator found where a delimter word is expected";
     assert (!state = NoHereDocuments || !state = GotDelimiter);
     (* we accept a push of an operator only when the two variables
        dashed_tmp and word_ref_tmp hold value None, that is either
