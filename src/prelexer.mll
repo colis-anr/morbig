@@ -22,6 +22,8 @@
 
 {
 open Lexing
+open PrelexerState
+open State
 open Parser
 open CST
 open PrelexerState
@@ -36,7 +38,7 @@ let flush_buffer buffer =
   s
 
 let push_current_string current lexbuf continue =
-  let current = push_string current (Lexing.lexeme lexbuf) in
+  let current = State.push_string current (Lexing.lexeme lexbuf) in
   continue current lexbuf
 
 let if_unprotected_by_double_quote_or_braces current lexbuf default f =
@@ -87,9 +89,7 @@ let subshell_parsing op escaping_level current lexbuf =
       | '(' -> SubShellKindParentheses
       | _ -> assert false (* By usage of [subshell_parsing]. *)
     in
-    let current' =
-      { initial_state with nesting_context = current.nesting_context }
-    in
+    let current' = State.(initial_state_with (nesting_context current)) in
     let cst = (!RecursiveParser.parse) current' lexbuf' in
     let consumed_characters =
       lexbuf'.Lexing.lex_curr_p.Lexing.pos_cnum
@@ -227,7 +227,7 @@ rule token current = parse
         We have to decide if the <backslash>es have an
         escaping power. This depends on the nesting context.
     *)
-    let current' = push_string current backslashes in
+    let current' = State.push_string current backslashes in
     if PrelexerState.is_escaping_backslash current' lexbuf c then
       (**
           Yes, this <backslash> preserves the literal value of the following
@@ -534,7 +534,7 @@ rule token current = parse
          otherwise, '#' is part of a word.
 
       *)
-      if current.buffer = [] then
+      if (buffer current) = [] then
         comment lexbuf
       else
         token (push_character current c) lexbuf
@@ -627,9 +627,7 @@ and close_parameter id current = parse
 and variable_attribute current = parse
 | "" {
   debug ~rule:"variable_attribute" lexbuf current;
-  let current =
-    { initial_state with nesting_context = current.nesting_context }
-  in
+  let current = initial_state_with (nesting_context current) in
   match token current lexbuf with
   | [] ->
      (** Null attribute. *)
@@ -672,14 +670,14 @@ and subshell op escaping_level current = parse
     in
     PrelexerState.debug ~rule:"subshell" lexbuf current;
     let subshell_string, buffer =
-      match current.buffer with
+      match buffer current with
       | WordComponent (w, _) :: buffer -> w, buffer
       | _ -> assert false
     in
     let subshell =
       WordComponent (subshell_string, WordSubshell (k, cst))
     in
-    { current with buffer = subshell :: buffer }
+    set_buffer current (subshell :: buffer)
   }
 
 and close_subshell current = parse

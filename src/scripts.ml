@@ -46,7 +46,7 @@ let is_elf filename =
 
 let parse_string filename contents =
   let lexbuf = ExtPervasives.lexing_make filename contents in
-  let cst = Engine.parse false PrelexerState.initial_state lexbuf in
+  let cst = Engine.parse false PrelexerState.State.initial_state lexbuf in
   cst.CST.value
 
 let parse_file filename =

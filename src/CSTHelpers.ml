@@ -222,3 +222,15 @@ let io_redirect_list_of_simple_command = function
      io_redirect_list_of_cmd_suffix cmd_suffix'.value
   | SimpleCommand_CmdName _ ->
      []
+
+let string_of_attribute = function
+  | NoAttribute -> ""
+  | ParameterLength w -> string_of_word w
+  | UseDefaultValues (p, w) -> p ^ string_of_word w
+  | AssignDefaultValues (p, w) -> p ^ string_of_word w
+  | IndicateErrorifNullorUnset (p, w) -> p ^ string_of_word w
+  | UseAlternativeValue (p, w) -> p ^ string_of_word w
+  | RemoveSmallestSuffixPattern w -> "%" ^ string_of_word w
+  | RemoveLargestSuffixPattern w -> "%%" ^ string_of_word w
+  | RemoveSmallestPrefixPattern w -> "#" ^ string_of_word w
+  | RemoveLargestPrefixPattern w -> "##" ^ string_of_word w
