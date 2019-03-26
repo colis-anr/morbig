@@ -564,12 +564,11 @@ rule token current = parse
    that is returned.
 *)
 (* FIXME: We shall issue a warning when we are in the unspecified case. *)
-  | ((name as id) '=') as input {
+  | (name '=') as input {
     debug ~rule:"assignment" lexbuf current;
     (* FIXME: Check that "name" is preceded by a delimiter. *)
     let current = push_string current input in
     let current = push_assignment_mark current in
-    let current = enter_assignment_rhs current (Name id) in
     token current lexbuf
   }
 

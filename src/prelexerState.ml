@@ -27,12 +27,7 @@ type atom =
 
 and quote_kind = SingleQuote | DoubleQuote | OpeningBrace
 
-type lexing_context =
-  | Default
-  | AssignmentRHS of name
-
 type prelexer_state = {
-    lexing_context        : lexing_context;
     nesting_context       : Nesting.t list;
     buffer                : atom list;
 }
@@ -42,7 +37,6 @@ let buffer current = current.buffer
 type t = prelexer_state
 
 let initial_state = {
-    lexing_context = Default;
     nesting_context = [];
     buffer = [];
 }
@@ -51,9 +45,6 @@ let at_toplevel current =
   match current.nesting_context with
   | [Nesting.HereDocument _] | [] -> true
   | _ -> false
-
-let enter_assignment_rhs current name =
-  { current with lexing_context = AssignmentRHS name }
 
 let push_word_component csts w =
   match csts, w with
