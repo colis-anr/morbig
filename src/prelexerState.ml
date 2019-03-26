@@ -37,6 +37,8 @@ type prelexer_state = {
     buffer                : atom list;
 }
 
+let buffer current = current.buffer
+
 type t = prelexer_state
 
 let initial_state = {
@@ -62,11 +64,11 @@ let push_word_component csts w =
 
  let push_string b s =
   (* FIXME: Is string concatenation too slow here? *)
-  match b.buffer with
+  match buffer b with
   | WordComponent (s', WordLiteral l) :: csts ->
      { b with buffer = WordComponent (s' ^ s, WordLiteral (l ^ s)) :: csts }
   | _ ->
-     { b with buffer = WordComponent (s, WordLiteral s) :: b.buffer }
+     { b with buffer = WordComponent (s, WordLiteral s) :: buffer b }
 
 let parse_pattern : word_component -> word_component list = function
   | WordLiteral w ->
@@ -78,7 +80,7 @@ let push_character b c =
   push_string b (String.make 1 c)
 
 let push_separated_string b s =
-  { b with buffer = WordComponent (s, WordLiteral s) :: b.buffer }
+  { b with buffer = WordComponent (s, WordLiteral s) :: buffer b }
 
 let pop_character = function
   | WordComponent (s, WordLiteral _c) :: buffer ->
@@ -99,7 +101,7 @@ let pop_character = function
     CST [WordSubshell (_, _)] associated to this word so we do not
     push ')' as a WordLiteral CST. *)
 let push_word_closing_character b c =
-  { b with buffer = WordComponent (String.make 1 c, WordEmpty) :: b.buffer }
+  { b with buffer = WordComponent (String.make 1 c, WordEmpty) :: buffer b }
 
 let string_of_word (Word (s, _)) = s
 
@@ -123,7 +125,7 @@ let push_parameter ?(with_braces=false) ?(attribute=NoAttribute) b id =
     else
       "$" ^ id
   in
-  { b with buffer = WordComponent (p, WordVariable v) :: b.buffer }
+  { b with buffer = WordComponent (p, WordVariable v) :: buffer b }
 
 let string_of_atom = function
   | WordComponent (s, _) -> s
@@ -137,7 +139,7 @@ let string_of_atom_list atoms =
   String.concat "#" (List.rev_map string_of_atom atoms)
 
 let contents b =
-  contents_of_atom_list b.buffer
+  contents_of_atom_list (buffer b)
 
 let components_of_atom_list atoms =
   let rec aux accu = function
@@ -149,10 +151,10 @@ let components_of_atom_list atoms =
   aux [] atoms
 
 let components b =
-  components_of_atom_list b.buffer
+  components_of_atom_list (buffer b)
 
 let push_quoting_mark k b =
-  { b with buffer = QuotingMark k :: b.buffer }
+  { b with buffer = QuotingMark k :: buffer b }
 
 let pop_quotation k b =
   let rec aux squote quote = function
@@ -170,7 +172,7 @@ let pop_quotation k b =
   (* The last character is removed from the quote since it is the
      closing character. *)
 (*  let buffer = pop_character b.buffer in *)
-  let squote, quote, buffer = aux "" [] b.buffer in
+  let squote, quote, buffer = aux "" [] (buffer b) in
   let word = Word (squote, quote) in
   let quoted_word =
     match k with
@@ -188,15 +190,15 @@ let pop_quotation k b =
   { b with buffer = quote :: buffer }
 
 let push_assignment_mark current =
-  { current with buffer = AssignmentMark :: current.buffer }
+  { current with buffer = AssignmentMark :: (buffer current) }
 
 let is_assignment_mark = function
   | AssignmentMark -> true
   | _ -> false
 
 let recognize_assignment current =
-  let rhs, prefix = take_until is_assignment_mark current.buffer in
-  if prefix = current.buffer then (
+  let rhs, prefix = take_until is_assignment_mark (buffer current) in
+  if prefix = buffer current then (
     current
   ) else
     let current' = { current with buffer = rhs @ List.tl prefix } in
@@ -261,7 +263,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
       | QuotingMark _ :: b -> aux accu b
       | [] -> accu
     in
-    aux "" b.buffer
+    aux "" (buffer b)
   and produce token =
     (* FIXME: Positions are not updated properly. *)
     (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
@@ -312,7 +314,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
             | WordComponent (_, s) -> [s]
             | AssignmentMark -> []
             | QuotingMark _ -> []
-         ) current.buffer))
+         ) (buffer current)))
       in
       [Pretoken.PreWord (w, csts)]
   in
@@ -355,7 +357,7 @@ let escape_analysis ?(for_backquote=false) level current =
       (function
        | WordComponent (s, _) -> s
        | _ -> "")
-      current.buffer
+      (buffer current)
   in
   let number_of_backslashes_to_escape = Nesting.(
     (* FIXME: We will be looking for the general pattern here. *)
@@ -579,5 +581,5 @@ let debug ?(rule="") lexbuf current = Lexing.(
         (Lexing.lexeme lexbuf)
         rule
         (String.concat " " (List.map Nesting.to_string current.nesting_context))
-        (string_of_atom_list current.buffer)
+        (string_of_atom_list (buffer current))
 )
