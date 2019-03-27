@@ -615,8 +615,13 @@ let found_current_here_document_delimiter ?buffer current =
   | _ ->
      false
 
-let remove_contents_suffix end_marker contents cst =
-  let contents = string_remove_suffix end_marker contents in
+let remove_contents_suffix pos end_marker contents cst =
+  let contents = try
+      string_remove_suffix end_marker contents
+    with InvalidSuffix _ ->
+      (* This situation can happen if the here document is ended by EOF. *)
+      raise (Errors.DuringParsing pos)
+  in
   let rec aux cst =
     match cst with
     | (WordLiteral contents) :: cst ->

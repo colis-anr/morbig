@@ -154,7 +154,7 @@ end = struct
           contents
       in
       let contents, cst =
-        remove_contents_suffix end_marker contents cst
+        remove_contents_suffix doc_end end_marker contents cst
       in
       let contents =
         (*specification:
