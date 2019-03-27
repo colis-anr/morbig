@@ -574,10 +574,10 @@ let is_escaping_backslash current _lexbuf c =
   | '`' -> escaped_backquote current
   | _ -> escape_analysis_predicate current.nesting_context current
 
-let rec closest_backquote_depth = function
+let closest_backquote_depth = function
   | [] -> -1
   | Nesting.Backquotes ('`', depth) :: _ -> depth
-  | _ :: nesting -> closest_backquote_depth nesting
+  | _ -> -1
 
 let backquote_depth current =
   let current_depth =
