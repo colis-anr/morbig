@@ -325,6 +325,7 @@ and word_component =
   | WordAssignmentWord of assignment_word
   | WordDoubleQuoted of word
   | WordSingleQuoted of word
+  | WordTildePrefix of string
   | WordLiteral of string
   | WordVariable of variable
   | WordGlobAll   (* asterisk *)
