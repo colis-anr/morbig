@@ -429,7 +429,7 @@ let escape_analysis ?(for_backquote=false) level current =
     | DQuotes :: Backquotes ('`', _) :: [] ->
        [1; 2]
     | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ ->
-       [2]
+       if for_backquote then [3] else [2]
     | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ ->
        [2]
     | Backquotes ('`', _) :: DQuotes :: _ ->
@@ -556,7 +556,6 @@ let under_double_quote current =
     | _ -> false
   in
   check current.nesting_context
-
 
 let under_real_double_quote current =
   match current.nesting_context with

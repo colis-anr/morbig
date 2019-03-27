@@ -239,7 +239,8 @@ rule token current = parse
           Otherwise, the <backslash> has no effect on [c]. We reinject
           the character [c] in the input to analyze it separately.
       *)
-      rewind current' lexbuf @@ token
+      let current = if c <> '\\' then current' else current in
+      rewind current lexbuf @@ token
     )
   }
 
