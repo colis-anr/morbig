@@ -71,6 +71,7 @@ let preword_of_operator = function
     | Lparen -> "("
     | Rparen -> ")"
     | LESS -> "<"
+    | DLESS _ -> "<<"
     | GREAT -> ">"
     | Semicolon -> ";"
     | Uppersand -> "&"
