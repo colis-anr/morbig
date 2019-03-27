@@ -362,8 +362,12 @@ module Lexer (U : sig end) : Lexer = struct
           else if is_accepted_token checkpoint (NEWLINE, pstart, pstop) then
             return NEWLINE
 
+          else if is_accepted_token checkpoint (Semicolon, pstart, pstop) then
+            return Semicolon
+
         (** Otherwise, a [NEWLINE] is simply layout and is ignored. *)
-          else next_token { aliases; checkpoint }
+          else (* next_token { aliases; checkpoint }*)
+            raise (Errors.DuringParsing pstart)
 
   let last_state = ref None
 

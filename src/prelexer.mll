@@ -638,8 +638,6 @@ and variable_attribute current = parse
   | prewords ->
      (** Not null, must be unique. *)
      try
-       Printf.eprintf "prewords = %s\n"
-         (String.concat " " (List.map (fun (p, _, _) ->Pretoken.string_of_pretoken p) prewords));
        word_of prewords
      with NotAWord _ ->
        lexing_error lexbuf "Invalid variable parameter"
