@@ -27,131 +27,22 @@ type atom =
 
 and quote_kind = SingleQuote | DoubleQuote | OpeningBrace
 
-module State : sig
-  type t
-  val buffer : t -> atom list
-  val set_buffer : t -> atom list -> t
-  val nesting_context : t -> Nesting.t list
-  val initial_state : t
-  val initial_state_with : Nesting.t list -> t
-  val push_string : t -> string -> t
-  val push_separated_string : t -> string -> t
-  val push_word_closing_character : t -> char -> t
-  val push_parameter:
-    ?with_braces:bool -> ?attribute:variable_attribute -> t -> string -> t
-  val push_quoting_mark: quote_kind -> t -> t
-  val pop_quotation : quote_kind -> t -> t
-  val push_assignment_mark : t -> t
-  val enter : Nesting.t -> t -> t
-  val quit : Nesting.t -> t -> t
-end = struct
-  type t = {
-      nesting_context       : Nesting.t list;
-      buffer                : atom list;
-    }
+type prelexer_state = {
+    nesting_context       : Nesting.t list;
+    buffer                : atom list;
+}
 
-  let buffer current = current.buffer
+let buffer current = current.buffer
 
-  let set_buffer current buffer = { current with buffer }
+type t = prelexer_state
 
-  let nesting_context current = current.nesting_context
-
-  let initial_state_with nesting_context = {
-      nesting_context;
-      buffer = [];
-    }
-
-  let initial_state = initial_state_with []
-
-  let push_string b s =
-    (* FIXME: Is string concatenation too slow here? *)
-    match buffer b with
-    | WordComponent (s', WordLiteral l) :: csts ->
-       { b with buffer = WordComponent (s' ^ s, WordLiteral (l ^ s)) :: csts }
-    | _ ->
-       { b with buffer = WordComponent (s, WordLiteral s) :: buffer b }
-
-  let push_separated_string b s =
-    { b with buffer = WordComponent (s, WordLiteral s) :: buffer b }
-
-  (** [push_word_closing_character b c] push a character [c] to mark it
-      as part of the string representing the current word literal but
-      with no interpretation as a word CSTs. Typically, if the word
-      is "$(1)", the string representing the current word is "$(1)"
-      so the character ')' must be pushed as part of this string
-      representation but ')' is already taken care of in the word
-      CST [WordSubshell (_, _)] associated to this word so we do not
-      push ')' as a WordLiteral CST. *)
-  let push_word_closing_character b c =
-    { b with buffer = WordComponent (String.make 1 c, WordEmpty) :: buffer b }
-
-  let push_parameter ?(with_braces=false) ?(attribute=NoAttribute) b id =
-    let v = VariableAtom (id, attribute) in
-    let p =
-      if with_braces then
-        "${" ^ id ^ CSTHelpers.string_of_attribute attribute ^ "}"
-      else
-        "$" ^ id
-    in
-    { b with buffer = WordComponent (p, WordVariable v) :: buffer b }
-
-  let push_quoting_mark k b =
-    { b with buffer = QuotingMark k :: buffer b }
-
-  let pop_quotation k b =
-   let rec aux squote quote = function
-     | [] ->
-        (squote, quote, [])
-     | QuotingMark k' :: buffer when k = k' ->
-        (squote, quote, buffer)
-     | (AssignmentMark | QuotingMark _) :: buffer ->
-        aux squote quote buffer (* FIXME: Check twice. *)
-     | WordComponent (w, WordEmpty) :: buffer ->
-        aux (w ^ squote) quote buffer
-     | WordComponent (w, c) :: buffer ->
-        aux (w ^ squote) (c :: quote) buffer
-   in
-   (* The last character is removed from the quote since it is the
-      closing character. *)
-   let squote, quote, buffer = aux "" [] (buffer b) in
-   let word = Word (squote, quote) in
-   let quoted_word =
-     match k with
-     | SingleQuote -> WordSingleQuoted word
-     | DoubleQuote -> WordDoubleQuoted word
-     | OpeningBrace -> WordDoubleQuoted word
-   in
-   let squote =
-     match k with
-     | SingleQuote -> "'" ^ squote ^ "'"
-    | DoubleQuote -> "\"" ^ squote ^ "\""
-    | OpeningBrace -> squote
-   in
-   let quote = WordComponent (squote, quoted_word) in
-   { b with buffer = quote :: buffer }
-
-  let push_assignment_mark current =
-    { current with buffer = AssignmentMark :: (buffer current) }
-
- let enter what current =
-   let nesting_context = what :: current.nesting_context in
-   { current with nesting_context }
-
- let quit what current =
-   match current.nesting_context with
-   | this :: nesting_context ->
-      assert (this = what);
-      { current with nesting_context }
-   | _ ->
-      assert false
-
-end
-
-type t = State.t
-open State
+let initial_state = {
+    nesting_context = [];
+    buffer = [];
+}
 
 let at_toplevel current =
-  match nesting_context current with
+  match current.nesting_context with
   | [Nesting.HereDocument _] | [] -> true
   | _ -> false
 
@@ -162,6 +53,14 @@ let push_word_component csts w =
   | _, (s, a) ->
      WordComponent (s, a) :: csts
 
+ let push_string b s =
+  (* FIXME: Is string concatenation too slow here? *)
+  match buffer b with
+  | WordComponent (s', WordLiteral l) :: csts ->
+     { b with buffer = WordComponent (s' ^ s, WordLiteral (l ^ s)) :: csts }
+  | _ ->
+     { b with buffer = WordComponent (s, WordLiteral s) :: buffer b }
+
 let parse_pattern : word_component -> word_component list = function
   | WordLiteral w ->
      snd (List.split (PatternMatchingRecognizer.process w))
@@ -170,6 +69,9 @@ let parse_pattern : word_component -> word_component list = function
 
 let push_character b c =
   push_string b (String.make 1 c)
+
+let push_separated_string b s =
+  { b with buffer = WordComponent (s, WordLiteral s) :: buffer b }
 
 let pop_character = function
   | WordComponent (s, WordLiteral _c) :: buffer ->
@@ -181,7 +83,40 @@ let pop_character = function
   | _ ->
      assert false
 
+(** [push_word_closing_character b c] push a character [c] to mark it
+    as part of the string representing the current word literal but
+    with no interpretation as a word CSTs. Typically, if the word
+    is "$(1)", the string representing the current word is "$(1)"
+    so the character ')' must be pushed as part of this string
+    representation but ')' is already taken care of in the word
+    CST [WordSubshell (_, _)] associated to this word so we do not
+    push ')' as a WordLiteral CST. *)
+let push_word_closing_character b c =
+  { b with buffer = WordComponent (String.make 1 c, WordEmpty) :: buffer b }
+
 let string_of_word (Word (s, _)) = s
+
+let string_of_attribute = function
+  | NoAttribute -> ""
+  | ParameterLength w -> string_of_word w
+  | UseDefaultValues (p, w) -> p ^ string_of_word w
+  | AssignDefaultValues (p, w) -> p ^ string_of_word w
+  | IndicateErrorifNullorUnset (p, w) -> p ^ string_of_word w
+  | UseAlternativeValue (p, w) -> p ^ string_of_word w
+  | RemoveSmallestSuffixPattern w -> "%" ^ string_of_word w
+  | RemoveLargestSuffixPattern w -> "%%" ^ string_of_word w
+  | RemoveSmallestPrefixPattern w -> "#" ^ string_of_word w
+  | RemoveLargestPrefixPattern w -> "##" ^ string_of_word w
+
+let push_parameter ?(with_braces=false) ?(attribute=NoAttribute) b id =
+  let v = VariableAtom (id, attribute) in
+  let p =
+    if with_braces then
+      "${" ^ id ^ string_of_attribute attribute ^ "}"
+    else
+      "$" ^ id
+  in
+  { b with buffer = WordComponent (p, WordVariable v) :: buffer b }
 
 let string_of_atom = function
   | WordComponent (s, _) -> s
@@ -209,6 +144,45 @@ let components_of_atom_list atoms =
 let components b =
   components_of_atom_list (buffer b)
 
+let push_quoting_mark k b =
+  { b with buffer = QuotingMark k :: buffer b }
+
+let pop_quotation k b =
+  let rec aux squote quote = function
+    | [] ->
+       (squote, quote, [])
+    | QuotingMark k' :: buffer when k = k' ->
+       (squote, quote, buffer)
+    | (AssignmentMark | QuotingMark _) :: buffer ->
+       aux squote quote buffer (* FIXME: Check twice. *)
+    | WordComponent (w, WordEmpty) :: buffer ->
+       aux (w ^ squote) quote buffer
+    | WordComponent (w, c) :: buffer ->
+       aux (w ^ squote) (c :: quote) buffer
+  in
+  (* The last character is removed from the quote since it is the
+     closing character. *)
+(*  let buffer = pop_character b.buffer in *)
+  let squote, quote, buffer = aux "" [] (buffer b) in
+  let word = Word (squote, quote) in
+  let quoted_word =
+    match k with
+    | SingleQuote -> WordSingleQuoted word
+    | DoubleQuote -> WordDoubleQuoted word
+    | OpeningBrace -> WordDoubleQuoted word
+  in
+  let squote =
+    match k with
+    | SingleQuote -> "'" ^ squote ^ "'"
+    | DoubleQuote -> "\"" ^ squote ^ "\""
+    | OpeningBrace -> squote
+  in
+  let quote = WordComponent (squote, quoted_word) in
+  { b with buffer = quote :: buffer }
+
+let push_assignment_mark current =
+  { current with buffer = AssignmentMark :: (buffer current) }
+
 let is_assignment_mark = function
   | AssignmentMark -> true
   | _ -> false
@@ -218,7 +192,7 @@ let recognize_assignment current =
   if prefix = buffer current then (
     current
   ) else
-    let current' = set_buffer current (rhs @ List.tl prefix) in
+    let current' = { current with buffer = rhs @ List.tl prefix } in
     match prefix with
     | AssignmentMark :: WordComponent (s, _) :: prefix ->
        assert (s.[String.length s - 1] = '='); (* By after_equal unique call. *)
@@ -230,14 +204,12 @@ let recognize_assignment current =
 
        if Name.is_name lhs then (
          let rhs_string = contents_of_atom_list rhs in
-         let assignment =
-           WordAssignmentWord (Name lhs,
-                               Word (rhs_string, components_of_atom_list rhs))
-         in
-         set_buffer current (
-             WordComponent (s ^ rhs_string, assignment)
+         { current with buffer =
+             WordComponent (s ^ rhs_string,
+                            WordAssignmentWord (Name lhs, Word (rhs_string,
+                                                                components_of_atom_list rhs)))
              :: prefix
-         )
+         }
        ) else
          (*
             If [lhs] is not a name, then the corresponding word
@@ -246,7 +218,7 @@ let recognize_assignment current =
          begin match List.rev rhs with
          | WordComponent (s_rhs, WordLiteral s_rhs') :: rev_rhs ->
             let word = WordComponent (s ^ s_rhs, WordLiteral (s ^ s_rhs')) in
-            set_buffer current (List.rev rev_rhs @ word :: prefix)
+            { current with buffer = List.rev rev_rhs @ word :: prefix }
          | _ ->
             current'
          end)
@@ -267,7 +239,7 @@ let recognize_assignment current =
     the buffer.
 
 *)
-let return ?(with_newline=false) lexbuf (current : t) tokens =
+let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (
       not (List.exists (function (Pretoken.PreWord _)->true |_-> false) tokens)
     );
@@ -448,50 +420,71 @@ let escaped_single_quote = escape_analysis_predicate
 let escaped_backquote = escape_analysis_predicate ~for_backquote:true
 
 let escaped_backquote current =
-  escaped_backquote (nesting_context current) current
+  escaped_backquote current.nesting_context current
 
 let escaped_single_quote current =
-  escaped_single_quote (nesting_context current) current
+  escaped_single_quote current.nesting_context current
 
 let escaped_double_quote current =
-  escaped_double_quote (nesting_context current) current
+  escaped_double_quote current.nesting_context current
 
-let enter_double_quote = enter Nesting.DQuotes
-let enter_braces = enter Nesting.Braces
+let nesting_context current =
+  current.nesting_context
+
+let enter what current =
+  let nesting_context = what :: current.nesting_context in
+  { current with nesting_context }
+
+let enter_double_quote =
+  enter Nesting.DQuotes
+
 let enter_here_document dashed delimiter =
   enter (Nesting.HereDocument (dashed, delimiter))
-let enter_backquotes op escaping_level =
-  enter (Nesting.Backquotes (op, escaping_level))
 
+let enter_braces =
+  enter Nesting.Braces
 
-let quit_double_quote = quit Nesting.DQuotes
-let quit_braces = quit Nesting.Braces
+let quit_double_quote current =
+  match current.nesting_context with
+  | Nesting.DQuotes :: nesting_context -> { current with nesting_context }
+  | _ -> assert false
+
+let quit_braces current =
+  match current.nesting_context with
+  | Nesting.Braces :: nesting_context -> { current with nesting_context }
+  | _ -> assert false
+
+let enter_backquotes op escaping_level current =
+  let nesting_context =
+    Nesting.Backquotes (op, escaping_level) :: current.nesting_context
+  in
+  { current with nesting_context }
 
 let under_backquote current =
-  match list_hd_opt (nesting_context current) with
+  match list_hd_opt current.nesting_context with
   | Some (Nesting.Backquotes ('`', _)) -> true
   | _ -> false
 
 let under_braces current =
-  match list_hd_opt (nesting_context current) with
+  match list_hd_opt current.nesting_context with
   | Some Nesting.Braces -> true
   | _ -> false
 
 let under_backquoted_style_command_substitution current =
-  Nesting.under_backquoted_style_command_substitution (nesting_context current)
+  Nesting.under_backquoted_style_command_substitution current.nesting_context
 
 let under_double_quote current =
-  match nesting_context current with
+  match current.nesting_context with
   | (Nesting.DQuotes | Nesting.HereDocument _) :: _ -> true
   | _ -> false
 
 let under_real_double_quote current =
-  match nesting_context current with
+  match current.nesting_context with
   | Nesting.DQuotes :: _ -> true
   | _ -> false
 
 let under_here_document current =
-  match nesting_context current with
+  match current.nesting_context with
   | Nesting.HereDocument _ :: _ -> true
   | _ -> false
 
@@ -500,7 +493,7 @@ let is_escaping_backslash current _lexbuf c =
   | '"' -> escaped_double_quote current
   | '\'' -> escaped_single_quote current
   | '`' -> escaped_backquote current
-  | _ -> escape_analysis_predicate (nesting_context current) current
+  | _ -> escape_analysis_predicate current.nesting_context current
 
 let rec closest_backquote_depth = function
   | [] -> -1
@@ -509,7 +502,7 @@ let rec closest_backquote_depth = function
 
 let backquote_depth current =
   let current_depth =
-    escape_analysis ~for_backquote:true (nesting_context current) current
+    escape_analysis ~for_backquote:true current.nesting_context current
     |> function
       | Some d -> d
       | None -> assert false (* By usage of backquote_depth. *)
@@ -517,14 +510,14 @@ let backquote_depth current =
   if Options.debug () then
     Printf.eprintf "Backquote depth: %d =?= %d\n"
       current_depth
-      (closest_backquote_depth (nesting_context current));
-  if current_depth = closest_backquote_depth (nesting_context current) then
+      (closest_backquote_depth current.nesting_context);
+  if current_depth = closest_backquote_depth current.nesting_context then
     None
   else
     Some current_depth
 
 let found_current_here_document_delimiter ?buffer current =
-  match nesting_context current with
+  match current.nesting_context with
   | Nesting.HereDocument (dashed, delimiter) :: _ ->
      let last_chunk =
        match buffer with
@@ -578,8 +571,6 @@ let debug ?(rule="") lexbuf current = Lexing.(
          else "")
         (Lexing.lexeme lexbuf)
         rule
-        (String.concat " " (
-             List.map Nesting.to_string (nesting_context current))
-        )
+        (String.concat " " (List.map Nesting.to_string current.nesting_context))
         (string_of_atom_list (buffer current))
 )

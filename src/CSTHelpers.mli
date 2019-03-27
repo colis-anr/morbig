@@ -72,6 +72,3 @@ val io_redirect_list_of_cmd_prefix : cmd_prefix -> io_redirect' list
 val io_redirect_list_of_cmd_suffix : cmd_suffix -> io_redirect' list
 val io_redirect_list_of_simple_command : simple_command -> io_redirect' list
 val io_redirect_list_of_redirect_list : redirect_list -> io_redirect' list
-
-(** {2 Variable attributes} *)
-val string_of_attribute : variable_attribute -> string

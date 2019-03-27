@@ -30,7 +30,7 @@ type state = {
 
 module type Lexer =
   sig
-    val initialize: PrelexerState.t -> Lexing.lexbuf -> unit
+    val initialize: prelexer_state -> Lexing.lexbuf -> unit
     val next_token: state -> token * lexing_position * lexing_position * aliases
     val at_eof: unit -> bool option
     val shift: unit -> unit
