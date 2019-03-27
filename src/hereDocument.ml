@@ -102,6 +102,8 @@ end = struct
         | (WordLiteral s | WordName s) :: w ->
            let s = Str.(global_replace (regexp "\\") "" s) in
            s ^ unquote w
+        | WordVariable (VariableAtom (s, NoAttribute)) :: w ->
+           "$" ^ s ^ unquote w
         | _ ->
            failwith "Unsupported expansion in here document delimiter"
       in
