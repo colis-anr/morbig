@@ -746,7 +746,7 @@ and single_quotes buffer current = parse
       push_string current (flush_buffer buffer)
   }
 
-(** Single quotes must be terminated before the end of file. *)
+  (** Single quotes must be terminated before the end of file. *)
   | eof {
     lexing_error lexbuf "Unterminated quote."
   }
