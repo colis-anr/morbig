@@ -102,7 +102,7 @@ let lexing_error lexbuf msg =
 
 }
 
-let newline = ('\010' | '\013' | "\013\010")
+let newline = '\010'
 
 let blank   = [' ' '\009' '\012']
 
@@ -688,7 +688,7 @@ and close_subshell current = parse
      push_word_closing_character current c
   }
   | (blank | newline) as c {
-     let current = push_string current c in
+     let current = push_character current c in
      close_subshell current lexbuf
   }
   | ("\\" newline) as c {
@@ -756,7 +756,7 @@ and single_quotes buffer current = parse
     if found_current_here_document_delimiter ~buffer current then
       push_string current (flush_buffer buffer)
     else (
-      Buffer.add_string buffer s;
+      Buffer.add_char buffer s;
       single_quotes buffer current lexbuf
     )
   }
