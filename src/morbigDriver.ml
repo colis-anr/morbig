@@ -94,7 +94,6 @@ let parse_input_files () =
     parse_input_files_provided_on_command_line ()
 
 let main =
-(*  Gc.(set { (get ()) with minor_heap_size = 262144 * 8 }); *)
   Options.analyze_command_line_arguments ();
   parse_input_files ();
   show_stats ()
