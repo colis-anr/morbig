@@ -37,13 +37,13 @@ module AtomBuffer : sig
 end = struct
   type t = {
       mutable buffer : atom list;
-      mutable strings : string list;
+      mutable strings : bytes list;
     }
 
   let push_string b s =
     match b with
     | WordComponent (s', WordLiteral l) :: csts ->
-       let cst = WordComponent (s' ^ s, WordLiteral (l ^ s)) in
+       let cst = WordComponent (Bytes.cat s' s, WordLiteral (Bytes.cat l s)) in
        cst :: csts
     | csts ->
        let cst = WordComponent (s, WordLiteral (s)) in
@@ -51,7 +51,7 @@ end = struct
 
   let normalize b =
     if b.strings <> [] then begin
-        let s = String.concat "" (List.rev b.strings) in
+        let s = Bytes.concat "" (List.rev b.strings) in
         let buffer = push_string b.buffer s in
         b.strings <- [];
         b.buffer <- buffer
@@ -65,7 +65,7 @@ end = struct
     get b = []
 
   let push_string b s =
-    { b with strings = s :: b.strings }
+    { b with strings = s :: b.strings}
 
   let buffer_as_strings b =
     let rec aux accu = function
@@ -326,14 +326,10 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   let current = recognize_assignment current in
 
   let flush_word b =
-    (* FIXME: Optimise! *)
-    let rec aux accu = function
-      | WordComponent (s, _) :: b -> aux (s ^ accu) b
-      | AssignmentMark :: b -> aux accu b
-      | QuotingMark _ :: b -> aux accu b
-      | [] -> accu
-    in
-    aux "" (buffer b)
+    let buf = Buffer.create 13 in
+    List.iter (function WordComponent (s, _) -> Buffer.add_string buf s
+                      | _ -> ()) (List.rev (buffer b));
+    Buffer.contents buf
   and produce token =
     (* FIXME: Positions are not updated properly. *)
     (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
