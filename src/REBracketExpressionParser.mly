@@ -191,10 +191,10 @@ meta_char: MINUS {
 }
 ;
 
+(* There is no specification for the language of [class_name] in POSIX. *)
 class_name: s=COLL_ELEM_SINGLE+
 {
   let b = Buffer.create 13 in
   List.iter (Buffer.add_char b) s;
-  let s = Buffer.contents b in
-  if Name.is_name s then s else raise Parsing.Parse_error
+  Buffer.contents b
 }
