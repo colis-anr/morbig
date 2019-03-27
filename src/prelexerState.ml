@@ -145,7 +145,7 @@ let push_separated_string b s =
 
 let pop_character = function
   | WordComponent (s, WordLiteral _c) :: buffer ->
-     let sequel = String.(sub s 0 (length s - 1)) in
+     let sequel = try String.(sub s 0 (length s - 1)) with _ -> assert false in
      if sequel = "" then
        buffer
      else
@@ -276,7 +276,7 @@ let recognize_assignment current =
     | AssignmentMark :: WordComponent (s, _) :: prefix ->
        assert (s.[String.length s - 1] = '='); (* By after_equal unique call. *)
        (* [s] is a valid name. We have an assignment here. *)
-       let lhs = String.(sub s 0 (length s - 1)) in
+       let lhs = try String.(sub s 0 (length s - 1)) with _ -> assert false in
 
        (* FIXME: The following check could be done directly with
           ocamllex rules, right?*)
@@ -605,7 +605,7 @@ let found_current_here_document_delimiter ?buffer current =
             Buffer.(
              let n = length buffer in
              let k = String.length delimiter * 2 in
-             sub buffer (max 0 (n - k)) (min k n)
+             try sub buffer (max 0 (n - k)) (min k n) with _ -> assert false
             )
      in
      let open QuoteRemoval in
@@ -615,7 +615,7 @@ let found_current_here_document_delimiter ?buffer current =
   | _ ->
      false
 
-let remove_contents_suffix end_marker (contents : string) (cst : CST.word_cst) =
+let remove_contents_suffix end_marker contents cst =
   let contents = string_remove_suffix end_marker contents in
   let rec aux cst =
     match cst with

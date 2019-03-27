@@ -134,10 +134,10 @@ end = struct
     let delimiter_info =
       try
         Queue.take delimiters_queue
-      with Queue.Empty -> failwith "here document problem" 
+      with Queue.Empty -> failwith "here document problem"
     in
 
-    let store_here_document end_marker cst contents doc_start doc_end  =
+    let store_here_document end_marker cst contents doc_start doc_end =
       (* store in the placeholder the here-document with contents [contents],
          start position [doc_start], and end position [doc_end]. *)
       (*specification:
@@ -172,7 +172,7 @@ end = struct
           position = { start_p = doc_start; end_p = doc_end }
         }
     in
-    let (Word (doc, cst)), doc_start, line_end =
+    let ((Word (doc, cst)), doc_start, line_end) =
       let current =
         enter_here_document delimiter_info.dashed delimiter_info.word current
       in
@@ -186,20 +186,22 @@ end = struct
       in
       match result with
       | [Pretoken.NEWLINE, p1, p2] ->
-         (* Special case for empty here document. *)
+         (* Special case for empty here document or ended by EOF. *)
          (Word ("", []), p1, p2)
+      | [Pretoken.EOF, _, pos] ->
+         raise (Errors.DuringParsing pos)
       | result ->
          located_word_of result
-      in
-      store_here_document delimiter_info.word cst doc doc_start line_end;
-      if Queue.is_empty delimiters_queue then state := NoHereDocuments;
-      let before_stop =
-        Lexing.({ line_end with
-                  pos_cnum = line_end.pos_cnum - 1;
-                  pos_bol  = line_end.pos_bol  - 1;
-        })
-      in
-      (Pretoken.NEWLINE, before_stop, line_end)
+    in
+    store_here_document delimiter_info.word cst doc doc_start line_end;
+    if Queue.is_empty delimiters_queue then state := NoHereDocuments;
+    let before_stop =
+      Lexing.({ line_end with
+                pos_cnum = line_end.pos_cnum - 1;
+                pos_bol  = line_end.pos_bol  - 1;
+      })
+    in
+    (Pretoken.NEWLINE, before_stop, line_end)
 
   let start_here_document_lexing () =
     assert (!state = GotDelimiter);

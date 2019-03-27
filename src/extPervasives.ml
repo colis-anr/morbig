@@ -96,12 +96,12 @@ exception InvalidSuffix of string * string
 let string_split k s =
   let n = String.length s in
   let k = min k n in
-  String.sub s 0 k, String.sub s k (n - k)
+  try String.sub s 0 k, String.sub s k (n - k) with _ -> assert false
 
 let string_remove_suffix suffix s = String.(
   let k = length s - length suffix in
-  let r = sub s 0 k in
-  let c = sub s k (length suffix) in
+  let r = try sub s 0 k with _ -> assert false in
+  let c = try sub s k (length suffix) with _ -> assert false in
   if suffix <> c then raise (InvalidSuffix (s, suffix));
   r
 )
@@ -141,7 +141,7 @@ let string_strip s =
   if n > 0
   then let lastchar = s.[n-1] in
        if lastchar = '\n' || lastchar = '\r'
-       then String.sub s 0 (n-1)
+       then try String.sub s 0 (n-1) with _ -> assert false
        else s
   else s
 
