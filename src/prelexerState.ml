@@ -101,7 +101,8 @@ type prelexer_state = {
     buffer                : AtomBuffer.t
 }
 
-let buffer current = AtomBuffer.get (current.buffer)
+let buffer current =
+  AtomBuffer.get (current.buffer)
 
 type t = prelexer_state
 
@@ -421,13 +422,7 @@ let provoke_error current lexbuf =
 
 *)
 let escape_analysis ?(for_backquote=false) level current =
-  let current =
-    List.map
-      (function
-       | WordComponent (s, _) -> s
-       | _ -> "")
-      (buffer current)
-  in
+  let current = AtomBuffer.last_line current.buffer in
   let number_of_backslashes_to_escape = Nesting.(
     (* FIXME: We will be looking for the general pattern here. *)
     match level with
@@ -454,7 +449,7 @@ let escape_analysis ?(for_backquote=false) level current =
        [1]
   )
   in
-  let current' = List.(concat (map rev (map string_to_char_list current))) in
+  let current' = List.(concat (map rev (map string_to_char_list [current]))) in
 
   if Options.debug () then
     Printf.eprintf "N = %s | %s\n"
@@ -503,8 +498,14 @@ let escaped_backquote current =
 let escaped_single_quote current =
   escaped_single_quote current.nesting_context current
 
+let under_here_document current =
+  match current.nesting_context with
+  | Nesting.HereDocument _ :: _ -> true
+  | _ -> false
+
 let escaped_double_quote current =
-  escaped_double_quote current.nesting_context current
+  under_here_document current
+  || escaped_double_quote current.nesting_context current
 
 let nesting_context current =
   current.nesting_context
@@ -559,11 +560,6 @@ let under_double_quote current =
 let under_real_double_quote current =
   match current.nesting_context with
   | Nesting.DQuotes :: _ -> true
-  | _ -> false
-
-let under_here_document current =
-  match current.nesting_context with
-  | Nesting.HereDocument _ :: _ -> true
   | _ -> false
 
 let is_escaping_backslash current _lexbuf c =
