@@ -37,13 +37,13 @@ module AtomBuffer : sig
 end = struct
   type t = {
       mutable buffer : atom list;
-      mutable strings : bytes list;
+      mutable strings : string list;
     }
 
   let push_string b s =
     match b with
     | WordComponent (s', WordLiteral l) :: csts ->
-       let cst = WordComponent (Bytes.cat s' s, WordLiteral (Bytes.cat l s)) in
+       let cst = WordComponent (s' ^ s, WordLiteral (l ^ s)) in
        cst :: csts
     | csts ->
        let cst = WordComponent (s, WordLiteral (s)) in
@@ -51,7 +51,7 @@ end = struct
 
   let normalize b =
     if b.strings <> [] then begin
-        let s = Bytes.concat "" (List.rev b.strings) in
+        let s = String.concat "" (List.rev b.strings) in
         let buffer = push_string b.buffer s in
         b.strings <- [];
         b.buffer <- buffer
