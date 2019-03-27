@@ -81,7 +81,9 @@ end = struct
       let rec aux accu = function
         | s :: ss ->
            if Str.string_match ExtPervasives.newline_regexp s 0 then
-             s :: accu
+             match ExtPervasives.(list_last (lines s)) with
+               | None -> assert false (* By the if-condition. *)
+               | Some s -> s :: accu
            else
              aux (s :: accu) ss
         | [] ->
@@ -488,16 +490,18 @@ let escaped_single_quote = escape_analysis_predicate
 
 let escaped_backquote = escape_analysis_predicate ~for_backquote:true
 
-let escaped_backquote current =
-  escaped_backquote current.nesting_context current
-
-let escaped_single_quote current =
-  escaped_single_quote current.nesting_context current
-
 let under_here_document current =
   match current.nesting_context with
   | Nesting.HereDocument _ :: _ -> true
   | _ -> false
+
+let escaped_backquote current =
+  under_here_document current
+  || escaped_backquote current.nesting_context current
+
+let escaped_single_quote current =
+  under_here_document current
+  || escaped_single_quote current.nesting_context current
 
 let escaped_double_quote current =
   under_here_document current

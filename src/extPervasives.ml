@@ -257,7 +257,7 @@ let newline_regexp =
   Str.regexp "\010"
 
 let lines s =
-  Str.split newline_regexp s
+  Str.split_delim newline_regexp s
 
 let string_last_line s =
   lines s |> list_last
