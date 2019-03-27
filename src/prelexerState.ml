@@ -27,18 +27,87 @@ type atom =
 
 and quote_kind = SingleQuote | DoubleQuote | OpeningBrace
 
+module AtomBuffer : sig
+  type t
+  val get : t -> atom list
+  val make : atom list -> t
+  val is_empty : t -> bool
+  val push_string : t -> string -> t
+  val last_line : t -> string
+end = struct
+  type t = {
+      mutable buffer : atom list;
+      mutable strings : string list;
+    }
+
+  let push_string b s =
+    match b with
+    | WordComponent (s', WordLiteral l) :: csts ->
+       let cst = WordComponent (s' ^ s, WordLiteral (l ^ s)) in
+       cst :: csts
+    | csts ->
+       let cst = WordComponent (s, WordLiteral (s)) in
+       cst :: csts
+
+  let normalize b =
+    if b.strings <> [] then begin
+        let s = String.concat "" (List.rev b.strings) in
+        let buffer = push_string b.buffer s in
+        b.strings <- [];
+        b.buffer <- buffer
+      end
+
+  let get b = normalize b; b.buffer
+
+  let make l = { buffer = l; strings = [] }
+
+  let is_empty b =
+    get b = []
+
+  let push_string b s =
+    { b with strings = s :: b.strings }
+
+  let buffer_as_strings b =
+    let rec aux accu = function
+      | WordComponent (s, _) :: atoms ->
+         aux (s :: accu) atoms
+      | _ ->
+         accu
+    in
+    List.rev (aux [] b)
+
+  let last_line b =
+    let last_line_of_strings ss =
+      let rec aux accu = function
+        | s :: ss ->
+           if Str.string_match ExtPervasives.newline_regexp s 0 then
+             s :: accu
+           else
+             aux (s :: accu) ss
+        | [] ->
+           accu
+      in
+      aux [] ss |> String.concat ""
+    in
+    if b.strings <> [] then
+      last_line_of_strings b.strings
+    else
+      last_line_of_strings (buffer_as_strings b.buffer)
+
+end
+
 type prelexer_state = {
     nesting_context       : Nesting.t list;
-    buffer                : atom list;
+    buffer                : AtomBuffer.t
 }
 
-let buffer current = current.buffer
+let buffer current = AtomBuffer.get (current.buffer)
 
 type t = prelexer_state
 
 let initial_state = {
     nesting_context = [];
-    buffer = [];
+    buffer = AtomBuffer.make [];
 }
 
 let at_toplevel current =
@@ -54,12 +123,8 @@ let push_word_component csts w =
      WordComponent (s, a) :: csts
 
  let push_string b s =
-  (* FIXME: Is string concatenation too slow here? *)
-  match buffer b with
-  | WordComponent (s', WordLiteral l) :: csts ->
-     { b with buffer = WordComponent (s' ^ s, WordLiteral (l ^ s)) :: csts }
-  | _ ->
-     { b with buffer = WordComponent (s, WordLiteral s) :: buffer b }
+   let buffer = AtomBuffer.push_string b.buffer s in
+   { b with buffer }
 
 let parse_pattern : word_component -> word_component list = function
   | WordLiteral w ->
@@ -71,7 +136,9 @@ let push_character b c =
   push_string b (String.make 1 c)
 
 let push_separated_string b s =
-  { b with buffer = WordComponent (s, WordLiteral s) :: buffer b }
+  let cst = WordComponent (s, WordLiteral s) in
+  let buffer = AtomBuffer.make (cst :: buffer b) in
+  { b with buffer }
 
 let pop_character = function
   | WordComponent (s, WordLiteral _c) :: buffer ->
@@ -92,7 +159,9 @@ let pop_character = function
     CST [WordSubshell (_, _)] associated to this word so we do not
     push ')' as a WordLiteral CST. *)
 let push_word_closing_character b c =
-  { b with buffer = WordComponent (String.make 1 c, WordEmpty) :: buffer b }
+  let cst = WordComponent (String.make 1 c, WordEmpty) in
+  let buffer = AtomBuffer.make (cst :: buffer b) in
+  { b with buffer }
 
 let string_of_word (Word (s, _)) = s
 
@@ -116,7 +185,9 @@ let push_parameter ?(with_braces=false) ?(attribute=NoAttribute) b id =
     else
       "$" ^ id
   in
-  { b with buffer = WordComponent (p, WordVariable v) :: buffer b }
+  let cst = WordComponent (p, WordVariable v) in
+  let buffer = AtomBuffer.make (cst :: buffer b) in
+  { b with buffer}
 
 let string_of_atom = function
   | WordComponent (s, _) -> s
@@ -145,7 +216,9 @@ let components b =
   components_of_atom_list (buffer b)
 
 let push_quoting_mark k b =
-  { b with buffer = QuotingMark k :: buffer b }
+  let cst = QuotingMark k in
+  let buffer = AtomBuffer.make (cst :: buffer b) in
+  { b with buffer }
 
 let pop_quotation k b =
   let rec aux squote quote = function
@@ -178,10 +251,12 @@ let pop_quotation k b =
     | OpeningBrace -> squote
   in
   let quote = WordComponent (squote, quoted_word) in
-  { b with buffer = quote :: buffer }
+  let buffer = AtomBuffer.make (quote :: buffer) in
+  { b with buffer }
 
 let push_assignment_mark current =
-  { current with buffer = AssignmentMark :: (buffer current) }
+  let buffer = AtomBuffer.make (AssignmentMark :: (buffer current)) in
+  { current with buffer }
 
 let is_assignment_mark = function
   | AssignmentMark -> true
@@ -192,7 +267,8 @@ let recognize_assignment current =
   if prefix = buffer current then (
     current
   ) else
-    let current' = { current with buffer = rhs @ List.tl prefix } in
+    let buffer = AtomBuffer.make (rhs @ List.tl prefix) in
+    let current' = { current with buffer } in
     match prefix with
     | AssignmentMark :: WordComponent (s, _) :: prefix ->
        assert (s.[String.length s - 1] = '='); (* By after_equal unique call. *)
@@ -204,12 +280,13 @@ let recognize_assignment current =
 
        if Name.is_name lhs then (
          let rhs_string = contents_of_atom_list rhs in
-         { current with buffer =
-             WordComponent (s ^ rhs_string,
-                            WordAssignmentWord (Name lhs, Word (rhs_string,
-                                                                components_of_atom_list rhs)))
-             :: prefix
-         }
+         let crhs = components_of_atom_list rhs in
+         let cst =  WordComponent (
+                        s ^ rhs_string,
+                        WordAssignmentWord (Name lhs, Word (rhs_string, crhs)))
+         in
+         let buffer = AtomBuffer.make (cst :: prefix) in
+         { current with buffer }
        ) else
          (*
             If [lhs] is not a name, then the corresponding word
@@ -218,7 +295,8 @@ let recognize_assignment current =
          begin match List.rev rhs with
          | WordComponent (s_rhs, WordLiteral s_rhs') :: rev_rhs ->
             let word = WordComponent (s ^ s_rhs, WordLiteral (s ^ s_rhs')) in
-            { current with buffer = List.rev rev_rhs @ word :: prefix }
+            let buffer = AtomBuffer.make (List.rev rev_rhs @ word :: prefix) in
+            { current with buffer }
          | _ ->
             current'
          end)
@@ -522,7 +600,7 @@ let found_current_here_document_delimiter ?buffer current =
      let last_chunk =
        match buffer with
          | None ->
-            contents current
+            AtomBuffer.last_line current.buffer
          | Some buffer ->
             Buffer.(
              let n = length buffer in

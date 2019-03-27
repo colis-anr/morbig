@@ -253,8 +253,11 @@ let ( <$> ) x f =
 let list_last l =
   list_hd_opt (List.rev l)
 
+let newline_regexp =
+  Str.regexp "\010\\|\013\\|\013\010"
+
 let lines s =
-  Str.(split (regexp "\n") s)
+  Str.split newline_regexp s
 
 let string_last_line s =
   lines s |> list_last

@@ -534,7 +534,7 @@ rule token current = parse
          otherwise, '#' is part of a word.
 
       *)
-      if current.buffer = [] then
+      if AtomBuffer.is_empty current.buffer then
         comment lexbuf
       else
         token (push_character current c) lexbuf
@@ -672,14 +672,14 @@ and subshell op escaping_level current = parse
     in
     PrelexerState.debug ~rule:"subshell" lexbuf current;
     let subshell_string, buffer =
-      match current.buffer with
+      match AtomBuffer.get current.buffer with
       | WordComponent (w, _) :: buffer -> w, buffer
       | _ -> assert false
     in
     let subshell =
       WordComponent (subshell_string, WordSubshell (k, cst))
     in
-    { current with buffer = subshell :: buffer }
+    { current with buffer = AtomBuffer.make (subshell :: buffer) }
   }
 
 and close_subshell current = parse
