@@ -549,9 +549,14 @@ let under_backquoted_style_command_substitution current =
   Nesting.under_backquoted_style_command_substitution current.nesting_context
 
 let under_double_quote current =
-  match current.nesting_context with
-  | (Nesting.DQuotes | Nesting.HereDocument _) :: _ -> true
-  | _ -> false
+  let rec check = function
+    | (Nesting.DQuotes | Nesting.HereDocument _) :: _ -> true
+    | (Nesting.Backquotes _ | Nesting.Parentheses) :: _ -> false
+    | _ :: ss -> check ss
+    | _ -> false
+  in
+  check current.nesting_context
+
 
 let under_real_double_quote current =
   match current.nesting_context with
