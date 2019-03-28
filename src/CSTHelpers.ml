@@ -163,12 +163,12 @@ module NameSet = Set.Make (struct
   let compare (Name s1) (Name s2) = String.compare s1 s2
 end)
 
-let builtins_regexp = Str.regexp "\
-echo\\|true\\|alias\\|unset\\|set\
-break\\|:\\|continue\\|\\.\\|eval\
-exec\\|exit\\|export\\|readonly\
+let builtins_regexp = Str.regexp "\\(\
+echo\\|true\\|alias\\|unset\\|set\\|\
+break\\|:\\|continue\\|\\.\\|eval\\|\
+exec\\|exit\\|export\\|readonly\\|\
 return\\|shift\\|times\\|trap\
-"
+\\)$"
 
 let is_builtin s =
   Str.string_match builtins_regexp s 0

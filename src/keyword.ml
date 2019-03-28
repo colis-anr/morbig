@@ -74,7 +74,7 @@ let terminal_of_keyword k =
   t
 
 let must_be_well_delimited flag = function
-  | Rbrace | Do | Done | Then | Else | Elif -> flag
+  | Rbrace | Do | Then | Else | Elif -> flag
   | _ -> true
 
 let recognize_reserved_word_if_relevant well_delimited checkpoint p w =

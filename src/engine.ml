@@ -321,7 +321,8 @@ module Lexer (U : sig end) : Lexer = struct
           let word = WORD (Word (w, List.(flatten (map parse_pattern cst)))) in
           let well_delimited_keyword =
             match previous_token () with
-              | Some (Semicolon | NEWLINE | Rbrace | Rparen | Uppersand) -> true
+              | Some (Semicolon | NEWLINE | Rbrace | Rparen | Uppersand
+                      | Fi) -> true
               | _ -> false
           in
           let token = FirstSuccessMonad.(
