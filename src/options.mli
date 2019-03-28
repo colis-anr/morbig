@@ -25,6 +25,9 @@ val input_files : unit -> string list
 (* return an output file name for a given input file name *)
 val output_file_of_input_file : string -> string
 
+(* disable alias expansion *)
+val disable_alias_expansion : unit -> bool
+
 (* tell whether input files which are ELF, or have a bash or perl magic *)
 (* string, should be skipped. *)
 val skip_nosh : unit -> bool

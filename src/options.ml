@@ -53,6 +53,9 @@ let display_stats () = !_display_stats
 let _from_stdin = ref false
 let from_stdin () = !_from_stdin
 
+let _disable_alias_expansion = ref false
+let disable_alias_expansion () = !_disable_alias_expansion
+
 let _error_on_unspecified = ref false
 let error_on_unspecified () = !_error_on_unspecified
 
@@ -77,6 +80,9 @@ let analyze_command_line_arguments () = Arg.(
 
       "--continue-after-error", Set _continue_after_error,
       " Continue after error with the next script.";
+
+      "--disable-alias-expansion", Set _disable_alias_expansion,
+      " Disable alias expansion.";
 
       "--error-on-unspecified", Set _error_on_unspecified,
       " Stop when an unspecified syntax is used.";

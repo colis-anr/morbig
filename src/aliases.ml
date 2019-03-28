@@ -14,6 +14,9 @@
 open Parser
 open Parser.MenhirInterpreter
 
+let perform default f =
+  if not (Options.disable_alias_expansion ()) then f () else default
+
 (**
 
    A shell script may define aliases with the following command:
@@ -120,6 +123,7 @@ let as_aliasing_related_command = function
     error is issued. Then, for any alias and unalias toplevel invocation,
     this function updates [aliases]. *)
 let interpret aliases cst =
+  perform empty @@ fun () ->
   let aliases = ref aliases in
   let level = ref 0 in
   let at_toplevel () = !level = 0 in
@@ -226,6 +230,7 @@ let only_if_end_with_whitespace word aliases state =
     alias by its definition if word is not a reserved word and
     if the parsing context is about to reduce a [cmd_name]. *)
 let alias_substitution aliases checkpoint word =
+  perform (aliases, word) @@ fun () ->
   if about_to_reduce_cmd_name checkpoint
      && not (Keyword.is_reserved_word word)
   then
