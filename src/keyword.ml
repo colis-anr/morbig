@@ -73,11 +73,20 @@ let terminal_of_keyword k =
   let (_, _, t) = List.find (fun (_, k', _) -> k = k') keywords in
   t
 
-let recognize_reserved_word_if_relevant checkpoint (_pretoken, pstart, pstop) w =
+let must_be_well_delimited flag = function
+  | Rbrace | Do | Done | Then | Else | Elif -> flag
+  | _ -> true
+
+let recognize_reserved_word_if_relevant well_delimited checkpoint p w =
+  let (_, pstart, pstop) = p in
+  let valid_token kwd =
+    accepted_token checkpoint (kwd, pstart, pstop) <> Wrong
+    && must_be_well_delimited well_delimited kwd
+  in
   FirstSuccessMonad.(
     let as_keyword =
       keyword_of_string w >>= fun kwd ->
-      return_if (accepted_token checkpoint (kwd, pstart, pstop) <> Wrong) kwd
+      return_if (valid_token kwd) kwd
     in
     let as_name =
       return_if (Name.is_name w) (NAME (CST.Name w))
