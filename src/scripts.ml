@@ -19,7 +19,7 @@ let other_scripts_magic_strings =
 
 let is_other_script filename =
   (* check whether [filename] is a script other than /bin/sh *)
-  let cin = open_in filename in
+  let cin = open_in_bin filename in
   try
     let firstline = input_line cin in
     close_in cin;
@@ -50,7 +50,7 @@ let parse_string filename contents =
   cst.CST.value
 
 let parse_file filename =
-  let cin = open_in filename in
+  let cin = open_in_bin filename in
   let cst =
     try
       (** We assume that scripts are no longer than 16M. *)
