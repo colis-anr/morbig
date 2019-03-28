@@ -88,7 +88,7 @@
                                     [
                                       "DoGroup_Do_CompoundList_Done",
                                       [
-                                        "CompoundList_LineBreak_Term",
+                                        "CompoundList_LineBreak_Term_Separator",
                                         [ "LineBreak_Empty" ],
                                         [
                                           "Term_AndOr",
@@ -148,6 +148,11 @@
                                               ]
                                             ]
                                           ]
+                                        ],
+                                        [
+                                          "Separator_SeparatorOp_LineBreak",
+                                          [ "SeparatorOp_Semicolon" ],
+                                          [ "LineBreak_Empty" ]
                                         ]
                                       ]
                                     ]
