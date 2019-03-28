@@ -140,7 +140,7 @@ let string_strip s =
   let n = String.length s in
   if n > 0
   then let lastchar = s.[n-1] in
-       if lastchar = '\n' || lastchar = '\r'
+       if lastchar = '\n'
        then try String.sub s 0 (n-1) with _ -> assert false
        else s
   else s

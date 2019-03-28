@@ -654,11 +654,11 @@ and skip k current = parse
 }
 
 and comment = parse
-| [^'\n''\r']* newline {
+| [^'\n']* newline {
     Lexing.new_line lexbuf;
     return ~with_newline:true lexbuf initial_state []
   }
-| '#' [^'\n''\r']* eof {
+| '#' [^'\n']* eof {
     return ~with_newline:false lexbuf initial_state []
   }
 
