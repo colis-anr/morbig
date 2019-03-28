@@ -493,20 +493,17 @@ let escaped_backquote = escape_analysis_predicate ~for_backquote:true
 
 let under_here_document current =
   match current.nesting_context with
-  | Nesting.HereDocument _ :: _ -> true
+  | Nesting.HereDocument (_, _) :: _ -> true
   | _ -> false
 
 let escaped_backquote current =
-  under_here_document current
-  || escaped_backquote current.nesting_context current
+  escaped_backquote current.nesting_context current
 
 let escaped_single_quote current =
-  under_here_document current
-  || escaped_single_quote current.nesting_context current
+  escaped_single_quote current.nesting_context current
 
 let escaped_double_quote current =
-  under_here_document current
-  || escaped_double_quote current.nesting_context current
+  escaped_double_quote current.nesting_context current
 
 let nesting_context current =
   current.nesting_context

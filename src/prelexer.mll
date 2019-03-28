@@ -291,7 +291,7 @@ rule token current = parse
       let open_subshell depth current =
         let current = push_separated_string current (Lexing.lexeme lexbuf) in
         let current = subshell '`' depth current lexbuf in
-        let current = close_subshell current lexbuf in
+        let current = close_subshell '`' current lexbuf in
         token current lexbuf
       in
       let end_of_subshell current =
@@ -414,7 +414,7 @@ rule token current = parse
       let escaping_level = 0 in
       let current = push_separated_string current (Lexing.lexeme lexbuf) in
       let current = subshell op escaping_level current lexbuf in
-      let current = close_subshell current lexbuf in
+      let current = close_subshell ')' current lexbuf in
       token current lexbuf
   }
 
@@ -683,24 +683,26 @@ and subshell op escaping_level current = parse
     { current with buffer = AtomBuffer.make (subshell :: buffer) }
   }
 
-and close_subshell current = parse
+and close_subshell expected_closing_char current = parse
   | (")" | "`") as c {
      debug ~rule:"close_subshell:closing-char" lexbuf current;
+     if expected_closing_char <> c then
+       lexing_error lexbuf "Unclosed subshell";
      push_word_closing_character current c
   }
   | (blank | newline) as c {
      let current = push_character current c in
-     close_subshell current lexbuf
+     close_subshell expected_closing_char current lexbuf
   }
   | ("\\" newline) as c {
      let current = push_string current c in
-     close_subshell current lexbuf
+     close_subshell expected_closing_char current lexbuf
   }
   | eof {
-     lexing_error lexbuf (Printf.sprintf "Unclosed subshell (got EOF).")
+     lexing_error lexbuf (Printf.sprintf "Unclosed subshell (got EOF)")
   }
   | _ as c {
-     lexing_error lexbuf (Printf.sprintf "Unclosed subshell (got '%c')." c)
+     lexing_error lexbuf (Printf.sprintf "Unclosed subshell (got '%c')" c)
   }
 
 and next_double_rparen dplevel current = parse
@@ -712,7 +714,8 @@ and next_double_rparen dplevel current = parse
     let escaping_level = 0 in (* FIXME: Probably wrong. *)
     let current = push_string current (Lexing.lexeme lexbuf) in
     let current = subshell op escaping_level current lexbuf in
-    let current = close_subshell current lexbuf in
+    let expected_closing_char = if op = '`' then '`' else ')' in
+    let current = close_subshell expected_closing_char current lexbuf in
     next_double_rparen dplevel current lexbuf
   }
   | "))" {

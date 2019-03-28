@@ -85,6 +85,7 @@ end = struct
        information about an operator which has not yet been used.
      *)
     assert (!state = GotHereOperator);
+    let quoted_flag = ref false in
     let dashed = match !dashed_tmp with
       | Some b -> dashed_tmp:= None; b
       | None -> assert false
@@ -100,8 +101,9 @@ end = struct
         | WordSingleQuoted s :: w ->
            unword s ^ unquote w
         | (WordLiteral s | WordName s) :: w ->
-           let s = Str.(global_replace (regexp "\\") "" s) in
-           s ^ unquote w
+           let s' = Str.(global_replace (regexp "\\") "" s) in
+           if s <> s' then quoted_flag := true;
+           s' ^ unquote w
         | WordVariable (VariableAtom (s, NoAttribute)) :: w ->
            "$" ^ s ^ unquote w
         | _ ->
@@ -110,7 +112,9 @@ end = struct
       unquote cst
     in
     let quoted =
-      List.exists (function WordSingleQuoted _ -> true | _ -> false) cst
+      !quoted_flag
+      || List.exists (function WordSingleQuoted _ -> true | _ -> false) cst
+
     in
     Queue.add {
       (*specification:
