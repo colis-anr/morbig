@@ -658,7 +658,7 @@ and comment = parse
     Lexing.new_line lexbuf;
     return ~with_newline:true lexbuf initial_state []
   }
-| '#' [^'\n''\r']* eof {
+| [^'\n''\r']* eof {
     return ~with_newline:false lexbuf initial_state []
   }
 
