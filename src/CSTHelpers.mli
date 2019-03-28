@@ -35,6 +35,10 @@ val string_of_word : word -> string
 
 val word_placeholder : unit -> word' ref
 
+exception InvalidFunctionName
+
+val make_function_name: name -> fname
+
 module NameSet : Set.S
 
 (** {2 Helpers about positions} *)

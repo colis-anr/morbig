@@ -163,6 +163,24 @@ module NameSet = Set.Make (struct
   let compare (Name s1) (Name s2) = String.compare s1 s2
 end)
 
+let builtins_regexp = Str.regexp "\
+echo\\|true\\|alias\\|unset\\|set\
+break\\|:\\|continue\\|\\.\\|eval\
+exec\\|exit\\|export\\|readonly\
+return\\|shift\\|times\\|trap\
+"
+
+let is_builtin s =
+  Str.string_match builtins_regexp s 0
+
+exception InvalidFunctionName
+
+let make_function_name (Name s) =
+  if is_builtin s then
+    raise InvalidFunctionName
+  else
+    Fname_Name (Name s)
+
 (* CST destructors *)
 
 (** [wordlist_of_cmd_suffix] extracts the list of all words from a cmd_sufix *)

@@ -350,7 +350,11 @@ function_body    : c=located(compound_command)                /* Apply rule 9 */
 }
 ;
 fname            : n=NAME                            /* Apply rule 8 */ {
-  Fname_Name n
+  let pos = $startpos(n) in
+  try CSTHelpers.make_function_name n
+  with CSTHelpers.InvalidFunctionName ->
+    let msg = "This identifier is reserved for a builtin." in
+    raise (Errors.DuringLexing (pos, msg));
 }
 ;
 brace_group      : Lbrace c=located(compound_list) Rbrace {
