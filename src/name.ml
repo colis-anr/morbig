@@ -27,6 +27,17 @@
     This definition implies that a name is not empty.
 
 *)
-let name_regexp = Str.regexp "^\\([a-zA-Z]\\|_\\)\\([a-zA-Z]\\|_\\|[0-9]\\)*$"
+let alpha c =
+  ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || (c = '_')
 
-let is_name s = s <> "" && Str.(string_match name_regexp s 0)
+let alphanum c =
+  alpha c || ('0' <= c && c <= '9')
+
+let is_name s =
+  let len = String.length s in
+  let rec aux i =
+    i = len || (alphanum s.[i] && aux (i + 1))
+  in
+  if len = 0 then false
+  else if not (alpha s.[0]) then false
+  else aux 0
