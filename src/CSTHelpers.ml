@@ -163,20 +163,18 @@ module NameSet = Set.Make (struct
   let compare (Name s1) (Name s2) = String.compare s1 s2
 end)
 
-let builtins_regexp = Str.regexp "\\(\
-echo\\|true\\|alias\\|unset\\|set\\|\
-break\\|:\\|continue\\|\\.\\|eval\\|\
-exec\\|exit\\|export\\|readonly\\|\
-return\\|shift\\|times\\|trap\
-\\)$"
+let special_builtins_regexp =
+  [ "break" ; ":" ; "continue" ; "." ; "eval" ; "exec" ;
+    "exit" ; "export" ; "local" ; "readonly" ; "return" ;
+    "set" ; "shift" ; "times" ; "trap" ; "unset" ]
 
-let is_builtin s =
-  Str.string_match builtins_regexp s 0
+let is_special_builtin s =
+  List.mem s special_builtins_regexp
 
 exception InvalidFunctionName
 
 let make_function_name (Name s) =
-  if is_builtin s then
+  if is_special_builtin s then
     raise InvalidFunctionName
   else
     Fname_Name (Name s)
