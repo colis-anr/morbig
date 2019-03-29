@@ -40,7 +40,7 @@
 open CST
 
 let find_login s =
-  match Str.(split (regexp "/") s) with
+  match String.split_on_char '/' s with
   | login :: rem -> [WordTildePrefix login; WordLiteral (String.concat "/" rem)]
   | _ -> assert false (* Because there is slash, or not. *)
 
@@ -48,7 +48,7 @@ let rec make_tilde_prefix_explicit rhs_assignment = function
   | (WordLiteral s) as cst when s <> "" ->
      if s.[0] = '~' then (
        if rhs_assignment then
-         let s = Str.(split (regexp ":") s) in
+         let s = String.split_on_char ':' s in
          List.(flatten (map find_login s))
        else
          find_login s

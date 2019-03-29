@@ -145,6 +145,14 @@ let string_strip s =
        else s
   else s
 
+let reduce f l =
+  assert (l <> []);
+  let rec aux accu = function
+    | [] -> accu
+    | x :: xs -> aux (f accu x) xs
+  in
+  aux (List.hd l) (List.tl l)
+
 let repeat n f =
   let rec aux i =
   if i = n then

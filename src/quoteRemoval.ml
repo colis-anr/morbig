@@ -86,5 +86,7 @@ let backslash_as_in_doublequotes s =
   if !state = Backslash then pushbackslash (); (* FIXME: can that happen? *)
   Buffer.contents b
 
-let remove_tabs_at_linestart s =
-  Str.(global_replace (regexp "^\t+") "" s)
+let remove_tabs_at_linestart =
+  let space = Str.regexp "^\t+" in
+  fun s ->
+  Str.(global_replace space "" s)

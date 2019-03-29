@@ -27,7 +27,6 @@
     This definition implies that a name is not empty.
 
 *)
-let is_name s =
-  s <> ""
-  && Str.(string_match (
-              regexp "^\\([a-zA-Z]\\|_\\)\\([a-zA-Z]\\|_\\|[0-9]\\)*$") s 0)
+let name_regexp = Str.regexp "^\\([a-zA-Z]\\|_\\)\\([a-zA-Z]\\|_\\|[0-9]\\)*$"
+
+let is_name s = s <> "" && Str.(string_match name_regexp s 0)

@@ -320,6 +320,8 @@ let recognize_assignment current =
     the buffer.
 
 *)
+let digit_regexp = Str.regexp "^[0-9]+$"
+
 let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (
       not (List.exists (function (Pretoken.PreWord _)->true |_-> false) tokens)
@@ -337,7 +339,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
     (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
   in
   let is_digit d =
-    Str.(string_match (regexp "^[0-9]+$") d 0)
+    Str.(string_match digit_regexp d 0)
   in
   let followed_by_redirection = Parser.(function
     | Pretoken.Operator (LESSAND |  GREATAND | DGREAT | DLESS _
