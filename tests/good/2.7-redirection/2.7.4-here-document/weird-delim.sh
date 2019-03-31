@@ -1,0 +1,4 @@
+cat << ! foo
+bar
+!
+baz
