@@ -506,7 +506,8 @@ let escaped_single_quote current =
   escaped_single_quote current.nesting_context current
 
 let escaped_double_quote current =
-  escaped_double_quote current.nesting_context current
+  under_here_document current
+  || escaped_double_quote current.nesting_context current
 
 let nesting_context current =
   current.nesting_context
