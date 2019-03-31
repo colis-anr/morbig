@@ -77,6 +77,7 @@ end = struct
     List.rev (aux [] b)
 
   let last_line b =
+    normalize b;
     let last_line_of_strings ss =
       let rec aux accu = function
         | s :: ss ->

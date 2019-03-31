@@ -286,7 +286,10 @@ rule token current = parse
 
 (** Backquotes *)
 | "`" {
-  if_ PrelexerState.escaped_backquote current lexbuf token (fun () ->
+  if found_current_here_document_delimiter current then
+    rewind current lexbuf
+    @@ (fun current lexbuf -> return lexbuf current [])
+  else if_ PrelexerState.escaped_backquote current lexbuf token (fun () ->
       debug ~rule:"backquote" lexbuf current;
       let open_subshell depth current =
         let current = push_separated_string current (Lexing.lexeme lexbuf) in
