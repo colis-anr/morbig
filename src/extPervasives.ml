@@ -100,6 +100,7 @@ let string_split k s =
 
 let string_remove_suffix suffix s = String.(
   let k = length s - length suffix in
+  if k < 0 then raise (InvalidSuffix (s, suffix));
   let r = try sub s 0 k with _ -> assert false in
   let c = try sub s k (length suffix) with _ -> assert false in
   if suffix <> c then raise (InvalidSuffix (s, suffix));
