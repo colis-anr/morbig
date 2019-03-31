@@ -77,7 +77,11 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "'ls -h -t -l'", [ [ "WordLiteral", "ls" ] ] ]
+                    [
+                      "Word",
+                      "'ls -h -t -l'",
+                      [ [ "WordLiteral", "'ls -h -t -l'" ] ]
+                    ]
                   ]
                 ]
               ]

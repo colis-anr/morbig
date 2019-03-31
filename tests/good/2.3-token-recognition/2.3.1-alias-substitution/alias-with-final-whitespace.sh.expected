@@ -153,11 +153,19 @@
                           "SimpleCommand_CmdName_CmdSuffix",
                           [
                             "CmdName_Word",
-                            [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                            [
+                              "Word",
+                              "'echo '",
+                              [ [ "WordLiteral", "'echo '" ] ]
+                            ]
                           ],
                           [
                             "CmdSuffix_Word",
-                            [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                            [
+                              "Word",
+                              "'echo '",
+                              [ [ "WordLiteral", "'echo '" ] ]
+                            ]
                           ]
                         ]
                       ]
@@ -184,7 +192,11 @@
                         "SimpleCommand_CmdName_CmdSuffix",
                         [
                           "CmdName_Word",
-                          [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                          [
+                            "Word",
+                            "'echo '",
+                            [ [ "WordLiteral", "'echo '" ] ]
+                          ]
                         ],
                         [
                           "CmdSuffix_CmdSuffix_Word",
@@ -219,15 +231,27 @@
                       "SimpleCommand_CmdName_CmdSuffix",
                       [
                         "CmdName_Word",
-                        [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                        [
+                          "Word",
+                          "'echo '",
+                          [ [ "WordLiteral", "'echo '" ] ]
+                        ]
                       ],
                       [
                         "CmdSuffix_CmdSuffix_Word",
                         [
                           "CmdSuffix_Word",
-                          [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                          [
+                            "Word",
+                            "'echo '",
+                            [ [ "WordLiteral", "'echo '" ] ]
+                          ]
                         ],
-                        [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                        [
+                          "Word",
+                          "'echo '",
+                          [ [ "WordLiteral", "'echo '" ] ]
+                        ]
                       ]
                     ]
                   ]
@@ -254,7 +278,7 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                      [ "Word", "'echo '", [ [ "WordLiteral", "'echo '" ] ] ]
                     ],
                     [
                       "CmdSuffix_CmdSuffix_Word",
@@ -262,7 +286,11 @@
                         "CmdSuffix_CmdSuffix_Word",
                         [
                           "CmdSuffix_Word",
-                          [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                          [
+                            "Word",
+                            "'echo '",
+                            [ [ "WordLiteral", "'echo '" ] ]
+                          ]
                         ],
                         [ "Word", "y", [ [ "WordName", "y" ] ] ]
                       ],
@@ -293,15 +321,15 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                    [ "Word", "'echo '", [ [ "WordLiteral", "'echo '" ] ] ]
                   ],
                   [
                     "CmdSuffix_CmdSuffix_Word",
                     [
                       "CmdSuffix_Word",
-                      [ "Word", "'a '", [ [ "WordLiteral", "z" ] ] ]
+                      [ "Word", "'a '", [ [ "WordLiteral", "'a '" ] ] ]
                     ],
-                    [ "Word", "'echo '", [ [ "WordLiteral", "x" ] ] ]
+                    [ "Word", "'echo '", [ [ "WordLiteral", "'echo '" ] ] ]
                   ]
                 ]
               ]

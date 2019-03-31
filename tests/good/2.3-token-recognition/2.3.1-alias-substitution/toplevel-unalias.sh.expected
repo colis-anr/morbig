@@ -81,7 +81,11 @@
                       "SimpleCommand_CmdName_CmdSuffix",
                       [
                         "CmdName_Word",
-                        [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
+                        [
+                          "Word",
+                          "'ls -l'",
+                          [ [ "WordLiteral", "'ls -l'" ] ]
+                        ]
                       ],
                       [
                         "CmdSuffix_Word",
@@ -116,7 +120,7 @@
                     ],
                     [
                       "CmdSuffix_Word",
-                      [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
+                      [ "Word", "'ls -l'", [ [ "WordLiteral", "'ls -l'" ] ] ]
                     ]
                   ]
                 ]
@@ -145,7 +149,7 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "'ls -l'", [ [ "WordLiteral", "foo" ] ] ]
+                      [ "Word", "'ls -l'", [ [ "WordLiteral", "'ls -l'" ] ] ]
                     ],
                     [
                       "CmdSuffix_Word",

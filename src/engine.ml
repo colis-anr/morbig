@@ -289,7 +289,7 @@ module Lexer (U : sig end) : Lexer = struct
         | Pretoken.IoNumber i ->
           return (IO_NUMBER (IONumber i))
 
-        | Pretoken.PreWord (w, cst) ->
+        | Pretoken.PreWord (w0, cst) ->
 
         (*specification:
 
@@ -316,8 +316,13 @@ module Lexer (U : sig end) : Lexer = struct
            rules, or applies globally.
 
         *)
-          let new_aliases, w = alias_substitution aliases checkpoint w in
-          let word = WORD (Word (w, List.(flatten (map parse_pattern cst)))) in
+          let new_aliases, w = alias_substitution aliases checkpoint w0 in
+          let word =
+            if w == w0 then
+              WORD (Word (w, List.(flatten (map parse_pattern cst))))
+            else
+              WORD (Word (w, [WordLiteral w]))
+          in
           let well_delimited_keyword =
             match previous_token () with
               | Some (Semicolon | DSEMI | NEWLINE | Rbrace | Rparen | Uppersand

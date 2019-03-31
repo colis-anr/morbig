@@ -40,6 +40,11 @@ end = struct
       mutable strings : string list;
     }
 
+  (* let show_size b =
+   *   Printf.eprintf "%d / %d\n"
+   *     (List.fold_left ( + ) 0 (List.map String.length b.strings))
+   *     (List.length b.buffer) *)
+
   let push_string b s =
     match b with
     | WordComponent (s', WordLiteral l) :: csts ->

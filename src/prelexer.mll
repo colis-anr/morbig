@@ -253,7 +253,9 @@ rule token current = parse
     debug ~rule:"single-quote" lexbuf current;
     if_unprotected_by_double_quote current lexbuf token (fun () ->
       let current = push_quoting_mark SingleQuote current in
-      let current = single_quotes (char_buffer ()) current lexbuf in
+      let buffer = char_buffer () in
+      let current = single_quotes buffer current lexbuf in
+      let () = Buffer.reset buffer in
       let current = pop_quotation SingleQuote current in
       token current lexbuf
      )
