@@ -423,7 +423,7 @@ let provoke_error current lexbuf =
    escaped backslash is used to escape the quote character.
 
 *)
-let escape_analysis ?(for_backquote=false) level current =
+let escape_analysis ?(for_backquote=false) ?(for_dquotes=false) level current =
   let current = AtomBuffer.last_line current.buffer in
   let number_of_backslashes_to_escape = Nesting.(
     (* FIXME: We will be looking for the general pattern here. *)
@@ -439,7 +439,7 @@ let escape_analysis ?(for_backquote=false) level current =
     | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ ->
        [2]
     | Backquotes ('`', _) :: DQuotes :: _ ->
-       [2]
+       if for_dquotes then [2] else [1]
     | Backquotes ('`', _) :: _ :: DQuotes :: _ ->
        [2]
     | [Backquotes ('`', _)] ->
@@ -485,10 +485,10 @@ let escape_analysis ?(for_backquote=false) level current =
      *)
     Some backslashes_before
 
-let escape_analysis_predicate ?(for_backquote=false) level current =
-  escape_analysis ~for_backquote level current = None
+let escape_analysis_predicate ?(for_backquote=false) ?(for_dquotes=false) level current =
+  escape_analysis ~for_backquote ~for_dquotes level current = None
 
-let escaped_double_quote = escape_analysis_predicate
+let escaped_double_quote = escape_analysis_predicate ~for_dquotes:true
 
 let escaped_single_quote = escape_analysis_predicate
 
