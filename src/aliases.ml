@@ -208,7 +208,9 @@ let inside_a_substitution_combo = function
 
 let quoted word =
   let len = String.length word in
-  len >= 2 && word.[0] = '\'' && word.[len - 1] = '\''
+  len >= 2
+  && ((word.[0] = '\'' && word.[len - 1] = '\'')
+      || (word.[0] = '"' && word.[len - 1] = '"'))
 
 let unquote word =
   String.(sub word 1 (length word - 2))
