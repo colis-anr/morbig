@@ -195,6 +195,9 @@ let hashtbl_to_list h =
   Hashtbl.iter (fun k v -> l := (k, v) :: !l) h;
   !l
 
+let list_nth_opt l n =
+  try Some (List.nth l n) with _ -> None
+
 let list_hd_opt = function
   | [] -> None
   | x :: _ -> Some x

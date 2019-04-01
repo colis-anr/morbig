@@ -276,7 +276,7 @@ module Lexer (U : sig end) : Lexer = struct
   let tokens = ref []
 
   let previous_token ?(n = 0) () =
-    List.nth_opt !tokens n
+    ExtPervasives.list_nth_opt !tokens n
 
   let rec next_token { aliases; checkpoint } =
     if HDL.inside_here_document () then (
