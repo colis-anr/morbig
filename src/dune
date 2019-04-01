@@ -21,6 +21,6 @@
 (executable
  (name morbigDriver)
  (public_name morbig)
- (ocamlopt_flags :standard -p)
+ (ocamlopt_flags :standard)
  (libraries morbig)
  (modules morbigDriver))
