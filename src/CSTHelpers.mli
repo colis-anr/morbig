@@ -15,7 +15,7 @@ open CST
 
 (** {2 Helpers about programs and complete commands} *)
 
-val empty_program : program
+val empty_program : program located
 val nonempty_program : program -> bool
 val concat_programs : program located -> program located -> program located
 

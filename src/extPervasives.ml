@@ -154,13 +154,12 @@ let string_strip s =
        else s
   else s
 
-let reduce f l =
-  assert (l <> []);
+let reduce default f l =
   let rec aux accu = function
     | [] -> accu
     | x :: xs -> aux (f accu x) xs
   in
-  aux (List.hd l) (List.tl l)
+  if l = [] then default else aux (List.hd l) (List.tl l)
 
 let repeat n f =
   let rec aux i =

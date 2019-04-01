@@ -91,7 +91,7 @@ let empty_linebreak' =
   with_pos dummy_position LineBreak_Empty
 
 let empty_program =
-  Program_LineBreak empty_linebreak'
+  with_pos dummy_position (Program_LineBreak empty_linebreak')
 
 let nonempty_program p =
   match p with
