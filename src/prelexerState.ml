@@ -36,9 +36,21 @@ module AtomBuffer : sig
   val last_line : t -> string
 end = struct
   type t = {
-      mutable buffer : atom list;
+      mutable buffer  : atom list;
+      mutable strings_len : int;
       mutable strings : string list;
     }
+
+  let too_many_strings = 1024
+
+  let compact_strings strings =
+    [String.concat "" strings]
+
+  let compact b =
+    if b.strings_len > too_many_strings then (
+      b.strings_len <- 1;
+      b.strings <- compact_strings b.strings
+    )
 
   let push_string b s =
     match b with
@@ -59,13 +71,15 @@ end = struct
 
   let get b = normalize b; b.buffer
 
-  let make l = { buffer = l; strings = [] }
+  let make l = { buffer = l; strings_len = 0; strings = [] }
 
   let is_empty b =
     get b = []
 
   let push_string b s =
-    { b with strings = s :: b.strings}
+    compact b;
+    b.strings_len <- b.strings_len + 1;
+    { b with strings = s :: b.strings }
 
   let buffer_as_strings b =
     let rec aux accu = function
@@ -77,7 +91,6 @@ end = struct
     List.rev (aux [] b)
 
   let last_line b =
-    normalize b;
     let last_line_of_strings ss =
       let rec aux accu = function
         | s :: ss ->
@@ -451,16 +464,16 @@ let escape_analysis ?(for_backquote=false) ?(for_dquotes=false) level current =
        [1]
   )
   in
-  let current' = List.(concat (map rev (map string_to_char_list [current]))) in
-
-  if Options.debug () then
+  if Options.debug () then (
+    let current' = List.(concat (map rev (map string_to_char_list [current]))) in
     Printf.eprintf "N = %s | %s\n"
       (String.concat " "
          (List.map string_of_int number_of_backslashes_to_escape)
       )
-      (string_of_char_list current');
+      (string_of_char_list current')
+  );
 
-  let backslashes_before = preceding '\\' current' in
+  let backslashes_before = ExtPervasives.count_end_character '\\' current in
 
   if List.exists (fun k ->
          backslashes_before >= k && (k - backslashes_before) mod (k + 1) = 0

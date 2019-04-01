@@ -97,8 +97,10 @@ end = struct
       let rec unquote = function
         | [] -> ""
         | WordDoubleQuoted s :: w ->
+           quoted_flag := true;
            QuoteRemoval.on_string (unword s) ^ unquote w
         | WordSingleQuoted s :: w ->
+           quoted_flag := true;
            unword s ^ unquote w
         | (WordLiteral s | WordName s) :: w ->
            let s' = Str.(global_replace (regexp "\\") "" s) in

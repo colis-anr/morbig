@@ -136,6 +136,14 @@ let string_of_char_list s =
   List.iter (Buffer.add_char b) s;
   Buffer.contents b
 
+let count_end_character c s =
+  let rec aux r i =
+    if i < 0 then r
+    else if s.[i] = c then aux (r + 1) (i - 1)
+    else r
+  in
+  aux 0 (String.length s - 1)
+
 (** [strip s] returns a copy of s, without any final newline *)
 let string_strip s =
   let n = String.length s in
