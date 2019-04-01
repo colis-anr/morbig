@@ -27,8 +27,9 @@ open CST
 open PrelexerState
 open Pretoken
 
-let char_buffer () =
-  Buffer.create 31
+let char_buffer =
+  let buffer = Buffer.create 31 in
+  fun () -> buffer
 
 let flush_buffer buffer =
   let s = Buffer.contents buffer in
@@ -255,7 +256,6 @@ rule token current = parse
       let current = push_quoting_mark SingleQuote current in
       let buffer = char_buffer () in
       let current = single_quotes buffer current lexbuf in
-      let () = Buffer.reset buffer in
       let current = pop_quotation SingleQuote current in
       token current lexbuf
      )
