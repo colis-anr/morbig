@@ -1,0 +1,3 @@
+cat <<$something
+abc
+$something
