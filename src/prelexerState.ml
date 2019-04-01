@@ -67,6 +67,7 @@ end = struct
         let s = String.concat "" (List.rev b.strings) in
         let buffer = push_string b.buffer s in
         b.strings <- [];
+        b.strings_len <- 0;
         b.buffer <- buffer
       end
 
@@ -85,7 +86,6 @@ end = struct
       }
     in
     compact b
-
 
   let buffer_as_strings b =
     let rec aux accu = function
