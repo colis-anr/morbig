@@ -1,0 +1,112 @@
+[
+  "Program_LineBreak_CompleteCommands_LineBreak",
+  [ "LineBreak_Empty" ],
+  [
+    "CompleteCommands_CompleteCommand",
+    [
+      "CompleteCommand_CList",
+      [
+        "CList_AndOr",
+        [
+          "AndOr_Pipeline",
+          [
+            "Pipeline_PipeSequence",
+            [
+              "PipeSequence_Command",
+              [
+                "Command_SimpleCommand",
+                [
+                  "SimpleCommand_CmdName_CmdSuffix",
+                  [
+                    "CmdName_Word",
+                    [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                  ],
+                  [
+                    "CmdSuffix_CmdSuffix_IoRedirect",
+                    [
+                      "CmdSuffix_IoRedirect",
+                      [
+                        "IoRedirect_IoHere",
+                        [
+                          "IoHere_DLess_HereEnd",
+                          [
+                            "HereEnd_Word",
+                            [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
+                          ],
+                          [
+                            "Word",
+                            "(I (love lisp))\n",
+                            [ [ "WordLiteral", "(I (love lisp))\n" ] ]
+                          ]
+                        ]
+                      ]
+                    ],
+                    [
+                      "IoRedirect_IoFile",
+                      [
+                        "IoFile_DGreat_FileName",
+                        [
+                          "Filename_Word",
+                          [
+                            "Word",
+                            "`foo`",
+                            [
+                              [
+                                "WordSubshell",
+                                [ "SubShellKindBackQuote" ],
+                                [
+                                  "Program_LineBreak_CompleteCommands_LineBreak",
+                                  [ "LineBreak_Empty" ],
+                                  [
+                                    "CompleteCommands_CompleteCommand",
+                                    [
+                                      "CompleteCommand_CList",
+                                      [
+                                        "CList_AndOr",
+                                        [
+                                          "AndOr_Pipeline",
+                                          [
+                                            "Pipeline_PipeSequence",
+                                            [
+                                              "PipeSequence_Command",
+                                              [
+                                                "Command_SimpleCommand",
+                                                [
+                                                  "SimpleCommand_CmdName",
+                                                  [
+                                                    "CmdName_Word",
+                                                    [
+                                                      "Word",
+                                                      "foo",
+                                                      [
+                                                        [ "WordName", "foo" ]
+                                                      ]
+                                                    ]
+                                                  ]
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ],
+                                  [ "LineBreak_Empty" ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [ "LineBreak_Empty" ]
+]
