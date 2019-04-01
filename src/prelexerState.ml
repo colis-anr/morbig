@@ -44,13 +44,14 @@ end = struct
   let too_many_strings = 1024
 
   let compact_strings strings =
-    [String.concat "" strings]
+    [String.concat "" (List.rev strings)]
 
   let compact b =
     if b.strings_len > too_many_strings then (
       b.strings_len <- 1;
       b.strings <- compact_strings b.strings
-    )
+    );
+    b
 
   let push_string b s =
     match b with
@@ -77,9 +78,14 @@ end = struct
     get b = []
 
   let push_string b s =
-    compact b;
-    b.strings_len <- b.strings_len + 1;
-    { b with strings = s :: b.strings }
+    let b =
+      { b with
+        strings = s :: b.strings;
+        strings_len = b.strings_len + 1
+      }
+    in
+    compact b
+
 
   let buffer_as_strings b =
     let rec aux accu = function
