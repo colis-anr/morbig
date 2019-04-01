@@ -267,10 +267,8 @@ module Lexer (U : sig end) : Lexer = struct
 
   let tokens = ref []
 
-  let previous_token () =
-    match !tokens with
-    | x :: _ -> Some x
-    | _ -> None
+  let previous_token ?(n = 0) () =
+    List.nth_opt !tokens n
 
   let rec next_token { aliases; checkpoint } =
     if HDL.inside_here_document () then (
@@ -327,7 +325,9 @@ module Lexer (U : sig end) : Lexer = struct
             match previous_token () with
               | Some (Semicolon | DSEMI | NEWLINE | Rbrace | Rparen | Uppersand
                       | Fi) -> true
-              | _ -> false
+              | _ -> match previous_token ~n:1 () with
+                     | Some For -> true
+                     | _ -> false
           in
           let token = FirstSuccessMonad.(
             (recognize_assignment checkpoint p cst)
