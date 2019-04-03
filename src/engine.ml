@@ -410,12 +410,30 @@ module Lexer (U : sig end) : Lexer = struct
         pos_cnum = p.pos_cnum
     }
 
+  let remember_token token =
+    tokens := match !tokens with
+    | [] -> [token]
+    | [token'] | [token'; _] -> [token; token']
+    | _ -> assert false (* We only need to remember at most the last two tokens. *)
+
+  let show_line_number =
+    let timestamp = ref (Unix.gettimeofday ()) in
+    let last = ref 0 in
+    fun pos ->
+    if pos.Lexing.pos_lnum > !last then (
+      let now = Unix.gettimeofday () in
+      last := pos.Lexing.pos_lnum;
+      Printf.eprintf "%f Line %d\n" (now -. !timestamp) !last;
+      timestamp := now
+    )
+
   let next_token ({ aliases; checkpoint } as state) =
     let curr_p = copy_position (lexbuf ()).Lexing.lex_curr_p in
+    show_line_number curr_p;
     let state' = { aliases; checkpoint } in
     let (raw, _, _, aliases) as token = next_token state' in
     let state = { state with aliases } in
-    tokens := raw :: !tokens;
+    remember_token raw;
     last_state := Some (state, token, curr_p);
     token
 

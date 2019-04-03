@@ -24,7 +24,7 @@ let comment f message =
   y
 
 let string_of_channel cin =
-  let b = Buffer.create 16384 in
+  let b = Buffer.create (12 * 16384) in
   let rec aux () =
     Buffer.add_channel b cin 1;
     aux ()
@@ -144,6 +144,15 @@ let count_end_character c s =
   in
   aux 0 (String.length s - 1)
 
+let is_digit s =
+  let len = String.length s in
+  let rec aux i =
+    (i >= len)
+    || let c = s.[i] in
+       ((c >= '0' && c <= '9') && aux (i + 1))
+  in
+  aux 0
+
 (** [strip s] returns a copy of s, without any final newline *)
 let string_strip s =
   let n = String.length s in
@@ -181,10 +190,10 @@ let rec take n l =
 
 let take_until pred l =
   let rec aux accu = function
-  | [] -> [], l
-  | x :: xs ->
+  | [] -> [], l, false
+  | (x :: xs) as l ->
     if pred x then
-      List.rev accu, x :: xs
+      List.rev accu, l, true
     else
       aux (x :: accu) xs
   in
@@ -272,11 +281,18 @@ let ( <$> ) x f =
 let list_last l =
   list_hd_opt (List.rev l)
 
-let newline_regexp =
-  Str.regexp "\010"
+let contains_newline s =
+  String.contains s '\010'
 
 let lines s =
-  Str.split_delim newline_regexp s
+  String.split_on_char '\010' s
 
 let string_last_line s =
   lines s |> list_last
+
+let time what f =
+  let start = Unix.gettimeofday () in
+  let y = f () in
+  let stop = Unix.gettimeofday () in
+  Printf.eprintf "%s: %f\n" what (stop -. start);
+  y
