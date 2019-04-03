@@ -34,7 +34,6 @@ module AtomBuffer : sig
   val is_empty : t -> bool
   val push_string : t -> string -> t
   val last_line : t -> string
-  val count_end_character : char -> t -> int
 end = struct
   type t = {
       mutable buffer  : atom list;
@@ -42,31 +41,15 @@ end = struct
       mutable strings : string list;
     }
 
-  let too_many_strings_threshold = 128
-
-  let too_many_strings = ref too_many_strings_threshold
+  let too_many_strings = 1024
 
   let compact_strings strings =
-    let n = List.fold_left (fun a s -> a + String.length s) 0 strings in
-    let f = Bytes.create n in
-    let copy i s =
-      let j = i - String.length s in
-      for k = j to i - 1 do
-        Bytes.set f k s.[k - j]
-      done;
-      j
-    in
-    let rec aux i = function
-        | s :: ss -> aux (copy i s) ss
-        | [] -> Bytes.to_string f
-    in
-    aux n strings
+    [String.concat "" (List.rev strings)]
 
   let compact b =
-    if b.strings_len > !too_many_strings then (
-      too_many_strings := min max_int (2 * !too_many_strings);
+    if b.strings_len > too_many_strings then (
       b.strings_len <- 1;
-      b.strings <- [compact_strings b.strings]
+      b.strings <- compact_strings b.strings
     );
     b
 
@@ -81,9 +64,8 @@ end = struct
 
   let normalize b =
     if b.strings <> [] then begin
-        let s = compact_strings b.strings in
+        let s = String.concat "" (List.rev b.strings) in
         let buffer = push_string b.buffer s in
-        too_many_strings := too_many_strings_threshold;
         b.strings <- [];
         b.strings_len <- 0;
         b.buffer <- buffer
@@ -118,7 +100,7 @@ end = struct
     let last_line_of_strings ss =
       let rec aux accu = function
         | s :: ss ->
-           if ExtPervasives.contains_newline s then
+           if Str.string_match ExtPervasives.newline_regexp s 0 then
              match ExtPervasives.(list_last (lines s)) with
                | None -> assert false (* By the if-condition. *)
                | Some s -> s :: accu
@@ -133,23 +115,6 @@ end = struct
       last_line_of_strings b.strings
     else
       last_line_of_strings (buffer_as_strings b.buffer)
-
-  let count_end_character c b =
-    let rec count split l =
-      match split l with
-      | Some (s, ss) ->
-         let d = ExtPervasives.count_end_character c s in
-         if d < String.length s then d + count split ss else d
-      | None ->
-         0
-    in
-
-    let count_in_strings l =
-      count (function s :: ss -> Some (s, ss) | _ -> None) l
-    and count_in_buffer l =
-      count (function (WordComponent (s, _)) :: ss -> Some (s, ss) | _ -> None) l
-    in
-    if b.strings <> [] then count_in_strings b.strings else count_in_buffer b.buffer
 
 end
 
@@ -321,8 +286,8 @@ let is_assignment_mark = function
   | _ -> false
 
 let recognize_assignment current =
-  let rhs, prefix, found = take_until is_assignment_mark (buffer current) in
-  if not found then (
+  let rhs, prefix = take_until is_assignment_mark (buffer current) in
+  if prefix = buffer current then (
     current
   ) else
     let buffer = AtomBuffer.make (rhs @ List.tl prefix) in
@@ -375,15 +340,14 @@ let recognize_assignment current =
     the buffer.
 
 *)
+let digit_regexp = Str.regexp "^[0-9]+$"
+
 let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
-(*
   assert (
       not (List.exists (function (Pretoken.PreWord _)->true |_-> false) tokens)
     );
-*)
-  let current =
-     recognize_assignment current
-  in
+
+  let current = recognize_assignment current in
 
   let flush_word b =
     let buf = Buffer.create 13 in
@@ -393,6 +357,9 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   and produce token =
     (* FIXME: Positions are not updated properly. *)
     (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
+  in
+  let is_digit d =
+    Str.(string_match digit_regexp d 0)
   in
   let followed_by_redirection = Parser.(function
     | Pretoken.Operator (LESSAND |  GREATAND | DGREAT | DLESS _
@@ -428,7 +395,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
     match flush_word current with
     | "" ->
       []
-    | w when ExtPervasives.is_digit w && followed_by_redirection tokens ->
+    | w when is_digit w && followed_by_redirection tokens ->
       [Pretoken.IoNumber w]
     | w ->
       let csts =
@@ -476,6 +443,7 @@ let provoke_error current lexbuf =
 
 *)
 let escape_analysis ?(for_backquote=false) ?(for_dquotes=false) level current =
+  let current = AtomBuffer.last_line current.buffer in
   let number_of_backslashes_to_escape = Nesting.(
     (* FIXME: We will be looking for the general pattern here. *)
     match level with
@@ -503,7 +471,6 @@ let escape_analysis ?(for_backquote=false) ?(for_dquotes=false) level current =
   )
   in
   if Options.debug () then (
-    let current = AtomBuffer.last_line current.buffer in
     let current' = List.(concat (map rev (map string_to_char_list [current]))) in
     Printf.eprintf "N = %s | %s\n"
       (String.concat " "
@@ -512,7 +479,7 @@ let escape_analysis ?(for_backquote=false) ?(for_dquotes=false) level current =
       (string_of_char_list current')
   );
 
-  let backslashes_before = AtomBuffer.count_end_character '\\' current.buffer in
+  let backslashes_before = ExtPervasives.count_end_character '\\' current in
 
   if List.exists (fun k ->
          backslashes_before >= k && (k - backslashes_before) mod (k + 1) = 0

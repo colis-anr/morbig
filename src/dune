@@ -13,7 +13,7 @@
 (library
  (name morbig)
  (public_name morbig)
- (libraries str menhirLib ppx_deriving_yojson.runtime visitors.runtime unix)
+ (libraries str menhirLib ppx_deriving_yojson.runtime visitors.runtime)
  (preprocess (pps ppx_deriving_yojson visitors.ppx))
  (flags :standard -w -3) ; FIXME: remove this when Yojson and its PPX are fixed.
  (modules :standard \ morbigDriver))
@@ -21,6 +21,6 @@
 (executable
  (name morbigDriver)
  (public_name morbig)
- (ocamlopt_flags :standard -p)
- (libraries morbig unix)
+ (ocamlopt_flags :standard)
+ (libraries morbig)
  (modules morbigDriver))
