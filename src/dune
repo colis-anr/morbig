@@ -23,4 +23,5 @@
  (public_name morbig)
  (ocamlopt_flags :standard)
  (libraries morbig)
+ (preprocess (pps ppx_deriving_yojson visitors.ppx)) ;; Avoid warning about incomplete merlin files.
  (modules morbigDriver))
