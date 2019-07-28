@@ -22,14 +22,13 @@ matrix:
     - env: TAG=4.05
     - env: TAG=4.06 DEPLOY=true
     - env: TAG=4.07
+    - env: TAG=4.08
     - env: TAG=alpine
     - env: TAG=centos
     - env: TAG=debian-stable
     - env: TAG=debian-testing
     - env: TAG=debian-unstable
-    - env: TAG=fedora
     - env: TAG=opensuse
-    - env: TAG=oraclelinux
     - env: TAG=ubuntu
     - env: TAG=ubuntu-lts
 
