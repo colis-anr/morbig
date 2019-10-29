@@ -46,7 +46,7 @@
                         ],
                         [
                           "Word",
-                          "abc ` def\nghi jkl\n",
+                          "abc ` def\nghi \\\njkl\n",
                           [ [ "WordLiteral", "abc ` def\nghi \\\njkl\n" ] ]
                         ]
                       ]

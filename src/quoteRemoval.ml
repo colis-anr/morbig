@@ -65,20 +65,18 @@ type backslash_automaton_state = Default | Backslash
 let backslash_as_in_doublequotes s =
   let n = String.length s in
   let b = Buffer.create n in
-  let i = ref 0 and
-      state = ref Default in
+  let i = ref 0 and state = ref Default in
   let keep () = Buffer.add_char b s.[!i]; incr i
   and pushbackslash () = Buffer.add_char b '\\'
   and skip () = incr i in
-  while !i<n do
+  while !i < n do
     match !state with
     | Default ->
        if s.[!i] = '\\'
        then begin state := Backslash; skip () end
        else keep ()
     | Backslash -> begin
-        if s.[!i] = '\n' then skip () (* FIXME: can that happen? *)
-        else if List.mem s.[!i] ['$'; '\''; '"'; '\\'] then keep ()
+        if List.mem s.[!i] ['$'; '\''; '"'; '\\'] then keep ()
         else begin pushbackslash(); keep () end;
         state := Default
       end

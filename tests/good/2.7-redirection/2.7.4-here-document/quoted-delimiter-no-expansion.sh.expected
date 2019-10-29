@@ -107,7 +107,7 @@
                                         ],
                                         [
                                           "Word",
-                                          "Here document not expanded, may be unbalanced ' \" $(\nand a backslash at the end of the line is NOT removed ",
+                                          "Here document not expanded, may be unbalanced ' \" $(\nand a backslash at the end of the line is NOT removed \\\n",
                                           [
                                             [
                                               "WordLiteral",
