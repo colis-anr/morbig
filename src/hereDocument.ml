@@ -156,13 +156,11 @@ end = struct
           double-quote appears within "$()", "``", or "${}".
       *)
       let contents =
-        Printf.eprintf "Content = %s\n" contents;
         if delimiter_info.quoted then
           QuoteRemoval.backslash_as_in_doublequotes contents
         else
           contents
       in
-      Printf.eprintf "Content = %s\n" contents;
       let contents, cst =
         remove_contents_suffix doc_end end_marker contents cst
       in
