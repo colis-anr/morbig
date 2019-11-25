@@ -1,7 +1,8 @@
 #!/bin/sh
+set -euC
 cd "$(dirname "$0")"
 
-MODE=${MODE:=strict}
+VERBOSE=${VERBOSE:-}
 
 realpath () (
     cd "$(dirname "$1")"
@@ -14,7 +15,7 @@ printf "* Testsuite configuration\n"
 
 # cleanup
 find . \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
-[ "$1" = 'clean' ] && exit 0
+[ "${1:-}" = 'clean' ] && exit 0
 
 ## ========= Find morbig; either in this directory, or in the $PATH ========= ##
 
@@ -38,9 +39,32 @@ good_total=0
 good_accepted=0
 good_rejected=0
 good_unexpected=0
+
+good_open_total=0
+good_open_accepted=0
+good_open_rejected=0
+good_open_unexpected=0
+
 bad_total=0
 bad_accepted=0
 bad_rejected=0
+
+bad_open_total=0
+bad_open_accepted=0
+bad_open_rejected=0
+
+incr () {
+    eval "$1=\$(($1 + 1))"
+}
+
+last_test_printed=
+printf_for_test () {
+    if [ "$test" != "$last_test_printed" ]; then
+	last_test_printed=$test
+	printf '* %s\n' "$test"
+    fi
+    printf "$@"
+}
 
 # Test loop
 for category in good bad
@@ -51,51 +75,65 @@ do
 
 	if [ \! -f "$test.sh" ]
 	then
-	    printf '\n* [WARN] File `%s` does not exist or is not a file.
+	    printf_for_test '[WARN] File `%s` does not exist or is not a file.
          Did you create a test whose name contains a space?\n' "$test"
 	    continue
 	fi
 
-	case "$category" in
-	    'good') good_total=$((good_total + 1)) ;;
-	    'bad') bad_total=$((bad_total + 1)) ;;
-	esac
+	open=
+	[ -e "$test.sh.open" ] && open=_open # Warning: the underscore matters.
+
+	incr ${category}${open}_total # eg. good_open_total or bad_total
+
 	if "$morbig" --as simple "$test.sh" 2>/dev/null
 	then
-	    case "$category" in
-		'bad')
-		    printf '* [FAIL] Wrongly accepted: %s\n' "$test"
-		    bad_accepted=$((bad_accepted + 1))
+	    case "$category""$open" in
+		bad)
+		    printf_for_test '[FAIL] Wrongly accepted: %s\n' "$test"
+		    incr bad_accepted
 		    ;;
-		'good')
-		    if [ $MODE = "strict" ] && [ \! -f "$test.sh.expected" ]
-		    then
-			printf '* [WARN] Missing `.expected` file: %s\n' "$test"
-			good_unexpected=$((good_unexpected + 1))
-		    elif [ $MODE = "strict" ] \
-                         && ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null
-		    then
-   		        printf '* [FAIL] Wrong output: %s\n' "$test";
-			if [ x$VERBOSE != x ]; then
-			    echo "** $test.sh"
+		bad_open)
+		    printf_for_test '[WARN] Open wrongly accepted: %s\n' "$test"
+		    incr bad_open_accepted
+		    ;;
+
+		good*)
+		    if [ \! -f "$test.sh.expected" ]; then
+			printf_for_test '[WARN] Missing `.expected` file: %s\n' "$test"
+			incr good${open}_unexpected
+
+		    elif ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null; then
+			if [ -n "$open" ]; then
+   		            printf_for_test '[WARN] Open with wrong output: %s\n' "$test"
+			else
+   		            printf_for_test '[FAIL] Wrong output: %s\n' "$test"
+			fi
+			if [ -n "$VERBOSE" ]; then
+			    echo '** .sh'
 			    cat "$test.sh"
-			    echo "** $test.sh.sjson"
+			    echo '** .sh.sjson'
 			    cat "$test.sh.sjson"
-			    echo "** $test.sh.expected"
+			    echo '** .sh.expected'
 			    cat "$test.sh.expected"
 			fi
-			good_unexpected=$((good_unexpected + 1))
+			incr good${open}_unexpected
 		    else
-			good_accepted=$((good_accepted + 1))
+			incr good${open}_accepted
 		    fi
 	    esac
 	else
 	    case "$category" in
-		'bad') bad_rejected=$((bad_rejected + 1)) ;;
-		'good')
-		    good_rejected=$((good_rejected + 1))
-		    printf '* [FAIL] Wrongly reject: %s\n' "$test"
- 		    if [ x$VERBOSE != x ]; then
+		bad)
+		    incr bad${open}_rejected
+		    ;;
+		good)
+		    incr good${open}_rejected
+		    if [ -n "$open" ]; then
+			printf_for_test '[WARN] Open wrongly rejected: %s\n' "$test"
+		    else
+			printf_for_test '[FAIL] Wrongly rejected: %s\n' "$test"
+		    fi
+ 		    if [ -n "$VERBOSE" ]; then
 			echo "** $test.sh"
 			cat "$test.sh"
 		    fi
@@ -104,31 +142,42 @@ do
     done
 done
 
-passed=$((good_accepted + bad_rejected))
-failed=$((good_unexpected + good_rejected + bad_accepted))
-total=$((good_total + bad_total))
+passed=$((good_accepted + good_open_accepted + bad_rejected + bad_open_rejected))
+unexpected=$((good_unexpected + good_open_unexpected))
+unexpected_open=$good_open_unexpected
+failed=$((good_rejected + good_open_rejected + bad_accepted + bad_open_accepted))
+failed_open=$((good_open_rejected + bad_open_accepted))
+total=$((good_total + good_open_total + bad_total + bad_open_total))
 
-if [ "$((passed + failed))" -ne "$total" ]
-then
+if [ "$((passed + unexpected + failed))" -ne "$total" ]; then
     printf '* *Erk... there must be a problem in this test script*.\n'
 fi
 
 printf '* Summary:
------------------------------------
-| Tests | Passed | Failed | Total |
-|-------|--------|--------|-------|
-| good  |    %3d |    %3d |   %3d | %s
-| bad   |    %3d |    %3d |   %3d |
-| all   |    %3d |    %3d |   %3d |
------------------------------------\n' \
-       "$good_accepted" "$((good_unexpected + good_rejected))" "$good_total" \
-       "$([ "$good_unexpected" -ne 0 ] && printf '(inc. %d tests with wrong output)' "$good_unexpected")" \
+         ------------------------------------
+         | Passed | Unexp. | Failed | Total |
+|--------|--------|--------|--------|-------|
+|  good  |    %3d |    %3d |    %3d |   %3d |
+| (open) |    %3d |    %3d |    %3d |   %3d |
+|--------|--------|--------|--------|-------|
+|  bad   |    %3d |    n/a |    %3d |   %3d |
+| (open) |    %3d |    n/a |    %3d |   %3d |
+|--------|--------|--------|--------|-------|
+|  all   |    %3d |    %3d |    %3d |   %3d |
+---------------------------------------------\n' \
+       "$good_accepted" "$good_unexpected" "$good_rejected" "$good_total" \
+       "$good_open_accepted" "$good_open_unexpected" "$good_open_rejected" "$good_open_total" \
        "$bad_rejected" "$bad_accepted" "$bad_total" \
-       "$passed" "$failed" "$total"
+       "$bad_open_rejected" "$bad_open_accepted" "$bad_open_total" \
+       "$passed" "$unexpected" "$failed" "$total"
 
-if [ "$failed" -gt 0 ]
-then
-    exit 2
+if [ "$failed" -gt 0 ] || [ "$unexpected" -gt 0 ]; then
+    if [ "$failed" -eq "$failed_open" ] && [ "$unexpected" -eq "$unexpected_open" ]; then
+	printf '[INFO] All failures are due to open bugs. This script will succeed.\n'
+	exit 0
+    else
+	exit 2
+    fi
 else
     printf "\n         ----------------\n"
     printf "         Congratulations!\n"
