@@ -260,15 +260,7 @@ let pop_arith b =
   let str_expression, expression, buffer = aux "" [] (buffer b) in
   let word = Word (str_expression, expression) in
   let expression = WordArith word in
-    (* match k with
-    | SingleQuote -> WordSingleQuoted word
-    | DoubleQuote -> WordDoubleQuoted word
-    | OpeningBrace -> WordDoubleQuoted word *)
   let str_expression =  "$((" ^ str_expression ^ "))"
-    (* match k with
-    | SingleQuote -> "'" ^ squote ^ "'"
-    | DoubleQuote -> "\"" ^ squote ^ "\""
-    | OpeningBrace -> squote *)
   in
   let expression = WordComponent (str_expression, expression) in
   let buffer = AtomBuffer.make (expression :: buffer) in
