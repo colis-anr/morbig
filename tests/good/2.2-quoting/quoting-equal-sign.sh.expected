@@ -268,7 +268,14 @@
                       [
                         "Word",
                         "a$((=))b",
-                        [ [ "WordLiteral", "a$((=))b" ] ]
+                        [
+                          [ "WordLiteral", "a" ],
+                          [
+                            "WordArith",
+                            [ "Word", "=", [ [ "WordLiteral", "=" ] ] ]
+                          ],
+                          [ "WordLiteral", "b" ]
+                        ]
                       ]
                     ]
                   ]

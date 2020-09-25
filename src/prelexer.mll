@@ -381,7 +381,7 @@ rule token current = parse
    If the current character is an unquoted '$' or '`', the shell shall
    identify the start of any candidates for parameter expansion
    (Parameter Expansion), command substitution (Command Substitution),
-   or ] arithmetic expansion (Arithmetic Expansion) from their
+   or arithmetic expansion (Arithmetic Expansion) from their
    introductory unquoted character sequences: '$' or "${", "$(" or
    '`', and "$((", respectively. The shell shall read sufficient input
    to determine the end of the unit to be expanded (as explained in
@@ -432,10 +432,12 @@ rule token current = parse
   }
 
 | "$((" {
-    let current = push_string current "$((" in
+    debug ~rule:"arithmetic-exp" lexbuf current;
+    let current = push_arith current in
     let current = next_double_rparen 1 current lexbuf in
+    let current = pop_arith current in
     token current lexbuf
-  }
+}
 
 (*specification:
 
@@ -715,6 +717,13 @@ and next_double_rparen dplevel current = parse
     let current = push_string current "((" in
     next_double_rparen (dplevel+1) current lexbuf
   }
+  | "$((" {
+    debug ~rule:"arithmetic-exp" lexbuf current;
+    let current = push_arith current in
+    let current = next_double_rparen (dplevel+1) current lexbuf in
+    let current = pop_arith current in
+    current
+  }
   | '`' as op | "$" ( '(' as op) {
     let escaping_level = 0 in (* FIXME: Probably wrong. *)
     let current = push_string current (Lexing.lexeme lexbuf) in
@@ -724,7 +733,6 @@ and next_double_rparen dplevel current = parse
     next_double_rparen dplevel current lexbuf
   }
   | "))" {
-    let current = push_string current "))" in
     if dplevel = 1
     then current
     else if dplevel > 1 then next_double_rparen (dplevel-1) current lexbuf

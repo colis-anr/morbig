@@ -24,6 +24,7 @@ type atom =
   | WordComponent of (string * word_component)
   | QuotingMark of quote_kind
   | AssignmentMark
+  | ArithMark
 
 and quote_kind = SingleQuote | DoubleQuote | OpeningBrace
 
@@ -216,6 +217,7 @@ let string_of_atom = function
   | WordComponent (s, _) -> s
   | AssignmentMark -> "|=|"
   | QuotingMark _ -> "|Q|"
+  | ArithMark -> "|A|"
 
 let contents_of_atom_list atoms =
   String.concat "" (List.rev_map string_of_atom atoms)
@@ -238,6 +240,40 @@ let components_of_atom_list atoms =
 let components b =
   components_of_atom_list (buffer b)
 
+let push_arith b =
+  let cst = ArithMark in
+  let buffer = AtomBuffer.make (cst :: buffer b) in
+  { b with buffer }
+
+let pop_arith b =
+  let rec aux str_expression expression = function
+    | [] ->
+       (str_expression, expression, [])
+    | ArithMark :: buffer -> (str_expression, expression, buffer)
+    | (AssignmentMark | QuotingMark _ ) :: buffer ->
+       aux str_expression expression buffer (* FIXME: Check twice. *)
+    | WordComponent (w, WordEmpty) :: buffer ->
+       aux (w ^ str_expression) expression buffer
+    | WordComponent (w, c) :: buffer ->
+       aux (w ^ str_expression) (c :: expression) buffer
+  in
+  let str_expression, expression, buffer = aux "" [] (buffer b) in
+  let word = Word (str_expression, expression) in
+  let expression = WordArith word in
+    (* match k with
+    | SingleQuote -> WordSingleQuoted word
+    | DoubleQuote -> WordDoubleQuoted word
+    | OpeningBrace -> WordDoubleQuoted word *)
+  let str_expression =  "$((" ^ str_expression ^ "))"
+    (* match k with
+    | SingleQuote -> "'" ^ squote ^ "'"
+    | DoubleQuote -> "\"" ^ squote ^ "\""
+    | OpeningBrace -> squote *)
+  in
+  let expression = WordComponent (str_expression, expression) in
+  let buffer = AtomBuffer.make (expression :: buffer) in
+  { b with buffer }
+
 let push_quoting_mark k b =
   let cst = QuotingMark k in
   let buffer = AtomBuffer.make (cst :: buffer b) in
@@ -249,7 +285,7 @@ let pop_quotation k b =
        (squote, quote, [])
     | QuotingMark k' :: buffer when k = k' ->
        (squote, quote, buffer)
-    | (AssignmentMark | QuotingMark _) :: buffer ->
+    | (AssignmentMark | QuotingMark _ | ArithMark) :: buffer ->
        aux squote quote buffer (* FIXME: Check twice. *)
     | WordComponent (w, WordEmpty) :: buffer ->
        aux (w ^ squote) quote buffer
@@ -404,6 +440,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
             | WordComponent (_, s) -> [s]
             | AssignmentMark -> []
             | QuotingMark _ -> []
+            | ArithMark -> []
          ) (buffer current)))
       in
       let csts = TildePrefix.recognize csts in
