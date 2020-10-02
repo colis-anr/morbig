@@ -114,29 +114,17 @@
                                           "${#*}",
                                           [
                                             [
-                                              "WordVariable",
+                                              "WordDoubleQuoted",
                                               [
-                                                "VariableAtom",
-                                                "#",
+                                                "Word",
+                                                "${#*}",
                                                 [
-                                                  "ParameterLength",
                                                   [
-                                                    "Word",
-                                                    "*",
+                                                    "WordVariable",
                                                     [
-                                                      [
-                                                        "WordDoubleQuoted",
-                                                        [
-                                                          "Word",
-                                                          "*",
-                                                          [
-                                                            [
-                                                              "WordLiteral",
-                                                              "*"
-                                                            ]
-                                                          ]
-                                                        ]
-                                                      ]
+                                                      "VariableAtom",
+                                                      "*",
+                                                      [ "ParameterLength" ]
                                                     ]
                                                   ]
                                                 ]
@@ -183,29 +171,17 @@
                                         "${#@}",
                                         [
                                           [
-                                            "WordVariable",
+                                            "WordDoubleQuoted",
                                             [
-                                              "VariableAtom",
-                                              "#",
+                                              "Word",
+                                              "${#@}",
                                               [
-                                                "ParameterLength",
                                                 [
-                                                  "Word",
-                                                  "@",
+                                                  "WordVariable",
                                                   [
-                                                    [
-                                                      "WordDoubleQuoted",
-                                                      [
-                                                        "Word",
-                                                        "@",
-                                                        [
-                                                          [
-                                                            "WordLiteral",
-                                                            "@"
-                                                          ]
-                                                        ]
-                                                      ]
-                                                    ]
+                                                    "VariableAtom",
+                                                    "@",
+                                                    [ "ParameterLength" ]
                                                   ]
                                                 ]
                                               ]
@@ -252,29 +228,17 @@
                                       "${#foo}",
                                       [
                                         [
-                                          "WordVariable",
+                                          "WordDoubleQuoted",
                                           [
-                                            "VariableAtom",
-                                            "#",
+                                            "Word",
+                                            "${#foo}",
                                             [
-                                              "ParameterLength",
                                               [
-                                                "Word",
-                                                "foo",
+                                                "WordVariable",
                                                 [
-                                                  [
-                                                    "WordDoubleQuoted",
-                                                    [
-                                                      "Word",
-                                                      "foo",
-                                                      [
-                                                        [
-                                                          "WordLiteral",
-                                                          "foo"
-                                                        ]
-                                                      ]
-                                                    ]
-                                                  ]
+                                                  "VariableAtom",
+                                                  "foo",
+                                                  [ "ParameterLength" ]
                                                 ]
                                               ]
                                             ]

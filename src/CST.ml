@@ -395,7 +395,7 @@ and variable =
 
 and variable_attribute =
   | NoAttribute
-  | ParameterLength of word
+  | ParameterLength 
   | UseDefaultValues of string * word
   | AssignDefaultValues of string * word
   | IndicateErrorifNullorUnset of string * word
