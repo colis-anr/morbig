@@ -25,7 +25,7 @@ type atom =
   | QuotingMark of quote_kind
   | AssignmentMark
 
-and quote_kind = SingleQuote | DoubleQuote | OpeningBrace
+and quote_kind = SingleQuote | DoubleQuote
 
 module AtomBuffer : sig
   type t
@@ -265,13 +265,11 @@ let pop_quotation k b =
     match k with
     | SingleQuote -> WordSingleQuoted word
     | DoubleQuote -> WordDoubleQuoted word
-    | OpeningBrace -> WordDoubleQuoted word
   in
   let squote =
     match k with
     | SingleQuote -> "'" ^ squote ^ "'"
     | DoubleQuote -> "\"" ^ squote ^ "\""
-    | OpeningBrace -> squote
   in
   let quote = WordComponent (squote, quoted_word) in
   let buffer = AtomBuffer.make (quote :: buffer) in

@@ -41,16 +41,7 @@
                                       [
                                         "Word",
                                         "<<?",
-                                        [
-                                          [
-                                            "WordDoubleQuoted",
-                                            [
-                                              "Word",
-                                              "<<?",
-                                              [ [ "WordLiteral", "<<?" ] ]
-                                            ]
-                                          ]
-                                        ]
+                                        [ [ "WordLiteral", "<<?" ] ]
                                       ]
                                     ]
                                   ]

@@ -124,19 +124,7 @@
                                                     "Word",
                                                     "*",
                                                     [
-                                                      [
-                                                        "WordDoubleQuoted",
-                                                        [
-                                                          "Word",
-                                                          "*",
-                                                          [
-                                                            [
-                                                              "WordLiteral",
-                                                              "*"
-                                                            ]
-                                                          ]
-                                                        ]
-                                                      ]
+                                                      [ "WordLiteral", "*" ]
                                                     ]
                                                   ]
                                                 ]
@@ -192,21 +180,7 @@
                                                 [
                                                   "Word",
                                                   "@",
-                                                  [
-                                                    [
-                                                      "WordDoubleQuoted",
-                                                      [
-                                                        "Word",
-                                                        "@",
-                                                        [
-                                                          [
-                                                            "WordLiteral",
-                                                            "@"
-                                                          ]
-                                                        ]
-                                                      ]
-                                                    ]
-                                                  ]
+                                                  [ [ "WordLiteral", "@" ] ]
                                                 ]
                                               ]
                                             ]
@@ -261,21 +235,7 @@
                                               [
                                                 "Word",
                                                 "foo",
-                                                [
-                                                  [
-                                                    "WordDoubleQuoted",
-                                                    [
-                                                      "Word",
-                                                      "foo",
-                                                      [
-                                                        [
-                                                          "WordLiteral",
-                                                          "foo"
-                                                        ]
-                                                      ]
-                                                    ]
-                                                  ]
-                                                ]
+                                                [ [ "WordLiteral", "foo" ] ]
                                               ]
                                             ]
                                           ]
@@ -330,20 +290,7 @@
                                             [
                                               "Word",
                                               "\n\n",
-                                              [
-                                                [
-                                                  "WordDoubleQuoted",
-                                                  [
-                                                    "Word",
-                                                    "\n\n",
-                                                    [
-                                                      [
-                                                        "WordLiteral", "\n\n"
-                                                      ]
-                                                    ]
-                                                  ]
-                                                ]
-                                              ]
+                                              [ [ "WordLiteral", "\n\n" ] ]
                                             ]
                                           ]
                                         ]
@@ -447,24 +394,11 @@
                                           "'}'",
                                           [
                                             [
-                                              "WordDoubleQuoted",
+                                              "WordSingleQuoted",
                                               [
                                                 "Word",
-                                                "'}'",
-                                                [
-                                                  [
-                                                    "WordSingleQuoted",
-                                                    [
-                                                      "Word",
-                                                      "}",
-                                                      [
-                                                        [
-                                                          "WordLiteral", "}"
-                                                        ]
-                                                      ]
-                                                    ]
-                                                  ]
-                                                ]
+                                                "}",
+                                                [ [ "WordLiteral", "}" ] ]
                                               ]
                                             ]
                                           ]
@@ -523,19 +457,8 @@
                                             "WordDoubleQuoted",
                                             [
                                               "Word",
-                                              "\"}\"",
-                                              [
-                                                [
-                                                  "WordDoubleQuoted",
-                                                  [
-                                                    "Word",
-                                                    "}",
-                                                    [
-                                                      [ "WordLiteral", "}" ]
-                                                    ]
-                                                  ]
-                                                ]
-                                              ]
+                                              "}",
+                                              [ [ "WordLiteral", "}" ] ]
                                             ]
                                           ]
                                         ]
@@ -589,16 +512,7 @@
                                     [
                                       "Word",
                                       "\\}",
-                                      [
-                                        [
-                                          "WordDoubleQuoted",
-                                          [
-                                            "Word",
-                                            "\\}",
-                                            [ [ "WordLiteral", "\\}" ] ]
-                                          ]
-                                        ]
-                                      ]
+                                      [ [ "WordLiteral", "\\}" ] ]
                                     ]
                                   ]
                                 ]
@@ -654,17 +568,8 @@
                                         "WordDoubleQuoted",
                                         [
                                           "Word",
-                                          "\"foo}\"",
-                                          [
-                                            [
-                                              "WordDoubleQuoted",
-                                              [
-                                                "Word",
-                                                "foo}",
-                                                [ [ "WordLiteral", "foo}" ] ]
-                                              ]
-                                            ]
-                                          ]
+                                          "foo}",
+                                          [ [ "WordLiteral", "foo}" ] ]
                                         ]
                                       ]
                                     ]
@@ -718,16 +623,7 @@
                                 [
                                   "Word",
                                   "for",
-                                  [
-                                    [
-                                      "WordDoubleQuoted",
-                                      [
-                                        "Word",
-                                        "for",
-                                        [ [ "WordLiteral", "for" ] ]
-                                      ]
-                                    ]
-                                  ]
+                                  [ [ "WordLiteral", "for" ] ]
                                 ]
                               ]
                             ]

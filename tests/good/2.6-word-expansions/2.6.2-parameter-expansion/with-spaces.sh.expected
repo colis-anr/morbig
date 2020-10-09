@@ -48,18 +48,7 @@
                                             [
                                               "Word",
                                               " ",
-                                              [
-                                                [
-                                                  "WordDoubleQuoted",
-                                                  [
-                                                    "Word",
-                                                    " ",
-                                                    [
-                                                      [ "WordLiteral", " " ]
-                                                    ]
-                                                  ]
-                                                ]
-                                              ]
+                                              [ [ "WordLiteral", " " ] ]
                                             ]
                                           ]
                                         ]
@@ -107,16 +96,7 @@
                                           [
                                             "Word",
                                             " ",
-                                            [
-                                              [
-                                                "WordDoubleQuoted",
-                                                [
-                                                  "Word",
-                                                  " ",
-                                                  [ [ "WordLiteral", " " ] ]
-                                                ]
-                                              ]
-                                            ]
+                                            [ [ "WordLiteral", " " ] ]
                                           ]
                                         ]
                                       ]
@@ -164,16 +144,7 @@
                                         [
                                           "Word",
                                           " ",
-                                          [
-                                            [
-                                              "WordDoubleQuoted",
-                                              [
-                                                "Word",
-                                                " ",
-                                                [ [ "WordLiteral", " " ] ]
-                                              ]
-                                            ]
-                                          ]
+                                          [ [ "WordLiteral", " " ] ]
                                         ]
                                       ]
                                     ]
@@ -221,16 +192,7 @@
                                       [
                                         "Word",
                                         " ",
-                                        [
-                                          [
-                                            "WordDoubleQuoted",
-                                            [
-                                              "Word",
-                                              " ",
-                                              [ [ "WordLiteral", " " ] ]
-                                            ]
-                                          ]
-                                        ]
+                                        [ [ "WordLiteral", " " ] ]
                                       ]
                                     ]
                                   ]
@@ -278,16 +240,7 @@
                                     [
                                       "Word",
                                       " ",
-                                      [
-                                        [
-                                          "WordDoubleQuoted",
-                                          [
-                                            "Word",
-                                            " ",
-                                            [ [ "WordLiteral", " " ] ]
-                                          ]
-                                        ]
-                                      ]
+                                      [ [ "WordLiteral", " " ] ]
                                     ]
                                   ]
                                 ]
@@ -332,20 +285,7 @@
                                 [
                                   "IndicateErrorifNullorUnset",
                                   "?",
-                                  [
-                                    "Word",
-                                    " ",
-                                    [
-                                      [
-                                        "WordDoubleQuoted",
-                                        [
-                                          "Word",
-                                          " ",
-                                          [ [ "WordLiteral", " " ] ]
-                                        ]
-                                      ]
-                                    ]
-                                  ]
+                                  [ "Word", " ", [ [ "WordLiteral", " " ] ] ]
                                 ]
                               ]
                             ]
@@ -389,20 +329,7 @@
                               [
                                 "UseAlternativeValue",
                                 ":+",
-                                [
-                                  "Word",
-                                  " ",
-                                  [
-                                    [
-                                      "WordDoubleQuoted",
-                                      [
-                                        "Word",
-                                        " ",
-                                        [ [ "WordLiteral", " " ] ]
-                                      ]
-                                    ]
-                                  ]
-                                ]
+                                [ "Word", " ", [ [ "WordLiteral", " " ] ] ]
                               ]
                             ]
                           ]
@@ -446,20 +373,7 @@
                             [
                               "UseAlternativeValue",
                               "+",
-                              [
-                                "Word",
-                                " ",
-                                [
-                                  [
-                                    "WordDoubleQuoted",
-                                    [
-                                      "Word",
-                                      " ",
-                                      [ [ "WordLiteral", " " ] ]
-                                    ]
-                                  ]
-                                ]
-                              ]
+                              [ "Word", " ", [ [ "WordLiteral", " " ] ] ]
                             ]
                           ]
                         ]
