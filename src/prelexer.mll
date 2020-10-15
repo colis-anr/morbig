@@ -462,15 +462,19 @@ rule token current = parse
    Parameter Expansion shall be used to determine the matching '}'.
 
 *)
-  | "${" (parameter_identifier as id) {
+
+| "${#" (parameter_identifier as id) {
   debug ~rule:"parameter-opening-braces" lexbuf current;
   let current = enter_braces current in
-  let attribute =
-    if id = "#" then (* That is a string length. *)
-      ParameterLength (variable_attribute current lexbuf)
-    else
-      close_parameter id current lexbuf
-  in
+  let attribute = ParameterLength in
+  let current = push_parameter ~with_braces:true ~attribute current id in
+  token current lexbuf
+}
+
+| "${" (parameter_identifier as id) {
+  debug ~rule:"parameter-opening-braces" lexbuf current;
+  let current = enter_braces current in
+  let attribute = close_parameter id current lexbuf in
   let current = quit_braces current in
   let current = push_parameter ~with_braces:true ~attribute current id in
   token current lexbuf

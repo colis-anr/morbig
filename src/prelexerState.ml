@@ -190,7 +190,7 @@ let string_of_word (Word (s, _)) = s
 
 let string_of_attribute = function
   | NoAttribute -> ""
-  | ParameterLength w -> string_of_word w
+  | ParameterLength -> "#" 
   | UseDefaultValues (p, w) -> p ^ string_of_word w
   | AssignDefaultValues (p, w) -> p ^ string_of_word w
   | IndicateErrorifNullorUnset (p, w) -> p ^ string_of_word w
@@ -204,7 +204,11 @@ let push_parameter ?(with_braces=false) ?(attribute=NoAttribute) b id =
   let v = VariableAtom (id, attribute) in
   let p =
     if with_braces then
-      "${" ^ id ^ string_of_attribute attribute ^ "}"
+    (* The ParameterLength attribute is a special case.
+     The "#" syntax of the operator shows up _before_ the identifier it modifies. *)
+      match attribute with
+      | ParameterLength -> "${#" ^ id ^ "}"
+      | _ -> "${" ^ id ^ string_of_attribute attribute ^ "}"
     else
       "$" ^ id
   in
