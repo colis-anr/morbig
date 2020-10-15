@@ -205,7 +205,7 @@ let push_parameter ?(with_braces=false) ?(attribute=NoAttribute) b id =
   let p =
     if with_braces then
     (* The ParameterLength attribute is a special case.
-     The "#" syntax of the oeprator shows up _before_ the identifier it modifies *)
+     The "#" syntax of the operator shows up _before_ the identifier it modifies. *)
       match attribute with
       | ParameterLength -> "${#" ^ id ^ "}"
       | _ -> "${" ^ id ^ string_of_attribute attribute ^ "}"
