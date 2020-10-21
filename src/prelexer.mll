@@ -435,7 +435,6 @@ rule token current = parse
     debug ~rule:"arithmetic-exp" lexbuf current;
     let current = push_arith current in
     let current = next_double_rparen 1 current lexbuf in
-    let current = pop_arith current in
     token current lexbuf
 }
 
@@ -721,18 +720,18 @@ and next_double_rparen dplevel current = parse
     debug ~rule:"arithmetic-exp" lexbuf current;
     let current = push_arith current in
     let current = next_double_rparen (dplevel+1) current lexbuf in
-    let current = pop_arith current in
     current
   }
   | '`' as op | "$" ( '(' as op) {
     let escaping_level = 0 in (* FIXME: Probably wrong. *)
-    let current = push_string current (Lexing.lexeme lexbuf) in
+    let current = push_separated_string current (Lexing.lexeme lexbuf) in
     let current = subshell op escaping_level current lexbuf in
     let expected_closing_char = if op = '`' then '`' else ')' in
     let current = close_subshell expected_closing_char current lexbuf in
     next_double_rparen dplevel current lexbuf
   }
   | "))" {
+    let current = pop_arith current in
     if dplevel = 1
     then current
     else if dplevel > 1 then next_double_rparen (dplevel-1) current lexbuf

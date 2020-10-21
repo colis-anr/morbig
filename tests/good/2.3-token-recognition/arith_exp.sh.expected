@@ -2,7 +2,64 @@
   "Program_LineBreak_CompleteCommands_LineBreak",
   [ "LineBreak_Empty" ],
   [
-    "CompleteCommands_CompleteCommand",
+    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
+    [
+      "CompleteCommands_CompleteCommand",
+      [
+        "CompleteCommand_CList",
+        [
+          "CList_AndOr",
+          [
+            "AndOr_Pipeline",
+            [
+              "Pipeline_PipeSequence",
+              [
+                "PipeSequence_Command",
+                [
+                  "Command_SimpleCommand",
+                  [
+                    "SimpleCommand_CmdName_CmdSuffix",
+                    [
+                      "CmdName_Word",
+                      [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    ],
+                    [
+                      "CmdSuffix_Word",
+                      [
+                        "Word",
+                        "$((1 * $((2*3)) * 42))",
+                        [
+                          [
+                            "WordArith",
+                            [
+                              "Word",
+                              "1 * $((2*3)) * 42",
+                              [
+                                [ "WordLiteral", "1 * " ],
+                                [
+                                  "WordArith",
+                                  [
+                                    "Word",
+                                    "2*3",
+                                    [ [ "WordLiteral", "2*3" ] ]
+                                  ]
+                                ],
+                                [ "WordLiteral", " * 42" ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    [ "NewLineList_NewLine" ],
     [
       "CompleteCommand_CList",
       [
@@ -25,21 +82,70 @@
                     "CmdSuffix_Word",
                     [
                       "Word",
-                      "$((1 * $((2*3 ))))",
+                      "$((x+=`echo 2`))",
                       [
                         [
                           "WordArith",
                           [
                             "Word",
-                            "1 * $((2*3 ))",
+                            "x+=`echo 2`",
                             [
-                              [ "WordLiteral", "1 * " ],
+                              [ "WordLiteral", "x+=" ],
                               [
-                                "WordArith",
+                                "WordSubshell",
+                                [ "SubShellKindBackQuote" ],
                                 [
-                                  "Word",
-                                  "2*3 ",
-                                  [ [ "WordLiteral", "2*3 " ] ]
+                                  "Program_LineBreak_CompleteCommands_LineBreak",
+                                  [ "LineBreak_Empty" ],
+                                  [
+                                    "CompleteCommands_CompleteCommand",
+                                    [
+                                      "CompleteCommand_CList",
+                                      [
+                                        "CList_AndOr",
+                                        [
+                                          "AndOr_Pipeline",
+                                          [
+                                            "Pipeline_PipeSequence",
+                                            [
+                                              "PipeSequence_Command",
+                                              [
+                                                "Command_SimpleCommand",
+                                                [
+                                                  "SimpleCommand_CmdName_CmdSuffix",
+                                                  [
+                                                    "CmdName_Word",
+                                                    [
+                                                      "Word",
+                                                      "echo",
+                                                      [
+                                                        [
+                                                          "WordName", "echo"
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ],
+                                                  [
+                                                    "CmdSuffix_Word",
+                                                    [
+                                                      "Word",
+                                                      "2",
+                                                      [
+                                                        [
+                                                          "WordLiteral", "2"
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ]
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ],
+                                  [ "LineBreak_Empty" ]
                                 ]
                               ]
                             ]
