@@ -11,11 +11,11 @@
    (echo "let current=\"%{version:morbig}\"\n"))))
 
 (rule
- (targets CSTSerializers.ml) (deps CST.ml)
+ (targets CSTSerializers.ml) (deps CST.mli)
  (action (with-stdout-to %{targets} (run ./generate-CST-derivings.sh serializers))))
 
 (rule
- (targets CSTVisitors.ml) (deps CST.ml)
+ (targets CSTVisitors.ml) (deps CST.mli)
  (action (with-stdout-to %{targets} (run ./generate-CST-derivings.sh visitors))))
 
 (library
@@ -24,7 +24,8 @@
  (libraries str menhirLib ppx_deriving_yojson.runtime visitors.runtime)
  (preprocess (pps ppx_deriving_yojson visitors.ppx))
  (flags :standard -w -3) ; FIXME: remove this when Yojson and its PPX are fixed.
- (modules :standard \ morbigDriver))
+ (modules :standard \ morbigDriver)
+ (modules_without_implementation CST))
 
 (executable
  (name morbigDriver)
