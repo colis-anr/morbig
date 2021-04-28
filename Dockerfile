@@ -2,8 +2,8 @@
 ## argument to the `docker build` command line. The full image name
 ## can also be changed by the same mean.
 
-ARG tag=latest
-ARG image=ocaml/opam2:$tag
+ARG tag=alpine
+ARG image=ocaml/opam:$tag
 FROM $image
 MAINTAINER Yann Regis-Gianas
 
@@ -14,9 +14,9 @@ MAINTAINER Yann Regis-Gianas
 ARG switch=
 RUN [ -z "$switch" ] || opam switch create "$switch"
 
-## Install dependencies. `opam depext` installs (in a distribution
-## independant way) first the non-opam dependencies that are required
-## and then the OPAM packages.
+## Install dependencies. `opam depext` installs (in a distribution independant
+## way) first the non-opam dependencies that are required and then the OPAM
+## packages.
 
 RUN opam depext -i menhir yojson ppx_deriving_yojson visitors
 
@@ -29,7 +29,7 @@ RUN sudo chown -R opam .
 
 ## Build Morbig
 
-RUN eval $(opam env) && make
+RUN opam exec -- make
 
 ## Set up the entry point of this Dockerfile to Morbig's binary that
 ## has just been built.
