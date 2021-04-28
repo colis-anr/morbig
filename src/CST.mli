@@ -11,6 +11,10 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+(* The following line is a placeholder for generate-CST-derivings. It must not
+   be removed and it must not be put on the same line as something else. *)
+(*** PRELUDE ***)
+
 (**
     The type for concrete syntax trees of POSIX shell scripts. These
     trees are produced by the Morbig parser.

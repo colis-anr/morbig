@@ -33,11 +33,26 @@ readonly KIND=$1
 
 case $KIND in
     serializers)
+        PRELUDE=''
         INTRO_DERIVERS='[@@deriving yojson]'
         CST_DERIVERS='[@@deriving yojson]'
         ;;
 
     visitors)
+        PRELUDE='(** Visitors for concrete syntax trees.
+
+   This module contains all the visitors that can be generated using
+   {{: https://gitlab.inria.fr/fpottier/visitors }  the PPX visitors library },
+   namely:
+   {ul {li iter} {li map} {li reduce} {li mapreduce} {li iter2} {li map2} {li reduce2}}
+
+   The generated type for visitors on the whole concrete syntax tree can be
+   huge, which makes them unreadable and the files containing them ridiculously
+   big. They are therefore not generated and not shown here. We refer the user to
+   {{: http://gallium.inria.fr/~fpottier/visitors/manual.pdf } the documentation of visitors }. *)
+
+(* The following disables odoc for the rest of the file. *)
+(**/**)'
         INTRO_DERIVERS='
 [@@deriving
   visitors { variety = "iter";      name = "located_iter";      polymorphic = true },
@@ -95,6 +110,9 @@ cat CST.mli | \
     add_type_equalities CST | \
     while read -r line; do
         case $line in
+            '(*** PRELUDE ***)')
+                echo "$PRELUDE"
+                ;;
             '(*** INTRO_DERIVERS ***)')
                 echo "$INTRO_DERIVERS"
                 ;;
