@@ -40,6 +40,7 @@
     complex to be displayed.
 
 *)
+
 type position = {
   start_p : lexing_position;
   end_p   : lexing_position
@@ -56,16 +57,10 @@ and 'a located = {
   value    : 'a;
   position : position;
 }
-[@@deriving
-   yojson,
-   visitors { variety = "iter";      name = "located_iter";      polymorphic = true },
-   visitors { variety = "map";       name = "located_map";       polymorphic = true },
-   visitors { variety = "reduce";    name = "located_reduce";    polymorphic = true },
-   visitors { variety = "mapreduce"; name = "located_mapreduce"; polymorphic = true },
-   visitors { variety = "iter2";     name = "located_iter2";     polymorphic = true },
-   visitors { variety = "map2";      name = "located_map2";      polymorphic = true },
-   visitors { variety = "reduce2";   name = "located_reduce2";   polymorphic = true }
-]
+
+(* The following line is a placeholder for generate-CST-derivings. It must not
+   be removed and it must not be put on the same line as something else. *)
+(*** INTRO_DERIVERS ***)
 
 type program =
   | Program_LineBreak_CompleteCommands_LineBreak of
@@ -395,7 +390,7 @@ and variable =
 
 and variable_attribute =
   | NoAttribute
-  | ParameterLength 
+  | ParameterLength
   | UseDefaultValues of string * word
   | AssignDefaultValues of string * word
   | IndicateErrorifNullorUnset of string * word
@@ -464,13 +459,6 @@ and word' = word located
 and name' = name located
 and assignment_word' = assignment_word located
 
-[@@deriving
-   yojson,
-   visitors { variety = "iter";       ancestors=["located_iter"];      nude=true },
-   visitors { variety = "map";        ancestors=["located_map"];       nude=true },
-   visitors { variety = "reduce";     ancestors=["located_reduce"];    nude=true },
-   visitors { variety = "mapreduce";  ancestors=["located_mapreduce"]; nude=true },
-   visitors { variety = "iter2";      ancestors=["located_iter2"];     nude=true },
-   visitors { variety = "map2";       ancestors=["located_map2"];      nude=true },
-   visitors { variety = "reduce2";    ancestors=["located_reduce2"];   nude=true }
-]
+(* The following line is a placeholder for generate-CST-derivings. It must not
+   be removed and it must not be put on the same line as something else. *)
+(*** CST_DERIVERS ***)

@@ -133,12 +133,6 @@ let concat_programs p1 p2 =
            snl2
          )
 
-let complete_command_to_json c =
-  complete_command_to_yojson c
-
-let program_to_json cl =
-  program_to_yojson cl
-
 (* Helpers about words and names *)
 
 let unWord (Word (s, _)) = s

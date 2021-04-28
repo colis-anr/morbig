@@ -32,7 +32,7 @@ let rec json_filter_positions = function
   | `Variant (s, Some j) -> `Variant (s, Some (json_filter_positions j))
 
 let convert_to_json simplified csts =
-  CSTHelpers.program_to_json csts
+  CSTSerializers.program_to_yojson csts
   |> (if simplified then json_filter_positions else function x-> x)
 
 let save_as_json simplified cout csts =
@@ -40,7 +40,7 @@ let save_as_json simplified cout csts =
   |> Yojson.Safe.pretty_to_channel cout
 
 let load_from_json cin =
-  Yojson.Safe.from_channel cin |> CST.program_of_yojson
+  Yojson.Safe.from_channel cin |> CSTSerializers.program_of_yojson
   |> Ppx_deriving_yojson_runtime.Result.(function
     | Ok cst -> cst
     | Error msg -> raise (Errors.DuringIO msg)
