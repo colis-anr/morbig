@@ -78,4 +78,4 @@ let dispose_cst cst =
     raise CSTDisposalFailed
 
 let untyped_parse_file s =
-  parse_file s |> CSTHelpers.program_to_json |> ccst_of_json_program |> register
+  parse_file s |> CSTSerializers.program_to_yojson |> ccst_of_json_program |> register

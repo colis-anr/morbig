@@ -10,6 +10,14 @@
   (with-stdout-to version.ml
    (echo "let current=\"%{version:morbig}\"\n"))))
 
+(rule
+ (targets CSTSerializers.ml) (deps CST.ml)
+ (action (with-stdout-to %{targets} (run ./generate-CST-derivings.sh serializers))))
+
+(rule
+ (targets CSTVisitors.ml) (deps CST.ml)
+ (action (with-stdout-to %{targets} (run ./generate-CST-derivings.sh visitors))))
+
 (library
  (name morbig)
  (public_name morbig)

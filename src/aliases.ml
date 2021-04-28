@@ -128,7 +128,7 @@ let interpret aliases cst =
   let level = ref 0 in
   let at_toplevel () = !level = 0 in
   let analyzer = object
-      inherit [_] CST.iter as super
+      inherit [_] CSTVisitors.iter as super
       method! visit_compound_command env cmd =
         incr level;
         super # visit_compound_command env cmd;

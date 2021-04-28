@@ -19,9 +19,6 @@ val empty_program : program located
 val nonempty_program : program -> bool
 val concat_programs : program located -> program located -> program located
 
-val complete_command_to_json : complete_command -> Yojson.Safe.json
-val program_to_json : program -> Yojson.Safe.json
-
 (** {2 Helpers about words and names} *)
 
 val unWord : word -> string
