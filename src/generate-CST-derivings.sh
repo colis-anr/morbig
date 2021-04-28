@@ -1,5 +1,33 @@
 #!/bin/sh
+############################################################################
+##  Copyright (C) 2017-2021 Yann Régis-Gianas, Nicolas Jeannerod,         ##
+##  Ralf Treinen.                                                         ##
+##                                                                        ##
+##  This is free software: you can redistribute it and/or modify it       ##
+##  under the terms of the GNU General Public License, version 3.         ##
+##                                                                        ##
+##  Additional terms apply, due to the reproduction of portions of        ##
+##  the POSIX standard. Please refer to the file COPYING for details.     ##
+############################################################################
+
+## The goal of this script is to copy the type definitions of the module CST and
+## to add code to it. Typically, this code will be obtained using [@@deriving]
+## annotations to produce serializers or visitors.
+##
+## In an ideal world, this could be done fully in OCaml using ppx_import. This
+## PPX seems however not to be maintained so much anymore. It also clashes with
+## the ocaml-migrate-parsetree way to write PPXes, which is used both in
+## ppx_deriving and visitors, which we use. In lack of a better solution, Shell
+## comes to the rescue!
+
 set -euC
+
+## The first argument of this script represents the kind of file which we want
+## to produce. For now, this script only supports "serializers" and "visitors".
+## For each of these kinds, we define two strings which will be put after the
+## introduction or after the CST. Typically, these strings will contain
+## [@@deriving] annotations in order to produce extra code from the types in the
+## CST file.
 
 readonly KIND=$1
 
@@ -37,7 +65,7 @@ case $KIND in
         exit 2
 esac
 
-## The following function recognizes anything of the form:
+## The following sed recognizes anything of the form:
 ##
 ##     type foo = ...
 ##     type foo = bar = ...
@@ -51,16 +79,19 @@ esac
 ##     and foo = $1.foo = ...
 ##     and foo = $1.foo = ...
 ##
-## where $1 is the first argument. It is useful to copy a whole type while
-## keeping it equal with the original module's type. In turn, this allows to
-## define derivers in an other module that will work on the types from the
-## initial module. In a way, this is a cheap version of ppx_import.
+## where $1 is the first argument, except when what follows the equal sign
+## starts with a lowercase, because this would then be a syntax equality and we
+## must not add an other one. This function is useful to copy a whole type while
+## keeping it equal with the original module's type.
 
 add_type_equalities () {
     sed "s/\(type\|and\)\(.* \)\([a-zA-Z_'][a-zA-Z_']*\) *=\([^=]*=\)\? *\([^ a-z]\|$\)/\1\2\3 = \2CST.\3 = \5/g"
 }
 
-cat CST.ml | \
+## Here, we copy the type CST, we rewrite all the type definitions to add a type
+## equality with the CST and then we replace the placeholders by their contents.
+
+cat CST.mli | \
     add_type_equalities CST | \
     while read -r line; do
         case $line in
