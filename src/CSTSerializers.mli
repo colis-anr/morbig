@@ -11,34 +11,8 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-(** {2 Main API points} *)
+(** Serializers for concrete syntax trees. *)
 
-include API
+val program_to_yojson : CST.program -> Yojson.Safe.t
 
-(** {2 Other modules} *)
-
-module Aliases = Aliases
-module Assignment = Assignment
-module CSTHelpers = CSTHelpers
-module CST = CST
-module CSTSerializers = CSTSerializers
-module CSTVisitors = CSTVisitors
-module Debug = Debug
-module Engine = Engine
-module Errors = Errors
-module ExtMenhirLib = ExtMenhirLib
-module HereDocument = HereDocument
-module JsonHelpers = JsonHelpers
-module Keyword = Keyword
-module Name = Name
-module Nesting = Nesting
-module Options = Options
-module Parser = Parser
-module Prelexer = Prelexer
-module PrelexerState = PrelexerState
-module Pretokenizer = Pretokenizer
-module Pretoken = Pretoken
-module QuoteRemoval = QuoteRemoval
-module RecursiveParser = RecursiveParser
-module Scripts = Scripts
-module Token = Token
+val program_of_yojson : Yojson.Safe.t -> CST.program Ppx_deriving_yojson_runtime.error_or
