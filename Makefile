@@ -48,7 +48,7 @@ clean:
 	dune clean
 	rm -f bin lib doc
 	rm -f tests.org
-	tests/run clean
+	tests/run clean || true
 
 PACKAGE=$(shell echo morbig-`cat VERSION`)
 

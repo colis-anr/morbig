@@ -1,0 +1,179 @@
+name: CI
+
+on:
+  - pull_request
+  - push
+
+jobs:
+
+  ## ========================= [ OPAM-based CI ] ========================= ##
+
+  opam-based:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        ocaml-version:
+          - 4.05.0
+          - 4.06.1
+          - 4.07.1
+          - 4.08.1
+          - 4.09.1
+          - 4.10.2
+          - 4.11.2
+          - 4.12.0
+        include:
+          - { os: macos-latest, ocaml-version: 4.12.0 }
+          - { os: windows-latest, ocaml-version: 4.12.0 }
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Use OCaml ${{ matrix.ocaml-version }}
+        uses: avsm/setup-ocaml@v1
+        with:
+          ocaml-version: ${{ matrix.ocaml-version }}
+
+      - name: Install Dune
+        run: opam install dune --yes
+
+      - name: Install OPAM Dependencies
+        run: |
+          opam exec -- dune build || true
+          opam install . --yes --deps-only --with-doc --with-test
+        ## FIXME: The caught failure of dune build is here to mitigate #4487.
+
+      - name: Try Building
+        run: opam exec -- make
+
+      - name: Try Building Documentation
+        run: opam exec -- make doc
+
+      - name: Run Tests
+        run: opam exec -- make check
+        if: runner.os != 'Windows'
+        ## Tests are written in a Unix-like way and cannot run on Windows.
+
+      - name: Try Installing
+        run: opam exec -- make install
+
+      - name: Try Uninstalling
+        run: opam exec -- make uninstall
+
+      - name: Try Cleaning
+        run: opam exec -- make clean
+
+  ## ========================= [ APT-based CI ] ========================== ##
+
+  apt-based:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install OCaml & Dependencies
+        run: sudo apt-get install build-essential ocaml dune menhir libmenhir-ocaml-dev libppx-deriving-yojson-ocaml-dev libppx-visitors-ocaml-dev libyojson-ocaml-dev
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Try Building
+        run: make
+
+      ## No odoc in Debian stable, sadly, so no documentation!
+      ##
+      # - name: Try Building Documentation
+      #   run: make doc
+
+      - name: Run Tests
+        run: make check
+
+      - name: Try Installing
+        run: sudo make install
+
+      - name: Try Uninstalling
+        run: sudo make uninstall
+
+      - name: Try Cleaning
+        run: make clean
+
+  ## ========================= [ Brew-based CI ] ========================= ##
+  ## Sadly, the right dependencies do not exist in brew and therefore we cannot
+  ## provide a purely brew-based installation process.
+
+  # brew-based:
+  #   runs-on: macos-latest
+
+  #   steps:
+  #     - name: Install OCaml & Dependencies
+  #       run: brew install ocaml dune menhir odoc ppx_deriving_yojson visitors yojson
+
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v2
+
+  #     - name: Try Building
+  #       run: make
+
+  #     - name: Try Building Documentation
+  #       run: make doc
+
+  #     - name: Run Tests
+  #       run: make check
+
+  #     - name: Try Installing
+  #       run: make install
+
+  #     - name: Try Uninstalling
+  #       run: make uninstall
+
+  #     - name: Try Cleaning
+  #       run: make clean
+
+  ## ======================== [ Docker-based CI ] ======================== ##
+
+  docker-based:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        tag:
+          - centos
+          - debian
+          - debian-testing
+          - debian-unstable
+          - opensuse
+          - ubuntu
+          - ubuntu-lts
+        include:
+          - { tag: alpine, deploy-image: deploy-image }
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: docker build . --tag morbig --build-arg tag=${{matrix.tag}}
+
+      - name: Run Tests
+        run: docker run --entrypoint /bin/sh morbig -c 'eval $(opam env) && cd /home/opam/morbig && make check && make install && make examples && make uninstall'
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
+
+      - name: Rename Docker Image
+        run: docker image tag morbig colisanr/morbig:${GITHUB_REF##*/}
+        if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
+
+      - name: Push to Docker Hub
+        run: docker push colisanr/morbig:${GITHUB_REF##*/}
+        if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
