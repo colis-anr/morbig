@@ -11,7 +11,7 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-(* The following line is a placeholder for generate-CST-derivings. It must not
+(* The following line is a placeholder for CST_derivings_generator. It must not
    be removed and it must not be put on the same line as something else. *)
 (*** PRELUDE ***)
 
@@ -62,7 +62,7 @@ and 'a located = {
   position : position;
 }
 
-(* The following line is a placeholder for generate-CST-derivings. It must not
+(* The following line is a placeholder for CST_derivings_generator. It must not
    be removed and it must not be put on the same line as something else. *)
 (*** INTRO_DERIVERS ***)
 
@@ -463,6 +463,6 @@ and word' = word located
 and name' = name located
 and assignment_word' = assignment_word located
 
-(* The following line is a placeholder for generate-CST-derivings. It must not
+(* The following line is a placeholder for CST_derivings_generator. It must not
    be removed and it must not be put on the same line as something else. *)
 (*** CST_DERIVERS ***)

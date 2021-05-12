@@ -124,7 +124,7 @@ let type_foo_eq_regexp = Str.regexp type_foo_eq_regexp
    current regexp is good enough for our use and our definition of the CST. *)
 
 let type_foo_eq_repl = {|\1\2\3 = \2CST.\3 = \5|}
-  (* the replacement is of the form "type foo = CST.foo = ..." *)
+(* The replacement is of the form "type foo = CST.foo = ..." *)
 
 let file_content = Str.global_replace type_foo_eq_regexp type_foo_eq_repl file_content
 
