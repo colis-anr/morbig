@@ -8,7 +8,7 @@ them, and constructs a concrete syntax tree for each of them.  The
 concrete syntax trees are built using constructors according to the
 shell grammar of the POSIX standard.
 
-## Download [![Build Status](https://travis-ci.org/colis-anr/morbig.svg?branch=master)](https://travis-ci.org/colis-anr/morbig)
+## Download ![Build Status](https://github.com/colis-anr/morbig/actions/workflows/ci.yml/badge.svg?branch=master)
 
     git clone git@github.com:colis-anr/morbig.git
 
@@ -19,7 +19,7 @@ Please see the file COPYING.
 ## Documentation
 
 You can have a look at the
-[online API documentation](https://colis-anr.github.io/docs/) or build
+[online API documentation](https://colis-anr.github.io/morbig/) or build
 it yourself:
 
     make doc
