@@ -62,6 +62,9 @@ jobs:
       - name: Try Installing
         run: opam exec -- make install
 
+      - name: Try Building Examples
+        run: opam exec -- make examples
+
       - name: Try Uninstalling
         run: opam exec -- make uninstall
 
@@ -104,6 +107,9 @@ jobs:
 
       - name: Try Installing
         run: sudo make install
+
+      - name: Try Building Examples
+        run: make examples
 
       - name: Try Uninstalling
         run: sudo make uninstall
