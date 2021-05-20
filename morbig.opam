@@ -25,7 +25,7 @@ bug-reports: "https://github.com/colis-anr/morbig/issues"
 dev-repo: "git://github.com/colis-anr/morbig.git"
 
 depexts: [
-  ["mingw64-x86_64-dlfcn"] {os = "cygwin"}
+  ["dlfcn" "flexdll"]    {os = "win32"}
 ]
 
 depends: [

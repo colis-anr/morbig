@@ -15,8 +15,8 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-        # ocaml-version:
-        #   - 4.05.0
+        ocaml-version:
+          - 4.05.0
         #   - 4.06.1
         #   - 4.07.1
         #   - 4.08.1
@@ -39,14 +39,28 @@ jobs:
         with:
           ocaml-version: ${{ matrix.ocaml-version }}
 
-      - name: Install Dune
-        run: opam install dune --yes
-
-      - name: Install OPAM Dependencies
+      - name: Install Dune/OPAM Dependencies
         run: |
+          opam install dune --yes
           opam exec -- dune build || true
-          opam install . --yes --deps-only --with-doc --with-test
-        ## FIXME: The caught failure of dune build is here to mitigate #4487.
+          for pkg in $(opam show . --field=name); do
+            opam pin $pkg.dev . --no-action
+            opam depext $pkg --yes --with-doc --with-test
+            opam install $pkg --yes --deps-only --with-doc --with-test
+          done
+          ## FIXME: The caught failure of dune build is here to mitigate #4487.
+        if: runner.os != 'Windows'
+
+      - name: Install Dune/OPAM Dependencies (Windows)
+        run: |
+          opam install dune --yes
+          opam exec -- dune build
+          opam show . --field=name | ForEach {
+            opam pin $_.dev . --no-action
+            opam depext $_ --yes --with-doc --with-test
+            opam install $_ --yes --deps-only --with-doc --with-test
+          }
+        if: runner.os == 'Windows'
 
       - name: Try Building
         run: opam exec -- make
