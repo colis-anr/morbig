@@ -16,3 +16,6 @@
 val program_to_yojson : CST.program -> Yojson.Safe.t
 
 val program_of_yojson : Yojson.Safe.t -> CST.program Ppx_deriving_yojson_runtime.error_or
+
+val bracket_expression_to_yojson : CST.bracket_expression -> Yojson.Safe.t
+val bracket_expression_of_yojson : Yojson.Safe.t -> CST.bracket_expression Ppx_deriving_yojson_runtime.error_or
