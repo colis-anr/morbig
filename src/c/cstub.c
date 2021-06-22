@@ -21,11 +21,11 @@
 typedef value cst_t;
 typedef value position_t;
 
-static char* error_msg = NULL;
+static const char* error_msg = NULL;
 
 cst_t parse_file (char* filename)
 {
-  static value* closure = NULL;
+  static const value* closure = NULL;
   value result;
   if (closure == NULL)
     closure = caml_named_value ("untyped_parse_file");
@@ -39,13 +39,13 @@ cst_t parse_file (char* filename)
   return (cst_t)result;
 }
 
-char* get_error_message () {
+const char* get_error_message () {
   return error_msg;
 }
 
 void dispose_cst (value cst)
 {
-  static value* closure = NULL;
+  static const value* closure = NULL;
   if (closure == NULL)
     closure = caml_named_value ("dispose_cst");
   caml_callback (*closure, cst);
@@ -90,7 +90,7 @@ cst_t get_located_value (value cst) {
   return Field (cst, 2);
 }
 
-char* get_filename_of_position (position_t p) {
+const char* get_filename_of_position (position_t p) {
   return String_val (Field (p, 0));
 }
 
@@ -113,7 +113,7 @@ void must_be_node (value cst) {
   }
 }
 
-char* get_rule_name (value cst) {
+const char* get_rule_name (value cst) {
   must_be_node (cst);
   return String_val (Field (cst, 0));
 }
@@ -135,7 +135,7 @@ void must_be_data (value cst) {
   }
 }
 
-char* get_data (value cst) {
+const char* get_data (value cst) {
   must_be_data (cst);
   return String_val (Field (cst, 0));
 }
