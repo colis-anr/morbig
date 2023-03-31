@@ -20,15 +20,15 @@ jobs:
         os:
           - ubuntu-latest
         ocaml-version:
-          - 4.11.2
-          - 4.12.1
-          - 4.13.1
-          # - 4.14.1 ## explicitly included afterwards
-          - 5.0.0
+          - 4.11.x
+          - 4.12.x
+          - 4.13.x
+          # - 4.14.x ## explicitly included afterwards
+          - 5.0.x
         include:
-          - { os: ubuntu-latest,  ocaml-version: 4.14.1, deploy-doc: deploy-doc }
-          - { os: macos-latest,   ocaml-version: 4.14.1 }
-          - { os: windows-latest, ocaml-version: 4.14.1 }
+          - { os: ubuntu-latest,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
+          - { os: macos-latest,   ocaml-version: 4.14.x }
+          - { os: windows-latest, ocaml-version: 4.14.x }
 
     runs-on: ${{ matrix.os }}
 
@@ -37,9 +37,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
-        uses: avsm/setup-ocaml@v1
+        uses: ocaml/setup-ocaml@v2
         with:
-          ocaml-version: ${{ matrix.ocaml-version }}
+          ocaml-compiler: ${{ matrix.ocaml-version }}
 
       - name: Install Dune
         run: opam install dune --yes
