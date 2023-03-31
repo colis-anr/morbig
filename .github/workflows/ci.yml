@@ -97,7 +97,7 @@ jobs:
         run: make
 
       ## No odoc in Debian stable, sadly, so no documentation!
-      ##
+
       # - name: Try Building Documentation
       #   run: make doc
 
@@ -110,8 +110,14 @@ jobs:
       - name: Try Uninstalling
         run: sudo make uninstall
 
-      - name: Try Cleaning
-        run: make clean
+      ## Not working at the moment (2023-03-31), `dune clean` complains about:
+      ##
+      ##     Error: unlink: _build/default/.dune/configurator: Permission denied
+      ##
+      ## Maybe related to https://github.com/ocaml/dune/issues/3857.
+
+      # - name: Try Cleaning
+      #   run: make clean
 
   ## ========================= [ Brew-based CI ] ========================= ##
   ## Sadly, the right dependencies do not exist in brew and therefore we cannot
