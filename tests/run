@@ -98,6 +98,10 @@ Did you create a test whose name contains a space?\n' "$test"
                     ;;
 
                 good*)
+                    ## Normalise the output.
+                    cat "$test.sh.sjson" | jq . > "$test.sh.sjson.clean"
+                    mv "$test.sh.sjson.clean" "$test.sh.sjson"
+
                     if ! [ -f "$test.sh.expected" ]; then
                         printf_for_test '[WARN] Missing `.expected` file: %s\n' "$test"
                         incr good${open}_unexpected
