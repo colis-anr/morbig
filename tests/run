@@ -66,46 +66,59 @@ printf_for_test () {
     printf "$@"
 }
 
-# Test loop
-for category in good bad
-do
-    for test in $(find "$category" -type f -name '*.sh' | sort -n)
-    do
+## For all test categories. We only handle `good` and `bad` tests, because
+## there is not much to do about `unspecified` and `unknown` ones.
+for category in good bad; do
+
+    ## For all test files in the test category in question.
+    for test in $(find "$category" -type f -name '*.sh' | sort -n); do
         test=${test%.sh}
 
-        if ! [ -f "$test.sh" ]
-        then
+        ## If the test file does not exist, then something is wrong, and it is
+        ## probably due to the fact that one test name contains spaces and was
+        ## therefore cut in two by the `$(find ...)` above.
+        if ! [ -f "$test.sh" ]; then
             printf_for_test '[WARN] File `%s` does not exist or is not a file.
 Did you create a test whose name contains a space?\n' "$test"
             continue
         fi
 
+        ## The variable `$open` is either empty or `_open`. That way, we can
+        ## write `$category$open` and it will be either `good`, `good_open` or
+        ## `bad`. The underscore therefore matters.
         open=
-        [ -e "$test.sh.open" ] && open=_open # Warning: the underscore matters.
+        [ -e "$test.sh.open" ] && open=_open
 
-        incr ${category}${open}_total # eg. good_open_total or bad_total
+        incr ${category}${open}_total
 
-        if "$morbig" --as simple "$test.sh" 2>/dev/null
-        then
-            case "$category""$open" in
+        ## If Morbig succeeds, a file "$test.sh.sjson" gets created.
+        if "$morbig" --as simple "$test.sh" 2>/dev/null; then
+            case $category$open in
                 bad)
                     printf_for_test '[FAIL] Wrongly accepted: %s\n' "$test"
                     incr bad_accepted
                     ;;
+
                 bad_open)
                     printf_for_test '[WARN] Open wrongly accepted: %s\n' "$test"
                     incr bad_open_accepted
                     ;;
 
                 good*)
-                    ## Normalise the output.
+                    ## Normalise the output using `jq`. This ensures that our
+                    ## tests do not fail just because Yojson changed its
+                    ## printing behaviour.
                     cat "$test.sh.sjson" | jq . > "$test.sh.sjson.clean"
                     mv "$test.sh.sjson.clean" "$test.sh.sjson"
 
+                    ## If there is no `.expected` file, then we complain, and we
+                    ## count this case as “unexpected”.
                     if ! [ -f "$test.sh.expected" ]; then
                         printf_for_test '[WARN] Missing `.expected` file: %s\n' "$test"
                         incr good${open}_unexpected
 
+                    ## Otherwise, if there is a difference between the produced
+                    ## file and the expected one, then we complain.
                     elif ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null; then
                         if [ -n "$open" ]; then
                             printf_for_test '[WARN] Open with wrong output: %s\n' "$test"
@@ -121,15 +134,20 @@ Did you create a test whose name contains a space?\n' "$test"
                             cat "$test.sh.expected"
                         fi
                         incr good${open}_unexpected
+
+                    ## Otherwise all is good.
                     else
                         incr good${open}_accepted
                     fi
             esac
+
+        ## If Morbig failed.
         else
             case "$category" in
                 bad)
                     incr bad${open}_rejected
                     ;;
+
                 good)
                     incr good${open}_rejected
                     if [ -n "$open" ]; then
