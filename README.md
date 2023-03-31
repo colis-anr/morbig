@@ -72,7 +72,7 @@ If you want to use the development version of `morbig`, read the next sections.
 
 - dune
 - menhir
-- ocaml (≥ 4.04)
+- OCaml ≥ 4.11. Older versions might work but are not officially supported.
 - odoc (for documentation only)
 - yojson and ppx_deriving_yojson
 - visitors
