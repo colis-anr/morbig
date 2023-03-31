@@ -163,7 +163,7 @@ jobs:
           # - debian ## disabled; cf https://github.com/colis-anr/morbig/issues/139
           - debian-testing
           - debian-unstable
-          - opensuse
+          # - opensuse ## disabled; cf https://github.com/colis-anr/morbig/issues/139
           - ubuntu
           - ubuntu-lts
         include:
