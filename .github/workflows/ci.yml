@@ -160,7 +160,7 @@ jobs:
       matrix:
         tag:
           - centos
-          - debian
+          # - debian ## disabled; cf https://github.com/colis-anr/morbig/issues/139
           - debian-testing
           - debian-unstable
           - opensuse
