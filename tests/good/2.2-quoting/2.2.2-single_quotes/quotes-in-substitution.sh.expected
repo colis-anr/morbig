@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,7 +21,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_Word",
@@ -29,10 +40,14 @@
                       [
                         [
                           "WordSubshell",
-                          [ "SubShellKindParentheses" ],
+                          [
+                            "SubShellKindParentheses"
+                          ],
                           [
                             "Program_LineBreak_CompleteCommands_LineBreak",
-                            [ "LineBreak_Empty" ],
+                            [
+                              "LineBreak_Empty"
+                            ],
                             [
                               "CompleteCommands_CompleteCommand",
                               [
@@ -54,7 +69,12 @@
                                               [
                                                 "Word",
                                                 "echo",
-                                                [ [ "WordName", "echo" ] ]
+                                                [
+                                                  [
+                                                    "WordName",
+                                                    "echo"
+                                                  ]
+                                                ]
                                               ]
                                             ],
                                             [
@@ -70,7 +90,8 @@
                                                       ")",
                                                       [
                                                         [
-                                                          "WordLiteral", ")"
+                                                          "WordLiteral",
+                                                          ")"
                                                         ]
                                                       ]
                                                     ]
@@ -86,10 +107,15 @@
                                 ]
                               ]
                             ],
-                            [ "LineBreak_Empty" ]
+                            [
+                              "LineBreak_Empty"
+                            ]
                           ]
                         ],
-                        [ "WordLiteral", "#" ]
+                        [
+                          "WordLiteral",
+                          "#"
+                        ]
                       ]
                     ]
                   ]
@@ -101,5 +127,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

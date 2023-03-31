@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -23,7 +25,16 @@
                       "SimpleCommand_CmdName_CmdSuffix",
                       [
                         "CmdName_Word",
-                        [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                        [
+                          "Word",
+                          "alias",
+                          [
+                            [
+                              "WordName",
+                              "alias"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "CmdSuffix_Word",
@@ -34,11 +45,19 @@
                             [
                               "WordAssignmentWord",
                               [
-                                [ "Name", "rename" ],
+                                [
+                                  "Name",
+                                  "rename"
+                                ],
                                 [
                                   "Word",
                                   "alias",
-                                  [ [ "WordLiteral", "alias" ] ]
+                                  [
+                                    [
+                                      "WordLiteral",
+                                      "alias"
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]
@@ -53,7 +72,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -70,7 +91,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                      [
+                        "Word",
+                        "alias",
+                        [
+                          [
+                            "WordName",
+                            "alias"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_Word",
@@ -81,11 +111,19 @@
                           [
                             "WordAssignmentWord",
                             [
-                              [ "Name", "time" ],
+                              [
+                                "Name",
+                                "time"
+                              ],
                               [
                                 "Word",
                                 "date",
-                                [ [ "WordLiteral", "date" ] ]
+                                [
+                                  [
+                                    "WordLiteral",
+                                    "date"
+                                  ]
+                                ]
                               ]
                             ]
                           ]
@@ -100,7 +138,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -117,7 +157,16 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "date", [ [ "WordName", "date" ] ] ]
+                    [
+                      "Word",
+                      "date",
+                      [
+                        [
+                          "WordName",
+                          "date"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -127,5 +176,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

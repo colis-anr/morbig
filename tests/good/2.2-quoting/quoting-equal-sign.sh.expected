@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -33,16 +35,27 @@
                                 "Word",
                                 "a'='b",
                                 [
-                                  [ "WordLiteral", "a" ],
+                                  [
+                                    "WordLiteral",
+                                    "a"
+                                  ],
                                   [
                                     "WordSingleQuoted",
                                     [
                                       "Word",
                                       "=",
-                                      [ [ "WordLiteral", "=" ] ]
+                                      [
+                                        [
+                                          "WordLiteral",
+                                          "="
+                                        ]
+                                      ]
                                     ]
                                   ],
-                                  [ "WordLiteral", "b" ]
+                                  [
+                                    "WordLiteral",
+                                    "b"
+                                  ]
                                 ]
                               ]
                             ]
@@ -54,7 +67,9 @@
                 ]
               ]
             ],
-            [ "NewLineList_NewLine" ],
+            [
+              "NewLineList_NewLine"
+            ],
             [
               "CompleteCommand_CList",
               [
@@ -75,12 +90,27 @@
                               "Word",
                               "a\"=\"b",
                               [
-                                [ "WordLiteral", "a" ],
+                                [
+                                  "WordLiteral",
+                                  "a"
+                                ],
                                 [
                                   "WordDoubleQuoted",
-                                  [ "Word", "=", [ [ "WordLiteral", "=" ] ] ]
+                                  [
+                                    "Word",
+                                    "=",
+                                    [
+                                      [
+                                        "WordLiteral",
+                                        "="
+                                      ]
+                                    ]
+                                  ]
                                 ],
-                                [ "WordLiteral", "b" ]
+                                [
+                                  "WordLiteral",
+                                  "b"
+                                ]
                               ]
                             ]
                           ]
@@ -92,7 +122,9 @@
               ]
             ]
           ],
-          [ "NewLineList_NewLine" ],
+          [
+            "NewLineList_NewLine"
+          ],
           [
             "CompleteCommand_CList",
             [
@@ -113,13 +145,20 @@
                             "Word",
                             "a$(=)b",
                             [
-                              [ "WordLiteral", "a" ],
+                              [
+                                "WordLiteral",
+                                "a"
+                              ],
                               [
                                 "WordSubshell",
-                                [ "SubShellKindParentheses" ],
+                                [
+                                  "SubShellKindParentheses"
+                                ],
                                 [
                                   "Program_LineBreak_CompleteCommands_LineBreak",
-                                  [ "LineBreak_Empty" ],
+                                  [
+                                    "LineBreak_Empty"
+                                  ],
                                   [
                                     "CompleteCommands_CompleteCommand",
                                     [
@@ -143,7 +182,8 @@
                                                       "=",
                                                       [
                                                         [
-                                                          "WordLiteral", "="
+                                                          "WordLiteral",
+                                                          "="
                                                         ]
                                                       ]
                                                     ]
@@ -156,10 +196,15 @@
                                       ]
                                     ]
                                   ],
-                                  [ "LineBreak_Empty" ]
+                                  [
+                                    "LineBreak_Empty"
+                                  ]
                                 ]
                               ],
-                              [ "WordLiteral", "b" ]
+                              [
+                                "WordLiteral",
+                                "b"
+                              ]
                             ]
                           ]
                         ]
@@ -171,7 +216,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -192,13 +239,20 @@
                           "Word",
                           "a`=`b",
                           [
-                            [ "WordLiteral", "a" ],
+                            [
+                              "WordLiteral",
+                              "a"
+                            ],
                             [
                               "WordSubshell",
-                              [ "SubShellKindBackQuote" ],
+                              [
+                                "SubShellKindBackQuote"
+                              ],
                               [
                                 "Program_LineBreak_CompleteCommands_LineBreak",
-                                [ "LineBreak_Empty" ],
+                                [
+                                  "LineBreak_Empty"
+                                ],
                                 [
                                   "CompleteCommands_CompleteCommand",
                                   [
@@ -221,7 +275,10 @@
                                                     "Word",
                                                     "=",
                                                     [
-                                                      [ "WordLiteral", "=" ]
+                                                      [
+                                                        "WordLiteral",
+                                                        "="
+                                                      ]
                                                     ]
                                                   ]
                                                 ]
@@ -233,10 +290,15 @@
                                     ]
                                   ]
                                 ],
-                                [ "LineBreak_Empty" ]
+                                [
+                                  "LineBreak_Empty"
+                                ]
                               ]
                             ],
-                            [ "WordLiteral", "b" ]
+                            [
+                              "WordLiteral",
+                              "b"
+                            ]
                           ]
                         ]
                       ]
@@ -248,7 +310,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -268,7 +332,12 @@
                       [
                         "Word",
                         "a$((=))b",
-                        [ [ "WordLiteral", "a$((=))b" ] ]
+                        [
+                          [
+                            "WordLiteral",
+                            "a$((=))b"
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -279,7 +348,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -297,8 +368,20 @@
                   [
                     "CmdPrefix_AssignmentWord",
                     [
-                      [ "Name", "a" ],
-                      [ "Word", "b", [ [ "WordLiteral", "b" ] ] ]
+                      [
+                        "Name",
+                        "a"
+                      ],
+                      [
+                        "Word",
+                        "b",
+                        [
+                          [
+                            "WordLiteral",
+                            "b"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -309,5 +392,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

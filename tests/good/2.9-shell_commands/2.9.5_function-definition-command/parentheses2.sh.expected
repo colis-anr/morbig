@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -17,8 +19,19 @@
                 "Command_FunctionDefinition",
                 [
                   "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
-                  [ "Fname_Name", [ "Name", "a" ] ],
-                  [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                  [
+                    "Fname_Name",
+                    [
+                      "Name",
+                      "a"
+                    ]
+                  ],
+                  [
+                    "LineBreak_NewLineList",
+                    [
+                      "NewLineList_NewLine"
+                    ]
+                  ],
                   [
                     "FunctionBody_CompoundCommand",
                     [
@@ -29,7 +42,9 @@
                           "CompoundList_LineBreak_Term_Separator",
                           [
                             "LineBreak_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ],
                           [
                             "Term_AndOr",
@@ -48,7 +63,12 @@
                                         [
                                           "Word",
                                           "echo",
-                                          [ [ "WordName", "echo" ] ]
+                                          [
+                                            [
+                                              "WordName",
+                                              "echo"
+                                            ]
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -59,7 +79,9 @@
                           ],
                           [
                             "Separator_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ]
                         ]
                       ]
@@ -73,5 +95,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

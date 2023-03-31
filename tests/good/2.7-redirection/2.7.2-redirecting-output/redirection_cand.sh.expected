@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,16 @@
                     "SimpleCommand_CmdName",
                     [
                       "CmdName_Word",
-                      [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                      [
+                        "Word",
+                        "echo",
+                        [
+                          [
+                            "WordName",
+                            "echo"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -29,7 +40,9 @@
             ]
           ]
         ],
-        [ "SeparatorOp_Uppersand" ],
+        [
+          "SeparatorOp_Uppersand"
+        ],
         [
           "AndOr_Pipeline",
           [
@@ -48,7 +61,16 @@
                         "IoFile_Great_FileName",
                         [
                           "Filename_Word",
-                          [ "Word", "foo", [ [ "WordName", "foo" ] ] ]
+                          [
+                            "Word",
+                            "foo",
+                            [
+                              [
+                                "WordName",
+                                "foo"
+                              ]
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -61,5 +83,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

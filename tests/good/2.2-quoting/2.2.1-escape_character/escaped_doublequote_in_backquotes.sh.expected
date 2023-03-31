@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -20,7 +22,10 @@
                   [
                     "CmdPrefix_AssignmentWord",
                     [
-                      [ "Name", "x" ],
+                      [
+                        "Name",
+                        "x"
+                      ],
                       [
                         "Word",
                         "\" ` echo \\\"  \\\\\\\\' \\\"  ` \"",
@@ -31,13 +36,20 @@
                               "Word",
                               " ` echo \\\"  \\\\\\\\' \\\"  ` ",
                               [
-                                [ "WordLiteral", " " ],
+                                [
+                                  "WordLiteral",
+                                  " "
+                                ],
                                 [
                                   "WordSubshell",
-                                  [ "SubShellKindBackQuote" ],
+                                  [
+                                    "SubShellKindBackQuote"
+                                  ],
                                   [
                                     "Program_LineBreak_CompleteCommands_LineBreak",
-                                    [ "LineBreak_Empty" ],
+                                    [
+                                      "LineBreak_Empty"
+                                    ],
                                     [
                                       "CompleteCommands_CompleteCommand",
                                       [
@@ -101,10 +113,15 @@
                                         ]
                                       ]
                                     ],
-                                    [ "LineBreak_Empty" ]
+                                    [
+                                      "LineBreak_Empty"
+                                    ]
                                   ]
                                 ],
-                                [ "WordLiteral", " " ]
+                                [
+                                  "WordLiteral",
+                                  " "
+                                ]
                               ]
                             ]
                           ]
@@ -120,5 +137,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

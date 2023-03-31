@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -17,8 +19,16 @@
                 "Command_FunctionDefinition",
                 [
                   "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
-                  [ "Fname_Name", [ "Name", "a" ] ],
-                  [ "LineBreak_Empty" ],
+                  [
+                    "Fname_Name",
+                    [
+                      "Name",
+                      "a"
+                    ]
+                  ],
+                  [
+                    "LineBreak_Empty"
+                  ],
                   [
                     "FunctionBody_CompoundCommand",
                     [
@@ -27,7 +37,9 @@
                         "UntilClause_Until_CompoundList_DoGroup",
                         [
                           "CompoundList_LineBreak_Term_Separator",
-                          [ "LineBreak_Empty" ],
+                          [
+                            "LineBreak_Empty"
+                          ],
                           [
                             "Term_AndOr",
                             [
@@ -45,7 +57,12 @@
                                         [
                                           "Word",
                                           "false",
-                                          [ [ "WordName", "false" ] ]
+                                          [
+                                            [
+                                              "WordName",
+                                              "false"
+                                            ]
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -56,15 +73,21 @@
                           ],
                           [
                             "Separator_SeparatorOp_LineBreak",
-                            [ "SeparatorOp_Semicolon" ],
-                            [ "LineBreak_Empty" ]
+                            [
+                              "SeparatorOp_Semicolon"
+                            ],
+                            [
+                              "LineBreak_Empty"
+                            ]
                           ]
                         ],
                         [
                           "DoGroup_Do_CompoundList_Done",
                           [
                             "CompoundList_LineBreak_Term_Separator",
-                            [ "LineBreak_Empty" ],
+                            [
+                              "LineBreak_Empty"
+                            ],
                             [
                               "Term_AndOr",
                               [
@@ -82,7 +105,12 @@
                                           [
                                             "Word",
                                             "xoxo",
-                                            [ [ "WordName", "xoxo" ] ]
+                                            [
+                                              [
+                                                "WordName",
+                                                "xoxo"
+                                              ]
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -93,8 +121,12 @@
                             ],
                             [
                               "Separator_SeparatorOp_LineBreak",
-                              [ "SeparatorOp_Semicolon" ],
-                              [ "LineBreak_Empty" ]
+                              [
+                                "SeparatorOp_Semicolon"
+                              ],
+                              [
+                                "LineBreak_Empty"
+                              ]
                             ]
                           ]
                         ]
@@ -109,5 +141,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

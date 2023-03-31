@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -23,7 +25,16 @@
                       "SimpleCommand_CmdName_CmdSuffix",
                       [
                         "CmdName_Word",
-                        [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                        [
+                          "Word",
+                          "alias",
+                          [
+                            [
+                              "WordName",
+                              "alias"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "CmdSuffix_CmdSuffix_Word",
@@ -38,11 +49,19 @@
                                 [
                                   "WordAssignmentWord",
                                   [
-                                    [ "Name", "show" ],
+                                    [
+                                      "Name",
+                                      "show"
+                                    ],
                                     [
                                       "Word",
                                       "echo",
-                                      [ [ "WordLiteral", "echo" ] ]
+                                      [
+                                        [
+                                          "WordLiteral",
+                                          "echo"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -56,11 +75,19 @@
                               [
                                 "WordAssignmentWord",
                                 [
-                                  [ "Name", "list" ],
+                                  [
+                                    "Name",
+                                    "list"
+                                  ],
                                   [
                                     "Word",
                                     "ls",
-                                    [ [ "WordLiteral", "ls" ] ]
+                                    [
+                                      [
+                                        "WordLiteral",
+                                        "ls"
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -74,11 +101,19 @@
                             [
                               "WordAssignmentWord",
                               [
-                                [ "Name", "coocoo" ],
+                                [
+                                  "Name",
+                                  "coocoo"
+                                ],
                                 [
                                   "Word",
                                   "kiki",
-                                  [ [ "WordLiteral", "kiki" ] ]
+                                  [
+                                    [
+                                      "WordLiteral",
+                                      "kiki"
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]
@@ -93,7 +128,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -110,11 +147,29 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                      [
+                        "Word",
+                        "echo",
+                        [
+                          [
+                            "WordName",
+                            "echo"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_Word",
-                      [ "Word", "hello", [ [ "WordName", "hello" ] ] ]
+                      [
+                        "Word",
+                        "hello",
+                        [
+                          [
+                            "WordName",
+                            "hello"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -124,7 +179,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -141,7 +198,16 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "ls", [ [ "WordName", "ls" ] ] ]
+                    [
+                      "Word",
+                      "ls",
+                      [
+                        [
+                          "WordName",
+                          "ls"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -151,5 +217,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

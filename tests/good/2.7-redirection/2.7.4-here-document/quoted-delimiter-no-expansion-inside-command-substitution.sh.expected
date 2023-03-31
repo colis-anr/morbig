@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -20,17 +22,24 @@
                   [
                     "CmdPrefix_AssignmentWord",
                     [
-                      [ "Name", "x" ],
+                      [
+                        "Name",
+                        "x"
+                      ],
                       [
                         "Word",
                         "$(cat <<'EOF'\nHere document not expanded, may be unbalanced ' \" $(\nand a backslash at the end of the line is NOT removed \\\nEOF\n)",
                         [
                           [
                             "WordSubshell",
-                            [ "SubShellKindParentheses" ],
+                            [
+                              "SubShellKindParentheses"
+                            ],
                             [
                               "Program_LineBreak_CompleteCommands_LineBreak",
-                              [ "LineBreak_Empty" ],
+                              [
+                                "LineBreak_Empty"
+                              ],
                               [
                                 "CompleteCommands_CompleteCommand",
                                 [
@@ -52,7 +61,12 @@
                                                 [
                                                   "Word",
                                                   "cat",
-                                                  [ [ "WordName", "cat" ] ]
+                                                  [
+                                                    [
+                                                      "WordName",
+                                                      "cat"
+                                                    ]
+                                                  ]
                                                 ]
                                               ],
                                               [
@@ -104,7 +118,9 @@
                                   ]
                                 ]
                               ],
-                              [ "LineBreak_Empty" ]
+                              [
+                                "LineBreak_Empty"
+                              ]
                             ]
                           ]
                         ]
@@ -119,5 +135,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

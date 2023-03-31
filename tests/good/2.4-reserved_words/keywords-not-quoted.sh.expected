@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -31,7 +33,16 @@
                             [
                               [
                                 "WordSingleQuoted",
-                                [ "Word", "if", [ [ "WordLiteral", "if" ] ] ]
+                                [
+                                  "Word",
+                                  "if",
+                                  [
+                                    [
+                                      "WordLiteral",
+                                      "if"
+                                    ]
+                                  ]
+                                ]
                               ]
                             ]
                           ]
@@ -44,7 +55,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -65,10 +78,22 @@
                           "Word",
                           "i'f'",
                           [
-                            [ "WordLiteral", "i" ],
+                            [
+                              "WordLiteral",
+                              "i"
+                            ],
                             [
                               "WordSingleQuoted",
-                              [ "Word", "f", [ [ "WordLiteral", "f" ] ] ]
+                              [
+                                "Word",
+                                "f",
+                                [
+                                  [
+                                    "WordLiteral",
+                                    "f"
+                                  ]
+                                ]
+                              ]
                             ]
                           ]
                         ]
@@ -81,7 +106,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -102,10 +129,22 @@
                         "Word",
                         "i\"f\"",
                         [
-                          [ "WordLiteral", "i" ],
+                          [
+                            "WordLiteral",
+                            "i"
+                          ],
                           [
                             "WordDoubleQuoted",
-                            [ "Word", "f", [ [ "WordLiteral", "f" ] ] ]
+                            [
+                              "Word",
+                              "f",
+                              [
+                                [
+                                  "WordLiteral",
+                                  "f"
+                                ]
+                              ]
+                            ]
                           ]
                         ]
                       ]
@@ -118,7 +157,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -135,7 +176,16 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "i\\f", [ [ "WordLiteral", "i\\f" ] ] ]
+                    [
+                      "Word",
+                      "i\\f",
+                      [
+                        [
+                          "WordLiteral",
+                          "i\\f"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -145,5 +195,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -21,7 +23,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                      [
+                        "Word",
+                        "alias",
+                        [
+                          [
+                            "WordName",
+                            "alias"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_Word",
@@ -32,7 +43,10 @@
                           [
                             "WordAssignmentWord",
                             [
-                              [ "Name", "ls" ],
+                              [
+                                "Name",
+                                "ls"
+                              ],
                               [
                                 "Word",
                                 "'ls -h -t -l'",
@@ -42,7 +56,12 @@
                                     [
                                       "Word",
                                       "ls -h -t -l",
-                                      [ [ "WordLiteral", "ls -h -t -l" ] ]
+                                      [
+                                        [
+                                          "WordLiteral",
+                                          "ls -h -t -l"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -60,7 +79,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -80,7 +101,12 @@
                     [
                       "Word",
                       "'ls -h -t -l'",
-                      [ [ "WordLiteral", "'ls -h -t -l'" ] ]
+                      [
+                        [
+                          "WordLiteral",
+                          "'ls -h -t -l'"
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -91,5 +117,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -25,7 +27,16 @@
                         "SimpleCommand_CmdName_CmdSuffix",
                         [
                           "CmdName_Word",
-                          [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                          [
+                            "Word",
+                            "alias",
+                            [
+                              [
+                                "WordName",
+                                "alias"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "CmdSuffix_Word",
@@ -36,11 +47,19 @@
                               [
                                 "WordAssignmentWord",
                                 [
-                                  [ "Name", "show" ],
+                                  [
+                                    "Name",
+                                    "show"
+                                  ],
                                   [
                                     "Word",
                                     "echo",
-                                    [ [ "WordLiteral", "echo" ] ]
+                                    [
+                                      [
+                                        "WordLiteral",
+                                        "echo"
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -55,7 +74,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -72,7 +93,16 @@
                       "SimpleCommand_CmdName_CmdSuffix",
                       [
                         "CmdName_Word",
-                        [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                        [
+                          "Word",
+                          "alias",
+                          [
+                            [
+                              "WordName",
+                              "alias"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "CmdSuffix_Word",
@@ -83,8 +113,20 @@
                             [
                               "WordAssignmentWord",
                               [
-                                [ "Name", "list" ],
-                                [ "Word", "ls", [ [ "WordLiteral", "ls" ] ] ]
+                                [
+                                  "Name",
+                                  "list"
+                                ],
+                                [
+                                  "Word",
+                                  "ls",
+                                  [
+                                    [
+                                      "WordLiteral",
+                                      "ls"
+                                    ]
+                                  ]
+                                ]
                               ]
                             ]
                           ]
@@ -98,7 +140,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -115,7 +159,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                      [
+                        "Word",
+                        "unalias",
+                        [
+                          [
+                            "WordName",
+                            "unalias"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_CmdSuffix_Word",
@@ -123,11 +176,38 @@
                         "CmdSuffix_CmdSuffix_Word",
                         [
                           "CmdSuffix_Word",
-                          [ "Word", "ls", [ [ "WordName", "ls" ] ] ]
+                          [
+                            "Word",
+                            "ls",
+                            [
+                              [
+                                "WordName",
+                                "ls"
+                              ]
+                            ]
+                          ]
                         ],
-                        [ "Word", "show", [ [ "WordName", "show" ] ] ]
+                        [
+                          "Word",
+                          "show",
+                          [
+                            [
+                              "WordName",
+                              "show"
+                            ]
+                          ]
+                        ]
                       ],
-                      [ "Word", "coocoo", [ [ "WordName", "coocoo" ] ] ]
+                      [
+                        "Word",
+                        "coocoo",
+                        [
+                          [
+                            "WordName",
+                            "coocoo"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -137,7 +217,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -154,7 +236,16 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "ls", [ [ "WordName", "ls" ] ] ]
+                    [
+                      "Word",
+                      "ls",
+                      [
+                        [
+                          "WordName",
+                          "ls"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -164,5 +255,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

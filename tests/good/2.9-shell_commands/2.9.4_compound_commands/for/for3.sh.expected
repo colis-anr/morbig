@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,8 +21,13 @@
                   "CompoundCommand_ForClause",
                   [
                     "ForClause_For_Name_LineBreak_In_WordList_SequentialSep_DoGroup",
-                    [ "Name", "i" ],
-                    [ "LineBreak_Empty" ],
+                    [
+                      "Name",
+                      "i"
+                    ],
+                    [
+                      "LineBreak_Empty"
+                    ],
                     [
                       "WordList_Word",
                       [
@@ -29,10 +36,14 @@
                         [
                           [
                             "WordSubshell",
-                            [ "SubShellKindParentheses" ],
+                            [
+                              "SubShellKindParentheses"
+                            ],
                             [
                               "Program_LineBreak_CompleteCommands_LineBreak",
-                              [ "LineBreak_Empty" ],
+                              [
+                                "LineBreak_Empty"
+                              ],
                               [
                                 "CompleteCommands_CompleteCommand",
                                 [
@@ -54,7 +65,12 @@
                                                 [
                                                   "Word",
                                                   "a",
-                                                  [ [ "WordName", "a" ] ]
+                                                  [
+                                                    [
+                                                      "WordName",
+                                                      "a"
+                                                    ]
+                                                  ]
                                                 ]
                                               ],
                                               [
@@ -64,13 +80,23 @@
                                                   [
                                                     "Word",
                                                     "b",
-                                                    [ [ "WordName", "b" ] ]
+                                                    [
+                                                      [
+                                                        "WordName",
+                                                        "b"
+                                                      ]
+                                                    ]
                                                   ]
                                                 ],
                                                 [
                                                   "Word",
                                                   "c",
-                                                  [ [ "WordName", "c" ] ]
+                                                  [
+                                                    [
+                                                      "WordName",
+                                                      "c"
+                                                    ]
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -81,7 +107,9 @@
                                   ]
                                 ]
                               ],
-                              [ "LineBreak_Empty" ]
+                              [
+                                "LineBreak_Empty"
+                              ]
                             ]
                           ]
                         ]
@@ -89,7 +117,9 @@
                     ],
                     [
                       "SequentialSep_NewLineList",
-                      [ "NewLineList_NewLine" ]
+                      [
+                        "NewLineList_NewLine"
+                      ]
                     ],
                     [
                       "DoGroup_Do_CompoundList_Done",
@@ -97,7 +127,9 @@
                         "CompoundList_LineBreak_Term_Separator",
                         [
                           "LineBreak_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ],
                         [
                           "Term_AndOr",
@@ -116,7 +148,12 @@
                                       [
                                         "Word",
                                         "echo",
-                                        [ [ "WordName", "echo" ] ]
+                                        [
+                                          [
+                                            "WordName",
+                                            "echo"
+                                          ]
+                                        ]
                                       ]
                                     ]
                                   ]
@@ -127,8 +164,12 @@
                         ],
                         [
                           "Separator_SeparatorOp_LineBreak",
-                          [ "SeparatorOp_Semicolon" ],
-                          [ "LineBreak_Empty" ]
+                          [
+                            "SeparatorOp_Semicolon"
+                          ],
+                          [
+                            "LineBreak_Empty"
+                          ]
                         ]
                       ]
                     ]
@@ -141,5 +182,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

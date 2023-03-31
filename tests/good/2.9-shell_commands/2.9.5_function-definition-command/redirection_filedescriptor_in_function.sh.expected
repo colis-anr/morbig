@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -17,8 +19,16 @@
                 "Command_FunctionDefinition",
                 [
                   "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
-                  [ "Fname_Name", [ "Name", "dump_databases" ] ],
-                  [ "LineBreak_Empty" ],
+                  [
+                    "Fname_Name",
+                    [
+                      "Name",
+                      "dump_databases"
+                    ]
+                  ],
+                  [
+                    "LineBreak_Empty"
+                  ],
                   [
                     "FunctionBody_CompoundCommand",
                     [
@@ -29,7 +39,9 @@
                           "CompoundList_LineBreak_Term_Separator",
                           [
                             "LineBreak_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ],
                           [
                             "Term_AndOr",
@@ -47,7 +59,9 @@
                                         "Subshell_Lparen_CompoundList_Rparen",
                                         [
                                           "CompoundList_LineBreak_Term",
-                                          [ "LineBreak_Empty" ],
+                                          [
+                                            "LineBreak_Empty"
+                                          ],
                                           [
                                             "Term_AndOr",
                                             [
@@ -78,7 +92,9 @@
                                                       ]
                                                     ]
                                                   ],
-                                                  [ "LineBreak_Empty" ],
+                                                  [
+                                                    "LineBreak_Empty"
+                                                  ],
                                                   [
                                                     "Command_CompoundCommand",
                                                     [
@@ -101,33 +117,33 @@
                                                                   [
                                                                     "Command_SimpleCommand",
                                                                     [
-                                                                    "SimpleCommand_CmdName_CmdSuffix",
-                                                                    [
-                                                                    "CmdName_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "read",
-                                                                    [
-                                                                    [
-                                                                    "WordName",
-                                                                    "read"
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ],
-                                                                    [
-                                                                    "CmdSuffix_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "suffix",
-                                                                    [
-                                                                    [
-                                                                    "WordName",
-                                                                    "suffix"
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
+                                                                      "SimpleCommand_CmdName_CmdSuffix",
+                                                                      [
+                                                                        "CmdName_Word",
+                                                                        [
+                                                                          "Word",
+                                                                          "read",
+                                                                          [
+                                                                            [
+                                                                              "WordName",
+                                                                              "read"
+                                                                            ]
+                                                                          ]
+                                                                        ]
+                                                                      ],
+                                                                      [
+                                                                        "CmdSuffix_Word",
+                                                                        [
+                                                                          "Word",
+                                                                          "suffix",
+                                                                          [
+                                                                            [
+                                                                              "WordName",
+                                                                              "suffix"
+                                                                            ]
+                                                                          ]
+                                                                        ]
+                                                                      ]
                                                                     ]
                                                                   ]
                                                                 ]
@@ -163,29 +179,29 @@
                                                                   [
                                                                     "PipeSequence_Command",
                                                                     [
-                                                                    "Command_SimpleCommand",
-                                                                    [
-                                                                    "SimpleCommand_CmdPrefix",
-                                                                    [
-                                                                    "CmdPrefix_AssignmentWord",
-                                                                    [
-                                                                    [
-                                                                    "Name",
-                                                                    "dbdir"
-                                                                    ],
-                                                                    [
-                                                                    "Word",
-                                                                    "x",
-                                                                    [
-                                                                    [
-                                                                    "WordLiteral",
-                                                                    "x"
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
+                                                                      "Command_SimpleCommand",
+                                                                      [
+                                                                        "SimpleCommand_CmdPrefix",
+                                                                        [
+                                                                          "CmdPrefix_AssignmentWord",
+                                                                          [
+                                                                            [
+                                                                              "Name",
+                                                                              "dbdir"
+                                                                            ],
+                                                                            [
+                                                                              "Word",
+                                                                              "x",
+                                                                              [
+                                                                                [
+                                                                                  "WordLiteral",
+                                                                                  "x"
+                                                                                ]
+                                                                              ]
+                                                                            ]
+                                                                          ]
+                                                                        ]
+                                                                      ]
                                                                     ]
                                                                   ]
                                                                 ]
@@ -215,7 +231,10 @@
                                         "RedirectList_IoRedirect",
                                         [
                                           "IoRedirect_IoNumber_IoFile",
-                                          [ "IONumber", "5" ],
+                                          [
+                                            "IONumber",
+                                            "5"
+                                          ],
                                           [
                                             "IoFile_LessAnd_FileName",
                                             [
@@ -223,7 +242,12 @@
                                               [
                                                 "Word",
                                                 "0",
-                                                [ [ "WordLiteral", "0" ] ]
+                                                [
+                                                  [
+                                                    "WordLiteral",
+                                                    "0"
+                                                  ]
+                                                ]
                                               ]
                                             ]
                                           ]
@@ -240,7 +264,8 @@
                                               "/dev/null",
                                               [
                                                 [
-                                                  "WordLiteral", "/dev/null"
+                                                  "WordLiteral",
+                                                  "/dev/null"
                                                 ]
                                               ]
                                             ]
@@ -255,7 +280,9 @@
                           ],
                           [
                             "Separator_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ]
                         ]
                       ]
@@ -269,5 +296,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -25,10 +27,14 @@
                       [
                         [
                           "WordSubshell",
-                          [ "SubShellKindParentheses" ],
+                          [
+                            "SubShellKindParentheses"
+                          ],
                           [
                             "Program_LineBreak_CompleteCommands_LineBreak",
-                            [ "LineBreak_Empty" ],
+                            [
+                              "LineBreak_Empty"
+                            ],
                             [
                               "CompleteCommands_CompleteCommand",
                               [
@@ -50,7 +56,12 @@
                                               [
                                                 "Word",
                                                 "true",
-                                                [ [ "WordName", "true" ] ]
+                                                [
+                                                  [
+                                                    "WordName",
+                                                    "true"
+                                                  ]
+                                                ]
                                               ]
                                             ]
                                           ]
@@ -61,13 +72,22 @@
                                 ]
                               ]
                             ],
-                            [ "LineBreak_Empty" ]
+                            [
+                              "LineBreak_Empty"
+                            ]
                           ]
                         ]
                       ]
                     ],
-                    [ "LineBreak_Empty" ],
-                    [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                    [
+                      "LineBreak_Empty"
+                    ],
+                    [
+                      "LineBreak_NewLineList",
+                      [
+                        "NewLineList_NewLine"
+                      ]
+                    ],
                     [
                       "CaseList_CaseList_CaseItem",
                       [
@@ -76,11 +96,22 @@
                           "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                           [
                             "Pattern_Word",
-                            [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                            [
+                              "Word",
+                              "a",
+                              [
+                                [
+                                  "WordName",
+                                  "a"
+                                ]
+                              ]
+                            ]
                           ],
                           [
                             "CompoundList_LineBreak_Term",
-                            [ "LineBreak_Empty" ],
+                            [
+                              "LineBreak_Empty"
+                            ],
                             [
                               "Term_AndOr",
                               [
@@ -96,11 +127,19 @@
                                         [
                                           "CmdPrefix_AssignmentWord",
                                           [
-                                            [ "Name", "UPDATE_OPTS" ],
+                                            [
+                                              "Name",
+                                              "UPDATE_OPTS"
+                                            ],
                                             [
                                               "Word",
                                               "y",
-                                              [ [ "WordLiteral", "y" ] ]
+                                              [
+                                                [
+                                                  "WordLiteral",
+                                                  "y"
+                                                ]
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -113,7 +152,9 @@
                           ],
                           [
                             "LineBreak_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ]
                         ]
                       ],
@@ -121,11 +162,22 @@
                         "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                         [
                           "Pattern_Word",
-                          [ "Word", "b", [ [ "WordName", "b" ] ] ]
+                          [
+                            "Word",
+                            "b",
+                            [
+                              [
+                                "WordName",
+                                "b"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "CompoundList_LineBreak_Term",
-                          [ "LineBreak_Empty" ],
+                          [
+                            "LineBreak_Empty"
+                          ],
                           [
                             "Term_AndOr",
                             [
@@ -141,11 +193,19 @@
                                       [
                                         "CmdPrefix_AssignmentWord",
                                         [
-                                          [ "Name", "UPDATE_OPTS" ],
+                                          [
+                                            "Name",
+                                            "UPDATE_OPTS"
+                                          ],
                                           [
                                             "Word",
                                             "ok",
-                                            [ [ "WordLiteral", "ok" ] ]
+                                            [
+                                              [
+                                                "WordLiteral",
+                                                "ok"
+                                              ]
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -158,7 +218,9 @@
                         ],
                         [
                           "LineBreak_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ]
                       ]
                     ]
@@ -171,5 +233,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

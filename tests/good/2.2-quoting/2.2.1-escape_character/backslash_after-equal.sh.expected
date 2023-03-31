@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -22,17 +24,24 @@
                     [
                       "CmdPrefix_AssignmentWord",
                       [
-                        [ "Name", "x" ],
+                        [
+                          "Name",
+                          "x"
+                        ],
                         [
                           "Word",
                           "$(echo pi \\) pa pu)",
                           [
                             [
                               "WordSubshell",
-                              [ "SubShellKindParentheses" ],
+                              [
+                                "SubShellKindParentheses"
+                              ],
                               [
                                 "Program_LineBreak_CompleteCommands_LineBreak",
-                                [ "LineBreak_Empty" ],
+                                [
+                                  "LineBreak_Empty"
+                                ],
                                 [
                                   "CompleteCommands_CompleteCommand",
                                   [
@@ -55,7 +64,10 @@
                                                     "Word",
                                                     "echo",
                                                     [
-                                                      [ "WordName", "echo" ]
+                                                      [
+                                                        "WordName",
+                                                        "echo"
+                                                      ]
                                                     ]
                                                   ]
                                                 ],
@@ -93,14 +105,22 @@
                                                       "Word",
                                                       "pa",
                                                       [
-                                                        [ "WordName", "pa" ]
+                                                        [
+                                                          "WordName",
+                                                          "pa"
+                                                        ]
                                                       ]
                                                     ]
                                                   ],
                                                   [
                                                     "Word",
                                                     "pu",
-                                                    [ [ "WordName", "pu" ] ]
+                                                    [
+                                                      [
+                                                        "WordName",
+                                                        "pu"
+                                                      ]
+                                                    ]
                                                   ]
                                                 ]
                                               ]
@@ -111,7 +131,9 @@
                                     ]
                                   ]
                                 ],
-                                [ "LineBreak_Empty" ]
+                                [
+                                  "LineBreak_Empty"
+                                ]
                               ]
                             ]
                           ]
@@ -126,7 +148,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -143,7 +167,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_Word",
@@ -153,7 +186,13 @@
                       [
                         [
                           "WordVariable",
-                          [ "VariableAtom", "x", [ "NoAttribute" ] ]
+                          [
+                            "VariableAtom",
+                            "x",
+                            [
+                              "NoAttribute"
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -166,5 +205,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

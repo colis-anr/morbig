@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -20,7 +22,10 @@
                   [
                     "CmdPrefix_AssignmentWord",
                     [
-                      [ "Name", "heredoc" ],
+                      [
+                        "Name",
+                        "heredoc"
+                      ],
                       [
                         "Word",
                         "\"${arg#<<?}\"",
@@ -47,7 +52,12 @@
                                             [
                                               "Word",
                                               "<<?",
-                                              [ [ "WordLiteral", "<<?" ] ]
+                                              [
+                                                [
+                                                  "WordLiteral",
+                                                  "<<?"
+                                                ]
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -70,5 +80,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

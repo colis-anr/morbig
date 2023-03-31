@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,10 +21,15 @@
                   "CompoundCommand_ForClause",
                   [
                     "ForClause_For_Name_SequentialSep_DoGroup",
-                    [ "Name", "i" ],
+                    [
+                      "Name",
+                      "i"
+                    ],
                     [
                       "SequentialSep_NewLineList",
-                      [ "NewLineList_NewLine" ]
+                      [
+                        "NewLineList_NewLine"
+                      ]
                     ],
                     [
                       "DoGroup_Do_CompoundList_Done",
@@ -30,7 +37,9 @@
                         "CompoundList_LineBreak_Term_Separator",
                         [
                           "LineBreak_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ],
                         [
                           "Term_AndOr",
@@ -49,7 +58,12 @@
                                       [
                                         "Word",
                                         "echo",
-                                        [ [ "WordName", "echo" ] ]
+                                        [
+                                          [
+                                            "WordName",
+                                            "echo"
+                                          ]
+                                        ]
                                       ]
                                     ]
                                   ]
@@ -60,7 +74,9 @@
                         ],
                         [
                           "Separator_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ]
                       ]
                     ]
@@ -73,5 +89,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

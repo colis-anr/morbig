@@ -15,20 +15,39 @@
                 "CompoundCommand_ForClause",
                 [
                   "ForClause_For_Name_LineBreak_In_WordList_SequentialSep_DoGroup",
-                  [ "Name", "in" ],
-                  [ "LineBreak_Empty" ],
+                  [
+                    "Name",
+                    "in"
+                  ],
+                  [
+                    "LineBreak_Empty"
+                  ],
                   [
                     "WordList_WordList_Word",
                     [
                       "WordList_WordList_Word",
-                      [ "WordList_Word", [ "Word", "in" ] ],
-                      [ "Word", "do" ]
+                      [
+                        "WordList_Word",
+                        [
+                          "Word",
+                          "in"
+                        ]
+                      ],
+                      [
+                        "Word",
+                        "do"
+                      ]
                     ],
-                    [ "Word", "in" ]
+                    [
+                      "Word",
+                      "in"
+                    ]
                   ],
                   [
                     "SequentialSep_Semicolon_LineBreak",
-                    [ "LineBreak_Empty" ]
+                    [
+                      "LineBreak_Empty"
+                    ]
                   ],
                   [
                     "DoGroup_Do_CompoundList_Done",
@@ -48,9 +67,16 @@
                                   "CompoundCommand_CaseClause",
                                   [
                                     "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseList_Esac",
-                                    [ "Word", "$in" ],
-                                    [ "LineBreak_Empty" ],
-                                    [ "LineBreak_Empty" ],
+                                    [
+                                      "Word",
+                                      "$in"
+                                    ],
+                                    [
+                                      "LineBreak_Empty"
+                                    ],
+                                    [
+                                      "LineBreak_Empty"
+                                    ],
                                     [
                                       "CaseList_CaseList_CaseItem",
                                       [
@@ -59,7 +85,10 @@
                                           "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                                           [
                                             "Pattern_Word",
-                                            [ "Word", "in" ]
+                                            [
+                                              "Word",
+                                              "in"
+                                            ]
                                           ],
                                           [
                                             "CompoundList_Term",
@@ -77,11 +106,17 @@
                                                         "SimpleCommand_CmdName_CmdSuffix",
                                                         [
                                                           "CmdName_Word",
-                                                          [ "Word", "echo" ]
+                                                          [
+                                                            "Word",
+                                                            "echo"
+                                                          ]
                                                         ],
                                                         [
                                                           "CmdSuffix_Word",
-                                                          [ "Word", "do" ]
+                                                          [
+                                                            "Word",
+                                                            "do"
+                                                          ]
                                                         ]
                                                       ]
                                                     ]
@@ -90,12 +125,20 @@
                                               ]
                                             ]
                                           ],
-                                          [ "LineBreak_Empty" ]
+                                          [
+                                            "LineBreak_Empty"
+                                          ]
                                         ]
                                       ],
                                       [
                                         "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
-                                        [ "Pattern_Word", [ "Word", "do" ] ],
+                                        [
+                                          "Pattern_Word",
+                                          [
+                                            "Word",
+                                            "do"
+                                          ]
+                                        ],
                                         [
                                           "CompoundList_Term",
                                           [
@@ -112,11 +155,17 @@
                                                       "SimpleCommand_CmdName_CmdSuffix",
                                                       [
                                                         "CmdName_Word",
-                                                        [ "Word", "echo" ]
+                                                        [
+                                                          "Word",
+                                                          "echo"
+                                                        ]
                                                       ],
                                                       [
                                                         "CmdSuffix_Word",
-                                                        [ "Word", "in" ]
+                                                        [
+                                                          "Word",
+                                                          "in"
+                                                        ]
                                                       ]
                                                     ]
                                                   ]
@@ -125,7 +174,9 @@
                                             ]
                                           ]
                                         ],
-                                        [ "LineBreak_Empty" ]
+                                        [
+                                          "LineBreak_Empty"
+                                        ]
                                       ]
                                     ]
                                   ]
@@ -137,8 +188,12 @@
                       ],
                       [
                         "Separator_SeparatorOp_LineBreak",
-                        [ "SeparatorOp_Semicolon" ],
-                        [ "LineBreak_Empty" ]
+                        [
+                          "SeparatorOp_Semicolon"
+                        ],
+                        [
+                          "LineBreak_Empty"
+                        ]
                       ]
                     ]
                   ]

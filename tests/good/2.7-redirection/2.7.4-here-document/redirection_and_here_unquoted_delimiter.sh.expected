@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,7 +21,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                    [
+                      "Word",
+                      "cat",
+                      [
+                        [
+                          "WordName",
+                          "cat"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_CmdSuffix_IoRedirect",
@@ -34,7 +45,12 @@
                             [
                               "Word",
                               "/etc/group",
-                              [ [ "WordLiteral", "/etc/group" ] ]
+                              [
+                                [
+                                  "WordLiteral",
+                                  "/etc/group"
+                                ]
+                              ]
                             ]
                           ]
                         ]
@@ -46,12 +62,26 @@
                         "IoHere_DLess_HereEnd",
                         [
                           "HereEnd_Word",
-                          [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
+                          [
+                            "Word",
+                            "EOF",
+                            [
+                              [
+                                "WordName",
+                                "EOF"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "Word",
                           "coocoo\n",
-                          [ [ "WordLiteral", "coocoo\n" ] ]
+                          [
+                            [
+                              "WordLiteral",
+                              "coocoo\n"
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -64,5 +94,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

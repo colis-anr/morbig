@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -25,7 +27,16 @@
                         "SimpleCommand_CmdName_CmdSuffix",
                         [
                           "CmdName_Word",
-                          [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                          [
+                            "Word",
+                            "alias",
+                            [
+                              [
+                                "WordName",
+                                "alias"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "CmdSuffix_CmdSuffix_Word",
@@ -38,11 +49,19 @@
                                 [
                                   "WordAssignmentWord",
                                   [
-                                    [ "Name", "tata" ],
+                                    [
+                                      "Name",
+                                      "tata"
+                                    ],
                                     [
                                       "Word",
                                       "TATA",
-                                      [ [ "WordLiteral", "TATA" ] ]
+                                      [
+                                        [
+                                          "WordLiteral",
+                                          "TATA"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -56,11 +75,19 @@
                               [
                                 "WordAssignmentWord",
                                 [
-                                  [ "Name", "titi" ],
+                                  [
+                                    "Name",
+                                    "titi"
+                                  ],
                                   [
                                     "Word",
                                     "TITI",
-                                    [ [ "WordLiteral", "TITI" ] ]
+                                    [
+                                      [
+                                        "WordLiteral",
+                                        "TITI"
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -75,7 +102,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -92,11 +121,29 @@
                       "SimpleCommand_CmdName_CmdSuffix",
                       [
                         "CmdName_Word",
-                        [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                        [
+                          "Word",
+                          "unalias",
+                          [
+                            [
+                              "WordName",
+                              "unalias"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "CmdSuffix_Word",
-                        [ "Word", "-a", [ [ "WordLiteral", "-a" ] ] ]
+                        [
+                          "Word",
+                          "-a",
+                          [
+                            [
+                              "WordLiteral",
+                              "-a"
+                            ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -106,7 +153,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -123,7 +172,16 @@
                     "SimpleCommand_CmdName",
                     [
                       "CmdName_Word",
-                      [ "Word", "tata", [ [ "WordName", "tata" ] ] ]
+                      [
+                        "Word",
+                        "tata",
+                        [
+                          [
+                            "WordName",
+                            "tata"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -133,7 +191,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -150,7 +210,16 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "titi", [ [ "WordName", "titi" ] ] ]
+                    [
+                      "Word",
+                      "titi",
+                      [
+                        [
+                          "WordName",
+                          "titi"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -160,5 +229,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

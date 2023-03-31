@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,20 +21,46 @@
                   "CompoundCommand_CaseClause",
                   [
                     "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseList_Esac",
-                    [ "Word", "a", [ [ "WordName", "a" ] ] ],
-                    [ "LineBreak_Empty" ],
-                    [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                    [
+                      "Word",
+                      "a",
+                      [
+                        [
+                          "WordName",
+                          "a"
+                        ]
+                      ]
+                    ],
+                    [
+                      "LineBreak_Empty"
+                    ],
+                    [
+                      "LineBreak_NewLineList",
+                      [
+                        "NewLineList_NewLine"
+                      ]
+                    ],
                     [
                       "CaseList_CaseItem",
                       [
                         "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                         [
                           "Pattern_Word",
-                          [ "Word", "*", [ [ "WordGlobAll" ] ] ]
+                          [
+                            "Word",
+                            "*",
+                            [
+                              [
+                                "WordGlobAll"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "CompoundList_LineBreak_Term",
-                          [ "LineBreak_Empty" ],
+                          [
+                            "LineBreak_Empty"
+                          ],
                           [
                             "Term_AndOr",
                             [
@@ -50,7 +78,12 @@
                                         [
                                           "Word",
                                           "echo",
-                                          [ [ "WordName", "echo" ] ]
+                                          [
+                                            [
+                                              "WordName",
+                                              "echo"
+                                            ]
+                                          ]
                                         ]
                                       ],
                                       [
@@ -64,7 +97,12 @@
                                               [
                                                 "Word",
                                                 "any",
-                                                [ [ "WordLiteral", "any" ] ]
+                                                [
+                                                  [
+                                                    "WordLiteral",
+                                                    "any"
+                                                  ]
+                                                ]
                                               ]
                                             ]
                                           ]
@@ -79,7 +117,9 @@
                         ],
                         [
                           "LineBreak_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ]
                       ]
                     ]
@@ -92,5 +132,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

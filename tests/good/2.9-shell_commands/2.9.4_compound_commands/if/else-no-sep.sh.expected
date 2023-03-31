@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,9 @@
                     "IfClause_If_CompoundList_Then_CompoundList_Fi",
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -39,7 +43,12 @@
                                     [
                                       "Word",
                                       "foo",
-                                      [ [ "WordName", "foo" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "foo"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -50,13 +59,19 @@
                       ],
                       [
                         "Separator_SeparatorOp_LineBreak",
-                        [ "SeparatorOp_Semicolon" ],
-                        [ "LineBreak_Empty" ]
+                        [
+                          "SeparatorOp_Semicolon"
+                        ],
+                        [
+                          "LineBreak_Empty"
+                        ]
                       ]
                     ],
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -74,7 +89,12 @@
                                     [
                                       "Word",
                                       "bar",
-                                      [ [ "WordName", "bar" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "bar"
+                                        ]
+                                      ]
                                     ]
                                   ],
                                   [
@@ -84,13 +104,23 @@
                                       [
                                         "Word",
                                         "else",
-                                        [ [ "WordName", "else" ] ]
+                                        [
+                                          [
+                                            "WordName",
+                                            "else"
+                                          ]
+                                        ]
                                       ]
                                     ],
                                     [
                                       "Word",
                                       "baz",
-                                      [ [ "WordName", "baz" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "baz"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -101,8 +131,12 @@
                       ],
                       [
                         "Separator_SeparatorOp_LineBreak",
-                        [ "SeparatorOp_Semicolon" ],
-                        [ "LineBreak_Empty" ]
+                        [
+                          "SeparatorOp_Semicolon"
+                        ],
+                        [
+                          "LineBreak_Empty"
+                        ]
                       ]
                     ]
                   ]
@@ -114,5 +148,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

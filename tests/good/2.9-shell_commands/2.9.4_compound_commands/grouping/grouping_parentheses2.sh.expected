@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,9 @@
                     "Subshell_Lparen_CompoundList_Rparen",
                     [
                       "CompoundList_LineBreak_Term",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -38,7 +42,9 @@
                                     "Subshell_Lparen_CompoundList_Rparen",
                                     [
                                       "CompoundList_LineBreak_Term",
-                                      [ "LineBreak_Empty" ],
+                                      [
+                                        "LineBreak_Empty"
+                                      ],
                                       [
                                         "Term_AndOr",
                                         [
@@ -58,7 +64,8 @@
                                                       "echo",
                                                       [
                                                         [
-                                                          "WordName", "echo"
+                                                          "WordName",
+                                                          "echo"
                                                         ]
                                                       ]
                                                     ]
@@ -69,7 +76,10 @@
                                                       "Word",
                                                       "foo",
                                                       [
-                                                        [ "WordName", "foo" ]
+                                                        [
+                                                          "WordName",
+                                                          "foo"
+                                                        ]
                                                       ]
                                                     ]
                                                   ]
@@ -97,5 +107,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

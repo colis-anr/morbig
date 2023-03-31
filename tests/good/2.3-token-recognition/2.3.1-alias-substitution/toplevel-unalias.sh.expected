@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -25,7 +27,16 @@
                         "SimpleCommand_CmdName_CmdSuffix",
                         [
                           "CmdName_Word",
-                          [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                          [
+                            "Word",
+                            "alias",
+                            [
+                              [
+                                "WordName",
+                                "alias"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "CmdSuffix_Word",
@@ -36,7 +47,10 @@
                               [
                                 "WordAssignmentWord",
                                 [
-                                  [ "Name", "foo" ],
+                                  [
+                                    "Name",
+                                    "foo"
+                                  ],
                                   [
                                     "Word",
                                     "'ls -l'",
@@ -46,7 +60,12 @@
                                         [
                                           "Word",
                                           "ls -l",
-                                          [ [ "WordLiteral", "ls -l" ] ]
+                                          [
+                                            [
+                                              "WordLiteral",
+                                              "ls -l"
+                                            ]
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -64,7 +83,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -84,12 +105,26 @@
                         [
                           "Word",
                           "'ls -l'",
-                          [ [ "WordLiteral", "'ls -l'" ] ]
+                          [
+                            [
+                              "WordLiteral",
+                              "'ls -l'"
+                            ]
+                          ]
                         ]
                       ],
                       [
                         "CmdSuffix_Word",
-                        [ "Word", ".", [ [ "WordLiteral", "." ] ] ]
+                        [
+                          "Word",
+                          ".",
+                          [
+                            [
+                              "WordLiteral",
+                              "."
+                            ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -99,7 +134,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -116,11 +153,29 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                      [
+                        "Word",
+                        "unalias",
+                        [
+                          [
+                            "WordName",
+                            "unalias"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_Word",
-                      [ "Word", "'ls -l'", [ [ "WordLiteral", "'ls -l'" ] ] ]
+                      [
+                        "Word",
+                        "'ls -l'",
+                        [
+                          [
+                            "WordLiteral",
+                            "'ls -l'"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -130,7 +185,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -149,18 +206,38 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "'ls -l'", [ [ "WordLiteral", "'ls -l'" ] ] ]
+                      [
+                        "Word",
+                        "'ls -l'",
+                        [
+                          [
+                            "WordLiteral",
+                            "'ls -l'"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_Word",
-                      [ "Word", ".", [ [ "WordLiteral", "." ] ] ]
+                      [
+                        "Word",
+                        ".",
+                        [
+                          [
+                            "WordLiteral",
+                            "."
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
               ]
             ]
           ],
-          [ "LineBreak_Empty" ],
+          [
+            "LineBreak_Empty"
+          ],
           [
             "Pipeline_PipeSequence",
             [
@@ -171,7 +248,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_Word",
@@ -184,7 +270,12 @@
                           [
                             "Word",
                             "failed as expected",
-                            [ [ "WordLiteral", "failed as expected" ] ]
+                            [
+                              [
+                                "WordLiteral",
+                                "failed as expected"
+                              ]
+                            ]
                           ]
                         ]
                       ]
@@ -198,5 +289,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

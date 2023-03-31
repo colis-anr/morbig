@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -21,7 +23,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                      [
+                        "Word",
+                        "echo",
+                        [
+                          [
+                            "WordName",
+                            "echo"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_Word",
@@ -29,8 +40,14 @@
                         "Word",
                         "~knuth/foo/bar",
                         [
-                          [ "WordTildePrefix", "~knuth" ],
-                          [ "WordLiteral", "foo/bar" ]
+                          [
+                            "WordTildePrefix",
+                            "~knuth"
+                          ],
+                          [
+                            "WordLiteral",
+                            "foo/bar"
+                          ]
                         ]
                       ]
                     ]
@@ -42,7 +59,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -60,17 +79,38 @@
                   [
                     "CmdPrefix_AssignmentWord",
                     [
-                      [ "Name", "X" ],
+                      [
+                        "Name",
+                        "X"
+                      ],
                       [
                         "Word",
                         "~kn:~/bin:~darkvador/secret",
                         [
-                          [ "WordTildePrefix", "~kn" ],
-                          [ "WordLiteral", "" ],
-                          [ "WordTildePrefix", "~" ],
-                          [ "WordLiteral", "bin" ],
-                          [ "WordTildePrefix", "~darkvador" ],
-                          [ "WordLiteral", "secret" ]
+                          [
+                            "WordTildePrefix",
+                            "~kn"
+                          ],
+                          [
+                            "WordLiteral",
+                            ""
+                          ],
+                          [
+                            "WordTildePrefix",
+                            "~"
+                          ],
+                          [
+                            "WordLiteral",
+                            "bin"
+                          ],
+                          [
+                            "WordTildePrefix",
+                            "~darkvador"
+                          ],
+                          [
+                            "WordLiteral",
+                            "secret"
+                          ]
                         ]
                       ]
                     ]
@@ -83,5 +123,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -31,15 +33,28 @@
                             [
                               [
                                 "WordVariable",
-                                [ "VariableAtom", "1", [ "NoAttribute" ] ]
+                                [
+                                  "VariableAtom",
+                                  "1",
+                                  [
+                                    "NoAttribute"
+                                  ]
+                                ]
                               ]
                             ]
                           ]
                         ]
                       ]
                     ],
-                    [ "LineBreak_Empty" ],
-                    [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                    [
+                      "LineBreak_Empty"
+                    ],
+                    [
+                      "LineBreak_NewLineList",
+                      [
+                        "NewLineList_NewLine"
+                      ]
+                    ],
                     [
                       "CaseList_CaseItem",
                       [
@@ -49,14 +64,21 @@
                           [
                             "Word",
                             "configure",
-                            [ [ "WordName", "configure" ] ]
+                            [
+                              [
+                                "WordName",
+                                "configure"
+                              ]
+                            ]
                           ]
                         ],
                         [
                           "CompoundList_LineBreak_Term_Separator",
                           [
                             "LineBreak_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ],
                           [
                             "Term_AndOr",
@@ -74,7 +96,9 @@
                                         "IfClause_If_CompoundList_Then_CompoundList_Fi",
                                         [
                                           "CompoundList_LineBreak_Term_Separator",
-                                          [ "LineBreak_Empty" ],
+                                          [
+                                            "LineBreak_Empty"
+                                          ],
                                           [
                                             "Term_AndOr",
                                             [
@@ -115,11 +139,11 @@
                                                                   [
                                                                     "WordVariable",
                                                                     [
-                                                                    "VariableAtom",
-                                                                    "#",
-                                                                    [
-                                                                    "NoAttribute"
-                                                                    ]
+                                                                      "VariableAtom",
+                                                                      "#",
+                                                                      [
+                                                                        "NoAttribute"
+                                                                      ]
                                                                     ]
                                                                   ]
                                                                 ]
@@ -166,15 +190,21 @@
                                           ],
                                           [
                                             "Separator_SeparatorOp_LineBreak",
-                                            [ "SeparatorOp_Semicolon" ],
-                                            [ "LineBreak_Empty" ]
+                                            [
+                                              "SeparatorOp_Semicolon"
+                                            ],
+                                            [
+                                              "LineBreak_Empty"
+                                            ]
                                           ]
                                         ],
                                         [
                                           "CompoundList_LineBreak_Term_Separator",
                                           [
                                             "LineBreak_NewLineList",
-                                            [ "NewLineList_NewLine" ]
+                                            [
+                                              "NewLineList_NewLine"
+                                            ]
                                           ],
                                           [
                                             "Term_AndOr",
@@ -235,7 +265,9 @@
                                           ],
                                           [
                                             "Separator_NewLineList",
-                                            [ "NewLineList_NewLine" ]
+                                            [
+                                              "NewLineList_NewLine"
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -247,12 +279,16 @@
                           ],
                           [
                             "Separator_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ]
                         ],
                         [
                           "LineBreak_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ]
                       ]
                     ]
@@ -265,5 +301,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]
