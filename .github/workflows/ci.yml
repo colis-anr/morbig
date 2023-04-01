@@ -66,6 +66,8 @@ jobs:
 
       - name: Try Building Examples
         run: opam exec -- make examples
+        if: runner.os != 'Windows'
+        ## Examples are written in a Unix-like way and cannot run on Windows.
 
       - name: Try Uninstalling
         run: opam exec -- make uninstall
