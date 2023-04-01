@@ -119,36 +119,6 @@ jobs:
       # - name: Try Cleaning
       #   run: make clean
 
-  ## ========================= [ Brew-based CI ] ========================= ##
-
-  brew-based:
-    runs-on: macos-latest
-
-    steps:
-      - name: Install OCaml & Dependencies
-        run: brew install ocaml dune menhir odoc ppx_deriving_yojson visitors yojson
-
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Try Building
-        run: make
-
-      - name: Try Building Documentation
-        run: make doc
-
-      - name: Run Tests
-        run: make check
-
-      - name: Try Installing
-        run: make install
-
-      - name: Try Uninstalling
-        run: make uninstall
-
-      - name: Try Cleaning
-        run: make clean
-
   ## ======================== [ Docker-based CI ] ======================== ##
 
   docker-based:
