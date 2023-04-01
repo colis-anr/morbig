@@ -5,7 +5,7 @@ LIBDIR=$(shell ocamlfind query morbig)
 
 all:
 	$(CC) -o dump -I $(STDDIR) -I $(LIBDIR) \
-            dump.c $(LIBDIR)/libmorbigc.o -lm -ldl -lpthreads
+            dump.c $(LIBDIR)/libmorbigc.o -lm -ldl -lpthread
 
 clean:
 	rm -f dump
