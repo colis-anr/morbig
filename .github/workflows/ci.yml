@@ -64,6 +64,9 @@ jobs:
       - name: Try Installing
         run: opam exec -- make install
 
+      - name: Try Building Examples
+        run: opam exec -- make examples
+
       - name: Try Uninstalling
         run: opam exec -- make uninstall
 
