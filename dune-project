@@ -23,7 +23,7 @@
   )
 
  (depends
-  (dune                 (and :build (>= "1.4.0")))
+  (dune                 (>= "1.4.0"))
   (menhir               (>= "20170509"))
   (ocaml                (>= "4.04"))
   (odoc                 :with-doc)
