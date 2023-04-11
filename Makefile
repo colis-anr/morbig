@@ -64,4 +64,4 @@ publish-docker-image: docker-image
 	docker image push colisanr/morbig:latest
 
 headers:
-	cd src && headache -c .headache.conf -h .header *.ml *.ml[ily]
+	headache -h .header $(shell find src/ -regex '.*\.ml[ily]?')
