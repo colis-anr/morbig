@@ -1,7 +1,0 @@
-S src
-B src/_build
-PKG yojson
-PKG ppx_deriving_yojson
-PKG visitors.ppx
-PKG visitors.runtime
-PKG menhirLib

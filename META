@@ -1,7 +1,0 @@
-name="morbig"
-version="0.9"
-description="API of Morbig, a POSIX shell parser"
-requires="str,menhirLib,visitors.ppx,visitors.runtime,ppx_deriving_yojson,yojson"
-archive(byte)="morbig.cma"
-archive(native)="morbig.cmxa"
-archive(native,plugin)="morbig.cmxs"
