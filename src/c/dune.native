@@ -1,7 +1,7 @@
 (library
  (name CAPI)
  (libraries morbig)
- (c_names cstub)
+ (foreign_stubs (language c) (names cstub))
  (modes native)
  (modules CAPI))
 
