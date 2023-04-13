@@ -136,10 +136,10 @@ jobs:
       matrix:
         tag:
           - centos
-          # - debian ## disabled; cf https://github.com/colis-anr/morbig/issues/139
+          - debian
           - debian-testing
           - debian-unstable
-          # - opensuse ## disabled; cf https://github.com/colis-anr/morbig/issues/139
+          - opensuse
           - ubuntu
           - ubuntu-lts
         include:
