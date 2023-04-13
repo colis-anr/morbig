@@ -7,6 +7,16 @@ ARG image=ocaml/opam:$tag
 FROM $image
 MAINTAINER Yann Regis-Gianas
 
+## This Dockerfile is made to be built on various distributions. Therefore, we
+## just attempt to install dependencies with a bunch of package managers, and we
+## just assert at the end that the dependencies are indeed installed.
+
+RUN ! command -v apk || sudo apk add jq
+RUN ! command -v apt-get || sudo apt-get install -yq jq
+RUN ! command -v yum || { sudo yum install -y epel-release && sudo yum update -y && sudo yum install -y jq; }
+RUN ! command -v zypper || sudo zypper --non-interactive install jq
+RUN command -v jq
+
 ## Choose the right version of the OPAM switch. By default, we use the
 ## one coming from the dist image. But one can specify a specific
 ## switch with the `--build-arg`.

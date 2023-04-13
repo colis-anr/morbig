@@ -1,8 +1,12 @@
 name: CI
 
 on:
-  - pull_request
-  - push
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+  pull_request:
 
 jobs:
 
@@ -16,17 +20,15 @@ jobs:
         os:
           - ubuntu-latest
         ocaml-version:
-          - 4.05.0
-          - 4.06.1
-          - 4.07.1
-          - 4.08.1
-          - 4.09.1
-          - 4.10.2
-          - 4.11.2
+          - 4.11.x
+          - 4.12.x
+          - 4.13.x
+          # - 4.14.x ## explicitly included afterwards
+          - 5.0.x
         include:
-          - { os: ubuntu-latest,  ocaml-version: 4.12.0, deploy-doc: deploy-doc }
-          - { os: macos-latest,   ocaml-version: 4.12.0 }
-          - { os: windows-latest, ocaml-version: 4.12.0 }
+          - { os: ubuntu-latest,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
+          - { os: macos-latest,   ocaml-version: 4.14.x }
+          - { os: windows-latest, ocaml-version: 4.14.x }
 
     runs-on: ${{ matrix.os }}
 
@@ -35,9 +37,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
-        uses: avsm/setup-ocaml@v1
+        uses: ocaml/setup-ocaml@v2
         with:
-          ocaml-version: ${{ matrix.ocaml-version }}
+          ocaml-compiler: ${{ matrix.ocaml-version }}
 
       - name: Install Dune
         run: opam install dune --yes
@@ -95,7 +97,7 @@ jobs:
         run: make
 
       ## No odoc in Debian stable, sadly, so no documentation!
-      ##
+
       # - name: Try Building Documentation
       #   run: make doc
 
@@ -108,8 +110,14 @@ jobs:
       - name: Try Uninstalling
         run: sudo make uninstall
 
-      - name: Try Cleaning
-        run: make clean
+      ## Not working at the moment (2023-03-31), `dune clean` complains about:
+      ##
+      ##     Error: unlink: _build/default/.dune/configurator: Permission denied
+      ##
+      ## Maybe related to https://github.com/ocaml/dune/issues/3857.
+
+      # - name: Try Cleaning
+      #   run: make clean
 
   ## ========================= [ Brew-based CI ] ========================= ##
   ## Sadly, the right dependencies do not exist in brew and therefore we cannot
@@ -152,10 +160,10 @@ jobs:
       matrix:
         tag:
           - centos
-          - debian
+          # - debian ## disabled; cf https://github.com/colis-anr/morbig/issues/139
           - debian-testing
           - debian-unstable
-          - opensuse
+          # - opensuse ## disabled; cf https://github.com/colis-anr/morbig/issues/139
           - ubuntu
           - ubuntu-lts
         include:
