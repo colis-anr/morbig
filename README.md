@@ -8,21 +8,24 @@ them, and constructs a concrete syntax tree for each of them.  The
 concrete syntax trees are built using constructors according to the
 shell grammar of the POSIX standard.
 
-## Download ![Build Status](https://github.com/colis-anr/morbig/actions/workflows/ci.yml/badge.svg?branch=master)
+## Download ![Build Status](https://github.com/colis-anr/morbig/actions/workflows/ci.yml/badge.svg)
 
     git clone git@github.com:colis-anr/morbig.git
 
-## License and Copyright
+## License and copyright
 
-Please see the file COPYING.
+See [COPYING](./COPYING).
 
 ## Documentation
 
-You can have a look at the
-[online API documentation](https://colis-anr.github.io/morbig/) or build
-it yourself:
+For tagged versions, you can have a look at the [official documentation]. We
+also provide [custom documentation] for the latest development version. Finally,
+you can always build the documentation yourself with:
 
     make doc
+
+[official documentation]: https://ocaml.org/p/morbig/latest/doc/
+[custom documentation]: https://colis-anr.github.io/morbig/
 
 ## Are you in a hurry?
 
@@ -40,35 +43,35 @@ Then, define the following shell function:
         colisanr/morbig:latest --as simple /mnt/"$B"
     }
 
-After that, you should be able to run ``morbig`` like this:
+After that, you should be able to run Morbig like this:
 
     morbig my-script.sh
 
-This will create a JSON file named ``my-script.sh.sjson``.
+This will create a JSON file named `my-script.sh.sjson`.
 
 You can also build a local docker image from the root of this
 repository:
 
-    docker build -t morbig . # to build a docker image with morbig inside.
+    docker build -t morbig .
 
-Now if you want to use more features of ``morbig``, take the time to
-follow the building instructions of the next section.
+Now if you want to use more features of Morbig, take the time to follow the
+building instructions of the next section.
 
 ## Manual instructions
 
 ### Install using OPAM
 
 Please type
-``
-opam install morbig
-``
-to get the latest public release of `morbig`.
 
-If you want to use the development version of `morbig`, read the next sections.
+    opam install morbig
+
+to get the latest public release of Morbig.
+
+If you want to use the development version of Morbig, read the next sections.
 
 ### Dependencies
 
-``morbig`` depends on the following software:
+Morbig depends on the following software:
 
 - dune
 - menhir
@@ -77,14 +80,22 @@ If you want to use the development version of `morbig`, read the next sections.
 - yojson and ppx_deriving_yojson
 - visitors
 
+In case of discrepancies on dependencies, [`dune-project`](./dune-project) is
+the source of truth. Our continuous integration ensures that it is up-to-date.
+
 ### Building
 
     make
 
 ### Installing
 
-    make install            # for opam-based environments
-    PREFIX=... make install # for system-wide install
+For OPAM-based environments:
+
+    make install
+
+For system-wide installs:
+
+    PREFIX=... make install
 
 ### Testing
 
