@@ -33,6 +33,7 @@ jobs:
     ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
     permissions:
       pages: write
+      id-token: write
 
     runs-on: ${{ matrix.os }}
 
