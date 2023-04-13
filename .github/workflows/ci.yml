@@ -30,6 +30,10 @@ jobs:
           - { os: macos-latest,   ocaml-version: 4.14.x }
           - { os: windows-latest, ocaml-version: 4.14.x }
 
+    ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
+    permissions:
+      pages: write
+
     runs-on: ${{ matrix.os }}
 
     steps:
