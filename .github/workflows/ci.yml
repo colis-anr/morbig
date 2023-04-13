@@ -30,6 +30,11 @@ jobs:
           - { os: macos-latest,   ocaml-version: 4.14.x }
           - { os: windows-latest, ocaml-version: 4.14.x }
 
+    ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
+    permissions:
+      pages: write
+      id-token: write
+
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -77,13 +82,15 @@ jobs:
 
       - name: Build Documentation for Auto-Deploy
         run: opam exec -- make doc
-        if: github.event_name == 'push' && matrix.deploy-doc == 'deploy-doc'
 
-      - name: Auto-Deploy Documentation
-        uses: Niols/deploy-odoc-action@main
+      - name: Upload documentation artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          GENERATED_DOC_DIR: doc/
-        if: github.event_name == 'push' && matrix.deploy-doc == 'deploy-doc'
+          path: doc/
+
+      - name: Deploy to GitHub pages
+        uses: actions/deploy-pages@v1
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.deploy-doc == 'deploy-doc'
 
   ## ========================= [ APT-based CI ] ========================== ##
 
