@@ -64,6 +64,11 @@ jobs:
       - name: Try Installing
         run: opam exec -- make install
 
+      - name: Try Building Examples
+        run: opam exec -- make examples
+        if: runner.os != 'Windows'
+        ## Examples are written in a Unix-like way and cannot run on Windows.
+
       - name: Try Uninstalling
         run: opam exec -- make uninstall
 
@@ -106,6 +111,9 @@ jobs:
 
       - name: Try Installing
         run: sudo make install
+
+      - name: Try Building Examples
+        run: make examples
 
       - name: Try Uninstalling
         run: sudo make uninstall
