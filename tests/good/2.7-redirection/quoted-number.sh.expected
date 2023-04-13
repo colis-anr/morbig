@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,13 +21,31 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_CmdSuffix_IoRedirect",
                     [
                       "CmdSuffix_Word",
-                      [ "Word", "\\2", [ [ "WordLiteral", "\\2" ] ] ]
+                      [
+                        "Word",
+                        "\\2",
+                        [
+                          [
+                            "WordLiteral",
+                            "\\2"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "IoRedirect_IoFile",
@@ -33,7 +53,16 @@
                         "IoFile_Great_FileName",
                         [
                           "Filename_Word",
-                          [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                          [
+                            "Word",
+                            "a",
+                            [
+                              [
+                                "WordName",
+                                "a"
+                              ]
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -46,5 +75,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

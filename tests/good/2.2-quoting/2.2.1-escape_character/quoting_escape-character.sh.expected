@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,7 +21,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_CmdSuffix_Word",
@@ -38,36 +49,79 @@
                                 [
                                   "Word",
                                   "\\|",
-                                  [ [ "WordLiteral", "\\|" ] ]
+                                  [
+                                    [
+                                      "WordLiteral",
+                                      "\\|"
+                                    ]
+                                  ]
                                 ]
                               ],
                               [
                                 "Word",
                                 "\\&\\;",
-                                [ [ "WordLiteral", "\\&\\;" ] ]
+                                [
+                                  [
+                                    "WordLiteral",
+                                    "\\&\\;"
+                                  ]
+                                ]
                               ]
                             ],
                             [
                               "Word",
                               "\\<\\>",
-                              [ [ "WordLiteral", "\\<\\>" ] ]
+                              [
+                                [
+                                  "WordLiteral",
+                                  "\\<\\>"
+                                ]
+                              ]
                             ]
                           ],
                           [
                             "Word",
                             "\\(\\)",
-                            [ [ "WordLiteral", "\\(\\)" ] ]
+                            [
+                              [
+                                "WordLiteral",
+                                "\\(\\)"
+                              ]
+                            ]
                           ]
                         ],
-                        [ "Word", "\\$", [ [ "WordLiteral", "\\$" ] ] ]
+                        [
+                          "Word",
+                          "\\$",
+                          [
+                            [
+                              "WordLiteral",
+                              "\\$"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "Word",
                         "\\`\\\\\\\"\\'",
-                        [ [ "WordLiteral", "\\`\\\\\\\"\\'" ] ]
+                        [
+                          [
+                            "WordLiteral",
+                            "\\`\\\\\\\"\\'"
+                          ]
+                        ]
                       ]
                     ],
-                    [ "Word", "\\\t\\ ", [ [ "WordLiteral", "\\\t\\ " ] ] ]
+                    [
+                      "Word",
+                      "\\\t\\ ",
+                      [
+                        [
+                          "WordLiteral",
+                          "\\\t\\ "
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -77,5 +131,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -27,14 +29,25 @@
                           "SimpleCommand_CmdName",
                           [
                             "CmdName_Word",
-                            [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                            [
+                              "Word",
+                              "a",
+                              [
+                                [
+                                  "WordName",
+                                  "a"
+                                ]
+                              ]
+                            ]
                           ]
                         ]
                       ]
                     ]
                   ]
                 ],
-                [ "LineBreak_Empty" ],
+                [
+                  "LineBreak_Empty"
+                ],
                 [
                   "Pipeline_PipeSequence",
                   [
@@ -45,14 +58,25 @@
                         "SimpleCommand_CmdName",
                         [
                           "CmdName_Word",
-                          [ "Word", "b", [ [ "WordName", "b" ] ] ]
+                          [
+                            "Word",
+                            "b",
+                            [
+                              [
+                                "WordName",
+                                "b"
+                              ]
+                            ]
+                          ]
                         ]
                       ]
                     ]
                   ]
                 ]
               ],
-              [ "LineBreak_Empty" ],
+              [
+                "LineBreak_Empty"
+              ],
               [
                 "Pipeline_PipeSequence",
                 [
@@ -63,7 +87,16 @@
                       "SimpleCommand_CmdName",
                       [
                         "CmdName_Word",
-                        [ "Word", "c", [ [ "WordName", "c" ] ] ]
+                        [
+                          "Word",
+                          "c",
+                          [
+                            [
+                              "WordName",
+                              "c"
+                            ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -71,7 +104,9 @@
               ]
             ]
           ],
-          [ "SeparatorOp_Uppersand" ],
+          [
+            "SeparatorOp_Uppersand"
+          ],
           [
             "AndOr_Pipeline",
             [
@@ -86,19 +121,39 @@
                       "SimpleCommand_CmdName",
                       [
                         "CmdName_Word",
-                        [ "Word", "d", [ [ "WordName", "d" ] ] ]
+                        [
+                          "Word",
+                          "d",
+                          [
+                            [
+                              "WordName",
+                              "d"
+                            ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
                 ],
-                [ "LineBreak_Empty" ],
+                [
+                  "LineBreak_Empty"
+                ],
                 [
                   "Command_SimpleCommand",
                   [
                     "SimpleCommand_CmdName",
                     [
                       "CmdName_Word",
-                      [ "Word", "e", [ [ "WordName", "e" ] ] ]
+                      [
+                        "Word",
+                        "e",
+                        [
+                          [
+                            "WordName",
+                            "e"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -106,7 +161,9 @@
             ]
           ]
         ],
-        [ "SeparatorOp_Semicolon" ],
+        [
+          "SeparatorOp_Semicolon"
+        ],
         [
           "AndOr_AndOr_OrIf_LineBreak_Pipeline",
           [
@@ -123,14 +180,25 @@
                       "SimpleCommand_CmdName",
                       [
                         "CmdName_Word",
-                        [ "Word", "f", [ [ "WordName", "f" ] ] ]
+                        [
+                          "Word",
+                          "f",
+                          [
+                            [
+                              "WordName",
+                              "f"
+                            ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
                 ]
               ]
             ],
-            [ "LineBreak_Empty" ],
+            [
+              "LineBreak_Empty"
+            ],
             [
               "Pipeline_PipeSequence",
               [
@@ -141,14 +209,25 @@
                     "SimpleCommand_CmdName",
                     [
                       "CmdName_Word",
-                      [ "Word", "g", [ [ "WordName", "g" ] ] ]
+                      [
+                        "Word",
+                        "g",
+                        [
+                          [
+                            "WordName",
+                            "g"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
               ]
             ]
           ],
-          [ "LineBreak_Empty" ],
+          [
+            "LineBreak_Empty"
+          ],
           [
             "Pipeline_PipeSequence",
             [
@@ -159,7 +238,16 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "h", [ [ "WordName", "h" ] ] ]
+                    [
+                      "Word",
+                      "h",
+                      [
+                        [
+                          "WordName",
+                          "h"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -169,5 +257,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

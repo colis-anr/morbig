@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -21,7 +23,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                      [
+                        "Word",
+                        "cat",
+                        [
+                          [
+                            "WordName",
+                            "cat"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_CmdSuffix_Word",
@@ -33,17 +44,40 @@
                             "IoHere_DLess_HereEnd",
                             [
                               "HereEnd_Word",
-                              [ "Word", "!", [ [ "WordLiteral", "!" ] ] ]
+                              [
+                                "Word",
+                                "!",
+                                [
+                                  [
+                                    "WordLiteral",
+                                    "!"
+                                  ]
+                                ]
+                              ]
                             ],
                             [
                               "Word",
                               "bar\n",
-                              [ [ "WordLiteral", "bar\n" ] ]
+                              [
+                                [
+                                  "WordLiteral",
+                                  "bar\n"
+                                ]
+                              ]
                             ]
                           ]
                         ]
                       ],
-                      [ "Word", "foo", [ [ "WordName", "foo" ] ] ]
+                      [
+                        "Word",
+                        "foo",
+                        [
+                          [
+                            "WordName",
+                            "foo"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -53,7 +87,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -70,7 +106,16 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "baz", [ [ "WordName", "baz" ] ] ]
+                    [
+                      "Word",
+                      "baz",
+                      [
+                        [
+                          "WordName",
+                          "baz"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -80,5 +125,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

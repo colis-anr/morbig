@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,7 +21,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                    [
+                      "Word",
+                      "cat",
+                      [
+                        [
+                          "WordName",
+                          "cat"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_IoRedirect",
@@ -29,9 +40,27 @@
                         "IoHere_DLess_HereEnd",
                         [
                           "HereEnd_Word",
-                          [ "Word", "EOT", [ [ "WordName", "EOT" ] ] ]
+                          [
+                            "Word",
+                            "EOT",
+                            [
+                              [
+                                "WordName",
+                                "EOT"
+                              ]
+                            ]
+                          ]
                         ],
-                        [ "Word", "'\n", [ [ "WordLiteral", "'\n" ] ] ]
+                        [
+                          "Word",
+                          "'\n",
+                          [
+                            [
+                              "WordLiteral",
+                              "'\n"
+                            ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -43,5 +72,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

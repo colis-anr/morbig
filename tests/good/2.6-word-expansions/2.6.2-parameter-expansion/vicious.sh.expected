@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -71,19 +73,19 @@
                                                                     "Word",
                                                                     "'}'",
                                                                     [
-                                                                    [
-                                                                    "WordSingleQuoted",
-                                                                    [
-                                                                    "Word",
-                                                                    "}",
-                                                                    [
-                                                                    [
-                                                                    "WordLiteral",
-                                                                    "}"
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
+                                                                      [
+                                                                        "WordSingleQuoted",
+                                                                        [
+                                                                          "Word",
+                                                                          "}",
+                                                                          [
+                                                                            [
+                                                                              "WordLiteral",
+                                                                              "}"
+                                                                            ]
+                                                                          ]
+                                                                        ]
+                                                                      ]
                                                                     ]
                                                                   ]
                                                                 ]
@@ -103,7 +105,9 @@
                                     ]
                                   ]
                                 ],
-                                [ "NewLineList_NewLine" ],
+                                [
+                                  "NewLineList_NewLine"
+                                ],
                                 [
                                   "CompleteCommand_CList",
                                   [
@@ -143,8 +147,8 @@
                                                                   "\\}",
                                                                   [
                                                                     [
-                                                                    "WordLiteral",
-                                                                    "\\}"
+                                                                      "WordLiteral",
+                                                                      "\\}"
                                                                     ]
                                                                   ]
                                                                 ]
@@ -165,7 +169,9 @@
                                   ]
                                 ]
                               ],
-                              [ "NewLineList_NewLine" ],
+                              [
+                                "NewLineList_NewLine"
+                              ],
                               [
                                 "CompleteCommand_CList",
                                 [
@@ -207,14 +213,14 @@
                                                                   [
                                                                     "WordSingleQuoted",
                                                                     [
-                                                                    "Word",
-                                                                    "}",
-                                                                    [
-                                                                    [
-                                                                    "WordLiteral",
-                                                                    "}"
-                                                                    ]
-                                                                    ]
+                                                                      "Word",
+                                                                      "}",
+                                                                      [
+                                                                        [
+                                                                          "WordLiteral",
+                                                                          "}"
+                                                                        ]
+                                                                      ]
                                                                     ]
                                                                   ]
                                                                 ]
@@ -236,7 +242,9 @@
                                 ]
                               ]
                             ],
-                            [ "NewLineList_NewLine" ],
+                            [
+                              "NewLineList_NewLine"
+                            ],
                             [
                               "CompleteCommand_CList",
                               [
@@ -298,7 +306,9 @@
                               ]
                             ]
                           ],
-                          [ "NewLineList_NewLine" ],
+                          [
+                            "NewLineList_NewLine"
+                          ],
                           [
                             "CompleteCommand_CList",
                             [
@@ -344,8 +354,8 @@
                                                                   "}",
                                                                   [
                                                                     [
-                                                                    "WordLiteral",
-                                                                    "}"
+                                                                      "WordLiteral",
+                                                                      "}"
                                                                     ]
                                                                   ]
                                                                 ]
@@ -369,7 +379,9 @@
                             ]
                           ]
                         ],
-                        [ "NewLineList_NewLine" ],
+                        [
+                          "NewLineList_NewLine"
+                        ],
                         [
                           "CompleteCommand_CList",
                           [
@@ -431,7 +443,9 @@
                           ]
                         ]
                       ],
-                      [ "NewLineList_NewLine" ],
+                      [
+                        "NewLineList_NewLine"
+                      ],
                       [
                         "CompleteCommand_CList",
                         [
@@ -502,7 +516,9 @@
                         ]
                       ]
                     ],
-                    [ "NewLineList_NewLine" ],
+                    [
+                      "NewLineList_NewLine"
+                    ],
                     [
                       "CompleteCommand_CList",
                       [
@@ -564,7 +580,9 @@
                       ]
                     ]
                   ],
-                  [ "NewLineList_NewLine" ],
+                  [
+                    "NewLineList_NewLine"
+                  ],
                   [
                     "CompleteCommand_CList",
                     [
@@ -635,7 +653,9 @@
                     ]
                   ]
                 ],
-                [ "NewLineList_NewLine" ],
+                [
+                  "NewLineList_NewLine"
+                ],
                 [
                   "CompleteCommand_CList",
                   [
@@ -674,7 +694,10 @@
                                                   "Word",
                                                   "\\}",
                                                   [
-                                                    [ "WordLiteral", "\\}" ]
+                                                    [
+                                                      "WordLiteral",
+                                                      "\\}"
+                                                    ]
                                                   ]
                                                 ]
                                               ]
@@ -694,7 +717,9 @@
                   ]
                 ]
               ],
-              [ "NewLineList_NewLine" ],
+              [
+                "NewLineList_NewLine"
+              ],
               [
                 "CompleteCommand_CList",
                 [
@@ -740,7 +765,8 @@
                                                       "}",
                                                       [
                                                         [
-                                                          "WordLiteral", "}"
+                                                          "WordLiteral",
+                                                          "}"
                                                         ]
                                                       ]
                                                     ]
@@ -764,7 +790,9 @@
                 ]
               ]
             ],
-            [ "NewLineList_NewLine" ],
+            [
+              "NewLineList_NewLine"
+            ],
             [
               "CompleteCommand_CList",
               [
@@ -802,7 +830,12 @@
                                             [
                                               "Word",
                                               "\\}",
-                                              [ [ "WordLiteral", "\\}" ] ]
+                                              [
+                                                [
+                                                  "WordLiteral",
+                                                  "\\}"
+                                                ]
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -821,7 +854,9 @@
               ]
             ]
           ],
-          [ "NewLineList_NewLine" ],
+          [
+            "NewLineList_NewLine"
+          ],
           [
             "CompleteCommand_CList",
             [
@@ -865,7 +900,12 @@
                                                 [
                                                   "Word",
                                                   "}",
-                                                  [ [ "WordLiteral", "}" ] ]
+                                                  [
+                                                    [
+                                                      "WordLiteral",
+                                                      "}"
+                                                    ]
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -887,7 +927,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -925,7 +967,12 @@
                                         [
                                           "Word",
                                           "\\}",
-                                          [ [ "WordLiteral", "\\}" ] ]
+                                          [
+                                            [
+                                              "WordLiteral",
+                                              "\\}"
+                                            ]
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -944,7 +991,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -988,7 +1037,12 @@
                                             [
                                               "Word",
                                               "}",
-                                              [ [ "WordLiteral", "}" ] ]
+                                              [
+                                                [
+                                                  "WordLiteral",
+                                                  "}"
+                                                ]
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -1010,7 +1064,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -1048,7 +1104,12 @@
                                     [
                                       "Word",
                                       "\\}",
-                                      [ [ "WordLiteral", "\\}" ] ]
+                                      [
+                                        [
+                                          "WordLiteral",
+                                          "\\}"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -1067,5 +1128,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

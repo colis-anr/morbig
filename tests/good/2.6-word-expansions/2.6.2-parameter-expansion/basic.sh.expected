@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -50,7 +52,9 @@
                                                 [
                                                   "VariableAtom",
                                                   "parameter",
-                                                  [ "ParameterLength" ]
+                                                  [
+                                                    "ParameterLength"
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -67,7 +71,9 @@
                       ]
                     ]
                   ],
-                  [ "NewLineList_NewLine" ],
+                  [
+                    "NewLineList_NewLine"
+                  ],
                   [
                     "CompleteCommand_CList",
                     [
@@ -107,7 +113,8 @@
                                                     "word",
                                                     [
                                                       [
-                                                        "WordLiteral", "word"
+                                                        "WordLiteral",
+                                                        "word"
                                                       ]
                                                     ]
                                                   ]
@@ -128,7 +135,9 @@
                     ]
                   ]
                 ],
-                [ "NewLineList_NewLine" ],
+                [
+                  "NewLineList_NewLine"
+                ],
                 [
                   "CompleteCommand_CList",
                   [
@@ -167,7 +176,10 @@
                                                   "Word",
                                                   "word",
                                                   [
-                                                    [ "WordLiteral", "word" ]
+                                                    [
+                                                      "WordLiteral",
+                                                      "word"
+                                                    ]
                                                   ]
                                                 ]
                                               ]
@@ -187,7 +199,9 @@
                   ]
                 ]
               ],
-              [ "NewLineList_NewLine" ],
+              [
+                "NewLineList_NewLine"
+              ],
               [
                 "CompleteCommand_CList",
                 [
@@ -225,7 +239,12 @@
                                               [
                                                 "Word",
                                                 "word",
-                                                [ [ "WordLiteral", "word" ] ]
+                                                [
+                                                  [
+                                                    "WordLiteral",
+                                                    "word"
+                                                  ]
+                                                ]
                                               ]
                                             ]
                                           ]
@@ -244,7 +263,9 @@
                 ]
               ]
             ],
-            [ "NewLineList_NewLine" ],
+            [
+              "NewLineList_NewLine"
+            ],
             [
               "CompleteCommand_CList",
               [
@@ -282,7 +303,12 @@
                                             [
                                               "Word",
                                               "word",
-                                              [ [ "WordLiteral", "word" ] ]
+                                              [
+                                                [
+                                                  "WordLiteral",
+                                                  "word"
+                                                ]
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -301,7 +327,9 @@
               ]
             ]
           ],
-          [ "NewLineList_NewLine" ],
+          [
+            "NewLineList_NewLine"
+          ],
           [
             "CompleteCommand_CList",
             [
@@ -339,7 +367,12 @@
                                           [
                                             "Word",
                                             "word",
-                                            [ [ "WordLiteral", "word" ] ]
+                                            [
+                                              [
+                                                "WordLiteral",
+                                                "word"
+                                              ]
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -358,7 +391,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -396,7 +431,12 @@
                                         [
                                           "Word",
                                           "word",
-                                          [ [ "WordLiteral", "word" ] ]
+                                          [
+                                            [
+                                              "WordLiteral",
+                                              "word"
+                                            ]
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -415,7 +455,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -453,7 +495,12 @@
                                       [
                                         "Word",
                                         "word",
-                                        [ [ "WordLiteral", "word" ] ]
+                                        [
+                                          [
+                                            "WordLiteral",
+                                            "word"
+                                          ]
+                                        ]
                                       ]
                                     ]
                                   ]
@@ -472,7 +519,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -510,7 +559,12 @@
                                     [
                                       "Word",
                                       "word",
-                                      [ [ "WordLiteral", "word" ] ]
+                                      [
+                                        [
+                                          "WordLiteral",
+                                          "word"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -529,5 +583,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

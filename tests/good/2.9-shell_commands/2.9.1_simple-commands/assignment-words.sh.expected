@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -26,13 +28,34 @@
                         [
                           "CmdPrefix_AssignmentWord",
                           [
-                            [ "Name", "CC" ],
-                            [ "Word", "gcc", [ [ "WordLiteral", "gcc" ] ] ]
+                            [
+                              "Name",
+                              "CC"
+                            ],
+                            [
+                              "Word",
+                              "gcc",
+                              [
+                                [
+                                  "WordLiteral",
+                                  "gcc"
+                                ]
+                              ]
+                            ]
                           ]
                         ],
                         [
                           "CmdWord_Word",
-                          [ "Word", "make", [ [ "WordName", "make" ] ] ]
+                          [
+                            "Word",
+                            "make",
+                            [
+                              [
+                                "WordName",
+                                "make"
+                              ]
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -42,7 +65,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -59,7 +84,16 @@
                       "SimpleCommand_CmdName_CmdSuffix",
                       [
                         "CmdName_Word",
-                        [ "Word", "make", [ [ "WordName", "make" ] ] ]
+                        [
+                          "Word",
+                          "make",
+                          [
+                            [
+                              "WordName",
+                              "make"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "CmdSuffix_Word",
@@ -70,8 +104,20 @@
                             [
                               "WordAssignmentWord",
                               [
-                                [ "Name", "CC" ],
-                                [ "Word", "cc", [ [ "WordLiteral", "cc" ] ] ]
+                                [
+                                  "Name",
+                                  "CC"
+                                ],
+                                [
+                                  "Word",
+                                  "cc",
+                                  [
+                                    [
+                                      "WordLiteral",
+                                      "cc"
+                                    ]
+                                  ]
+                                ]
                               ]
                             ]
                           ]
@@ -85,7 +131,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -102,7 +150,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "ln", [ [ "WordName", "ln" ] ] ]
+                      [
+                        "Word",
+                        "ln",
+                        [
+                          [
+                            "WordName",
+                            "ln"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_CmdSuffix_Word",
@@ -110,12 +167,26 @@
                         "CmdSuffix_CmdSuffix_Word",
                         [
                           "CmdSuffix_Word",
-                          [ "Word", "-s", [ [ "WordLiteral", "-s" ] ] ]
+                          [
+                            "Word",
+                            "-s",
+                            [
+                              [
+                                "WordLiteral",
+                                "-s"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "Word",
                           "/bin/ls",
-                          [ [ "WordLiteral", "/bin/ls" ] ]
+                          [
+                            [
+                              "WordLiteral",
+                              "/bin/ls"
+                            ]
+                          ]
                         ]
                       ],
                       [
@@ -128,8 +199,14 @@
                               "Word",
                               "X=1",
                               [
-                                [ "WordLiteral", "X=" ],
-                                [ "WordLiteral", "1" ]
+                                [
+                                  "WordLiteral",
+                                  "X="
+                                ],
+                                [
+                                  "WordLiteral",
+                                  "1"
+                                ]
                               ]
                             ]
                           ]
@@ -144,7 +221,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -167,15 +246,36 @@
                       [
                         [
                           "WordDoubleQuoted",
-                          [ "Word", "./X", [ [ "WordLiteral", "./X" ] ] ]
+                          [
+                            "Word",
+                            "./X",
+                            [
+                              [
+                                "WordLiteral",
+                                "./X"
+                              ]
+                            ]
+                          ]
                         ],
-                        [ "WordLiteral", "=1" ]
+                        [
+                          "WordLiteral",
+                          "=1"
+                        ]
                       ]
                     ]
                   ],
                   [
                     "CmdSuffix_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -185,5 +285,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

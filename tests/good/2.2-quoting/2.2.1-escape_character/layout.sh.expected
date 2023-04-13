@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,28 +21,55 @@
                   "CompoundCommand_ForClause",
                   [
                     "ForClause_For_Name_LineBreak_In_WordList_SequentialSep_DoGroup",
-                    [ "Name", "i" ],
-                    [ "LineBreak_Empty" ],
+                    [
+                      "Name",
+                      "i"
+                    ],
+                    [
+                      "LineBreak_Empty"
+                    ],
                     [
                       "WordList_WordList_Word",
                       [
                         "WordList_Word",
-                        [ "Word", "0", [ [ "WordLiteral", "0" ] ] ]
+                        [
+                          "Word",
+                          "0",
+                          [
+                            [
+                              "WordLiteral",
+                              "0"
+                            ]
+                          ]
+                        ]
                       ],
-                      [ "Word", "1", [ [ "WordLiteral", "1" ] ] ]
+                      [
+                        "Word",
+                        "1",
+                        [
+                          [
+                            "WordLiteral",
+                            "1"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "SequentialSep_NewLineList",
                       [
                         "NewLineList_NewLineList_NewLine",
-                        [ "NewLineList_NewLine" ]
+                        [
+                          "NewLineList_NewLine"
+                        ]
                       ]
                     ],
                     [
                       "DoGroup_Do_CompoundList_Done",
                       [
                         "CompoundList_LineBreak_Term_Separator",
-                        [ "LineBreak_Empty" ],
+                        [
+                          "LineBreak_Empty"
+                        ],
                         [
                           "Term_AndOr",
                           [
@@ -58,7 +87,12 @@
                                       [
                                         "Word",
                                         "echo",
-                                        [ [ "WordName", "echo" ] ]
+                                        [
+                                          [
+                                            "WordName",
+                                            "echo"
+                                          ]
+                                        ]
                                       ]
                                     ],
                                     [
@@ -76,7 +110,9 @@
                                                 [
                                                   "VariableAtom",
                                                   "i",
-                                                  [ "NoAttribute" ]
+                                                  [
+                                                    "NoAttribute"
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -85,7 +121,12 @@
                                         [
                                           "Word",
                                           "+",
-                                          [ [ "WordLiteral", "+" ] ]
+                                          [
+                                            [
+                                              "WordLiteral",
+                                              "+"
+                                            ]
+                                          ]
                                         ]
                                       ],
                                       [
@@ -97,7 +138,9 @@
                                             [
                                               "VariableAtom",
                                               "i",
-                                              [ "NoAttribute" ]
+                                              [
+                                                "NoAttribute"
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -111,7 +154,9 @@
                         ],
                         [
                           "Separator_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ]
                       ]
                     ]
@@ -124,5 +169,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

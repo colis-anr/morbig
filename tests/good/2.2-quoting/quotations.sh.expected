@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -22,7 +24,10 @@
                     [
                       "CmdPrefix_AssignmentWord",
                       [
-                        [ "Name", "BAR" ],
+                        [
+                          "Name",
+                          "BAR"
+                        ],
                         [
                           "Word",
                           "'fo o'\"ba\"r",
@@ -32,14 +37,31 @@
                               [
                                 "Word",
                                 "fo o",
-                                [ [ "WordLiteral", "fo o" ] ]
+                                [
+                                  [
+                                    "WordLiteral",
+                                    "fo o"
+                                  ]
+                                ]
                               ]
                             ],
                             [
                               "WordDoubleQuoted",
-                              [ "Word", "ba", [ [ "WordLiteral", "ba" ] ] ]
+                              [
+                                "Word",
+                                "ba",
+                                [
+                                  [
+                                    "WordLiteral",
+                                    "ba"
+                                  ]
+                                ]
+                              ]
                             ],
-                            [ "WordLiteral", "r" ]
+                            [
+                              "WordLiteral",
+                              "r"
+                            ]
                           ]
                         ]
                       ]
@@ -52,7 +74,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -70,13 +94,34 @@
                   [
                     "CmdPrefix_AssignmentWord",
                     [
-                      [ "Name", "X" ],
-                      [ "Word", "0", [ [ "WordLiteral", "0" ] ] ]
+                      [
+                        "Name",
+                        "X"
+                      ],
+                      [
+                        "Word",
+                        "0",
+                        [
+                          [
+                            "WordLiteral",
+                            "0"
+                          ]
+                        ]
+                      ]
                     ]
                   ],
                   [
                     "CmdWord_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_Word",
@@ -84,21 +129,43 @@
                       "Word",
                       "x$BAR\" \"$(echo $(date))",
                       [
-                        [ "WordLiteral", "x" ],
+                        [
+                          "WordLiteral",
+                          "x"
+                        ],
                         [
                           "WordVariable",
-                          [ "VariableAtom", "BAR", [ "NoAttribute" ] ]
+                          [
+                            "VariableAtom",
+                            "BAR",
+                            [
+                              "NoAttribute"
+                            ]
+                          ]
                         ],
                         [
                           "WordDoubleQuoted",
-                          [ "Word", " ", [ [ "WordLiteral", " " ] ] ]
+                          [
+                            "Word",
+                            " ",
+                            [
+                              [
+                                "WordLiteral",
+                                " "
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "WordSubshell",
-                          [ "SubShellKindParentheses" ],
+                          [
+                            "SubShellKindParentheses"
+                          ],
                           [
                             "Program_LineBreak_CompleteCommands_LineBreak",
-                            [ "LineBreak_Empty" ],
+                            [
+                              "LineBreak_Empty"
+                            ],
                             [
                               "CompleteCommands_CompleteCommand",
                               [
@@ -120,7 +187,12 @@
                                               [
                                                 "Word",
                                                 "echo",
-                                                [ [ "WordName", "echo" ] ]
+                                                [
+                                                  [
+                                                    "WordName",
+                                                    "echo"
+                                                  ]
+                                                ]
                                               ]
                                             ],
                                             [
@@ -136,7 +208,9 @@
                                                     ],
                                                     [
                                                       "Program_LineBreak_CompleteCommands_LineBreak",
-                                                      [ "LineBreak_Empty" ],
+                                                      [
+                                                        "LineBreak_Empty"
+                                                      ],
                                                       [
                                                         "CompleteCommands_CompleteCommand",
                                                         [
@@ -152,20 +226,20 @@
                                                                   [
                                                                     "Command_SimpleCommand",
                                                                     [
-                                                                    "SimpleCommand_CmdName",
-                                                                    [
-                                                                    "CmdName_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "date",
-                                                                    [
-                                                                    [
-                                                                    "WordName",
-                                                                    "date"
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
+                                                                      "SimpleCommand_CmdName",
+                                                                      [
+                                                                        "CmdName_Word",
+                                                                        [
+                                                                          "Word",
+                                                                          "date",
+                                                                          [
+                                                                            [
+                                                                              "WordName",
+                                                                              "date"
+                                                                            ]
+                                                                          ]
+                                                                        ]
+                                                                      ]
                                                                     ]
                                                                   ]
                                                                 ]
@@ -174,7 +248,9 @@
                                                           ]
                                                         ]
                                                       ],
-                                                      [ "LineBreak_Empty" ]
+                                                      [
+                                                        "LineBreak_Empty"
+                                                      ]
                                                     ]
                                                   ]
                                                 ]
@@ -188,7 +264,9 @@
                                 ]
                               ]
                             ],
-                            [ "LineBreak_Empty" ]
+                            [
+                              "LineBreak_Empty"
+                            ]
                           ]
                         ]
                       ]
@@ -202,5 +280,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

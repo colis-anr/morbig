@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,7 +21,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                    [
+                      "Word",
+                      "cat",
+                      [
+                        [
+                          "WordName",
+                          "cat"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_IoRedirect",
@@ -38,13 +49,24 @@
                                 [
                                   "VariableAtom",
                                   "something",
-                                  [ "NoAttribute" ]
+                                  [
+                                    "NoAttribute"
+                                  ]
                                 ]
                               ]
                             ]
                           ]
                         ],
-                        [ "Word", "abc\n", [ [ "WordLiteral", "abc\n" ] ] ]
+                        [
+                          "Word",
+                          "abc\n",
+                          [
+                            [
+                              "WordLiteral",
+                              "abc\n"
+                            ]
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -56,5 +78,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

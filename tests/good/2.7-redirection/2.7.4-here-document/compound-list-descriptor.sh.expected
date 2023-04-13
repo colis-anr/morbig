@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,9 @@
                     "BraceGroup_LBrace_CompoundList_RBrace",
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -39,7 +43,12 @@
                                     [
                                       "Word",
                                       "cat",
-                                      [ [ "WordName", "cat" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "cat"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -50,8 +59,12 @@
                       ],
                       [
                         "Separator_SeparatorOp_LineBreak",
-                        [ "SeparatorOp_Semicolon" ],
-                        [ "LineBreak_Empty" ]
+                        [
+                          "SeparatorOp_Semicolon"
+                        ],
+                        [
+                          "LineBreak_Empty"
+                        ]
                       ]
                     ]
                   ]
@@ -60,14 +73,35 @@
                   "RedirectList_IoRedirect",
                   [
                     "IoRedirect_IoNumber_IoHere",
-                    [ "IONumber", "9" ],
+                    [
+                      "IONumber",
+                      "9"
+                    ],
                     [
                       "IoHere_DLess_HereEnd",
                       [
                         "HereEnd_Word",
-                        [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
+                        [
+                          "Word",
+                          "EOF",
+                          [
+                            [
+                              "WordName",
+                              "EOF"
+                            ]
+                          ]
+                        ]
                       ],
-                      [ "Word", "a\n", [ [ "WordLiteral", "a\n" ] ] ]
+                      [
+                        "Word",
+                        "a\n",
+                        [
+                          [
+                            "WordLiteral",
+                            "a\n"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -78,5 +112,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -44,7 +46,12 @@
                                           [
                                             "Word",
                                             "echo",
-                                            [ [ "WordName", "echo" ] ]
+                                            [
+                                              [
+                                                "WordName",
+                                                "echo"
+                                              ]
+                                            ]
                                           ]
                                         ],
                                         [
@@ -65,14 +72,18 @@
                                                       ";",
                                                       [
                                                         [
-                                                          "WordLiteral", ";"
+                                                          "WordLiteral",
+                                                          ";"
                                                         ]
                                                       ]
                                                     ]
                                                   ]
                                                 ]
                                               ],
-                                              [ "WordLiteral", "}" ]
+                                              [
+                                                "WordLiteral",
+                                                "}"
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -84,7 +95,9 @@
                             ]
                           ]
                         ],
-                        [ "NewLineList_NewLine" ],
+                        [
+                          "NewLineList_NewLine"
+                        ],
                         [
                           "CompleteCommand_CList",
                           [
@@ -104,7 +117,12 @@
                                         [
                                           "Word",
                                           "echo",
-                                          [ [ "WordName", "echo" ] ]
+                                          [
+                                            [
+                                              "WordName",
+                                              "echo"
+                                            ]
+                                          ]
                                         ]
                                       ],
                                       [
@@ -124,7 +142,9 @@
                                                     [
                                                       "VariableAtom",
                                                       "*",
-                                                      [ "ParameterLength" ]
+                                                      [
+                                                        "ParameterLength"
+                                                      ]
                                                     ]
                                                   ]
                                                 ]
@@ -141,7 +161,9 @@
                           ]
                         ]
                       ],
-                      [ "NewLineList_NewLine" ],
+                      [
+                        "NewLineList_NewLine"
+                      ],
                       [
                         "CompleteCommand_CList",
                         [
@@ -161,7 +183,12 @@
                                       [
                                         "Word",
                                         "echo",
-                                        [ [ "WordName", "echo" ] ]
+                                        [
+                                          [
+                                            "WordName",
+                                            "echo"
+                                          ]
+                                        ]
                                       ]
                                     ],
                                     [
@@ -181,7 +208,9 @@
                                                   [
                                                     "VariableAtom",
                                                     "@",
-                                                    [ "ParameterLength" ]
+                                                    [
+                                                      "ParameterLength"
+                                                    ]
                                                   ]
                                                 ]
                                               ]
@@ -198,7 +227,9 @@
                         ]
                       ]
                     ],
-                    [ "NewLineList_NewLine" ],
+                    [
+                      "NewLineList_NewLine"
+                    ],
                     [
                       "CompleteCommand_CList",
                       [
@@ -218,7 +249,12 @@
                                     [
                                       "Word",
                                       "echo",
-                                      [ [ "WordName", "echo" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "echo"
+                                        ]
+                                      ]
                                     ]
                                   ],
                                   [
@@ -238,7 +274,9 @@
                                                 [
                                                   "VariableAtom",
                                                   "foo",
-                                                  [ "ParameterLength" ]
+                                                  [
+                                                    "ParameterLength"
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -255,7 +293,9 @@
                       ]
                     ]
                   ],
-                  [ "NewLineList_NewLine" ],
+                  [
+                    "NewLineList_NewLine"
+                  ],
                   [
                     "CompleteCommand_CList",
                     [
@@ -275,7 +315,12 @@
                                   [
                                     "Word",
                                     "echo",
-                                    [ [ "WordName", "echo" ] ]
+                                    [
+                                      [
+                                        "WordName",
+                                        "echo"
+                                      ]
+                                    ]
                                   ]
                                 ],
                                 [
@@ -302,7 +347,8 @@
                                                     "\n\n",
                                                     [
                                                       [
-                                                        "WordLiteral", "\n\n"
+                                                        "WordLiteral",
+                                                        "\n\n"
                                                       ]
                                                     ]
                                                   ]
@@ -323,7 +369,9 @@
                     ]
                   ]
                 ],
-                [ "NewLineList_NewLine" ],
+                [
+                  "NewLineList_NewLine"
+                ],
                 [
                   "CompleteCommand_CList",
                   [
@@ -343,7 +391,12 @@
                                 [
                                   "Word",
                                   "echo",
-                                  [ [ "WordName", "echo" ] ]
+                                  [
+                                    [
+                                      "WordName",
+                                      "echo"
+                                    ]
+                                  ]
                                 ]
                               ],
                               [
@@ -359,7 +412,15 @@
                                         "1",
                                         [
                                           "RemoveSmallestPrefixPattern",
-                                          [ "Word", "", [ [ "WordEmpty" ] ] ]
+                                          [
+                                            "Word",
+                                            "",
+                                            [
+                                              [
+                                                "WordEmpty"
+                                              ]
+                                            ]
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -374,7 +435,9 @@
                   ]
                 ]
               ],
-              [ "NewLineList_NewLine" ],
+              [
+                "NewLineList_NewLine"
+              ],
               [
                 "CompleteCommand_CList",
                 [
@@ -391,7 +454,16 @@
                             "SimpleCommand_CmdName_CmdSuffix",
                             [
                               "CmdName_Word",
-                              [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                              [
+                                "Word",
+                                "echo",
+                                [
+                                  [
+                                    "WordName",
+                                    "echo"
+                                  ]
+                                ]
+                              ]
                             ],
                             [
                               "CmdSuffix_Word",
@@ -423,7 +495,8 @@
                                                       "}",
                                                       [
                                                         [
-                                                          "WordLiteral", "}"
+                                                          "WordLiteral",
+                                                          "}"
                                                         ]
                                                       ]
                                                     ]
@@ -447,7 +520,9 @@
                 ]
               ]
             ],
-            [ "NewLineList_NewLine" ],
+            [
+              "NewLineList_NewLine"
+            ],
             [
               "CompleteCommand_CList",
               [
@@ -464,7 +539,16 @@
                           "SimpleCommand_CmdName_CmdSuffix",
                           [
                             "CmdName_Word",
-                            [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                            [
+                              "Word",
+                              "echo",
+                              [
+                                [
+                                  "WordName",
+                                  "echo"
+                                ]
+                              ]
+                            ]
                           ],
                           [
                             "CmdSuffix_Word",
@@ -495,7 +579,10 @@
                                                     "Word",
                                                     "}",
                                                     [
-                                                      [ "WordLiteral", "}" ]
+                                                      [
+                                                        "WordLiteral",
+                                                        "}"
+                                                      ]
                                                     ]
                                                   ]
                                                 ]
@@ -518,7 +605,9 @@
               ]
             ]
           ],
-          [ "NewLineList_NewLine" ],
+          [
+            "NewLineList_NewLine"
+          ],
           [
             "CompleteCommand_CList",
             [
@@ -535,7 +624,16 @@
                         "SimpleCommand_CmdName_CmdSuffix",
                         [
                           "CmdName_Word",
-                          [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                          [
+                            "Word",
+                            "echo",
+                            [
+                              [
+                                "WordName",
+                                "echo"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "CmdSuffix_Word",
@@ -559,7 +657,12 @@
                                           [
                                             "Word",
                                             "\\}",
-                                            [ [ "WordLiteral", "\\}" ] ]
+                                            [
+                                              [
+                                                "WordLiteral",
+                                                "\\}"
+                                              ]
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -578,7 +681,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -595,7 +700,16 @@
                       "SimpleCommand_CmdName_CmdSuffix",
                       [
                         "CmdName_Word",
-                        [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                        [
+                          "Word",
+                          "echo",
+                          [
+                            [
+                              "WordName",
+                              "echo"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "CmdSuffix_Word",
@@ -625,7 +739,12 @@
                                               [
                                                 "Word",
                                                 "foo}",
-                                                [ [ "WordLiteral", "foo}" ] ]
+                                                [
+                                                  [
+                                                    "WordLiteral",
+                                                    "foo}"
+                                                  ]
+                                                ]
                                               ]
                                             ]
                                           ]
@@ -647,7 +766,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -664,7 +785,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                      [
+                        "Word",
+                        "echo",
+                        [
+                          [
+                            "WordName",
+                            "echo"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_Word",
@@ -688,7 +818,12 @@
                                       [
                                         "Word",
                                         "for",
-                                        [ [ "WordLiteral", "for" ] ]
+                                        [
+                                          [
+                                            "WordLiteral",
+                                            "for"
+                                          ]
+                                        ]
                                       ]
                                     ]
                                   ]
@@ -707,7 +842,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -724,7 +861,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_Word",
@@ -743,14 +889,23 @@
                                 "Word",
                                 "0>",
                                 [
-                                  [ "WordLiteral", "0" ],
-                                  [ "WordLiteral", ">" ]
+                                  [
+                                    "WordLiteral",
+                                    "0"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    ">"
+                                  ]
                                 ]
                               ]
                             ]
                           ]
                         ],
-                        [ "WordLiteral", "}" ]
+                        [
+                          "WordLiteral",
+                          "}"
+                        ]
                       ]
                     ]
                   ]
@@ -762,5 +917,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

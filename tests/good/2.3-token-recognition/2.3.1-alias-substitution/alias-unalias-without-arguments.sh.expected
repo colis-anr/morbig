@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -21,7 +23,16 @@
                     "SimpleCommand_CmdName",
                     [
                       "CmdName_Word",
-                      [ "Word", "alias", [ [ "WordName", "alias" ] ] ]
+                      [
+                        "Word",
+                        "alias",
+                        [
+                          [
+                            "WordName",
+                            "alias"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -31,7 +42,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -48,7 +61,16 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "unalias", [ [ "WordName", "unalias" ] ] ]
+                    [
+                      "Word",
+                      "unalias",
+                      [
+                        [
+                          "WordName",
+                          "unalias"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -58,5 +80,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

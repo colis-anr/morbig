@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -25,7 +27,16 @@
                         "SimpleCommand_CmdName_CmdSuffix",
                         [
                           "CmdName_Word",
-                          [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                          [
+                            "Word",
+                            "echo",
+                            [
+                              [
+                                "WordName",
+                                "echo"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "CmdSuffix_Word",
@@ -38,7 +49,12 @@
                                 [
                                   "Word",
                                   "\\\"",
-                                  [ [ "WordLiteral", "\\\"" ] ]
+                                  [
+                                    [
+                                      "WordLiteral",
+                                      "\\\""
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]
@@ -52,7 +68,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -69,7 +87,16 @@
                       "SimpleCommand_CmdName_CmdSuffix",
                       [
                         "CmdName_Word",
-                        [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                        [
+                          "Word",
+                          "echo",
+                          [
+                            [
+                              "WordName",
+                              "echo"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "CmdSuffix_Word",
@@ -79,10 +106,14 @@
                           [
                             [
                               "WordSubshell",
-                              [ "SubShellKindParentheses" ],
+                              [
+                                "SubShellKindParentheses"
+                              ],
                               [
                                 "Program_LineBreak_CompleteCommands_LineBreak",
-                                [ "LineBreak_Empty" ],
+                                [
+                                  "LineBreak_Empty"
+                                ],
                                 [
                                   "CompleteCommands_CompleteCommand",
                                   [
@@ -105,7 +136,10 @@
                                                     "Word",
                                                     "echo",
                                                     [
-                                                      [ "WordName", "echo" ]
+                                                      [
+                                                        "WordName",
+                                                        "echo"
+                                                      ]
                                                     ]
                                                   ]
                                                 ],
@@ -139,7 +173,9 @@
                                     ]
                                   ]
                                 ],
-                                [ "LineBreak_Empty" ]
+                                [
+                                  "LineBreak_Empty"
+                                ]
                               ]
                             ]
                           ]
@@ -153,7 +189,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -170,7 +208,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                      [
+                        "Word",
+                        "echo",
+                        [
+                          [
+                            "WordName",
+                            "echo"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_Word",
@@ -180,10 +227,14 @@
                         [
                           [
                             "WordSubshell",
-                            [ "SubShellKindParentheses" ],
+                            [
+                              "SubShellKindParentheses"
+                            ],
                             [
                               "Program_LineBreak_CompleteCommands_LineBreak",
-                              [ "LineBreak_Empty" ],
+                              [
+                                "LineBreak_Empty"
+                              ],
                               [
                                 "CompleteCommands_CompleteCommand",
                                 [
@@ -205,7 +256,12 @@
                                                 [
                                                   "Word",
                                                   "echo",
-                                                  [ [ "WordName", "echo" ] ]
+                                                  [
+                                                    [
+                                                      "WordName",
+                                                      "echo"
+                                                    ]
+                                                  ]
                                                 ]
                                               ],
                                               [
@@ -221,7 +277,9 @@
                                                       ],
                                                       [
                                                         "Program_LineBreak_CompleteCommands_LineBreak",
-                                                        [ "LineBreak_Empty" ],
+                                                        [
+                                                          "LineBreak_Empty"
+                                                        ],
                                                         [
                                                           "CompleteCommands_CompleteCommand",
                                                           [
@@ -235,45 +293,45 @@
                                                                   [
                                                                     "PipeSequence_Command",
                                                                     [
-                                                                    "Command_SimpleCommand",
-                                                                    [
-                                                                    "SimpleCommand_CmdName_CmdSuffix",
-                                                                    [
-                                                                    "CmdName_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "echo",
-                                                                    [
-                                                                    [
-                                                                    "WordName",
-                                                                    "echo"
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ],
-                                                                    [
-                                                                    "CmdSuffix_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "\"\\\"\"",
-                                                                    [
-                                                                    [
-                                                                    "WordDoubleQuoted",
-                                                                    [
-                                                                    "Word",
-                                                                    "\\\"",
-                                                                    [
-                                                                    [
-                                                                    "WordLiteral",
-                                                                    "\\\""
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
+                                                                      "Command_SimpleCommand",
+                                                                      [
+                                                                        "SimpleCommand_CmdName_CmdSuffix",
+                                                                        [
+                                                                          "CmdName_Word",
+                                                                          [
+                                                                            "Word",
+                                                                            "echo",
+                                                                            [
+                                                                              [
+                                                                                "WordName",
+                                                                                "echo"
+                                                                              ]
+                                                                            ]
+                                                                          ]
+                                                                        ],
+                                                                        [
+                                                                          "CmdSuffix_Word",
+                                                                          [
+                                                                            "Word",
+                                                                            "\"\\\"\"",
+                                                                            [
+                                                                              [
+                                                                                "WordDoubleQuoted",
+                                                                                [
+                                                                                  "Word",
+                                                                                  "\\\"",
+                                                                                  [
+                                                                                    [
+                                                                                      "WordLiteral",
+                                                                                      "\\\""
+                                                                                    ]
+                                                                                  ]
+                                                                                ]
+                                                                              ]
+                                                                            ]
+                                                                          ]
+                                                                        ]
+                                                                      ]
                                                                     ]
                                                                   ]
                                                                 ]
@@ -281,7 +339,9 @@
                                                             ]
                                                           ]
                                                         ],
-                                                        [ "LineBreak_Empty" ]
+                                                        [
+                                                          "LineBreak_Empty"
+                                                        ]
                                                       ]
                                                     ]
                                                   ]
@@ -295,7 +355,9 @@
                                   ]
                                 ]
                               ],
-                              [ "LineBreak_Empty" ]
+                              [
+                                "LineBreak_Empty"
+                              ]
                             ]
                           ]
                         ]
@@ -309,7 +371,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -326,7 +390,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_Word",
@@ -336,10 +409,14 @@
                       [
                         [
                           "WordSubshell",
-                          [ "SubShellKindParentheses" ],
+                          [
+                            "SubShellKindParentheses"
+                          ],
                           [
                             "Program_LineBreak_CompleteCommands_LineBreak",
-                            [ "LineBreak_Empty" ],
+                            [
+                              "LineBreak_Empty"
+                            ],
                             [
                               "CompleteCommands_CompleteCommand",
                               [
@@ -361,7 +438,12 @@
                                               [
                                                 "Word",
                                                 "echo",
-                                                [ [ "WordName", "echo" ] ]
+                                                [
+                                                  [
+                                                    "WordName",
+                                                    "echo"
+                                                  ]
+                                                ]
                                               ]
                                             ],
                                             [
@@ -377,7 +459,9 @@
                                                     ],
                                                     [
                                                       "Program_LineBreak_CompleteCommands_LineBreak",
-                                                      [ "LineBreak_Empty" ],
+                                                      [
+                                                        "LineBreak_Empty"
+                                                      ],
                                                       [
                                                         "CompleteCommands_CompleteCommand",
                                                         [
@@ -393,103 +477,103 @@
                                                                   [
                                                                     "Command_SimpleCommand",
                                                                     [
-                                                                    "SimpleCommand_CmdName_CmdSuffix",
-                                                                    [
-                                                                    "CmdName_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "echo",
-                                                                    [
-                                                                    [
-                                                                    "WordName",
-                                                                    "echo"
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ],
-                                                                    [
-                                                                    "CmdSuffix_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "$(echo \"\\\"\")",
-                                                                    [
-                                                                    [
-                                                                    "WordSubshell",
-                                                                    [
-                                                                    "SubShellKindParentheses"
-                                                                    ],
-                                                                    [
-                                                                    "Program_LineBreak_CompleteCommands_LineBreak",
-                                                                    [
-                                                                    "LineBreak_Empty"
-                                                                    ],
-                                                                    [
-                                                                    "CompleteCommands_CompleteCommand",
-                                                                    [
-                                                                    "CompleteCommand_CList",
-                                                                    [
-                                                                    "CList_AndOr",
-                                                                    [
-                                                                    "AndOr_Pipeline",
-                                                                    [
-                                                                    "Pipeline_PipeSequence",
-                                                                    [
-                                                                    "PipeSequence_Command",
-                                                                    [
-                                                                    "Command_SimpleCommand",
-                                                                    [
-                                                                    "SimpleCommand_CmdName_CmdSuffix",
-                                                                    [
-                                                                    "CmdName_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "echo",
-                                                                    [
-                                                                    [
-                                                                    "WordName",
-                                                                    "echo"
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ],
-                                                                    [
-                                                                    "CmdSuffix_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "\"\\\"\"",
-                                                                    [
-                                                                    [
-                                                                    "WordDoubleQuoted",
-                                                                    [
-                                                                    "Word",
-                                                                    "\\\"",
-                                                                    [
-                                                                    [
-                                                                    "WordLiteral",
-                                                                    "\\\""
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ],
-                                                                    [
-                                                                    "LineBreak_Empty"
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
-                                                                    ]
+                                                                      "SimpleCommand_CmdName_CmdSuffix",
+                                                                      [
+                                                                        "CmdName_Word",
+                                                                        [
+                                                                          "Word",
+                                                                          "echo",
+                                                                          [
+                                                                            [
+                                                                              "WordName",
+                                                                              "echo"
+                                                                            ]
+                                                                          ]
+                                                                        ]
+                                                                      ],
+                                                                      [
+                                                                        "CmdSuffix_Word",
+                                                                        [
+                                                                          "Word",
+                                                                          "$(echo \"\\\"\")",
+                                                                          [
+                                                                            [
+                                                                              "WordSubshell",
+                                                                              [
+                                                                                "SubShellKindParentheses"
+                                                                              ],
+                                                                              [
+                                                                                "Program_LineBreak_CompleteCommands_LineBreak",
+                                                                                [
+                                                                                  "LineBreak_Empty"
+                                                                                ],
+                                                                                [
+                                                                                  "CompleteCommands_CompleteCommand",
+                                                                                  [
+                                                                                    "CompleteCommand_CList",
+                                                                                    [
+                                                                                      "CList_AndOr",
+                                                                                      [
+                                                                                        "AndOr_Pipeline",
+                                                                                        [
+                                                                                          "Pipeline_PipeSequence",
+                                                                                          [
+                                                                                            "PipeSequence_Command",
+                                                                                            [
+                                                                                              "Command_SimpleCommand",
+                                                                                              [
+                                                                                                "SimpleCommand_CmdName_CmdSuffix",
+                                                                                                [
+                                                                                                  "CmdName_Word",
+                                                                                                  [
+                                                                                                    "Word",
+                                                                                                    "echo",
+                                                                                                    [
+                                                                                                      [
+                                                                                                        "WordName",
+                                                                                                        "echo"
+                                                                                                      ]
+                                                                                                    ]
+                                                                                                  ]
+                                                                                                ],
+                                                                                                [
+                                                                                                  "CmdSuffix_Word",
+                                                                                                  [
+                                                                                                    "Word",
+                                                                                                    "\"\\\"\"",
+                                                                                                    [
+                                                                                                      [
+                                                                                                        "WordDoubleQuoted",
+                                                                                                        [
+                                                                                                          "Word",
+                                                                                                          "\\\"",
+                                                                                                          [
+                                                                                                            [
+                                                                                                              "WordLiteral",
+                                                                                                              "\\\""
+                                                                                                            ]
+                                                                                                          ]
+                                                                                                        ]
+                                                                                                      ]
+                                                                                                    ]
+                                                                                                  ]
+                                                                                                ]
+                                                                                              ]
+                                                                                            ]
+                                                                                          ]
+                                                                                        ]
+                                                                                      ]
+                                                                                    ]
+                                                                                  ]
+                                                                                ],
+                                                                                [
+                                                                                  "LineBreak_Empty"
+                                                                                ]
+                                                                              ]
+                                                                            ]
+                                                                          ]
+                                                                        ]
+                                                                      ]
                                                                     ]
                                                                   ]
                                                                 ]
@@ -498,7 +582,9 @@
                                                           ]
                                                         ]
                                                       ],
-                                                      [ "LineBreak_Empty" ]
+                                                      [
+                                                        "LineBreak_Empty"
+                                                      ]
                                                     ]
                                                   ]
                                                 ]
@@ -512,7 +598,9 @@
                                 ]
                               ]
                             ],
-                            [ "LineBreak_Empty" ]
+                            [
+                              "LineBreak_Empty"
+                            ]
                           ]
                         ]
                       ]
@@ -526,5 +614,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

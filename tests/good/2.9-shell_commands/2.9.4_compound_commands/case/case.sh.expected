@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,9 +21,25 @@
                   "CompoundCommand_CaseClause",
                   [
                     "CaseClause_Case_Word_LineBreak_In_LineBreak_CaseListNS_Esac",
-                    [ "Word", "echo", [ [ "WordName", "echo" ] ] ],
-                    [ "LineBreak_Empty" ],
-                    [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                    [
+                      "Word",
+                      "echo",
+                      [
+                        [
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ],
+                    [
+                      "LineBreak_Empty"
+                    ],
+                    [
+                      "LineBreak_NewLineList",
+                      [
+                        "NewLineList_NewLine"
+                      ]
+                    ],
                     [
                       "CaseListNS_CaseList_CaseItemNS",
                       [
@@ -36,11 +54,22 @@
                                 "CaseItem_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                                 [
                                   "Pattern_Word",
-                                  [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                                  [
+                                    "Word",
+                                    "a",
+                                    [
+                                      [
+                                        "WordName",
+                                        "a"
+                                      ]
+                                    ]
+                                  ]
                                 ],
                                 [
                                   "CompoundList_LineBreak_Term",
-                                  [ "LineBreak_Empty" ],
+                                  [
+                                    "LineBreak_Empty"
+                                  ],
                                   [
                                     "Term_AndOr",
                                     [
@@ -58,7 +87,12 @@
                                                 [
                                                   "Word",
                                                   "b",
-                                                  [ [ "WordName", "b" ] ]
+                                                  [
+                                                    [
+                                                      "WordName",
+                                                      "b"
+                                                    ]
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -70,7 +104,9 @@
                                 ],
                                 [
                                   "LineBreak_NewLineList",
-                                  [ "NewLineList_NewLine" ]
+                                  [
+                                    "NewLineList_NewLine"
+                                  ]
                                 ]
                               ]
                             ],
@@ -78,11 +114,22 @@
                               "CaseItem_Lparen_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                               [
                                 "Pattern_Word",
-                                [ "Word", "c", [ [ "WordName", "c" ] ] ]
+                                [
+                                  "Word",
+                                  "c",
+                                  [
+                                    [
+                                      "WordName",
+                                      "c"
+                                    ]
+                                  ]
+                                ]
                               ],
                               [
                                 "CompoundList_LineBreak_Term",
-                                [ "LineBreak_Empty" ],
+                                [
+                                  "LineBreak_Empty"
+                                ],
                                 [
                                   "Term_AndOr",
                                   [
@@ -100,7 +147,12 @@
                                               [
                                                 "Word",
                                                 "d",
-                                                [ [ "WordName", "d" ] ]
+                                                [
+                                                  [
+                                                    "WordName",
+                                                    "d"
+                                                  ]
+                                                ]
                                               ]
                                             ]
                                           ]
@@ -112,7 +164,9 @@
                               ],
                               [
                                 "LineBreak_NewLineList",
-                                [ "NewLineList_NewLine" ]
+                                [
+                                  "NewLineList_NewLine"
+                                ]
                               ]
                             ]
                           ],
@@ -122,13 +176,33 @@
                               "Pattern_Pattern_Pipe_Word",
                               [
                                 "Pattern_Word",
-                                [ "Word", "e", [ [ "WordName", "e" ] ] ]
+                                [
+                                  "Word",
+                                  "e",
+                                  [
+                                    [
+                                      "WordName",
+                                      "e"
+                                    ]
+                                  ]
+                                ]
                               ],
-                              [ "Word", "f", [ [ "WordName", "f" ] ] ]
+                              [
+                                "Word",
+                                "f",
+                                [
+                                  [
+                                    "WordName",
+                                    "f"
+                                  ]
+                                ]
+                              ]
                             ],
                             [
                               "CompoundList_LineBreak_Term",
-                              [ "LineBreak_Empty" ],
+                              [
+                                "LineBreak_Empty"
+                              ],
                               [
                                 "Term_AndOr",
                                 [
@@ -146,7 +220,12 @@
                                             [
                                               "Word",
                                               "g",
-                                              [ [ "WordName", "g" ] ]
+                                              [
+                                                [
+                                                  "WordName",
+                                                  "g"
+                                                ]
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -158,7 +237,9 @@
                             ],
                             [
                               "LineBreak_NewLineList",
-                              [ "NewLineList_NewLine" ]
+                              [
+                                "NewLineList_NewLine"
+                              ]
                             ]
                           ]
                         ],
@@ -166,11 +247,22 @@
                           "CaseItem_Lparen_Pattern_Rparen_CompoundList_Dsemi_LineBreak",
                           [
                             "Pattern_Word",
-                            [ "Word", "h", [ [ "WordName", "h" ] ] ]
+                            [
+                              "Word",
+                              "h",
+                              [
+                                [
+                                  "WordName",
+                                  "h"
+                                ]
+                              ]
+                            ]
                           ],
                           [
                             "CompoundList_LineBreak_Term",
-                            [ "LineBreak_Empty" ],
+                            [
+                              "LineBreak_Empty"
+                            ],
                             [
                               "Term_AndOr",
                               [
@@ -187,7 +279,9 @@
                                           "Subshell_Lparen_CompoundList_Rparen",
                                           [
                                             "CompoundList_LineBreak_Term",
-                                            [ "LineBreak_Empty" ],
+                                            [
+                                              "LineBreak_Empty"
+                                            ],
                                             [
                                               "Term_AndOr",
                                               [
@@ -230,7 +324,9 @@
                           ],
                           [
                             "LineBreak_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ]
                         ]
                       ],
@@ -238,11 +334,22 @@
                         "CaseItemNS_Lparen_Pattern_Rparen_LineBreak",
                         [
                           "Pattern_Word",
-                          [ "Word", "j", [ [ "WordName", "j" ] ] ]
+                          [
+                            "Word",
+                            "j",
+                            [
+                              [
+                                "WordName",
+                                "j"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "LineBreak_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ]
                       ]
                     ]
@@ -255,5 +362,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

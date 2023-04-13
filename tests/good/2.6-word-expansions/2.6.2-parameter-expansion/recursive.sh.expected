@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -43,10 +45,14 @@
                                       [
                                         [
                                           "WordSubshell",
-                                          [ "SubShellKindParentheses" ],
+                                          [
+                                            "SubShellKindParentheses"
+                                          ],
                                           [
                                             "Program_LineBreak_CompleteCommands_LineBreak",
-                                            [ "LineBreak_Empty" ],
+                                            [
+                                              "LineBreak_Empty"
+                                            ],
                                             [
                                               "CompleteCommands_CompleteCommand",
                                               [
@@ -97,7 +103,9 @@
                                                 ]
                                               ]
                                             ],
-                                            [ "LineBreak_Empty" ]
+                                            [
+                                              "LineBreak_Empty"
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -119,5 +127,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

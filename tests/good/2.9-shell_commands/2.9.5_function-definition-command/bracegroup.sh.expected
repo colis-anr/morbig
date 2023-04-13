@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -17,8 +19,16 @@
                 "Command_FunctionDefinition",
                 [
                   "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
-                  [ "Fname_Name", [ "Name", "a" ] ],
-                  [ "LineBreak_Empty" ],
+                  [
+                    "Fname_Name",
+                    [
+                      "Name",
+                      "a"
+                    ]
+                  ],
+                  [
+                    "LineBreak_Empty"
+                  ],
                   [
                     "FunctionBody_CompoundCommand",
                     [
@@ -27,7 +37,9 @@
                         "BraceGroup_LBrace_CompoundList_RBrace",
                         [
                           "CompoundList_LineBreak_Term_Separator",
-                          [ "LineBreak_Empty" ],
+                          [
+                            "LineBreak_Empty"
+                          ],
                           [
                             "Term_AndOr",
                             [
@@ -45,7 +57,12 @@
                                         [
                                           "Word",
                                           "b",
-                                          [ [ "WordName", "b" ] ]
+                                          [
+                                            [
+                                              "WordName",
+                                              "b"
+                                            ]
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -56,8 +73,12 @@
                           ],
                           [
                             "Separator_SeparatorOp_LineBreak",
-                            [ "SeparatorOp_Uppersand" ],
-                            [ "LineBreak_Empty" ]
+                            [
+                              "SeparatorOp_Uppersand"
+                            ],
+                            [
+                              "LineBreak_Empty"
+                            ]
                           ]
                         ]
                       ]
@@ -71,5 +92,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

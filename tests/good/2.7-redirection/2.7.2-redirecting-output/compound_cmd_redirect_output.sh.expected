@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -21,7 +23,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                      [
+                        "Word",
+                        "cat",
+                        [
+                          [
+                            "WordName",
+                            "cat"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_CmdSuffix_IoRedirect",
@@ -53,7 +64,16 @@
                           "IoHere_DLess_HereEnd",
                           [
                             "HereEnd_Word",
-                            [ "Word", "EOF", [ [ "WordName", "EOF" ] ] ]
+                            [
+                              "Word",
+                              "EOF",
+                              [
+                                [
+                                  "WordName",
+                                  "EOF"
+                                ]
+                              ]
+                            ]
                           ],
                           [
                             "Word",
@@ -76,7 +96,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -95,7 +117,9 @@
                     "Subshell_Lparen_CompoundList_Rparen",
                     [
                       "CompoundList_LineBreak_Term",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -113,7 +137,12 @@
                                     [
                                       "Word",
                                       "echo",
-                                      [ [ "WordName", "echo" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "echo"
+                                        ]
+                                      ]
                                     ]
                                   ],
                                   [
@@ -127,7 +156,9 @@
                                           [
                                             "VariableAtom",
                                             "CERTS_ENABLED",
-                                            [ "NoAttribute" ]
+                                            [
+                                              "NoAttribute"
+                                            ]
                                           ]
                                         ]
                                       ]
@@ -153,7 +184,12 @@
                         [
                           "Word",
                           "/etc/ca-certificates.conf",
-                          [ [ "WordLiteral", "/etc/ca-certificates.conf" ] ]
+                          [
+                            [
+                              "WordLiteral",
+                              "/etc/ca-certificates.conf"
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -166,5 +202,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

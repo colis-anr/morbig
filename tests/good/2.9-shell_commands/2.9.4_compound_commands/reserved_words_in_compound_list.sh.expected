@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,9 @@
                     "BraceGroup_LBrace_CompoundList_RBrace",
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -39,7 +43,12 @@
                                     [
                                       "Word",
                                       "echo",
-                                      [ [ "WordName", "echo" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "echo"
+                                        ]
+                                      ]
                                     ]
                                   ],
                                   [
@@ -47,7 +56,12 @@
                                     [
                                       "Word",
                                       "}",
-                                      [ [ "WordLiteral", "}" ] ]
+                                      [
+                                        [
+                                          "WordLiteral",
+                                          "}"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -58,8 +72,12 @@
                       ],
                       [
                         "Separator_SeparatorOp_LineBreak",
-                        [ "SeparatorOp_Semicolon" ],
-                        [ "LineBreak_Empty" ]
+                        [
+                          "SeparatorOp_Semicolon"
+                        ],
+                        [
+                          "LineBreak_Empty"
+                        ]
                       ]
                     ]
                   ]
@@ -71,5 +89,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,9 @@
                     "IfClause_If_CompoundList_Then_CompoundList_ElsePart_Fi",
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -36,7 +40,16 @@
                                   "SimpleCommand_CmdName",
                                   [
                                     "CmdName_Word",
-                                    [ "Word", "a", [ [ "WordName", "a" ] ] ]
+                                    [
+                                      "Word",
+                                      "a",
+                                      [
+                                        [
+                                          "WordName",
+                                          "a"
+                                        ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -44,11 +57,21 @@
                           ]
                         ]
                       ],
-                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                      [
+                        "Separator_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ]
                     ],
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                      [
+                        "LineBreak_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -66,7 +89,12 @@
                                     [
                                       "Word",
                                       "true",
-                                      [ [ "WordName", "true" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "true"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -75,7 +103,12 @@
                           ]
                         ]
                       ],
-                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                      [
+                        "Separator_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ]
                     ],
                     [
                       "ElsePart_Else_CompoundList",
@@ -83,7 +116,9 @@
                         "CompoundList_LineBreak_Term_Separator",
                         [
                           "LineBreak_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ],
                         [
                           "Term_AndOr",
@@ -102,7 +137,12 @@
                                       [
                                         "Word",
                                         "false",
-                                        [ [ "WordName", "false" ] ]
+                                        [
+                                          [
+                                            "WordName",
+                                            "false"
+                                          ]
+                                        ]
                                       ]
                                     ]
                                   ]
@@ -113,7 +153,9 @@
                         ],
                         [
                           "Separator_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ]
                       ]
                     ]
@@ -126,5 +168,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

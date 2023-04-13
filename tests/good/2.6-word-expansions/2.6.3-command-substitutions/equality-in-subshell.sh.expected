@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -17,8 +19,19 @@
                 "Command_FunctionDefinition",
                 [
                   "FunctionDefinition_Fname_Lparen_Rparen_LineBreak_FunctionBody",
-                  [ "Fname_Name", [ "Name", "f" ] ],
-                  [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                  [
+                    "Fname_Name",
+                    [
+                      "Name",
+                      "f"
+                    ]
+                  ],
+                  [
+                    "LineBreak_NewLineList",
+                    [
+                      "NewLineList_NewLine"
+                    ]
+                  ],
                   [
                     "FunctionBody_CompoundCommand",
                     [
@@ -29,7 +42,9 @@
                           "CompoundList_LineBreak_Term_Separator",
                           [
                             "LineBreak_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ],
                           [
                             "Term_AndOr",
@@ -46,17 +61,24 @@
                                       [
                                         "CmdPrefix_AssignmentWord",
                                         [
-                                          [ "Name", "tempdir" ],
+                                          [
+                                            "Name",
+                                            "tempdir"
+                                          ],
                                           [
                                             "Word",
                                             "`mktemp --directory --suffix=.aptlc`",
                                             [
                                               [
                                                 "WordSubshell",
-                                                [ "SubShellKindBackQuote" ],
+                                                [
+                                                  "SubShellKindBackQuote"
+                                                ],
                                                 [
                                                   "Program_LineBreak_CompleteCommands_LineBreak",
-                                                  [ "LineBreak_Empty" ],
+                                                  [
+                                                    "LineBreak_Empty"
+                                                  ],
                                                   [
                                                     "CompleteCommands_CompleteCommand",
                                                     [
@@ -76,40 +98,40 @@
                                                                   [
                                                                     "CmdName_Word",
                                                                     [
-                                                                    "Word",
-                                                                    "mktemp",
-                                                                    [
-                                                                    [
-                                                                    "WordName",
-                                                                    "mktemp"
-                                                                    ]
-                                                                    ]
+                                                                      "Word",
+                                                                      "mktemp",
+                                                                      [
+                                                                        [
+                                                                          "WordName",
+                                                                          "mktemp"
+                                                                        ]
+                                                                      ]
                                                                     ]
                                                                   ],
                                                                   [
                                                                     "CmdSuffix_CmdSuffix_Word",
                                                                     [
-                                                                    "CmdSuffix_Word",
-                                                                    [
-                                                                    "Word",
-                                                                    "--directory",
-                                                                    [
-                                                                    [
-                                                                    "WordLiteral",
-                                                                    "--directory"
-                                                                    ]
-                                                                    ]
-                                                                    ]
+                                                                      "CmdSuffix_Word",
+                                                                      [
+                                                                        "Word",
+                                                                        "--directory",
+                                                                        [
+                                                                          [
+                                                                            "WordLiteral",
+                                                                            "--directory"
+                                                                          ]
+                                                                        ]
+                                                                      ]
                                                                     ],
                                                                     [
-                                                                    "Word",
-                                                                    "--suffix=.aptlc",
-                                                                    [
-                                                                    [
-                                                                    "WordLiteral",
-                                                                    "--suffix=.aptlc"
-                                                                    ]
-                                                                    ]
+                                                                      "Word",
+                                                                      "--suffix=.aptlc",
+                                                                      [
+                                                                        [
+                                                                          "WordLiteral",
+                                                                          "--suffix=.aptlc"
+                                                                        ]
+                                                                      ]
                                                                     ]
                                                                   ]
                                                                 ]
@@ -120,7 +142,9 @@
                                                       ]
                                                     ]
                                                   ],
-                                                  [ "LineBreak_Empty" ]
+                                                  [
+                                                    "LineBreak_Empty"
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -135,7 +159,9 @@
                           ],
                           [
                             "Separator_NewLineList",
-                            [ "NewLineList_NewLine" ]
+                            [
+                              "NewLineList_NewLine"
+                            ]
                           ]
                         ]
                       ]
@@ -149,5 +175,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

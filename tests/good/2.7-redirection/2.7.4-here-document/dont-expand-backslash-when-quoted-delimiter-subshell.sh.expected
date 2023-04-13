@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -20,15 +22,25 @@
                   [
                     "CmdPrefix_AssignmentWord",
                     [
-                      [ "Name", "x" ],
+                      [
+                        "Name",
+                        "x"
+                      ],
                       [
                         "Word",
                         "$(cat <<'EOT'\nabc ` def\nghi \\\njkl\nEOT\n)",
                         [
                           [
                             "WordSubshell",
-                            [ "SubShellKindParentheses" ],
-                            [ "Program_LineBreak", [ "LineBreak_Empty" ] ]
+                            [
+                              "SubShellKindParentheses"
+                            ],
+                            [
+                              "Program_LineBreak",
+                              [
+                                "LineBreak_Empty"
+                              ]
+                            ]
                           ]
                         ]
                       ]
@@ -42,5 +54,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

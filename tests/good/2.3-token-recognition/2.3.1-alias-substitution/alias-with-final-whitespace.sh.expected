@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -34,7 +36,12 @@
                                 [
                                   "Word",
                                   "alias",
-                                  [ [ "WordName", "alias" ] ]
+                                  [
+                                    [
+                                      "WordName",
+                                      "alias"
+                                    ]
+                                  ]
                                 ]
                               ],
                               [
@@ -46,7 +53,10 @@
                                     [
                                       "WordAssignmentWord",
                                       [
-                                        [ "Name", "x" ],
+                                        [
+                                          "Name",
+                                          "x"
+                                        ],
                                         [
                                           "Word",
                                           "'echo '",
@@ -57,7 +67,10 @@
                                                 "Word",
                                                 "echo ",
                                                 [
-                                                  [ "WordLiteral", "echo " ]
+                                                  [
+                                                    "WordLiteral",
+                                                    "echo "
+                                                  ]
                                                 ]
                                               ]
                                             ]
@@ -76,7 +89,9 @@
                   ]
                 ]
               ],
-              [ "NewLineList_NewLine" ],
+              [
+                "NewLineList_NewLine"
+              ],
               [
                 "CompleteCommand_CList",
                 [
@@ -96,7 +111,12 @@
                               [
                                 "Word",
                                 "alias",
-                                [ [ "WordName", "alias" ] ]
+                                [
+                                  [
+                                    "WordName",
+                                    "alias"
+                                  ]
+                                ]
                               ]
                             ],
                             [
@@ -108,7 +128,10 @@
                                   [
                                     "WordAssignmentWord",
                                     [
-                                      [ "Name", "z" ],
+                                      [
+                                        "Name",
+                                        "z"
+                                      ],
                                       [
                                         "Word",
                                         "'a '",
@@ -118,7 +141,12 @@
                                             [
                                               "Word",
                                               "a ",
-                                              [ [ "WordLiteral", "a " ] ]
+                                              [
+                                                [
+                                                  "WordLiteral",
+                                                  "a "
+                                                ]
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -136,7 +164,9 @@
                 ]
               ]
             ],
-            [ "NewLineList_NewLine" ],
+            [
+              "NewLineList_NewLine"
+            ],
             [
               "CompleteCommand_CList",
               [
@@ -156,7 +186,12 @@
                             [
                               "Word",
                               "'echo '",
-                              [ [ "WordLiteral", "'echo '" ] ]
+                              [
+                                [
+                                  "WordLiteral",
+                                  "'echo '"
+                                ]
+                              ]
                             ]
                           ],
                           [
@@ -164,7 +199,12 @@
                             [
                               "Word",
                               "'echo '",
-                              [ [ "WordLiteral", "'echo '" ] ]
+                              [
+                                [
+                                  "WordLiteral",
+                                  "'echo '"
+                                ]
+                              ]
                             ]
                           ]
                         ]
@@ -175,7 +215,9 @@
               ]
             ]
           ],
-          [ "NewLineList_NewLine" ],
+          [
+            "NewLineList_NewLine"
+          ],
           [
             "CompleteCommand_CList",
             [
@@ -195,16 +237,39 @@
                           [
                             "Word",
                             "'echo '",
-                            [ [ "WordLiteral", "'echo '" ] ]
+                            [
+                              [
+                                "WordLiteral",
+                                "'echo '"
+                              ]
+                            ]
                           ]
                         ],
                         [
                           "CmdSuffix_CmdSuffix_Word",
                           [
                             "CmdSuffix_Word",
-                            [ "Word", "y", [ [ "WordName", "y" ] ] ]
+                            [
+                              "Word",
+                              "y",
+                              [
+                                [
+                                  "WordName",
+                                  "y"
+                                ]
+                              ]
+                            ]
                           ],
-                          [ "Word", "x", [ [ "WordName", "x" ] ] ]
+                          [
+                            "Word",
+                            "x",
+                            [
+                              [
+                                "WordName",
+                                "x"
+                              ]
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -214,7 +279,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -234,7 +301,12 @@
                         [
                           "Word",
                           "'echo '",
-                          [ [ "WordLiteral", "'echo '" ] ]
+                          [
+                            [
+                              "WordLiteral",
+                              "'echo '"
+                            ]
+                          ]
                         ]
                       ],
                       [
@@ -244,13 +316,23 @@
                           [
                             "Word",
                             "'echo '",
-                            [ [ "WordLiteral", "'echo '" ] ]
+                            [
+                              [
+                                "WordLiteral",
+                                "'echo '"
+                              ]
+                            ]
                           ]
                         ],
                         [
                           "Word",
                           "'echo '",
-                          [ [ "WordLiteral", "'echo '" ] ]
+                          [
+                            [
+                              "WordLiteral",
+                              "'echo '"
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -261,7 +343,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -278,7 +362,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "'echo '", [ [ "WordLiteral", "'echo '" ] ] ]
+                      [
+                        "Word",
+                        "'echo '",
+                        [
+                          [
+                            "WordLiteral",
+                            "'echo '"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_CmdSuffix_Word",
@@ -289,12 +382,35 @@
                           [
                             "Word",
                             "'echo '",
-                            [ [ "WordLiteral", "'echo '" ] ]
+                            [
+                              [
+                                "WordLiteral",
+                                "'echo '"
+                              ]
+                            ]
                           ]
                         ],
-                        [ "Word", "y", [ [ "WordName", "y" ] ] ]
+                        [
+                          "Word",
+                          "y",
+                          [
+                            [
+                              "WordName",
+                              "y"
+                            ]
+                          ]
+                        ]
                       ],
-                      [ "Word", "x", [ [ "WordName", "x" ] ] ]
+                      [
+                        "Word",
+                        "x",
+                        [
+                          [
+                            "WordName",
+                            "x"
+                          ]
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -304,7 +420,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -321,15 +439,42 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "'echo '", [ [ "WordLiteral", "'echo '" ] ] ]
+                    [
+                      "Word",
+                      "'echo '",
+                      [
+                        [
+                          "WordLiteral",
+                          "'echo '"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_CmdSuffix_Word",
                     [
                       "CmdSuffix_Word",
-                      [ "Word", "'a '", [ [ "WordLiteral", "'a '" ] ] ]
+                      [
+                        "Word",
+                        "'a '",
+                        [
+                          [
+                            "WordLiteral",
+                            "'a '"
+                          ]
+                        ]
+                      ]
                     ],
-                    [ "Word", "'echo '", [ [ "WordLiteral", "'echo '" ] ] ]
+                    [
+                      "Word",
+                      "'echo '",
+                      [
+                        [
+                          "WordLiteral",
+                          "'echo '"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -339,5 +484,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

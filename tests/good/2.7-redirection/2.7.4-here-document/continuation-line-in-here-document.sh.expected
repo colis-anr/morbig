@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,9 @@
                     "IfClause_If_CompoundList_Then_CompoundList_ElsePart_Fi",
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -39,7 +43,12 @@
                                     [
                                       "Word",
                                       "true",
-                                      [ [ "WordName", "true" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "true"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -48,11 +57,21 @@
                           ]
                         ]
                       ],
-                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                      [
+                        "Separator_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ]
                     ],
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                      [
+                        "LineBreak_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -70,7 +89,12 @@
                                     [
                                       "Word",
                                       "cat",
-                                      [ [ "WordName", "cat" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "cat"
+                                        ]
+                                      ]
                                     ]
                                   ],
                                   [
@@ -84,7 +108,12 @@
                                           [
                                             "Word",
                                             "EOF",
-                                            [ [ "WordName", "EOF" ] ]
+                                            [
+                                              [
+                                                "WordName",
+                                                "EOF"
+                                              ]
+                                            ]
                                           ]
                                         ],
                                         [
@@ -106,13 +135,20 @@
                           ]
                         ]
                       ],
-                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                      [
+                        "Separator_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ]
                     ],
                     [
                       "ElsePart_Else_CompoundList",
                       [
                         "CompoundList_LineBreak_Term_Separator",
-                        [ "LineBreak_Empty" ],
+                        [
+                          "LineBreak_Empty"
+                        ],
                         [
                           "Term_AndOr",
                           [
@@ -130,7 +166,12 @@
                                       [
                                         "Word",
                                         "echo",
-                                        [ [ "WordName", "echo" ] ]
+                                        [
+                                          [
+                                            "WordName",
+                                            "echo"
+                                          ]
+                                        ]
                                       ]
                                     ],
                                     [
@@ -144,7 +185,12 @@
                                             [
                                               "Word",
                                               "baeh",
-                                              [ [ "WordLiteral", "baeh" ] ]
+                                              [
+                                                [
+                                                  "WordLiteral",
+                                                  "baeh"
+                                                ]
+                                              ]
                                             ]
                                           ]
                                         ]
@@ -158,7 +204,9 @@
                         ],
                         [
                           "Separator_NewLineList",
-                          [ "NewLineList_NewLine" ]
+                          [
+                            "NewLineList_NewLine"
+                          ]
                         ]
                       ]
                     ]
@@ -171,5 +219,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

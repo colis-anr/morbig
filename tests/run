@@ -60,85 +60,107 @@ incr () {
 last_test_printed=
 printf_for_test () {
     if [ "$test" != "$last_test_printed" ]; then
-	last_test_printed=$test
-	printf '* %s\n' "$test"
+    last_test_printed=$test
+    printf '* %s\n' "$test"
     fi
     printf "$@"
 }
 
-# Test loop
-for category in good bad
-do
-    for test in $(find "$category" -type f -name '*.sh' | sort -n)
-    do
-	test=${test%.sh}
+## For all test categories. We only handle `good` and `bad` tests, because
+## there is not much to do about `unspecified` and `unknown` ones.
+for category in good bad; do
 
-	if [ \! -f "$test.sh" ]
-	then
-	    printf_for_test '[WARN] File `%s` does not exist or is not a file.
-         Did you create a test whose name contains a space?\n' "$test"
-	    continue
-	fi
+    ## For all test files in the test category in question.
+    for test in $(find "$category" -type f -name '*.sh' | sort -n); do
+        test=${test%.sh}
 
-	open=
-	[ -e "$test.sh.open" ] && open=_open # Warning: the underscore matters.
+        ## If the test file does not exist, then something is wrong, and it is
+        ## probably due to the fact that one test name contains spaces and was
+        ## therefore cut in two by the `$(find ...)` above.
+        if ! [ -f "$test.sh" ]; then
+            printf_for_test '[WARN] File `%s` does not exist or is not a file.
+Did you create a test whose name contains a space?\n' "$test"
+            continue
+        fi
 
-	incr ${category}${open}_total # eg. good_open_total or bad_total
+        ## The variable `$open` is either empty or `_open`. That way, we can
+        ## write `$category$open` and it will be either `good`, `good_open` or
+        ## `bad`. The underscore therefore matters.
+        open=
+        [ -e "$test.sh.open" ] && open=_open
 
-	if "$morbig" --as simple "$test.sh" 2>/dev/null
-	then
-	    case "$category""$open" in
-		bad)
-		    printf_for_test '[FAIL] Wrongly accepted: %s\n' "$test"
-		    incr bad_accepted
-		    ;;
-		bad_open)
-		    printf_for_test '[WARN] Open wrongly accepted: %s\n' "$test"
-		    incr bad_open_accepted
-		    ;;
+        incr ${category}${open}_total
 
-		good*)
-		    if [ \! -f "$test.sh.expected" ]; then
-			printf_for_test '[WARN] Missing `.expected` file: %s\n' "$test"
-			incr good${open}_unexpected
+        ## If Morbig succeeds, a file "$test.sh.sjson" gets created.
+        if "$morbig" --as simple "$test.sh" 2>/dev/null; then
+            case $category$open in
+                bad)
+                    printf_for_test '[FAIL] Wrongly accepted: %s\n' "$test"
+                    incr bad_accepted
+                    ;;
 
-		    elif ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null; then
-			if [ -n "$open" ]; then
-   		            printf_for_test '[WARN] Open with wrong output: %s\n' "$test"
-			else
-   		            printf_for_test '[FAIL] Wrong output: %s\n' "$test"
-			fi
-			if [ -n "$VERBOSE" ]; then
-			    echo '** .sh'
-			    cat "$test.sh"
-			    echo '** .sh.sjson'
-			    cat "$test.sh.sjson"
-			    echo '** .sh.expected'
-			    cat "$test.sh.expected"
-			fi
-			incr good${open}_unexpected
-		    else
-			incr good${open}_accepted
-		    fi
-	    esac
-	else
-	    case "$category" in
-		bad)
-		    incr bad${open}_rejected
-		    ;;
-		good)
-		    incr good${open}_rejected
-		    if [ -n "$open" ]; then
-			printf_for_test '[WARN] Open wrongly rejected: %s\n' "$test"
-		    else
-			printf_for_test '[FAIL] Wrongly rejected: %s\n' "$test"
-		    fi
- 		    if [ -n "$VERBOSE" ]; then
-			echo "** $test.sh"
-			cat "$test.sh"
-		    fi
-	    esac
-	fi
+                bad_open)
+                    printf_for_test '[WARN] Open wrongly accepted: %s\n' "$test"
+                    incr bad_open_accepted
+                    ;;
+
+                good*)
+                    ## Normalise the output using `jq`. This ensures that our
+                    ## tests do not fail just because Yojson changed its
+                    ## printing behaviour.
+                    cat "$test.sh.sjson" | jq . > "$test.sh.sjson.clean"
+                    mv "$test.sh.sjson.clean" "$test.sh.sjson"
+
+                    ## If there is no `.expected` file, then we complain, and we
+                    ## count this case as “unexpected”.
+                    if ! [ -f "$test.sh.expected" ]; then
+                        printf_for_test '[WARN] Missing `.expected` file: %s\n' "$test"
+                        incr good${open}_unexpected
+
+                    ## Otherwise, if there is a difference between the produced
+                    ## file and the expected one, then we complain.
+                    elif ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null; then
+                        if [ -n "$open" ]; then
+                            printf_for_test '[WARN] Open with wrong output: %s\n' "$test"
+                        else
+                            printf_for_test '[FAIL] Wrong output: %s\n' "$test"
+                        fi
+                        if [ -n "$VERBOSE" ]; then
+                            echo '** .sh'
+                            cat "$test.sh"
+                            echo '** .sh.sjson'
+                            cat "$test.sh.sjson"
+                            echo '** .sh.expected'
+                            cat "$test.sh.expected"
+                        fi
+                        incr good${open}_unexpected
+
+                    ## Otherwise all is good.
+                    else
+                        incr good${open}_accepted
+                    fi
+            esac
+
+        ## If Morbig failed.
+        else
+            case "$category" in
+                bad)
+                    incr bad${open}_rejected
+                    ;;
+
+                good)
+                    incr good${open}_rejected
+                    if [ -n "$open" ]; then
+                        printf_for_test '[WARN] Open wrongly rejected: %s\n' "$test"
+                    else
+                        printf_for_test '[FAIL] Wrongly rejected: %s\n' "$test"
+                    fi
+                    if [ -n "$VERBOSE" ]; then
+                        echo "** $test.sh"
+                        cat "$test.sh"
+                    fi
+            esac
+        fi
     done
 done
 
@@ -173,10 +195,10 @@ printf '* Summary:
 
 if [ "$failed" -gt 0 ] || [ "$unexpected" -gt 0 ]; then
     if [ "$failed" -eq "$failed_open" ] && [ "$unexpected" -eq "$unexpected_open" ]; then
-	printf '[INFO] All failures are due to open bugs. This script will succeed.\n'
-	exit 0
+        printf '[INFO] All failures are due to open bugs. This script will succeed.\n'
+        exit 0
     else
-	exit 2
+        exit 2
     fi
 else
     printf "\n         ----------------\n"

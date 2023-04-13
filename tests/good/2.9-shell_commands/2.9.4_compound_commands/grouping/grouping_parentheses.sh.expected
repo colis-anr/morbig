@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,9 @@
                     "Subshell_Lparen_CompoundList_Rparen",
                     [
                       "CompoundList_LineBreak_Term",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_Term_Separator_AndOr",
                         [
@@ -41,7 +45,12 @@
                                       [
                                         "Word",
                                         "a",
-                                        [ [ "WordName", "a" ] ]
+                                        [
+                                          [
+                                            "WordName",
+                                            "a"
+                                          ]
+                                        ]
                                       ]
                                     ],
                                     [
@@ -49,7 +58,12 @@
                                       [
                                         "Word",
                                         "b",
-                                        [ [ "WordName", "b" ] ]
+                                        [
+                                          [
+                                            "WordName",
+                                            "b"
+                                          ]
+                                        ]
                                       ]
                                     ]
                                   ]
@@ -60,8 +74,12 @@
                         ],
                         [
                           "Separator_SeparatorOp_LineBreak",
-                          [ "SeparatorOp_Semicolon" ],
-                          [ "LineBreak_Empty" ]
+                          [
+                            "SeparatorOp_Semicolon"
+                          ],
+                          [
+                            "LineBreak_Empty"
+                          ]
                         ],
                         [
                           "AndOr_Pipeline",
@@ -75,7 +93,16 @@
                                   "SimpleCommand_CmdName",
                                   [
                                     "CmdName_Word",
-                                    [ "Word", "c", [ [ "WordName", "c" ] ] ]
+                                    [
+                                      "Word",
+                                      "c",
+                                      [
+                                        [
+                                          "WordName",
+                                          "c"
+                                        ]
+                                      ]
+                                    ]
                                   ]
                                 ]
                               ]
@@ -93,5 +120,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

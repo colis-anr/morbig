@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,9 @@
                     "IfClause_If_CompoundList_Then_CompoundList_Fi",
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -39,7 +43,12 @@
                                     [
                                       "Word",
                                       "true",
-                                      [ [ "WordName", "true" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "true"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -48,11 +57,18 @@
                           ]
                         ]
                       ],
-                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                      [
+                        "Separator_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ]
                     ],
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -70,7 +86,12 @@
                                     [
                                       "Word",
                                       "cat",
-                                      [ [ "WordName", "cat" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "cat"
+                                        ]
+                                      ]
                                     ]
                                   ],
                                   [
@@ -90,7 +111,12 @@
                                                 [
                                                   "Word",
                                                   "E",
-                                                  [ [ "WordLiteral", "E" ] ]
+                                                  [
+                                                    [
+                                                      "WordLiteral",
+                                                      "E"
+                                                    ]
+                                                  ]
                                                 ]
                                               ],
                                               [
@@ -98,10 +124,18 @@
                                                 [
                                                   "Word",
                                                   "O",
-                                                  [ [ "WordLiteral", "O" ] ]
+                                                  [
+                                                    [
+                                                      "WordLiteral",
+                                                      "O"
+                                                    ]
+                                                  ]
                                                 ]
                                               ],
-                                              [ "WordLiteral", "\\F" ]
+                                              [
+                                                "WordLiteral",
+                                                "\\F"
+                                              ]
                                             ]
                                           ]
                                         ],
@@ -124,7 +158,12 @@
                           ]
                         ]
                       ],
-                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                      [
+                        "Separator_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ]
                     ]
                   ]
                 ]
@@ -135,5 +174,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

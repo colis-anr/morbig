@@ -13,7 +13,13 @@
               "Command_SimpleCommand",
               [
                 "SimpleCommand_CmdName",
-                [ "CmdName_Word", [ "Word", "alias" ] ]
+                [
+                  "CmdName_Word",
+                  [
+                    "Word",
+                    "alias"
+                  ]
+                ]
               ]
             ]
           ]

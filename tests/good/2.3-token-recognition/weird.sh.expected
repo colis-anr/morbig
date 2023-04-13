@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -19,7 +21,16 @@
                   "SimpleCommand_CmdName",
                   [
                     "CmdName_Word",
-                    [ "Word", "[[:\\<:]", [ [ "WordLiteral", "[[:\\<:]" ] ] ]
+                    [
+                      "Word",
+                      "[[:\\<:]",
+                      [
+                        [
+                          "WordLiteral",
+                          "[[:\\<:]"
+                        ]
+                      ]
+                    ]
                   ]
                 ]
               ]
@@ -29,5 +40,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

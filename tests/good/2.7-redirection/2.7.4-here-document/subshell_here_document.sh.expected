@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,9 @@
                     "Subshell_Lparen_CompoundList_Rparen",
                     [
                       "CompoundList_LineBreak_Term",
-                      [ "LineBreak_Empty" ],
+                      [
+                        "LineBreak_Empty"
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -39,7 +43,12 @@
                                     [
                                       "Word",
                                       "echo",
-                                      [ [ "WordName", "echo" ] ]
+                                      [
+                                        [
+                                          "WordName",
+                                          "echo"
+                                        ]
+                                      ]
                                     ]
                                   ]
                                 ]
@@ -59,12 +68,26 @@
                       "IoHere_DLess_HereEnd",
                       [
                         "HereEnd_Word",
-                        [ "Word", "DATA", [ [ "WordName", "DATA" ] ] ]
+                        [
+                          "Word",
+                          "DATA",
+                          [
+                            [
+                              "WordName",
+                              "DATA"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "Word",
                         "blabla\n",
-                        [ [ "WordLiteral", "blabla\n" ] ]
+                        [
+                          [
+                            "WordLiteral",
+                            "blabla\n"
+                          ]
+                        ]
                       ]
                     ]
                   ]
@@ -76,5 +99,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

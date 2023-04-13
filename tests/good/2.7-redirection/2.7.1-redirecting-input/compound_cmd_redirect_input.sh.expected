@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,12 @@
                     "Subshell_Lparen_CompoundList_Rparen",
                     [
                       "CompoundList_LineBreak_Term_Separator",
-                      [ "LineBreak_NewLineList", [ "NewLineList_NewLine" ] ],
+                      [
+                        "LineBreak_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ],
                       [
                         "Term_AndOr",
                         [
@@ -38,7 +45,9 @@
                                     "WhileClause_While_CompoundList_DoGroup",
                                     [
                                       "CompoundList_LineBreak_Term_Separator",
-                                      [ "LineBreak_Empty" ],
+                                      [
+                                        "LineBreak_Empty"
+                                      ],
                                       [
                                         "Term_AndOr",
                                         [
@@ -58,7 +67,8 @@
                                                       "read",
                                                       [
                                                         [
-                                                          "WordName", "read"
+                                                          "WordName",
+                                                          "read"
                                                         ]
                                                       ]
                                                     ]
@@ -69,7 +79,10 @@
                                                       "Word",
                                                       "dir",
                                                       [
-                                                        [ "WordName", "dir" ]
+                                                        [
+                                                          "WordName",
+                                                          "dir"
+                                                        ]
                                                       ]
                                                     ]
                                                   ]
@@ -81,15 +94,21 @@
                                       ],
                                       [
                                         "Separator_SeparatorOp_LineBreak",
-                                        [ "SeparatorOp_Semicolon" ],
-                                        [ "LineBreak_Empty" ]
+                                        [
+                                          "SeparatorOp_Semicolon"
+                                        ],
+                                        [
+                                          "LineBreak_Empty"
+                                        ]
                                       ]
                                     ],
                                     [
                                       "DoGroup_Do_CompoundList_Done",
                                       [
                                         "CompoundList_LineBreak_Term_Separator",
-                                        [ "LineBreak_Empty" ],
+                                        [
+                                          "LineBreak_Empty"
+                                        ],
                                         [
                                           "Term_AndOr",
                                           [
@@ -133,7 +152,7 @@
                                                                     "VariableAtom",
                                                                     "dir",
                                                                     [
-                                                                    "NoAttribute"
+                                                                      "NoAttribute"
                                                                     ]
                                                                   ]
                                                                 ]
@@ -151,8 +170,12 @@
                                         ],
                                         [
                                           "Separator_SeparatorOp_LineBreak",
-                                          [ "SeparatorOp_Semicolon" ],
-                                          [ "LineBreak_Empty" ]
+                                          [
+                                            "SeparatorOp_Semicolon"
+                                          ],
+                                          [
+                                            "LineBreak_Empty"
+                                          ]
                                         ]
                                       ]
                                     ]
@@ -163,7 +186,12 @@
                           ]
                         ]
                       ],
-                      [ "Separator_NewLineList", [ "NewLineList_NewLine" ] ]
+                      [
+                        "Separator_NewLineList",
+                        [
+                          "NewLineList_NewLine"
+                        ]
+                      ]
                     ]
                   ]
                 ],
@@ -175,14 +203,24 @@
                       "IoHere_DLess_HereEnd",
                       [
                         "HereEnd_Word",
-                        [ "Word", "DATA", [ [ "WordName", "DATA" ] ] ]
+                        [
+                          "Word",
+                          "DATA",
+                          [
+                            [
+                              "WordName",
+                              "DATA"
+                            ]
+                          ]
+                        ]
                       ],
                       [
                         "Word",
                         "/usr/local/share/cacti/scripts\n",
                         [
                           [
-                            "WordLiteral", "/usr/local/share/cacti/scripts\n"
+                            "WordLiteral",
+                            "/usr/local/share/cacti/scripts\n"
                           ]
                         ]
                       ]
@@ -196,5 +234,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]

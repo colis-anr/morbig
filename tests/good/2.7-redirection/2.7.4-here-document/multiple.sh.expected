@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommand",
     [
@@ -21,7 +23,16 @@
                     "SimpleCommand_CmdName_CmdSuffix",
                     [
                       "CmdName_Word",
-                      [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                      [
+                        "Word",
+                        "cat",
+                        [
+                          [
+                            "WordName",
+                            "cat"
+                          ]
+                        ]
+                      ]
                     ],
                     [
                       "CmdSuffix_CmdSuffix_IoRedirect",
@@ -36,7 +47,12 @@
                               [
                                 "Word",
                                 "toJohn",
-                                [ [ "WordName", "toJohn" ] ]
+                                [
+                                  [
+                                    "WordName",
+                                    "toJohn"
+                                  ]
+                                ]
                               ]
                             ]
                           ]
@@ -48,12 +64,26 @@
                           "IoHere_DLess_HereEnd",
                           [
                             "HereEnd_Word",
-                            [ "Word", "EOF1", [ [ "WordName", "EOF1" ] ] ]
+                            [
+                              "Word",
+                              "EOF1",
+                              [
+                                [
+                                  "WordName",
+                                  "EOF1"
+                                ]
+                              ]
+                            ]
                           ],
                           [
                             "Word",
                             "Hi John!\n",
-                            [ [ "WordLiteral", "Hi John!\n" ] ]
+                            [
+                              [
+                                "WordLiteral",
+                                "Hi John!\n"
+                              ]
+                            ]
                           ]
                         ]
                       ]
@@ -64,7 +94,9 @@
             ]
           ]
         ],
-        [ "SeparatorOp_Semicolon" ],
+        [
+          "SeparatorOp_Semicolon"
+        ],
         [
           "AndOr_Pipeline",
           [
@@ -77,7 +109,16 @@
                   "SimpleCommand_CmdName_CmdSuffix",
                   [
                     "CmdName_Word",
-                    [ "Word", "cat", [ [ "WordName", "cat" ] ] ]
+                    [
+                      "Word",
+                      "cat",
+                      [
+                        [
+                          "WordName",
+                          "cat"
+                        ]
+                      ]
+                    ]
                   ],
                   [
                     "CmdSuffix_CmdSuffix_IoRedirect",
@@ -92,7 +133,12 @@
                             [
                               "Word",
                               "toJane",
-                              [ [ "WordName", "toJane" ] ]
+                              [
+                                [
+                                  "WordName",
+                                  "toJane"
+                                ]
+                              ]
                             ]
                           ]
                         ]
@@ -104,12 +150,26 @@
                         "IoHere_DLessDash_HereEnd",
                         [
                           "HereEnd_Word",
-                          [ "Word", "EOF2", [ [ "WordName", "EOF2" ] ] ]
+                          [
+                            "Word",
+                            "EOF2",
+                            [
+                              [
+                                "WordName",
+                                "EOF2"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "Word",
                           "    Hi Jane!\n",
-                          [ [ "WordLiteral", "    Hi Jane!\n" ] ]
+                          [
+                            [
+                              "WordLiteral",
+                              "    Hi Jane!\n"
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -122,5 +182,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]
