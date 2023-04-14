@@ -11,7 +11,7 @@
 
 (package
  (name morbig)
- (version 0.10.4)
+ (version 0.11.0)
 
  (synopsis "A trustworthy parser for POSIX shell")
  (description
