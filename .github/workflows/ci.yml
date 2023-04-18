@@ -64,20 +64,17 @@ jobs:
         run: opam install dune --yes
 
       - name: Install OPAM Dependencies
-        run: |
-          opam exec -- dune build morbig.opam
-          ## NOTE: `lower-bounds` implies to skip documentation because
-          ## `opam-0install` does not support it.
-          if ${{ matrix.lower-bounds == 'lower-bounds' }}; then
-            with_doc=
-          else
-            with_doc=--with-doc
-          fi
-          opam install . --yes --deps-only --with-test $with_doc
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> see after
+        run: opam install . --deps-only --with-test --with-doc
 
-      - name: (Lower Bounds) Install OPAM 0install
+      - name: (Lower Bounds) Install OPAM Dependencies
         if: matrix.lower-bounds == 'lower-bounds'
-        run: opam install opam-0install
+        run: |
+          ## NOTE: `lower-bounds` imply to not build the documentation because
+          ## `opam-0install`, the solver we use, does not support it. Therefore
+          ## we don't even install those dependencies to begin with.
+          opam install . --deps-only --with-test
+          opam install opam-0install
 
       - name: (Lower Bounds) Ask OPAM 0install for an install plan
         if: matrix.lower-bounds == 'lower-bounds'
