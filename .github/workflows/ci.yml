@@ -66,12 +66,18 @@ jobs:
       - name: Install OPAM Dependencies
         run: |
           opam exec -- dune build morbig.opam
-          opam install . --yes --deps-only --with-doc --with-test
+          ## NOTE: `lower-bounds` implies to skip documentation because
+          ## `opam-0install` does not support it.
+          if ${{ matrix.lower-bounds == 'lower-bounds' }}; then
+            with_doc=
+          else
+            with_doc=--with-doc
+          fi
+          opam install . --yes --deps-only --with-test $with_doc
 
       - name: (Lower Bounds) Install OPAM 0install
         if: matrix.lower-bounds == 'lower-bounds'
-        run: |
-          opam install opam-0install
+        run: opam install opam-0install
 
       - name: (Lower Bounds) Ask OPAM 0install for an install plan
         if: matrix.lower-bounds == 'lower-bounds'
@@ -82,7 +88,7 @@ jobs:
           ## Ask `opam-0install` to get us the oldest possible dependencies for
           ## Morbig, while keeping the exact same version of
           ## `ocaml-base-compiler`.
-          opam exec -- opam-0install --prefer-oldest --with-test --with-doc morbig $obc > lower-bounds
+          opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
           ## Log what we are aiming for
           printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
           printf '`opam-0install` suggests installing the following packages:\n'
@@ -90,27 +96,25 @@ jobs:
 
       - name: (Lower Bounds) Downgrade OPAM dependencies
         if: matrix.lower-bounds == 'lower-bounds'
-        run: |
-          opam install --yes $(cat lower-bounds)
+        run: opam install --yes $(cat lower-bounds)
 
       - name: Try Building
         run: opam exec -- make
 
       - name: Try Building Documentation
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
         run: opam exec -- make doc
 
       - name: Run Tests
+        if: runner.os != 'Windows'  ## Tests are written in a Unix-like way
         run: opam exec -- make check
-        if: runner.os != 'Windows'
-        ## Tests are written in a Unix-like way and cannot run on Windows.
 
       - name: Try Installing
         run: opam exec -- make install
 
       - name: Try Building Examples
+        if: runner.os != 'Windows'  ## Examples are written in a Unix-like way
         run: opam exec -- make examples
-        if: runner.os != 'Windows'
-        ## Examples are written in a Unix-like way and cannot run on Windows.
 
       - name: Try Uninstalling
         run: opam exec -- make uninstall
@@ -119,16 +123,21 @@ jobs:
         run: opam exec -- make clean
 
       - name: Build Documentation for Auto-Deploy
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
         run: opam exec -- make doc
 
       - name: Upload documentation artifact
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
         uses: actions/upload-pages-artifact@v1
         with:
           path: doc/
 
       - name: Deploy to GitHub pages
         uses: actions/deploy-pages@v2
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.deploy-doc == 'deploy-doc'
+        if: github.event_name == 'push'
+            && github.ref == 'refs/heads/main'
+            && matrix.deploy-doc == 'deploy-doc'
+            && matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
 
   ## ========================= [ APT-based CI ] ========================== ##
 
