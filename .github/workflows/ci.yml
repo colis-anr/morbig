@@ -83,6 +83,10 @@ jobs:
           ## Morbig, while keeping the exact same version of
           ## `ocaml-base-compiler`.
           opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
+          ## Log what we are aiming for
+          echo <><> Packages to install ><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+          cat lower-bounds | tr ' ' '\n' | sed 's|\.|\t|' | column -t
+          echo
           ## Ask `opam` to install the dependencies in question.
           opam install --yes $(cat lower-bounds)
 
