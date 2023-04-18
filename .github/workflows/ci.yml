@@ -65,15 +65,23 @@ jobs:
           opam exec -- dune build morbig.opam
           opam install . --yes --deps-only --with-doc --with-test
 
+      - name: Install OPAM 0install
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: |
+          opam install opam-0install
+
       - name: Downgrade OPAM dependencies
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
-          ## cf https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
-          opam install opam-0install
-          opam exec -- opam-0install --prefer-oldest --with-test morbig > lower-bounds
-          echo '`opam-0install` suggests testing the following lower bounds:'
-          cat lower-bounds
-          opam install --unlock-base $(cat lower-bounds)
+          ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
+          ## Note the current version of `ocaml-base-compiler`
+          obc=ocaml-base-compiler.$(opam info --color=never --field=version ocaml-base-compiler)
+          ## Ask `opam-0install` to get us the oldest possible dependencies for
+          ## Morbig, while keeping the exact same version of
+          ## `ocaml-base-compiler`.
+          opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
+          ## Ask `opam` to install the dependencies in question.
+          opam install --yes $(cat lower-bounds)
 
       - name: Try Building
         run: opam exec -- make
