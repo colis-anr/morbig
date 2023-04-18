@@ -60,6 +60,11 @@ jobs:
       - name: Install Dune
         run: opam install dune --yes
 
+      - name: Bloup
+        run: |
+          opam info ocaml-base-compiler
+          opam info --field=version ocaml-base-compiler
+
       - name: Install OPAM Dependencies
         run: |
           opam exec -- dune build morbig.opam
