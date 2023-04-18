@@ -25,7 +25,7 @@
 
  (depends
   (dune                 (>= "1.4.0"))
-  (menhir               (>= "20170509"))
+  (menhir               (>= "20180538"))
   (ocaml                (>= "4.04"))
   (odoc                 :with-doc)
    ppx_deriving_yojson
