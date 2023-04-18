@@ -59,7 +59,7 @@ jobs:
 
       - name: Bloup
         run: |
-          opam info --field=version ocaml-base-compiler
+          echo ocaml-base-compiler.$(opam info --field=version ocaml-base-compiler)
           exit 1
 
       - name: Install Dune
