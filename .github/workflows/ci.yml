@@ -73,7 +73,7 @@ jobs:
         run: |
           opam install opam-0install
 
-      - name: Downgrade OPAM dependencies
+      - name: Ask OPAM 0install for lower bounds
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
           ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
@@ -82,12 +82,15 @@ jobs:
           ## Ask `opam-0install` to get us the oldest possible dependencies for
           ## Morbig, while keeping the exact same version of
           ## `ocaml-base-compiler`.
-          opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
+          opam exec -- opam-0install --prefer-oldest --with-test --with-doc morbig $obc > lower-bounds
           ## Log what we are aiming for
           printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
           printf '`opam-0install` suggests installing the following packages:\n'
-          cat lower-bounds | tr ' ' '\n' | sed 's|^\([^.]*\)\.|  \1\t|' | column -t
-          ## Ask `opam` to install the dependencies in question.
+          cat lower-bounds | tr ' ' '\n' | sed 's|^\([^.]*\)\.|\t\1\t|' | column -t
+
+      - name: Downgrade OPAM dependencies
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: |
           opam install --yes $(cat lower-bounds)
 
       - name: Try Building
