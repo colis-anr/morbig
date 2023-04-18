@@ -1,5 +1,6 @@
 (lang dune 2.5)
 
+(name morbig)
 (source (github colis-anr/morbig))
 
 (maintainers "Nicolas “Niols” Jeannerod <niols@niols.fr>")
