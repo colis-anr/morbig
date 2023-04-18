@@ -24,7 +24,7 @@
   )
 
  (depends
-  (menhir               (>= "20180538"))
+  (menhir               (>= "20200211"))
   (ocaml                (>= "4.04"))
   (odoc                 :with-doc)
    ppx_deriving_yojson
