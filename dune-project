@@ -28,7 +28,7 @@
   (ocaml                (>= "4.04"))
   (odoc                 :with-doc)
    ppx_deriving_yojson
-  (visitors             (>= "20180513"))
+  (visitors             (>= "20200207"))
   (yojson               (>= "1.6.0"))))
 
 (generate_opam_files true)
