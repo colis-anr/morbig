@@ -57,13 +57,13 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-version }}
 
-      - name: Install Dune
-        run: opam install dune --yes
-
       - name: Bloup
         run: |
-          opam info ocaml-base-compiler
           opam info --field=version ocaml-base-compiler
+          exit 1
+
+      - name: Install Dune
+        run: opam install dune --yes
 
       - name: Install OPAM Dependencies
         run: |
