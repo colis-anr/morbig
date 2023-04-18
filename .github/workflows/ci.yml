@@ -68,12 +68,12 @@ jobs:
           opam exec -- dune build morbig.opam
           opam install . --yes --deps-only --with-doc --with-test
 
-      - name: Install OPAM 0install
+      - name: (Lower Bounds) Install OPAM 0install
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
           opam install opam-0install
 
-      - name: Ask OPAM 0install for lower bounds
+      - name: (Lower Bounds) Ask OPAM 0install for an install plan
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
           ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
@@ -88,7 +88,7 @@ jobs:
           printf '`opam-0install` suggests installing the following packages:\n'
           cat lower-bounds | tr ' ' '\n' | sed 's|^\([^.]*\)\.|\t\1\t|' | column -t
 
-      - name: Downgrade OPAM dependencies
+      - name: (Lower Bounds) Downgrade OPAM dependencies
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
           opam install --yes $(cat lower-bounds)
