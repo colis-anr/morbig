@@ -84,9 +84,9 @@ jobs:
           ## `ocaml-base-compiler`.
           opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
           ## Log what we are aiming for
-          echo '<><> Packages to install ><><><><><><><><><><><><><><><><><><><><><><><><><><><>'
-          cat lower-bounds | tr ' ' '\n' | sed 's|\.|\t|' | column -t
-          echo
+          printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
+          printf '`opam-0install` suggests installing the following packages:\n'
+          cat lower-bounds | tr ' ' '\n' | sed 's|^\([^.]*\)\.|  \1\t|' | column -t
           ## Ask `opam` to install the dependencies in question.
           opam install --yes $(cat lower-bounds)
 
