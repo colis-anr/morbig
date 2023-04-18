@@ -1,5 +1,6 @@
 (lang dune 2.5)
 
+(name morbig)
 (source (github colis-anr/morbig))
 
 (maintainers "Nicolas “Niols” Jeannerod <niols@niols.fr>")
@@ -23,12 +24,11 @@
   )
 
  (depends
-  (dune                 (>= "1.4.0"))
-  (menhir               (>= "20170509"))
+  (menhir               (>= "20200211"))
   (ocaml                (>= "4.04"))
   (odoc                 :with-doc)
    ppx_deriving_yojson
-  (visitors             (>= "20180513"))
+  (visitors             (>= "20200207"))
   (yojson               (>= "1.6.0"))))
 
 (generate_opam_files true)

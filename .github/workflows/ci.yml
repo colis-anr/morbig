@@ -20,12 +20,26 @@ jobs:
         os:
           - ubuntu-latest
         ocaml-version:
+          - 4.04.x
+          - 4.05.x
+          - 4.06.x
+          - 4.07.x
+          # - 4.08.x ## oldest version with 0install; explicitly included later
+          - 4.09.x
+          - 4.10.x
           - 4.11.x
           - 4.12.x
           - 4.13.x
-          # - 4.14.x ## explicitly included afterwards
+          # - 4.14.x ## main supported version; explicitly included later
           - 5.0.x
         include:
+          ## - oldest version supported by 0install, with and without lower
+          ##   bounds checks
+          ## - main supported version with lower bounds checks, with
+          ##   documentation deployment, on Windows and on MacOS.
+          - { os: ubuntu-latest,  ocaml-version: 4.08.x }
+          - { os: ubuntu-latest,  ocaml-version: 4.08.x, lower-bounds: lower-bounds }
+          - { os: ubuntu-latest,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
           - { os: ubuntu-latest,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
           - { os: macos-latest,   ocaml-version: 4.14.x }
           - { os: windows-latest, ocaml-version: 4.14.x }
@@ -50,29 +64,54 @@ jobs:
         run: opam install dune --yes
 
       - name: Install OPAM Dependencies
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> see after
+        run: opam install . --deps-only --with-test --with-doc
+
+      - name: (Lower Bounds) Install OPAM Dependencies
+        if: matrix.lower-bounds == 'lower-bounds'
         run: |
-          opam exec -- dune build || true
-          opam install . --yes --deps-only --with-doc --with-test
-        ## FIXME: The caught failure of dune build is here to mitigate #4487.
+          ## NOTE: `lower-bounds` imply to not build the documentation because
+          ## `opam-0install`, the solver we use, does not support it. Therefore
+          ## we don't even install those dependencies to begin with.
+          opam install . --deps-only --with-test
+          opam install opam-0install
+
+      - name: (Lower Bounds) Ask OPAM 0install for an install plan
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: |
+          ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
+          ## Note the current version of `ocaml-base-compiler`
+          obc=ocaml-base-compiler.$(opam info --color=never --field=version ocaml-base-compiler)
+          ## Ask `opam-0install` to get us the oldest possible dependencies for
+          ## Morbig, while keeping the exact same version of
+          ## `ocaml-base-compiler`.
+          opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
+          ## Log what we are aiming for
+          printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
+          printf '`opam-0install` suggests installing the following packages:\n'
+          cat lower-bounds | tr ' ' '\n' | sed 's|^\([^.]*\)\.|\t\1\t|' | column -t
+
+      - name: (Lower Bounds) Downgrade OPAM dependencies
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: opam install --yes $(cat lower-bounds)
 
       - name: Try Building
         run: opam exec -- make
 
       - name: Try Building Documentation
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
         run: opam exec -- make doc
 
       - name: Run Tests
+        if: runner.os != 'Windows'  ## Tests are written in a Unix-like way
         run: opam exec -- make check
-        if: runner.os != 'Windows'
-        ## Tests are written in a Unix-like way and cannot run on Windows.
 
       - name: Try Installing
         run: opam exec -- make install
 
       - name: Try Building Examples
+        if: runner.os != 'Windows'  ## Examples are written in a Unix-like way
         run: opam exec -- make examples
-        if: runner.os != 'Windows'
-        ## Examples are written in a Unix-like way and cannot run on Windows.
 
       - name: Try Uninstalling
         run: opam exec -- make uninstall
@@ -81,16 +120,21 @@ jobs:
         run: opam exec -- make clean
 
       - name: Build Documentation for Auto-Deploy
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
         run: opam exec -- make doc
 
       - name: Upload documentation artifact
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
         uses: actions/upload-pages-artifact@v1
         with:
           path: doc/
 
       - name: Deploy to GitHub pages
         uses: actions/deploy-pages@v2
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.deploy-doc == 'deploy-doc'
+        if: github.event_name == 'push'
+            && github.ref == 'refs/heads/main'
+            && matrix.deploy-doc == 'deploy-doc'
+            && matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
 
   ## ========================= [ APT-based CI ] ========================== ##
 
