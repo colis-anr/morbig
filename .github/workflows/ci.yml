@@ -23,9 +23,14 @@ jobs:
           - 4.11.x
           - 4.12.x
           - 4.13.x
-          # - 4.14.x ## explicitly included afterwards
+          # - 4.14.x ## main supported OCaml version; explicitly included later
           - 5.0.x
         include:
+          ## - lowest and main supported OCaml versions with lower bounds,
+          ## - main supported OCaml version with documentation deployment,
+          ## - main supported OCaml version on MacOS and Windows.
+          - { os: ubuntu-latest,  ocaml-version: 4.11.x, lower-bounds: lower-bounds }
+          - { os: ubuntu-latest,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
           - { os: ubuntu-latest,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
           - { os: macos-latest,   ocaml-version: 4.14.x }
           - { os: windows-latest, ocaml-version: 4.14.x }
@@ -51,9 +56,18 @@ jobs:
 
       - name: Install OPAM Dependencies
         run: |
-          opam exec -- dune build || true
+          opam exec -- dune build morbig.opam
           opam install . --yes --deps-only --with-doc --with-test
-        ## FIXME: The caught failure of dune build is here to mitigate #4487.
+
+      - name: Downgrade OPAM dependencies
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: |
+          ## cf https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
+          opam install opam-0install
+          opam exec -- opam-0install --prefer-oldest --with-test morbig > lower-bounds
+          echo '`opam-0install` suggests testing the following lower bounds:'
+          cat lower-bounds
+          opam install --unlock-base $(cat lower-bounds)
 
       - name: Try Building
         run: opam exec -- make
