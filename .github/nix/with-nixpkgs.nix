@@ -1,21 +1,32 @@
-{ ... }: {
+{ self, ... }: {
   perSystem = { pkgs, ... }:
     let opkgs = pkgs.ocamlPackages;
     in {
-      packages.with-nixpkgs = opkgs.buildDunePackage rec {
-        pname = "morbig";
-        version = "dev";
-        src = ./.;
+      packages.with-nixpkgs = pkgs.stdenv.mkDerivation {
+        name = "morbig";
+        src = self;
 
-        duneVersion = "3";
+        nativeBuildInputs = with opkgs; [
+          ## Basic ones, always necessary
+          ocaml dune_3 findlib
+          ## Specific to our project
+          menhir
+        ];
 
-        nativeBuildInputs = with opkgs; [ menhir ];
-        propagatedBuildInputs = with opkgs; [
+        buildInputs = with opkgs; [
           menhirLib
           ppx_deriving_yojson
           visitors
           yojson
         ];
+
+        buildPhase = ''
+          make build
+        '';
+
+        installPhase = ''
+          make install PREFIX=$out
+        '';
       };
     };
 }
