@@ -21,10 +21,15 @@
         inputs.pre-commit-hooks.flakeModule
       ];
 
-      perSystem = { self', pkgs, ... }: {
+      perSystem = { self', pkgs, config, ... }: {
         formatter = pkgs.nixfmt;
 
         packages.default = self'.packages.with-nixpkgs;
+
+        devShells.default = pkgs.mkShell {
+          inputsFrom = [ self'.packages.default ];
+          shellHook = config.pre-commit.installationScript;
+        };
 
         pre-commit.settings.hooks = {
           dune-opam-sync.enable = true;
