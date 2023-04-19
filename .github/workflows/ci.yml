@@ -132,7 +132,9 @@ jobs:
         run: opam exec -- make install
 
       - name: Try building examples
-        if: runner.os != 'Windows'  ## Examples are written in a Unix-like way
+        ## NOTE: Examples are written in a Unix-like way and cannot build on a
+        ## bytecode-only infrastructure.
+        if: runner.os != 'Windows' && matrix.bytecode != 'bytecode'
         run: opam exec -- make examples
 
       - name: Try uninstalling
