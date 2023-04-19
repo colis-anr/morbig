@@ -274,7 +274,7 @@ jobs:
 
       - name: Build with Nix
         run: |
-          nix build .github/nix#${{ matrix.package }}
+          nix build .github/nix#${{ matrix.package }} --print-build-logs
 
       - name: Build examples in Nix Shell
         run: |
