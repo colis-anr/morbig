@@ -41,7 +41,6 @@ jobs:
           - { os: ubuntu,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
           - { os: ubuntu,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
           - { os: ubuntu,  ocaml-version: 4.14.1, bytecode: bytecode }
-          - { os: ubuntu,  ocaml-version: 4.14.1, bytecode: bytecode, lower-bounds: lower-bounds }
           - { os: macos,   ocaml-version: 4.14.x }
           - { os: windows, ocaml-version: 4.14.x }
           ## NOTE: The `ocaml/setup-ocaml@v2` action does not support `4.14.x`
