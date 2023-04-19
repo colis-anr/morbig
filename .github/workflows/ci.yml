@@ -42,8 +42,8 @@ jobs:
           - { os: ubuntu,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
           - { os: macos,   ocaml-version: 4.14.x }
           - { os: windows, ocaml-version: 4.14.x }
-          - { os: ubuntu,  ocaml-version: "ocaml-base-compiler.4.14.1,ocaml-option-bytecode-only", }
-          - { os: ubuntu,  ocaml-version: "ocaml-base-compiler.4.14.1,ocaml-option-bytecode-only", lower-bounds: lower-bounds }
+          - { os: ubuntu,  ocaml-version: "ocaml-variants.4.14.1+options,ocaml-option-bytecode-only" }
+          - { os: ubuntu,  ocaml-version: "ocaml-variants.4.14.1+options,ocaml-option-bytecode-only", lower-bounds: lower-bounds }
 
     ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
     permissions:
