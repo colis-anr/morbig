@@ -29,6 +29,7 @@
         pre-commit.settings.hooks = {
           dune-opam-sync.enable = true;
           opam-lint.enable = true;
+          ocp-indent.enable = true;
           nixfmt.enable = true;
           deadnix.enable = true;
         };
