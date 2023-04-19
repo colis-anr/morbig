@@ -1,10 +1,8 @@
-{ ... }: {
+{ self, ... }: {
   perSystem = { inputs', pkgs, ... }:
-    ## NOTE: The use of `../..` matters because the path is taken as relative to
-    ## the current file, and therefore to `.github/nix/`.
     let
       scope =
-        inputs'.opam-nix.lib.buildOpamProject { inherit pkgs; } "morbig" ../.. {
+        inputs'.opam-nix.lib.buildOpamProject { inherit pkgs; } "morbig" self {
           ocaml-base-compiler = "*";
         };
     in { packages.with-opam-nix = scope.morbig // { inherit scope; }; };
