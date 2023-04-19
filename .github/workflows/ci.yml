@@ -17,8 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
+        os: [ubuntu]
         ocaml-version:
           - 4.04.x
           - 4.05.x
@@ -37,19 +36,19 @@ jobs:
           ##   bounds checks
           ## - main supported version with lower bounds checks, with
           ##   documentation deployment, on Windows and on MacOS.
-          - { os: ubuntu-latest,  ocaml-version: 4.08.x }
-          - { os: ubuntu-latest,  ocaml-version: 4.08.x, lower-bounds: lower-bounds }
-          - { os: ubuntu-latest,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
-          - { os: ubuntu-latest,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
-          - { os: macos-latest,   ocaml-version: 4.14.x }
-          - { os: windows-latest, ocaml-version: 4.14.x }
+          - { os: ubuntu,  ocaml-version: 4.08.x }
+          - { os: ubuntu,  ocaml-version: 4.08.x, lower-bounds: lower-bounds }
+          - { os: ubuntu,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
+          - { os: ubuntu,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
+          - { os: macos,   ocaml-version: 4.14.x }
+          - { os: windows, ocaml-version: 4.14.x }
 
     ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
     permissions:
       pages: write
       id-token: write
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
 
     steps:
       - name: Checkout Repository
