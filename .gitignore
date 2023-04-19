@@ -9,6 +9,13 @@
 .merlin
 *.install
 
+## Nix
+
+result-*
+.envrc
+.direnv/
+.pre-commit-config.yaml
+
 ## Project
 
 /bin

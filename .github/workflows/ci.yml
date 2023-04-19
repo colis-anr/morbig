@@ -235,3 +235,60 @@ jobs:
       - name: Push to Docker Hub
         if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
         run: docker push colisanr/morbig:${GITHUB_REF##*/}
+
+  ## ========================= [ Nix-based CI ] ========================== ##
+
+  nix-based:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - with-nixpkgs
+          - with-opam-nix
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v20
+        with:
+          extra_nix_config: |
+            ## Access token to avoid triggering GitHub's rate limiting.
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Nix dependencies
+        run: |
+          nix develop .github/nix#${{ matrix.package }} --command true
+
+      - name: Build in development Shell
+        run: |
+          nix develop .github/nix#${{ matrix.package }} --command make
+
+      - name: Run tests in development Shell
+        run: |
+          nix develop .github/nix#${{ matrix.package }} --command make check
+
+      - name: Build with Nix
+        run: |
+          nix build .github/nix#${{ matrix.package }} --print-build-logs
+
+  nix-flake-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v20
+        with:
+          extra_nix_config: |
+            ## Access token to avoid triggering GitHub's rate limiting.
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run flake checks
+        run: nix flake check .github/nix --print-build-logs
