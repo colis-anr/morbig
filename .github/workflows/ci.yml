@@ -276,10 +276,6 @@ jobs:
         run: |
           nix build .github/nix#${{ matrix.package }} --print-build-logs
 
-      - name: Build examples in Nix Shell
-        run: |
-          nix shell .github/nix#${{ matrix.package }} --command make examples
-
   nix-flake-checks:
     runs-on: ubuntu-latest
 
