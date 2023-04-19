@@ -73,12 +73,14 @@ jobs:
 
       - name: DEBUG CHECK OCAML VERSIONS
         run: |
-          echo ocaml
-          which -a ocaml && ocaml --version
-          echo ocamlc
-          which -a ocamlc && ocamlc --version
-          echo ocamlopt
-          which -a ocamlopt && ocamlopt --version
+          opam exec -- sh -c '
+              echo ocaml
+              which -a ocaml && ocaml --version
+              echo ocamlc
+              which -a ocamlc && ocamlc --version
+              echo ocamlopt
+              which -a ocamlopt && ocamlopt --version
+          '
           exit 77
 
       - name: Install Dune
