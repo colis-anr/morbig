@@ -72,6 +72,16 @@ jobs:
         with:
           ocaml-compiler: ocaml-variants.${{ matrix.ocaml-version }}+options,ocaml-option-bytecode-only
 
+      - name: DEBUG CHECK OCAML VERSIONS
+        run:
+          echo ocaml
+          which -a ocaml && ocaml --version
+          echo ocamlc
+          which -a ocamlc && ocamlc --version
+          echo ocamlopt
+          which -a ocamlopt && ocamlopt --version
+          exit 77
+
       - name: Install Dune
         run: opam install dune --yes
 
