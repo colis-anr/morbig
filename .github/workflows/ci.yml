@@ -72,7 +72,7 @@ jobs:
           ocaml-compiler: ocaml-variants.${{ matrix.ocaml-version }}+options,ocaml-option-bytecode-only
 
       - name: DEBUG CHECK OCAML VERSIONS
-        run:
+        run: |
           echo ocaml
           which -a ocaml && ocaml --version
           echo ocamlc
