@@ -25,9 +25,6 @@
         ];
 
         buildPhase = ''
-          pwd
-          ls
-          cat Makefile
           make build
         '';
 
