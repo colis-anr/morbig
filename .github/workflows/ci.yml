@@ -280,4 +280,4 @@ jobs:
 
       - name: Build examples in Nix Shell
         run: |
-          nix build .github/nix#${{ matrix.package }} --command make examples
+          nix shell .github/nix#${{ matrix.package }} --command make examples
