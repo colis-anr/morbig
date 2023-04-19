@@ -41,6 +41,7 @@ jobs:
           - { os: ubuntu,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
           - { os: ubuntu,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
           - { os: ubuntu,  ocaml-version: 4.14.x, bytecode: bytecode }
+          - { os: ubuntu,  ocaml-version: 4.14.x, bytecode: bytecode, lower-bounds: lower-bounds }
           - { os: macos,   ocaml-version: 4.14.x }
           - { os: windows, ocaml-version: 4.14.x }
 
