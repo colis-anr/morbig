@@ -9,6 +9,12 @@
 .merlin
 *.install
 
+## Nix
+
+result-*
+.envrc
+.direnv/
+
 ## Project
 
 /bin
