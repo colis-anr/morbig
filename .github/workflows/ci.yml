@@ -10,231 +10,231 @@ on:
 
 jobs:
 
-  # ## ========================= [ OPAM-based CI ] ========================= ##
+  ## ========================= [ OPAM-based CI ] ========================= ##
 
-  # opam-based:
+  opam-based:
 
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [ubuntu]
-  #       ocaml-version:
-  #         - 4.04.x
-  #         - 4.05.x
-  #         - 4.06.x
-  #         - 4.07.x
-  #         # - 4.08.x ## oldest version with 0install; explicitly included later
-  #         - 4.09.x
-  #         - 4.10.x
-  #         - 4.11.x
-  #         - 4.12.x
-  #         - 4.13.x
-  #         # - 4.14.x ## main supported version; explicitly included later
-  #         - 5.0.x
-  #       include:
-  #         ## - oldest version supported by 0install, with and without lower
-  #         ##   bounds checks
-  #         ## - main supported version with lower bounds checks, with
-  #         ##   documentation deployment, on Windows and on MacOS.
-  #         - { os: ubuntu,  ocaml-version: 4.08.x }
-  #         - { os: ubuntu,  ocaml-version: 4.08.x, lower-bounds: lower-bounds }
-  #         - { os: ubuntu,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
-  #         - { os: ubuntu,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
-  #         - { os: macos,   ocaml-version: 4.14.x }
-  #         - { os: windows, ocaml-version: 4.14.x }
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu]
+        ocaml-version:
+          - 4.04.x
+          - 4.05.x
+          - 4.06.x
+          - 4.07.x
+          # - 4.08.x ## oldest version with 0install; explicitly included later
+          - 4.09.x
+          - 4.10.x
+          - 4.11.x
+          - 4.12.x
+          - 4.13.x
+          # - 4.14.x ## main supported version; explicitly included later
+          - 5.0.x
+        include:
+          ## - oldest version supported by 0install, with and without lower
+          ##   bounds checks
+          ## - main supported version with lower bounds checks, with
+          ##   documentation deployment, on Windows and on MacOS.
+          - { os: ubuntu,  ocaml-version: 4.08.x }
+          - { os: ubuntu,  ocaml-version: 4.08.x, lower-bounds: lower-bounds }
+          - { os: ubuntu,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
+          - { os: ubuntu,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
+          - { os: macos,   ocaml-version: 4.14.x }
+          - { os: windows, ocaml-version: 4.14.x }
 
-  #   ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
-  #   permissions:
-  #     pages: write
-  #     id-token: write
+    ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
+    permissions:
+      pages: write
+      id-token: write
 
-  #   runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}-latest
 
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-  #     - name: Use OCaml ${{ matrix.ocaml-version }}
-  #       uses: ocaml/setup-ocaml@v2
-  #       with:
-  #         ocaml-compiler: ${{ matrix.ocaml-version }}
+      - name: Use OCaml ${{ matrix.ocaml-version }}
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-version }}
 
-  #     - name: Install Dune
-  #       run: opam install dune --yes
+      - name: Install Dune
+        run: opam install dune --yes
 
-  #     - name: Install OPAM dependencies
-  #       if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> see after
-  #       run: opam install . --deps-only --with-test --with-doc
+      - name: Install OPAM dependencies
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> see after
+        run: opam install . --deps-only --with-test --with-doc
 
-  #     - name: (Lower bounds) Install OPAM dependencies
-  #       if: matrix.lower-bounds == 'lower-bounds'
-  #       run: |
-  #         ## NOTE: `lower-bounds` imply to not build the documentation because
-  #         ## `opam-0install`, the solver we use, does not support it. Therefore
-  #         ## we don't even install those dependencies to begin with.
-  #         opam install . --deps-only --with-test
-  #         opam install opam-0install
+      - name: (Lower bounds) Install OPAM dependencies
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: |
+          ## NOTE: `lower-bounds` imply to not build the documentation because
+          ## `opam-0install`, the solver we use, does not support it. Therefore
+          ## we don't even install those dependencies to begin with.
+          opam install . --deps-only --with-test
+          opam install opam-0install
 
-  #     - name: (Lower bounds) Ask OPAM 0install for an install plan
-  #       if: matrix.lower-bounds == 'lower-bounds'
-  #       run: |
-  #         ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
-  #         ## Note the current version of `ocaml-base-compiler`
-  #         obc=ocaml-base-compiler.$(opam info --color=never --field=version ocaml-base-compiler)
-  #         ## Ask `opam-0install` to get us the oldest possible dependencies for
-  #         ## Morbig, while keeping the exact same version of
-  #         ## `ocaml-base-compiler`.
-  #         opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
-  #         ## Log what we are aiming for
-  #         printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
-  #         printf '`opam-0install` suggests installing the following packages:\n'
-  #         cat lower-bounds | tr ' ' '\n' | sed 's|^\([^.]*\)\.|\t\1\t|' | column -t
+      - name: (Lower bounds) Ask OPAM 0install for an install plan
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: |
+          ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
+          ## Note the current version of `ocaml-base-compiler`
+          obc=ocaml-base-compiler.$(opam info --color=never --field=version ocaml-base-compiler)
+          ## Ask `opam-0install` to get us the oldest possible dependencies for
+          ## Morbig, while keeping the exact same version of
+          ## `ocaml-base-compiler`.
+          opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
+          ## Log what we are aiming for
+          printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
+          printf '`opam-0install` suggests installing the following packages:\n'
+          cat lower-bounds | tr ' ' '\n' | sed 's|^\([^.]*\)\.|\t\1\t|' | column -t
 
-  #     - name: (Lower bounds) Downgrade OPAM dependencies
-  #       if: matrix.lower-bounds == 'lower-bounds'
-  #       run: opam install --yes $(cat lower-bounds)
+      - name: (Lower bounds) Downgrade OPAM dependencies
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: opam install --yes $(cat lower-bounds)
 
-  #     - name: Try building
-  #       run: opam exec -- make
+      - name: Try building
+        run: opam exec -- make
 
-  #     - name: Try building documentation
-  #       if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
-  #       run: opam exec -- make doc
+      - name: Try building documentation
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+        run: opam exec -- make doc
 
-  #     - name: Run tests
-  #       if: runner.os != 'Windows'  ## Tests are written in a Unix-like way
-  #       run: opam exec -- make check
+      - name: Run tests
+        if: runner.os != 'Windows'  ## Tests are written in a Unix-like way
+        run: opam exec -- make check
 
-  #     - name: Try installing
-  #       run: opam exec -- make install
+      - name: Try installing
+        run: opam exec -- make install
 
-  #     - name: Try building examples
-  #       if: runner.os != 'Windows'  ## Examples are written in a Unix-like way
-  #       run: opam exec -- make examples
+      - name: Try building examples
+        if: runner.os != 'Windows'  ## Examples are written in a Unix-like way
+        run: opam exec -- make examples
 
-  #     - name: Try uninstalling
-  #       run: opam exec -- make uninstall
+      - name: Try uninstalling
+        run: opam exec -- make uninstall
 
-  #     - name: Try cleaning
-  #       run: opam exec -- make clean
+      - name: Try cleaning
+        run: opam exec -- make clean
 
-  #     - name: Build documentation for auto-deployment
-  #       if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
-  #       run: opam exec -- make doc
+      - name: Build documentation for auto-deployment
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+        run: opam exec -- make doc
 
-  #     - name: Upload documentation artifact
-  #       if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
-  #       uses: actions/upload-pages-artifact@v1
-  #       with:
-  #         path: doc/
+      - name: Upload documentation artifact
+        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: doc/
 
-  #     - name: Deploy to GitHub pages
-  #       uses: actions/deploy-pages@v2
-  #       if: github.event_name == 'push'
-  #           && github.ref == 'refs/heads/main'
-  #           && matrix.deploy-doc == 'deploy-doc'
-  #           && matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+      - name: Deploy to GitHub pages
+        uses: actions/deploy-pages@v2
+        if: github.event_name == 'push'
+            && github.ref == 'refs/heads/main'
+            && matrix.deploy-doc == 'deploy-doc'
+            && matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
 
-  # ## ========================= [ APT-based CI ] ========================== ##
+  ## ========================= [ APT-based CI ] ========================== ##
 
-  # apt-based:
+  apt-based:
 
-  #   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Install OCaml & dependencies
-  #       run: |
-  #         sudo apt-get install                                                 \
-  #             build-essential ocaml dune menhir libmenhir-ocaml-dev            \
-  #             libppx-deriving-yojson-ocaml-dev libppx-visitors-ocaml-dev       \
-  #             libyojson-ocaml-dev
+    steps:
+      - name: Install OCaml & dependencies
+        run: |
+          sudo apt-get install                                                 \
+              build-essential ocaml dune menhir libmenhir-ocaml-dev            \
+              libppx-deriving-yojson-ocaml-dev libppx-visitors-ocaml-dev       \
+              libyojson-ocaml-dev
 
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-  #     - name: Try building
-  #       run: make
+      - name: Try building
+        run: make
 
-  #     ## No odoc in Debian stable, sadly, so no documentation!
+      ## No odoc in Debian stable, sadly, so no documentation!
 
-  #     # - name: Try building documentation
-  #     #   run: make doc
+      # - name: Try building documentation
+      #   run: make doc
 
-  #     - name: Run tests
-  #       run: make check
+      - name: Run tests
+        run: make check
 
-  #     - name: Try installing
-  #       run: sudo make install
+      - name: Try installing
+        run: sudo make install
 
-  #     - name: Try building examples
-  #       run: make examples
+      - name: Try building examples
+        run: make examples
 
-  #     - name: Try uninstalling
-  #       run: sudo make uninstall
+      - name: Try uninstalling
+        run: sudo make uninstall
 
-  #     ## Not working at the moment (2023-03-31), `dune clean` complains about:
-  #     ##
-  #     ##     Error: unlink: _build/default/.dune/configurator: Permission denied
-  #     ##
-  #     ## Maybe related to https://github.com/ocaml/dune/issues/3857.
+      ## Not working at the moment (2023-03-31), `dune clean` complains about:
+      ##
+      ##     Error: unlink: _build/default/.dune/configurator: Permission denied
+      ##
+      ## Maybe related to https://github.com/ocaml/dune/issues/3857.
 
-  #     # - name: Try cleaning
-  #     #   run: make clean
+      # - name: Try cleaning
+      #   run: make clean
 
-  # ## ======================== [ Docker-based CI ] ======================== ##
+  ## ======================== [ Docker-based CI ] ======================== ##
 
-  # docker-based:
+  docker-based:
 
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       tag:
-  #         - centos
-  #         - debian
-  #         - debian-testing
-  #         - debian-unstable
-  #         - opensuse
-  #         - ubuntu
-  #         - ubuntu-lts
-  #       include:
-  #         - { tag: alpine, deploy-image: deploy-image }
+    strategy:
+      fail-fast: false
+      matrix:
+        tag:
+          - centos
+          - debian
+          - debian-testing
+          - debian-unstable
+          - opensuse
+          - ubuntu
+          - ubuntu-lts
+        include:
+          - { tag: alpine, deploy-image: deploy-image }
 
-  #   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-  #     - name: Build Docker image
-  #       run: |
-  #         docker build . --tag morbig --build-arg tag=${{matrix.tag}}
+      - name: Build Docker image
+        run: |
+          docker build . --tag morbig --build-arg tag=${{matrix.tag}}
 
-  #     - name: Run tests
-  #       run: |
-  #         docker run --entrypoint /bin/sh morbig -c '
-  #             set -e
-  #             eval $(opam env)
-  #             cd /home/opam/morbig
-  #             make check
-  #             make install
-  #             make examples
-  #             make uninstall
-  #         '
+      - name: Run tests
+        run: |
+          docker run --entrypoint /bin/sh morbig -c '
+              set -e
+              eval $(opam env)
+              cd /home/opam/morbig
+              make check
+              make install
+              make examples
+              make uninstall
+          '
 
-  #     - name: Login to Docker Hub
-  #       if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
-  #       uses: docker/login-action@v2
-  #       with:
-  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Login to Docker Hub
+        if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-  #     - name: Rename Docker image
-  #       if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
-  #       run: docker image tag morbig colisanr/morbig:${GITHUB_REF##*/}
+      - name: Rename Docker image
+        if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
+        run: docker image tag morbig colisanr/morbig:${GITHUB_REF##*/}
 
-  #     - name: Push to Docker Hub
-  #       if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
-  #       run: docker push colisanr/morbig:${GITHUB_REF##*/}
+      - name: Push to Docker Hub
+        if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
+        run: docker push colisanr/morbig:${GITHUB_REF##*/}
 
   ## ========================= [ Nix-based CI ] ========================== ##
 
