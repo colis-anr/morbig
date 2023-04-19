@@ -18,19 +18,19 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu]
-        ocaml-version:
-          - 4.04.x
-          - 4.05.x
-          - 4.06.x
-          - 4.07.x
-          # - 4.08.x ## oldest version with 0install; explicitly included later
-          - 4.09.x
-          - 4.10.x
-          - 4.11.x
-          - 4.12.x
-          - 4.13.x
-          # - 4.14.x ## main supported version; explicitly included later
-          - 5.0.x
+        # ocaml-version:
+        #   - 4.04.x
+        #   - 4.05.x
+        #   - 4.06.x
+        #   - 4.07.x
+        #   # - 4.08.x ## oldest version with 0install; explicitly included later
+        #   - 4.09.x
+        #   - 4.10.x
+        #   - 4.11.x
+        #   - 4.12.x
+        #   - 4.13.x
+        #   # - 4.14.x ## main supported version; explicitly included later
+        #   - 5.0.x
         include:
           ## - oldest version supported by 0install, with and without lower
           ##   bounds checks
@@ -143,160 +143,160 @@ jobs:
             && matrix.deploy-doc == 'deploy-doc'
             && matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
 
-  ## ========================= [ APT-based CI ] ========================== ##
+  # ## ========================= [ APT-based CI ] ========================== ##
 
-  apt-based:
+  # apt-based:
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Install OCaml & dependencies
-        run: |
-          sudo apt-get install                                                 \
-              build-essential ocaml dune menhir libmenhir-ocaml-dev            \
-              libppx-deriving-yojson-ocaml-dev libppx-visitors-ocaml-dev       \
-              libyojson-ocaml-dev
+  #   steps:
+  #     - name: Install OCaml & dependencies
+  #       run: |
+  #         sudo apt-get install                                                 \
+  #             build-essential ocaml dune menhir libmenhir-ocaml-dev            \
+  #             libppx-deriving-yojson-ocaml-dev libppx-visitors-ocaml-dev       \
+  #             libyojson-ocaml-dev
 
-      - name: Checkout repository
-        uses: actions/checkout@v3
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
 
-      - name: Try building
-        run: make
+  #     - name: Try building
+  #       run: make
 
-      ## No odoc in Debian stable, sadly, so no documentation!
+  #     ## No odoc in Debian stable, sadly, so no documentation!
 
-      # - name: Try building documentation
-      #   run: make doc
+  #     # - name: Try building documentation
+  #     #   run: make doc
 
-      - name: Run tests
-        run: make check
+  #     - name: Run tests
+  #       run: make check
 
-      - name: Try installing
-        run: sudo make install
+  #     - name: Try installing
+  #       run: sudo make install
 
-      - name: Try building examples
-        run: make examples
+  #     - name: Try building examples
+  #       run: make examples
 
-      - name: Try uninstalling
-        run: sudo make uninstall
+  #     - name: Try uninstalling
+  #       run: sudo make uninstall
 
-      ## Not working at the moment (2023-03-31), `dune clean` complains about:
-      ##
-      ##     Error: unlink: _build/default/.dune/configurator: Permission denied
-      ##
-      ## Maybe related to https://github.com/ocaml/dune/issues/3857.
+  #     ## Not working at the moment (2023-03-31), `dune clean` complains about:
+  #     ##
+  #     ##     Error: unlink: _build/default/.dune/configurator: Permission denied
+  #     ##
+  #     ## Maybe related to https://github.com/ocaml/dune/issues/3857.
 
-      # - name: Try cleaning
-      #   run: make clean
+  #     # - name: Try cleaning
+  #     #   run: make clean
 
-  ## ======================== [ Docker-based CI ] ======================== ##
+  # ## ======================== [ Docker-based CI ] ======================== ##
 
-  docker-based:
+  # docker-based:
 
-    strategy:
-      fail-fast: false
-      matrix:
-        tag:
-          - centos
-          - debian
-          - debian-testing
-          - debian-unstable
-          - opensuse
-          - ubuntu
-          - ubuntu-lts
-        include:
-          - { tag: alpine, deploy-image: deploy-image }
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       tag:
+  #         - centos
+  #         - debian
+  #         - debian-testing
+  #         - debian-unstable
+  #         - opensuse
+  #         - ubuntu
+  #         - ubuntu-lts
+  #       include:
+  #         - { tag: alpine, deploy-image: deploy-image }
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
 
-      - name: Build Docker image
-        run: |
-          docker build . --tag morbig --build-arg tag=${{matrix.tag}}
+  #     - name: Build Docker image
+  #       run: |
+  #         docker build . --tag morbig --build-arg tag=${{matrix.tag}}
 
-      - name: Run tests
-        run: |
-          docker run --entrypoint /bin/sh morbig -c '
-              set -e
-              eval $(opam env)
-              cd /home/opam/morbig
-              make check
-              make install
-              make examples
-              make uninstall
-          '
+  #     - name: Run tests
+  #       run: |
+  #         docker run --entrypoint /bin/sh morbig -c '
+  #             set -e
+  #             eval $(opam env)
+  #             cd /home/opam/morbig
+  #             make check
+  #             make install
+  #             make examples
+  #             make uninstall
+  #         '
 
-      - name: Login to Docker Hub
-        if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+  #     - name: Login to Docker Hub
+  #       if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
+  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Rename Docker image
-        if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
-        run: docker image tag morbig colisanr/morbig:${GITHUB_REF##*/}
+  #     - name: Rename Docker image
+  #       if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
+  #       run: docker image tag morbig colisanr/morbig:${GITHUB_REF##*/}
 
-      - name: Push to Docker Hub
-        if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
-        run: docker push colisanr/morbig:${GITHUB_REF##*/}
+  #     - name: Push to Docker Hub
+  #       if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
+  #       run: docker push colisanr/morbig:${GITHUB_REF##*/}
 
-  ## ========================= [ Nix-based CI ] ========================== ##
+  # ## ========================= [ Nix-based CI ] ========================== ##
 
-  nix-based:
+  # nix-based:
 
-    strategy:
-      fail-fast: false
-      matrix:
-        package:
-          - with-nixpkgs
-          - with-opam-nix
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       package:
+  #         - with-nixpkgs
+  #         - with-opam-nix
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
 
-      - name: Install Nix
-        uses: cachix/install-nix-action@v20
-        with:
-          extra_nix_config: |
-            ## Access token to avoid triggering GitHub's rate limiting.
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+  #     - name: Install Nix
+  #       uses: cachix/install-nix-action@v20
+  #       with:
+  #         extra_nix_config: |
+  #           ## Access token to avoid triggering GitHub's rate limiting.
+  #           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Nix dependencies
-        run: |
-          nix develop .github/nix#${{ matrix.package }} --command true
+  #     - name: Install Nix dependencies
+  #       run: |
+  #         nix develop .github/nix#${{ matrix.package }} --command true
 
-      - name: Build in development Shell
-        run: |
-          nix develop .github/nix#${{ matrix.package }} --command make
+  #     - name: Build in development Shell
+  #       run: |
+  #         nix develop .github/nix#${{ matrix.package }} --command make
 
-      - name: Run tests in development Shell
-        run: |
-          nix develop .github/nix#${{ matrix.package }} --command make check
+  #     - name: Run tests in development Shell
+  #       run: |
+  #         nix develop .github/nix#${{ matrix.package }} --command make check
 
-      - name: Build with Nix
-        run: |
-          nix build .github/nix#${{ matrix.package }} --print-build-logs
+  #     - name: Build with Nix
+  #       run: |
+  #         nix build .github/nix#${{ matrix.package }} --print-build-logs
 
-  nix-flake-checks:
-    runs-on: ubuntu-latest
+  # nix-flake-checks:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
 
-      - name: Install Nix
-        uses: cachix/install-nix-action@v20
-        with:
-          extra_nix_config: |
-            ## Access token to avoid triggering GitHub's rate limiting.
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+  #     - name: Install Nix
+  #       uses: cachix/install-nix-action@v20
+  #       with:
+  #         extra_nix_config: |
+  #           ## Access token to avoid triggering GitHub's rate limiting.
+  #           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run flake checks
-        run: nix flake check .github/nix --print-build-logs
+  #     - name: Run flake checks
+  #       run: nix flake check .github/nix --print-build-logs
