@@ -40,8 +40,13 @@ jobs:
           - { os: ubuntu,  ocaml-version: 4.08.x, lower-bounds: lower-bounds }
           - { os: ubuntu,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
           - { os: ubuntu,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
+          - { os: ubuntu,  ocaml-version: 4.14.1, bytecode: bytecode }
           - { os: macos,   ocaml-version: 4.14.x }
           - { os: windows, ocaml-version: 4.14.x }
+          ## NOTE: The `ocaml/setup-ocaml@v2` action does not support `4.14.x`
+          ## versions for `ocaml-variants` and such, hence the detailed version.
+          ## NOTE: After OCaml 5.0.0, `ocaml-option-bytecode-only` can be used
+          ## directly with `ocaml-base-compiler`, probably?
 
     ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
     permissions:
@@ -55,9 +60,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
+        if: matrix.bytecode != 'bytecode'
         uses: ocaml/setup-ocaml@v2
         with:
           ocaml-compiler: ${{ matrix.ocaml-version }}
+
+      - name: (Bytecode) Use OCaml ${{ matrix.ocaml-version }}
+        if: matrix.bytecode == 'bytecode'
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: ocaml-variants.${{ matrix.ocaml-version }}+options,ocaml-option-bytecode-only
 
       - name: Install Dune
         run: opam install dune --yes
@@ -109,7 +121,9 @@ jobs:
         run: opam exec -- make install
 
       - name: Try building examples
-        if: runner.os != 'Windows'  ## Examples are written in a Unix-like way
+        ## NOTE: Examples are written in a Unix-like way and cannot build on a
+        ## bytecode-only infrastructure.
+        if: runner.os != 'Windows' && matrix.bytecode != 'bytecode'
         run: opam exec -- make examples
 
       - name: Try uninstalling
