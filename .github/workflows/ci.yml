@@ -270,13 +270,14 @@ jobs:
         run: |
           nix develop .github/nix#${{ matrix.package }} --command make
 
-      - name: Run tests and build examples
+      - name: Run tests in development Shell
         run: |
-          nix develop .github/nix#${{ matrix.package }} --command sh -c '
-              make check
-              make examples
-          '
+          nix develop .github/nix#${{ matrix.package }} --command make check
 
       - name: Build with Nix
         run: |
           nix build .github/nix#${{ matrix.package }}
+
+      - name: Build examples in Nix Shell
+        run: |
+          nix build .github/nix#${{ matrix.package }} --command make examples
