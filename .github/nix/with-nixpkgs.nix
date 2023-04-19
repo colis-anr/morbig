@@ -8,7 +8,9 @@
 
         nativeBuildInputs = with opkgs; [
           ## Basic ones, always necessary
-          ocaml dune_3 findlib
+          ocaml
+          dune_3
+          findlib
           ## Specific to our project
           menhir
         ];
