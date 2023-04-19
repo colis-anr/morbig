@@ -247,6 +247,7 @@ jobs:
           - ubuntu-latest
         package:
           - with-nixpkgs
+          - with-opam-nix
 
     runs-on: ${{ matrix.os }}
 
