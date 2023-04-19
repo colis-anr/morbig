@@ -243,13 +243,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
         package:
           - with-nixpkgs
           - with-opam-nix
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -281,3 +279,20 @@ jobs:
       - name: Build examples in Nix Shell
         run: |
           nix shell .github/nix#${{ matrix.package }} --command make examples
+
+  nix-flake-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v20
+        with:
+          extra_nix_config: |
+            ## Access token to avoid triggering GitHub's rate limiting.
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run flake checks
+        run: nix flake check .github/nix --print-build-logs
