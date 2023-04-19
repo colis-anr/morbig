@@ -14,6 +14,12 @@
 
       imports = [ ./with-nixpkgs.nix ./with-opam-nix.nix ];
 
+      perSystem = { self', pkgs, ... }: {
+        formatter = pkgs.nixfmt;
+
+        packages.default = self'.packages.with-nixpkgs;
+      };
+
       ## Improve the way `inputs'` are computed by also handling the case of
       ## flakes having a `lib.${system}` attribute (eg. `opam-nix`).
       perInput = system: flake:
