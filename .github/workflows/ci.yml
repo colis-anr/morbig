@@ -44,6 +44,10 @@ jobs:
           - { os: ubuntu,  ocaml-version: 4.14.1, bytecode: bytecode, lower-bounds: lower-bounds }
           - { os: macos,   ocaml-version: 4.14.x }
           - { os: windows, ocaml-version: 4.14.x }
+          ## NOTE: The `ocaml/setup-ocaml@v2` action does not support `4.14.x`
+          ## versions for `ocaml-variants` and such, hence the detailed version.
+          ## NOTE: After OCaml 5.0.0, `ocaml-option-bytecode-only` can be used
+          ## directly with `ocaml-base-compiler`, probably?
 
     ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
     permissions:
