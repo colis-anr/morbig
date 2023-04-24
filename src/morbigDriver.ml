@@ -19,17 +19,17 @@ let save input_filename (cst : CST.program) =
     else
       let cout = open_out (output_file_of_input_file input_filename) in
       begin match backend () with
-      | Bin -> save_binary_cst cout cst
-      | Json -> save_json_cst cout cst
-      | SimpleJson -> JsonHelpers.save_as_json true cout cst
-      | Dot -> JsonHelpers.save_as_dot cout cst
-      | NoSerialisation -> assert false
+        | Bin -> save_binary_cst cout cst
+        | Json -> save_json_cst cout cst
+        | SimpleJson -> JsonHelpers.save_as_json true cout cst
+        | Dot -> JsonHelpers.save_as_dot cout cst
+        | NoSerialisation -> assert false
       end;
       close_out cout
   )
 (** write the concrete syntax tree [cst] to the output file
-   corresponding to [input_filename]. The format and the name of the
-   output file are determined by the program options. *)
+    corresponding to [input_filename]. The format and the name of the
+    output file are determined by the program options. *)
 
 let save_error input_filename message =
   let eout = open_out (input_filename ^ ".morbigerror") in
@@ -37,7 +37,7 @@ let save_error input_filename message =
   output_string eout "\n";
   close_out eout
 (** write string [message] to the error file corresponding to
-   [input_filename]. *)
+    [input_filename]. *)
 
 let not_a_script input_filename =
   Options.skip_nosh ()
@@ -49,10 +49,10 @@ let nb_inputs_erroneous = ref 0
 
 let show_stats () =
   if Options.display_stats () then begin
-      Printf.printf "Number of input files: %i\n" !nb_inputs;
-      Printf.printf "Number of skipped files: %i\n" !nb_inputs_skipped;
-      Printf.printf "Number of rejected files: %i\n" !nb_inputs_erroneous
-    end
+    Printf.printf "Number of input files: %i\n" !nb_inputs;
+    Printf.printf "Number of skipped files: %i\n" !nb_inputs_skipped;
+    Printf.printf "Number of rejected files: %i\n" !nb_inputs_erroneous
+  end
 
 let parse_one_file input_filename =
   Debug.printf "Trying to open: %s\n" input_filename;
@@ -80,9 +80,9 @@ let parse_input_files_provided_via_stdin () =
 
 let parse_input_files_provided_on_command_line () =
   if List.length (Options.input_files ()) <= 0 then begin
-      Printf.eprintf "morbig: no input files.\n";
-      exit 1
-    end;
+    Printf.eprintf "morbig: no input files.\n";
+    exit 1
+  end;
   List.iter parse_one_file (Options.input_files ())
 
 let parse_input_files () =

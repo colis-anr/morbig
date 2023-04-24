@@ -14,10 +14,10 @@ open MenhirLib.General
 
 let current_items parsing_state =
   match Lazy.force (stack parsing_state) with
-    | Nil ->
-      []
-    | Cons (Element (s, _, _, _), _) ->
-      items s
+  | Nil ->
+    []
+  | Cons (Element (s, _, _, _), _) ->
+    items s
 
 type 'a status =
   | AcceptedNow of 'a
@@ -26,15 +26,15 @@ type 'a status =
 
 let rec close checkpoint =
   match checkpoint with
-    | AboutToReduce (_, _) | Shifting _ -> close (resume checkpoint)
-    | Rejected | HandlingError _ -> Wrong
-    | Accepted x -> AcceptedNow x
-    | InputNeeded _ -> Fine
+  | AboutToReduce (_, _) | Shifting _ -> close (resume checkpoint)
+  | Rejected | HandlingError _ -> Wrong
+  | Accepted x -> AcceptedNow x
+  | InputNeeded _ -> Fine
 
 let accepted_token checkpoint token =
   match checkpoint with
-    | InputNeeded _ -> close (offer checkpoint token)
-    | _ -> Wrong
+  | InputNeeded _ -> close (offer checkpoint token)
+  | _ -> Wrong
 
 let is_accepted_token checkpoint token =
   accepted_token checkpoint token <> Wrong
@@ -57,7 +57,7 @@ let rec finished = function
     our needs. Hence, we introduce an extential type for weaken
     this precision. *)
 type nonterminal =
-  AnyN : 'a Parser.MenhirInterpreter.nonterminal -> nonterminal
+    AnyN : 'a Parser.MenhirInterpreter.nonterminal -> nonterminal
 
 let nonterminal_of_production p =
   match lhs p with
@@ -67,7 +67,7 @@ let nonterminal_of_production p =
 exception EmptyStack
 
 type 'b top_symbol_processor = {
-   perform : 'a. 'a symbol * 'a -> 'b
+  perform : 'a. 'a symbol * 'a -> 'b
 }
 
 let on_top_symbol env f =

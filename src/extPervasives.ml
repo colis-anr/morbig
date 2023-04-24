@@ -14,7 +14,7 @@ let rec nat_exp k = function
   | 0 -> 1
   | 1 -> k
   | n -> let l = nat_exp k (n / 2) in
-        l * l * (if n mod 2 = 0 then 1 else k)
+    l * l * (if n mod 2 = 0 then 1 else k)
 
 let comment f message =
   let y = f () in
@@ -83,11 +83,11 @@ let option_map o f = match o with
 
 
 let string_cut_at k s = String.(
-  if length s > k then
-    sub s 0 k ^ "..."
-  else
-    s
-)
+    if length s > k then
+      sub s 0 k ^ "..."
+    else
+      s
+  )
 
 exception InvalidSuffix of string * string
 
@@ -97,13 +97,13 @@ let string_split k s =
   try String.sub s 0 k, String.sub s k (n - k) with _ -> assert false
 
 let string_remove_suffix suffix s = String.(
-  let k = length s - length suffix in
-  if k < 0 then raise (InvalidSuffix (s, suffix));
-  let r = try sub s 0 k with _ -> assert false in
-  let c = try sub s k (length suffix) with _ -> assert false in
-  if suffix <> c then raise (InvalidSuffix (s, suffix));
-  r
-)
+    let k = length s - length suffix in
+    if k < 0 then raise (InvalidSuffix (s, suffix));
+    let r = try sub s 0 k with _ -> assert false in
+    let c = try sub s k (length suffix) with _ -> assert false in
+    if suffix <> c then raise (InvalidSuffix (s, suffix));
+    r
+  )
 
 let string_last_char s =
   String.(s.[length s - 1])
@@ -147,9 +147,9 @@ let string_strip s =
   let n = String.length s in
   if n > 0
   then let lastchar = s.[n-1] in
-       if lastchar = '\n'
-       then try String.sub s 0 (n-1) with _ -> assert false
-       else s
+    if lastchar = '\n'
+    then try String.sub s 0 (n-1) with _ -> assert false
+    else s
   else s
 
 let reduce default f l =
@@ -161,30 +161,30 @@ let reduce default f l =
 
 let repeat n f =
   let rec aux i =
-  if i = n then
-    []
-  else
-    f i :: aux (i + 1)
+    if i = n then
+      []
+    else
+      f i :: aux (i + 1)
   in
   aux 0
 
 let rec take n l =
   if n = 0 then [], l else
     match l with
-      | [] ->
-        [], []
-      | x :: xs ->
-        let ys, xs = take (n - 1) xs in
-        x :: ys, xs
+    | [] ->
+      [], []
+    | x :: xs ->
+      let ys, xs = take (n - 1) xs in
+      x :: ys, xs
 
 let take_until pred l =
   let rec aux accu = function
-  | [] -> [], l
-  | x :: xs ->
-    if pred x then
-      List.rev accu, x :: xs
-    else
-      aux (x :: accu) xs
+    | [] -> [], l
+    | x :: xs ->
+      if pred x then
+        List.rev accu, x :: xs
+      else
+        aux (x :: accu) xs
   in
   aux [] l
 
@@ -221,8 +221,8 @@ end = struct
 
   let ( >>= ) x f =
     match x with
-      | None -> fail
-      | Some x -> f x
+    | None -> fail
+    | Some x -> f x
 
   let rec reduce default f = function
     | [] -> return default
@@ -230,8 +230,8 @@ end = struct
 
   let ( +> ) x y =
     match x with
-      | None -> y
-      | Some _ -> x
+    | None -> y
+    | Some _ -> x
 
   let run x = x
 
@@ -259,10 +259,10 @@ let pp_to_string pp arg =
   Buffer.contents b
 
 let lexing_make filename contents = Lexing.(
-  let lexbuf = Lexing.from_string contents in
-  lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_fname = filename };
-  lexbuf
-)
+    let lexbuf = Lexing.from_string contents in
+    lexbuf.lex_curr_p <- { lexbuf.lex_curr_p with pos_fname = filename };
+    lexbuf
+  )
 
 let ( <$> ) x f =
   f (); x

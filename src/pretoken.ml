@@ -28,24 +28,24 @@ let string_of_pretoken = function
 let operators = Hashtbl.(
     let t = create 17 in
     List.iter (fun (sym, tok) -> add t sym tok) [
-        "&&",  AND_IF;
-        "||", OR_IF;
-        ";;", DSEMI;
-        "<&", LESSAND;
-        ">&", GREATAND;
-        "<>", LESSGREAT;
-        ">>", DGREAT;
-        ">|", CLOBBER;
-        "|",  Pipe;
-        "(",  Lparen;
-        ")",  Rparen;
-        "<",  LESS;
-        ">",  GREAT;
-        ";",  Semicolon;
-        "&",  Uppersand
-      ];
+      "&&",  AND_IF;
+      "||", OR_IF;
+      ";;", DSEMI;
+      "<&", LESSAND;
+      ">&", GREATAND;
+      "<>", LESSGREAT;
+      ">>", DGREAT;
+      ">|", CLOBBER;
+      "|",  Pipe;
+      "(",  Lparen;
+      ")",  Rparen;
+      "<",  LESS;
+      ">",  GREAT;
+      ";",  Semicolon;
+      "&",  Uppersand
+    ];
     t
- )
+  )
 
 let optoken_of_string s =
   try
@@ -53,27 +53,27 @@ let optoken_of_string s =
   with Not_found ->
     Printf.eprintf
       "Internal error: `%s' is not a valid operator token.\n"
-       s;
+      s;
     assert false
 
 let preword_of_operator = function
-    | AND_IF -> "&&"
-    | OR_IF -> "||"
-    | DSEMI -> ";;"
-    | LESSAND -> "<&"
-    | GREATAND -> ">&"
-    | LESSGREAT -> "<>"
-    | DGREAT -> ">>"
-    | CLOBBER -> ">|"
-    | Pipe -> "|"
-    | Lparen -> "("
-    | Rparen -> ")"
-    | LESS -> "<"
-    | DLESS _ -> "<<"
-    | GREAT -> ">"
-    | Semicolon -> ";"
-    | Uppersand -> "&"
-    | _ -> assert false (* By definition of operators. *)
+  | AND_IF -> "&&"
+  | OR_IF -> "||"
+  | DSEMI -> ";;"
+  | LESSAND -> "<&"
+  | GREATAND -> ">&"
+  | LESSGREAT -> "<>"
+  | DGREAT -> ">>"
+  | CLOBBER -> ">|"
+  | Pipe -> "|"
+  | Lparen -> "("
+  | Rparen -> ")"
+  | LESS -> "<"
+  | DLESS _ -> "<<"
+  | GREAT -> ">"
+  | Semicolon -> ";"
+  | Uppersand -> "&"
+  | _ -> assert false (* By definition of operators. *)
 
 let preword_of_pretoken = function
   | IoNumber s -> PreWord (s, [WordLiteral s])

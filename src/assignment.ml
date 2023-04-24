@@ -44,15 +44,15 @@ open Name
 let recognize_assignment checkpoint pretoken word_cst = FirstSuccessMonad.(
     match word_cst with
     | [WordAssignmentWord ((Name n) as name, w)] ->
-       if is_name n then
-         let (_, pstart, pstop) = pretoken in
-         let token = ASSIGNMENT_WORD (name, w) in
-         if accepted_token checkpoint (token, pstart, pstop) <> Wrong then
-           return token
-         else
-           fail
-       else
-         fail
+      if is_name n then
+        let (_, pstart, pstop) = pretoken in
+        let token = ASSIGNMENT_WORD (name, w) in
+        if accepted_token checkpoint (token, pstart, pstop) <> Wrong then
+          return token
+        else
+          fail
+      else
+        fail
     | _ ->
-       fail
-)
+      fail
+  )

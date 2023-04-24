@@ -39,71 +39,71 @@ open CST
 let recognize_re_bracket_expression s start =
 
   let module Prelexer : sig
-        val current_position : unit -> int
-        val lexing_position : unit -> Lexing.position
-        val next_token : unit -> token * Lexing.position * Lexing.position
-        val after_starting_hat : unit -> bool
-        val after_starting_bracket : unit -> bool
-        val just_before_ending_bracket : unit -> bool
-        val read_string : unit -> string
-      end = struct
+    val current_position : unit -> int
+    val lexing_position : unit -> Lexing.position
+    val next_token : unit -> token * Lexing.position * Lexing.position
+    val after_starting_hat : unit -> bool
+    val after_starting_bracket : unit -> bool
+    val just_before_ending_bracket : unit -> bool
+    val read_string : unit -> string
+  end = struct
 
-      let current_position = ref start
+    let current_position = ref start
 
-      let next_char () =
-        if !current_position < String.length s then (
-          let c = s.[!current_position] in
-          incr current_position;
-          Some c
-        ) else None
+    let next_char () =
+      if !current_position < String.length s then (
+        let c = s.[!current_position] in
+        incr current_position;
+        Some c
+      ) else None
 
-      let eof_reached () =
-        !current_position >= String.length s
+    let eof_reached () =
+      !current_position >= String.length s
 
-      let lexbuf =
-        Lexing.from_function @@ fun b count ->
-          let rec aux i =
-            if i = count then count
-            else match next_char () with
-                 | None -> i
-                 | Some c -> Bytes.set b i c; aux (i + 1)
-          in
-          aux 0
+    let lexbuf =
+      Lexing.from_function @@ fun b count ->
+      let rec aux i =
+        if i = count then count
+        else match next_char () with
+          | None -> i
+          | Some c -> Bytes.set b i c; aux (i + 1)
+      in
+      aux 0
 
-      let lookahead_buffer = Queue.create ()
+    let lookahead_buffer = Queue.create ()
 
-      let with_positions token =
-        (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
+    let with_positions token =
+      (token, lexbuf.Lexing.lex_start_p, lexbuf.Lexing.lex_curr_p)
 
-      let lex () =
-        REBracketExpressionLexer.token lexbuf |> with_positions
+    let lex () =
+      REBracketExpressionLexer.token lexbuf |> with_positions
 
-      let next_token () =
-        if Queue.is_empty lookahead_buffer then
-          lex ()
-        else if eof_reached () then
-          with_positions REBracketExpressionParser.EOF
-        else
-          Queue.pop lookahead_buffer
+    let next_token () =
+      if Queue.is_empty lookahead_buffer then
+        lex ()
+      else if eof_reached () then
+        with_positions REBracketExpressionParser.EOF
+      else
+        Queue.pop lookahead_buffer
 
-      let read_string () =
-        String.sub s start (!current_position - start)
+    let read_string () =
+      String.sub s start (!current_position - start)
 
-      let current_position () =
-        start + lexbuf.Lexing.lex_start_p.pos_cnum
+    let current_position () =
+      start + lexbuf.Lexing.lex_start_p.pos_cnum
 
-      let lexing_position () = lexbuf.Lexing.lex_start_p
+    let lexing_position () = lexbuf.Lexing.lex_start_p
 
-      let after_starting_bracket () =
-        (lexing_position ()).pos_cnum = 1
+    let after_starting_bracket () =
+      (lexing_position ()).pos_cnum = 1
 
-      let just_before_ending_bracket () =
-        (lexing_position ()).pos_cnum = String.length s - 2 - start
+    let just_before_ending_bracket () =
+      (lexing_position ()).pos_cnum = String.length s - 2 - start
 
-      let after_starting_hat () =
-        (lexing_position ()).pos_cnum = 2 && s.[1] = '^'
+    let after_starting_hat () =
+      (lexing_position ()).pos_cnum = 2 && s.[1] = '^'
 
-    end
+  end
   in
   (*specification:
 
@@ -120,7 +120,7 @@ let recognize_re_bracket_expression s start =
       When found anywhere but first (after an initial '^', if any) in a
       bracket expression
 
-   *)
+  *)
   (**
       The specification phrasing is a bit ackward. We interpret it as a
       definition for tokens HAT, MINUS and RBRACKET as well a definition
@@ -136,48 +136,48 @@ let recognize_re_bracket_expression s start =
       (f token, p1, p2)
     in
     rewrite_token (function
-      | HAT ->
-         if Prelexer.after_starting_bracket () then
-           HAT
-         else
-           (* by 2.13.1, <circumflex> is <exclamation-mark> in the context of
-              shell. *)
-           COLL_ELEM_SINGLE '!'
-      | (COLL_ELEM_SINGLE '^') as token ->
-         if Prelexer.after_starting_bracket ()
-            && Options.error_on_unspecified ()
-         then
-           let msg =
-             "Unquoted <circumflex> at the beginning of a bracket expression \
-              has an unspecified semantics."
-           in
-           raise (Errors.DuringLexing (Prelexer.lexing_position (), msg))
-         else
-           token
-      | (RBRACKET | MINUS) as token ->
-         let final_minus =
-           (token = MINUS) && (Prelexer.just_before_ending_bracket ())
-         in
-         if Prelexer.(after_starting_bracket ()
-                      || after_starting_hat ()
-                      || final_minus)
-         then
-           COLL_ELEM_SINGLE (if token = MINUS then '-' else ']')
-         else
-           token
-      | token ->
-         token)
+        | HAT ->
+          if Prelexer.after_starting_bracket () then
+            HAT
+          else
+            (* by 2.13.1, <circumflex> is <exclamation-mark> in the context of
+               shell. *)
+            COLL_ELEM_SINGLE '!'
+        | (COLL_ELEM_SINGLE '^') as token ->
+          if Prelexer.after_starting_bracket ()
+          && Options.error_on_unspecified ()
+          then
+            let msg =
+              "Unquoted <circumflex> at the beginning of a bracket expression \
+               has an unspecified semantics."
+            in
+            raise (Errors.DuringLexing (Prelexer.lexing_position (), msg))
+          else
+            token
+        | (RBRACKET | MINUS) as token ->
+          let final_minus =
+            (token = MINUS) && (Prelexer.just_before_ending_bracket ())
+          in
+          if Prelexer.(after_starting_bracket ()
+                       || after_starting_hat ()
+                       || final_minus)
+          then
+            COLL_ELEM_SINGLE (if token = MINUS then '-' else ']')
+          else
+            token
+        | token ->
+          token)
   in
   let rec parse checkpoint =
     match checkpoint with
     | InputNeeded _ ->
-       parse (offer checkpoint (next_token ()))
+      parse (offer checkpoint (next_token ()))
     | Accepted cst ->
-       Some (cst, Prelexer.read_string (), Prelexer.current_position ())
+      Some (cst, Prelexer.read_string (), Prelexer.current_position ())
     | Rejected ->
-       None
+      None
     | _ ->
-       parse (resume checkpoint)
+      parse (resume checkpoint)
   in
   parse (Incremental.bracket_expression (Prelexer.lexing_position ()))
 
@@ -211,11 +211,11 @@ let process s : (string * word_component) list =
       | '?' -> produce "?" WordGlobAny
       | '*' -> produce "*" WordGlobAll
       | '[' -> begin match recognize_re_bracket_expression s i with
-               | Some (re_bracket_exp, rs, j) ->
-                  produce rs (WordReBracketExpression re_bracket_exp) ~next:j
-               | None ->
-                  push '['
-               end
+          | Some (re_bracket_exp, rs, j) ->
+            produce rs (WordReBracketExpression re_bracket_exp) ~next:j
+          | None ->
+            push '['
+        end
       | c -> push c
   in
   analyze [] 0 |> List.rev

@@ -38,7 +38,7 @@ let string_of_token = function
   | GREATAND -> "GREATAND"
   | WORD w -> Printf.sprintf "WORD(%s)" (unWord w)
   | ASSIGNMENT_WORD w -> 
-     Printf.sprintf "ASSIGNMENT_WORD(%s)" (string_of_assignment_word w)
+    Printf.sprintf "ASSIGNMENT_WORD(%s)" (string_of_assignment_word w)
   | NAME w -> Printf.sprintf "NAME(%s)" (unName w)
   | IO_NUMBER io -> Printf.sprintf "IONUMBER(%s)" (string_of_io_number io)
   | Do -> "Do"

@@ -11,13 +11,13 @@
 
 let rec json_filter_positions = function
   | `Assoc sjl ->
-     if List.for_all (fun (s, _j) -> s = "value" || s = "position") sjl then
-       let (_, j) = List.find (fun (s, _) -> s = "value") sjl in
-       json_filter_positions j
-     else
-       `Assoc (List.map (fun (s, j) ->
-                   Format.printf "%s@." s; (s, json_filter_positions j)) sjl
-         )
+    if List.for_all (fun (s, _j) -> s = "value" || s = "position") sjl then
+      let (_, j) = List.find (fun (s, _) -> s = "value") sjl in
+      json_filter_positions j
+    else
+      `Assoc (List.map (fun (s, j) ->
+          Format.printf "%s@." s; (s, json_filter_positions j)) sjl
+        )
   | `Bool b -> `Bool b
   | `Float f -> `Float f
   | `Int i -> `Int i
@@ -40,9 +40,9 @@ let save_as_json simplified cout csts =
 let load_from_json cin =
   Yojson.Safe.from_channel cin |> CSTSerializers.program_of_yojson
   |> Ppx_deriving_yojson_runtime.Result.(function
-    | Ok cst -> cst
-    | Error msg -> raise (Errors.DuringIO msg)
-  )
+      | Ok cst -> cst
+      | Error msg -> raise (Errors.DuringIO msg)
+    )
 
 let json_to_dot cout json =
   Printf.(
@@ -54,25 +54,25 @@ let json_to_dot cout json =
     in
     let rec traverse = function
       | `List (`String name :: children) ->
-         let nodeid = fresh () in
-         fprintf cout "%s [label=\"%s\"];\n" nodeid name;
-         let childrenids = List.map traverse children in
-         List.iter (fun c -> fprintf cout "%s -> %s;\n" nodeid c) childrenids;
-         nodeid
+        let nodeid = fresh () in
+        fprintf cout "%s [label=\"%s\"];\n" nodeid name;
+        let childrenids = List.map traverse children in
+        List.iter (fun c -> fprintf cout "%s -> %s;\n" nodeid c) childrenids;
+        nodeid
       | `String name ->
-         let nodeid = fresh () in
-         fprintf cout "%s [label=\"%s\"];\n" nodeid (String.escaped name);
-         nodeid
+        let nodeid = fresh () in
+        fprintf cout "%s [label=\"%s\"];\n" nodeid (String.escaped name);
+        nodeid
       | `List [x] ->
-         traverse x
+        traverse x
       | `List children ->
-         let nodeid = fresh () in
-         fprintf cout "%s [shape=point];\n" nodeid;
-         let childrenids = List.map traverse children in
-         List.iter (fun c -> fprintf cout "%s -> %s;\n" nodeid c) childrenids;
-         nodeid
+        let nodeid = fresh () in
+        fprintf cout "%s [shape=point];\n" nodeid;
+        let childrenids = List.map traverse children in
+        List.iter (fun c -> fprintf cout "%s -> %s;\n" nodeid c) childrenids;
+        nodeid
       | _ ->
-         assert false
+        assert false
     in
     fprintf cout "digraph {\n";
     ignore (traverse json);

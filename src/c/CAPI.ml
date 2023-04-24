@@ -24,40 +24,40 @@ let ccst_of_json_program j =
   in
   let rec aux = function
     | `Assoc [ "value", v; "position", p ] ->
-       let start_p, end_p = location p in
-       Location (start_p, end_p, aux v)
+      let start_p, end_p = location p in
+      Location (start_p, end_p, aux v)
     | `List (`String k :: children) ->
-       Node (k, aux' (`List children))
+      Node (k, aux' (`List children))
     | `Variant (k, None) ->
-       Node (k, [||])
+      Node (k, [||])
     | `Variant (k, Some children) ->
-       Node (k, aux' children)
+      Node (k, aux' children)
     | `String s ->
-       Data s
+      Data s
     | `List l ->
-       Node ("Tuple", aux' (`List l))
+      Node ("Tuple", aux' (`List l))
     | json ->
-       unexpected_case json
+      unexpected_case json
   and aux' = function
     | `List c ->
-       Array.of_list (List.map aux c)
+      Array.of_list (List.map aux c)
     | `Assoc m ->
-       aux' (`List (snd (List.split m)))
+      aux' (`List (snd (List.split m)))
     | json ->
-       unexpected_case json
+      unexpected_case json
   and position = function
     | `Assoc [ "pos_fname", `String pos_fname;
                "pos_lnum", `Int pos_lnum;
                "pos_bol", `Int pos_bol;
                "pos_cnum", `Int pos_cnum ] ->
-       CST.({ pos_fname; pos_lnum; pos_bol; pos_cnum })
+      CST.({ pos_fname; pos_lnum; pos_bol; pos_cnum })
     | json ->
-       unexpected_case json
+      unexpected_case json
   and location = function
     | `Assoc [ "start_p", start_p; "end_p", end_p ] ->
-       (position start_p, position end_p)
+      (position start_p, position end_p)
     | json ->
-       unexpected_case json
+      unexpected_case json
   in
   aux j
 

@@ -34,10 +34,10 @@ module AtomBuffer : sig
   val last_line : t -> string
 end = struct
   type t = {
-      mutable buffer  : atom list;
-      mutable strings_len : int;
-      mutable strings : string list;
-    }
+    mutable buffer  : atom list;
+    mutable strings_len : int;
+    mutable strings : string list;
+  }
 
   let too_many_strings = 1024
 
@@ -54,20 +54,20 @@ end = struct
   let push_string b s =
     match b with
     | WordComponent (s', WordLiteral l) :: csts ->
-       let cst = WordComponent (s' ^ s, WordLiteral (l ^ s)) in
-       cst :: csts
+      let cst = WordComponent (s' ^ s, WordLiteral (l ^ s)) in
+      cst :: csts
     | csts ->
-       let cst = WordComponent (s, WordLiteral (s)) in
-       cst :: csts
+      let cst = WordComponent (s, WordLiteral (s)) in
+      cst :: csts
 
   let normalize b =
     if b.strings <> [] then begin
-        let s = String.concat "" (List.rev b.strings) in
-        let buffer = push_string b.buffer s in
-        b.strings <- [];
-        b.strings_len <- 0;
-        b.buffer <- buffer
-      end
+      let s = String.concat "" (List.rev b.strings) in
+      let buffer = push_string b.buffer s in
+      b.strings <- [];
+      b.strings_len <- 0;
+      b.buffer <- buffer
+    end
 
   let get b = normalize b; b.buffer
 
@@ -88,9 +88,9 @@ end = struct
   let buffer_as_strings b =
     let rec aux accu = function
       | WordComponent (s, _) :: atoms ->
-         aux (s :: accu) atoms
+        aux (s :: accu) atoms
       | _ ->
-         accu
+        accu
     in
     List.rev (aux [] b)
 
@@ -98,14 +98,14 @@ end = struct
     let last_line_of_strings ss =
       let rec aux accu = function
         | s :: ss ->
-           if Str.string_match ExtPervasives.newline_regexp s 0 then
-             match ExtPervasives.(list_last (lines s)) with
-               | None -> assert false (* By the if-condition. *)
-               | Some s -> s :: accu
-           else
-             aux (s :: accu) ss
+          if Str.string_match ExtPervasives.newline_regexp s 0 then
+            match ExtPervasives.(list_last (lines s)) with
+            | None -> assert false (* By the if-condition. *)
+            | Some s -> s :: accu
+          else
+            aux (s :: accu) ss
         | [] ->
-           accu
+          accu
       in
       aux [] ss |> String.concat ""
     in
@@ -117,8 +117,8 @@ end = struct
 end
 
 type prelexer_state = {
-    nesting_context       : Nesting.t list;
-    buffer                : AtomBuffer.t
+  nesting_context       : Nesting.t list;
+  buffer                : AtomBuffer.t
 }
 
 let buffer current =
@@ -127,8 +127,8 @@ let buffer current =
 type t = prelexer_state
 
 let initial_state = {
-    nesting_context = [];
-    buffer = AtomBuffer.make [];
+  nesting_context = [];
+  buffer = AtomBuffer.make [];
 }
 
 let at_toplevel current =
@@ -139,19 +139,19 @@ let at_toplevel current =
 let push_word_component csts w =
   match csts, w with
   | WordComponent (s', WordLiteral l') :: csts, (s, WordLiteral l) ->
-     WordComponent (s' ^ s, WordLiteral (l' ^ l)) :: csts
+    WordComponent (s' ^ s, WordLiteral (l' ^ l)) :: csts
   | _, (s, a) ->
-     WordComponent (s, a) :: csts
+    WordComponent (s, a) :: csts
 
- let push_string b s =
-   let buffer = AtomBuffer.push_string b.buffer s in
-   { b with buffer }
+let push_string b s =
+  let buffer = AtomBuffer.push_string b.buffer s in
+  { b with buffer }
 
 let parse_pattern : word_component -> word_component list = function
   | WordLiteral w ->
-     snd (List.split (PatternMatchingRecognizer.process w))
+    snd (List.split (PatternMatchingRecognizer.process w))
   | c ->
-     [c]
+    [c]
 
 let push_character b c =
   push_string b (String.make 1 c)
@@ -163,13 +163,13 @@ let push_separated_string b s =
 
 let pop_character = function
   | WordComponent (s, WordLiteral _c) :: buffer ->
-     let sequel = try String.(sub s 0 (length s - 1)) with _ -> assert false in
-     if sequel = "" then
-       buffer
-     else
-       WordComponent (sequel, WordLiteral sequel) :: buffer
+    let sequel = try String.(sub s 0 (length s - 1)) with _ -> assert false in
+    if sequel = "" then
+      buffer
+    else
+      WordComponent (sequel, WordLiteral sequel) :: buffer
   | _ ->
-     assert false
+    assert false
 
 (** [push_word_closing_character b c] push a character [c] to mark it
     as part of the string representing the current word literal but
@@ -202,8 +202,8 @@ let push_parameter ?(with_braces=false) ?(attribute=NoAttribute) b id =
   let v = VariableAtom (id, attribute) in
   let p =
     if with_braces then
-    (* The ParameterLength attribute is a special case.
-     The "#" syntax of the operator shows up _before_ the identifier it modifies. *)
+      (* The ParameterLength attribute is a special case.
+         The "#" syntax of the operator shows up _before_ the identifier it modifies. *)
       match attribute with
       | ParameterLength -> "${#" ^ id ^ "}"
       | _ -> "${" ^ id ^ string_of_attribute attribute ^ "}"
@@ -248,19 +248,19 @@ let push_quoting_mark k b =
 let pop_quotation k b =
   let rec aux squote quote = function
     | [] ->
-       (squote, quote, [])
+      (squote, quote, [])
     | QuotingMark k' :: buffer when k = k' ->
-       (squote, quote, buffer)
+      (squote, quote, buffer)
     | (AssignmentMark | QuotingMark _) :: buffer ->
-       aux squote quote buffer (* FIXME: Check twice. *)
+      aux squote quote buffer (* FIXME: Check twice. *)
     | WordComponent (w, WordEmpty) :: buffer ->
-       aux (w ^ squote) quote buffer
+      aux (w ^ squote) quote buffer
     | WordComponent (w, c) :: buffer ->
-       aux (w ^ squote) (c :: quote) buffer
+      aux (w ^ squote) (c :: quote) buffer
   in
   (* The last character is removed from the quote since it is the
      closing character. *)
-(*  let buffer = pop_character b.buffer in *)
+  (*  let buffer = pop_character b.buffer in *)
   let squote, quote, buffer = aux "" [] (buffer b) in
   let word = Word (squote, quote) in
   let quoted_word =
@@ -296,35 +296,35 @@ let recognize_assignment current =
     let current' = { current with buffer } in
     match prefix with
     | AssignmentMark :: WordComponent (s, _) :: prefix ->
-       assert (s.[String.length s - 1] = '='); (* By after_equal unique call. *)
-       (* [s] is a valid name. We have an assignment here. *)
-       let lhs = try String.(sub s 0 (length s - 1)) with _ -> assert false in
+      assert (s.[String.length s - 1] = '='); (* By after_equal unique call. *)
+      (* [s] is a valid name. We have an assignment here. *)
+      let lhs = try String.(sub s 0 (length s - 1)) with _ -> assert false in
 
-       (* FIXME: The following check could be done directly with
-          ocamllex rules, right?*)
+      (* FIXME: The following check could be done directly with
+         ocamllex rules, right?*)
 
-       if Name.is_name lhs then (
-         let rhs_string = contents_of_atom_list rhs in
-         let crhs = components_of_atom_list rhs in
-         let cst =  WordComponent (
-                        s ^ rhs_string,
-                        WordAssignmentWord (Name lhs, Word (rhs_string, crhs)))
-         in
-         let buffer = AtomBuffer.make (cst :: prefix) in
-         { current with buffer }
-       ) else
+      if Name.is_name lhs then (
+        let rhs_string = contents_of_atom_list rhs in
+        let crhs = components_of_atom_list rhs in
+        let cst =  WordComponent (
+            s ^ rhs_string,
+            WordAssignmentWord (Name lhs, Word (rhs_string, crhs)))
+        in
+        let buffer = AtomBuffer.make (cst :: prefix) in
+        { current with buffer }
+      ) else
          (*
             If [lhs] is not a name, then the corresponding word
             literal must be merged with the preceding one, if it exists.
           *) (
-         begin match List.rev rhs with
-         | WordComponent (s_rhs, WordLiteral s_rhs') :: rev_rhs ->
+        begin match List.rev rhs with
+          | WordComponent (s_rhs, WordLiteral s_rhs') :: rev_rhs ->
             let word = WordComponent (s ^ s_rhs, WordLiteral (s ^ s_rhs')) in
             let buffer = AtomBuffer.make (List.rev rev_rhs @ word :: prefix) in
             { current with buffer }
-         | _ ->
+          | _ ->
             current'
-         end)
+        end)
     | _ -> current'
 
 (** [(return ?with_newline lexbuf current tokens)] returns a list of
@@ -346,8 +346,8 @@ let digit_regexp = Str.regexp "^[0-9]+$"
 
 let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (
-      not (List.exists (function (Pretoken.PreWord _)->true |_-> false) tokens)
-    );
+    not (List.exists (function (Pretoken.PreWord _)->true |_-> false) tokens)
+  );
 
   let current = recognize_assignment current in
 
@@ -364,12 +364,12 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
     Str.(string_match digit_regexp d 0)
   in
   let followed_by_redirection = Parser.(function
-    | Pretoken.Operator (LESSAND |  GREATAND | DGREAT | DLESS _
-                         | CLOBBER | LESS | GREAT | LESSGREAT) :: _ ->
-      true
-    | _ ->
-      false
-  ) in
+      | Pretoken.Operator (LESSAND |  GREATAND | DGREAT | DLESS _
+                          | CLOBBER | LESS | GREAT | LESSGREAT) :: _ ->
+        true
+      | _ ->
+        false
+    ) in
 
   (*specification:
 
@@ -406,7 +406,7 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
             | WordComponent (_, s) -> [s]
             | AssignmentMark -> []
             | QuotingMark _ -> []
-         ) (buffer current)))
+          ) (buffer current)))
       in
       let csts = TildePrefix.recognize csts in
       [Pretoken.PreWord (w, csts)]
@@ -420,13 +420,13 @@ exception NotAWord of string
 let word_of b =
   let rec aux w cst = Pretoken.(function
       | [] ->
-         Word (w, cst)
+        Word (w, cst)
       | (p, _, _) :: ps ->
-         match preword_of_pretoken p with
-         | EOF -> assert false (* Because of [word_of] calling context. *)
-         | PreWord (w', cst') -> aux (w ^ w') (cst @ cst') ps
-         | _ -> assert false (* By preword_of_pretoken. *)
-  ) in
+        match preword_of_pretoken p with
+        | EOF -> assert false (* Because of [word_of] calling context. *)
+        | PreWord (w', cst') -> aux (w ^ w') (cst @ cst') ps
+        | _ -> assert false (* By preword_of_pretoken. *)
+    ) in
   aux "" [] b
 
 let located_word_of = function
@@ -447,30 +447,30 @@ let provoke_error current lexbuf =
 let escape_analysis ?(for_backquote=false) ?(for_dquotes=false) level current =
   let current = AtomBuffer.last_line current.buffer in
   let number_of_backslashes_to_escape = Nesting.(
-    (* FIXME: We will be looking for the general pattern here. *)
-    match level with
-    | Backquotes ('`', _) :: Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
-       [3]
-    | Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
-       [2]
-    | DQuotes :: Backquotes ('`', _) :: [] ->
-       [1; 2]
-    | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ ->
-       if for_backquote then [3] else [2]
-    | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ ->
-       [2]
-    | Backquotes ('`', _) :: DQuotes :: _ ->
-       if for_dquotes then [2] else [1]
-    | Backquotes ('`', _) :: _ :: DQuotes :: _ ->
-       [2]
-    | [Backquotes ('`', _)] ->
-       if for_backquote then
-         [3]
-       else
-         [1; 2]
-    | _ ->
-       [1]
-  )
+      (* FIXME: We will be looking for the general pattern here. *)
+      match level with
+      | Backquotes ('`', _) :: Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
+        [3]
+      | Backquotes ('`', _) :: Backquotes ('`', _) :: _ ->
+        [2]
+      | DQuotes :: Backquotes ('`', _) :: [] ->
+        [1; 2]
+      | DQuotes :: Backquotes ('`', _) :: DQuotes :: _ ->
+        if for_backquote then [3] else [2]
+      | DQuotes :: Backquotes ('`', _) :: _ :: DQuotes :: _ ->
+        [2]
+      | Backquotes ('`', _) :: DQuotes :: _ ->
+        if for_dquotes then [2] else [1]
+      | Backquotes ('`', _) :: _ :: DQuotes :: _ ->
+        [2]
+      | [Backquotes ('`', _)] ->
+        if for_backquote then
+          [3]
+        else
+          [1; 2]
+      | _ ->
+        [1]
+    )
   in
   if Options.debug () then (
     let current' = List.(concat (map rev (map string_to_char_list [current]))) in
@@ -484,8 +484,8 @@ let escape_analysis ?(for_backquote=false) ?(for_dquotes=false) level current =
   let backslashes_before = ExtPervasives.count_end_character '\\' current in
 
   if List.exists (fun k ->
-         backslashes_before >= k && (k - backslashes_before) mod (k + 1) = 0
-     ) number_of_backslashes_to_escape
+      backslashes_before >= k && (k - backslashes_before) mod (k + 1) = 0
+    ) number_of_backslashes_to_escape
   then (
     (** There is no special meaning for this character. It is
         escaped. *)
@@ -503,7 +503,7 @@ let escape_analysis ?(for_backquote=false) ?(for_dquotes=false) level current =
         closing the current subshell, it is opening a new
         one.
 
-     *)
+    *)
     Some backslashes_before
 
 let escape_analysis_predicate ?(for_backquote=false) ?(for_dquotes=false) level current =
@@ -605,8 +605,8 @@ let backquote_depth current =
   let current_depth =
     escape_analysis ~for_backquote:true current.nesting_context current
     |> function
-      | Some d -> d
-      | None -> assert false (* By usage of backquote_depth. *)
+    | Some d -> d
+    | None -> assert false (* By usage of backquote_depth. *)
   in
   if Options.debug () then
     Printf.eprintf "Backquote depth: %d =?= %d\n"
@@ -620,23 +620,23 @@ let backquote_depth current =
 let found_current_here_document_delimiter ?buffer current =
   match current.nesting_context with
   | Nesting.HereDocument (dashed, delimiter) :: _ ->
-     let last_chunk =
-       match buffer with
-         | None ->
-            AtomBuffer.last_line current.buffer
-         | Some buffer ->
-            Buffer.(
-             let n = length buffer in
-             let k = String.length delimiter * 2 in
-             try sub buffer (max 0 (n - k)) (min k n) with _ -> assert false
-            )
-     in
-     let open QuoteRemoval in
-     let preprocess = if dashed then remove_tabs_at_linestart else fun x -> x in
-     let last_line = option_map (string_last_line last_chunk) preprocess in
-     last_line = Some delimiter
+    let last_chunk =
+      match buffer with
+      | None ->
+        AtomBuffer.last_line current.buffer
+      | Some buffer ->
+        Buffer.(
+          let n = length buffer in
+          let k = String.length delimiter * 2 in
+          try sub buffer (max 0 (n - k)) (min k n) with _ -> assert false
+        )
+    in
+    let open QuoteRemoval in
+    let preprocess = if dashed then remove_tabs_at_linestart else fun x -> x in
+    let last_line = option_map (string_last_line last_chunk) preprocess in
+    last_line = Some delimiter
   | _ ->
-     false
+    false
 
 let remove_contents_suffix pos end_marker contents cst =
   let contents = try
@@ -648,18 +648,18 @@ let remove_contents_suffix pos end_marker contents cst =
   let rec aux cst =
     match cst with
     | (WordLiteral contents) :: cst ->
-       begin match lines contents with
-       | [] | [_] ->
+      begin match lines contents with
+        | [] | [_] ->
           aux cst
-       | rest ->
+        | rest ->
           let rest = List.(rev (tl (rev rest))) in
           let suffix = String.concat "\n" rest ^ "\n" in
           WordLiteral suffix :: cst
-       end
+      end
     | _ :: cst ->
-       aux cst
+      aux cst
     | [] ->
-       []
+      []
   in
   contents, List.(rev (aux (rev cst)))
 
@@ -679,4 +679,4 @@ let debug ?(rule="") lexbuf current = Lexing.(
         rule
         (String.concat " " (List.map Nesting.to_string current.nesting_context))
         (string_of_atom_list (buffer current))
-)
+  )

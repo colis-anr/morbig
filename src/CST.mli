@@ -280,7 +280,7 @@ and filename =
 (** The two IoHere constructors have two arguments. The second argument is
     the word holding the contents of the here document, which does not figure
     in the grammar.
- *)
+*)
 and io_here =
   | IoHere_DLess_HereEnd of here_end' * word' ref
   | IoHere_DLessDash_HereEnd of here_end' * word' ref
