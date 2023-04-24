@@ -7,7 +7,8 @@
 (rule
  (targets version.ml)
  (action
-  (with-stdout-to version.ml
+  (with-stdout-to
+   version.ml
    (echo "let current=\"%{version:morbig}\"\n"))))
 
 (executable
@@ -16,18 +17,27 @@
  (libraries str))
 
 (rule
- (targets CSTSerializers.ml) (deps CST.mli)
- (action (with-stdout-to %{targets} (run ./CST_derivings_generator.exe serializers))))
+ (targets CSTSerializers.ml)
+ (deps CST.mli)
+ (action
+  (with-stdout-to
+   %{targets}
+   (run ./CST_derivings_generator.exe serializers))))
 
 (rule
- (targets CSTVisitors.ml) (deps CST.mli)
- (action (with-stdout-to %{targets} (run ./CST_derivings_generator.exe visitors))))
+ (targets CSTVisitors.ml)
+ (deps CST.mli)
+ (action
+  (with-stdout-to
+   %{targets}
+   (run ./CST_derivings_generator.exe visitors))))
 
 (library
  (name morbig)
  (public_name morbig)
  (libraries str menhirLib ppx_deriving_yojson.runtime visitors.runtime)
- (preprocess (pps ppx_deriving_yojson visitors.ppx))
+ (preprocess
+  (pps ppx_deriving_yojson visitors.ppx))
  (flags :standard -w -3) ; FIXME: remove this when Yojson and its PPX are fixed.
  (modules :standard \ morbigDriver CST_derivings_generator)
  (modules_without_implementation CST))
@@ -37,5 +47,7 @@
  (public_name morbig)
  (ocamlopt_flags :standard)
  (libraries morbig)
- (preprocess (pps ppx_deriving_yojson visitors.ppx)) ;; Avoid warning about incomplete merlin files.
+ (preprocess
+  (pps ppx_deriving_yojson visitors.ppx))
+ ;; Avoid warning about incomplete merlin files.
  (modules morbigDriver))
