@@ -8,6 +8,13 @@ on:
       - '*'
   pull_request:
 
+## We specify a concurrency group with automated cancellation. This means that
+## other pushes on the same `github.ref` (eg. other pushes to the same pull
+## request) cancel previous occurrences of the CI.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
 
   ## ========================= [ OPAM-based CI ] ========================= ##
