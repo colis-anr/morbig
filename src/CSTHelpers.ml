@@ -22,16 +22,16 @@ let with_pos p v =
   }
 
 let dummy_lexing_position = {
-    pos_fname = "";
-    pos_lnum  = -1;
-    pos_bol   = -1;
-    pos_cnum  = -1;
-  }
+  pos_fname = "";
+  pos_lnum  = -1;
+  pos_bol   = -1;
+  pos_cnum  = -1;
+}
 
 let dummy_position = {
-    start_p = dummy_lexing_position;
-    end_p = dummy_lexing_position;
-  }
+  start_p = dummy_lexing_position;
+  end_p = dummy_lexing_position;
+}
 
 let with_poss p1 p2 v =
   with_pos { start_p = p1; end_p = p2 } v
@@ -72,10 +72,10 @@ let string_of_position p =
   let filename = filename_of_position p in
   let l = line p.start_p in
   let c1, c2 = characters p.start_p p.end_p in
-    if filename = "" then
-      Printf.sprintf "Line %d, characters %d-%d" l c1 c2
-    else
-      Printf.sprintf "File \"%s\", line %d, characters %d-%d" filename l c1 c2
+  if filename = "" then
+    Printf.sprintf "Line %d, characters %d-%d" l c1 c2
+  else
+    Printf.sprintf "File \"%s\", line %d, characters %d-%d" filename l c1 c2
 
 let compare_positions p1 p2 =
   compare p1.start_p.pos_cnum p2.start_p.pos_cnum
@@ -94,42 +94,42 @@ let empty_program =
 let nonempty_program p =
   match p with
   | Program_LineBreak _ ->
-     false
+    false
   | _ ->
-     true
+    true
 
 let rec concat_complete_commands' cs1 cs2 =
   let pos = merge_positions cs1.position cs2.position in
   with_pos pos @@
-    match cs2.value with
-    | CompleteCommands_CompleteCommand c2 ->
-       let nl = with_pos cs1.position NewLineList_NewLine in
-       CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (
-           cs1,
-           nl,
-           c2)
-    | CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (cs2,
-                                                                     nl,
-                                                                     c2) ->
-       CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (
-           concat_complete_commands' cs1 cs2,
-           nl,
-           c2
-         )
+  match cs2.value with
+  | CompleteCommands_CompleteCommand c2 ->
+    let nl = with_pos cs1.position NewLineList_NewLine in
+    CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (
+      cs1,
+      nl,
+      c2)
+  | CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (cs2,
+                                                                   nl,
+                                                                   c2) ->
+    CompleteCommands_CompleteCommands_NewlineList_CompleteCommand (
+      concat_complete_commands' cs1 cs2,
+      nl,
+      c2
+    )
 
 let concat_programs p1 p2 =
   let pos = merge_positions p1.position p2.position in
   with_pos pos @@
-    match p1.value, p2.value with
-    | Program_LineBreak _, p | p, Program_LineBreak _ ->
-       p
-    | Program_LineBreak_CompleteCommands_LineBreak (pnl1, cs1, _snl1),
-      Program_LineBreak_CompleteCommands_LineBreak (_pnl2, cs2, snl2) ->
-       Program_LineBreak_CompleteCommands_LineBreak (
-           pnl1,
-           concat_complete_commands' cs1 cs2,
-           snl2
-         )
+  match p1.value, p2.value with
+  | Program_LineBreak _, p | p, Program_LineBreak _ ->
+    p
+  | Program_LineBreak_CompleteCommands_LineBreak (pnl1, cs1, _snl1),
+    Program_LineBreak_CompleteCommands_LineBreak (_pnl2, cs2, snl2) ->
+    Program_LineBreak_CompleteCommands_LineBreak (
+      pnl1,
+      concat_complete_commands' cs1 cs2,
+      snl2
+    )
 
 (* Helpers about words and names *)
 
@@ -146,14 +146,14 @@ let string_of_word (Word (s, _)) = s
 
 let word_placeholder () =
   ref {
-      value = Word ("<you should not see this>", []);
-      position = dummy_position
-    }
+    value = Word ("<you should not see this>", []);
+    position = dummy_position
+  }
 
 module NameSet = Set.Make (struct
-  type t = name
-  let compare (Name s1) (Name s2) = String.compare s1 s2
-end)
+    type t = name
+    let compare (Name s1) (Name s2) = String.compare s1 s2
+  end)
 
 let special_builtins_regexp =
   [ "break" ; ":" ; "continue" ; "." ; "eval" ; "exec" ;
@@ -176,57 +176,57 @@ let make_function_name (Name s) =
 (** [wordlist_of_cmd_suffix] extracts the list of all words from a cmd_sufix *)
 let rec wordlist_of_cmd_suffix = function
   | CmdSuffix_IoRedirect _io_redirect' ->
-     []
+    []
   | CmdSuffix_CmdSuffix_IoRedirect (cmd_suffix',_io_redirect') ->
-     wordlist_of_cmd_suffix cmd_suffix'.value
+    wordlist_of_cmd_suffix cmd_suffix'.value
   | CmdSuffix_Word word'->
-     [word']
+    [word']
   | CmdSuffix_CmdSuffix_Word (cmd_suffix',word') ->
-     (wordlist_of_cmd_suffix cmd_suffix'.value) @ [word']
+    (wordlist_of_cmd_suffix cmd_suffix'.value) @ [word']
 
 let io_redirect_list_of_cmd_prefix cmd_prefix =
   let rec aux acc = function
     | CmdPrefix_IoRedirect io_redirect' ->
-       io_redirect' :: acc
+      io_redirect' :: acc
     | CmdPrefix_CmdPrefix_IoRedirect (cmd_prefix', io_redirect') ->
-       aux (io_redirect' :: acc) cmd_prefix'.value
+      aux (io_redirect' :: acc) cmd_prefix'.value
     | CmdPrefix_AssignmentWord _ ->
-       acc
+      acc
     | CmdPrefix_CmdPrefix_AssignmentWord (cmd_prefix', _) ->
-       aux acc cmd_prefix'.value
+      aux acc cmd_prefix'.value
   in
   aux [] cmd_prefix
 
 let io_redirect_list_of_cmd_suffix cmd_suffix =
   let rec aux acc = function
     | CmdSuffix_IoRedirect io_redirect' ->
-       io_redirect' :: acc
+      io_redirect' :: acc
     | CmdSuffix_CmdSuffix_IoRedirect (cmd_suffix', io_redirect') ->
-       aux (io_redirect' :: acc) cmd_suffix'.value
+      aux (io_redirect' :: acc) cmd_suffix'.value
     | CmdSuffix_Word _ ->
-       acc
+      acc
     | CmdSuffix_CmdSuffix_Word (cmd_suffix', _) ->
-       aux acc cmd_suffix'.value
+      aux acc cmd_suffix'.value
   in
   aux [] cmd_suffix
 
 let io_redirect_list_of_redirect_list redirect_list =
   let rec aux acc = function
     | RedirectList_IoRedirect io_redirect' ->
-       io_redirect' :: acc
+      io_redirect' :: acc
     | RedirectList_RedirectList_IoRedirect (redirect_list', io_redirect') ->
-       aux (io_redirect' :: acc) redirect_list'.value
+      aux (io_redirect' :: acc) redirect_list'.value
   in
   aux [] redirect_list
 
 let io_redirect_list_of_simple_command = function
   | SimpleCommand_CmdPrefix_CmdWord_CmdSuffix (cmd_prefix', _, cmd_suffix') ->
-     (io_redirect_list_of_cmd_prefix cmd_prefix'.value)
-     @ (io_redirect_list_of_cmd_suffix cmd_suffix'.value)
+    (io_redirect_list_of_cmd_prefix cmd_prefix'.value)
+    @ (io_redirect_list_of_cmd_suffix cmd_suffix'.value)
   | SimpleCommand_CmdPrefix_CmdWord (cmd_prefix', _)
   | SimpleCommand_CmdPrefix cmd_prefix' ->
-     io_redirect_list_of_cmd_prefix cmd_prefix'.value
+    io_redirect_list_of_cmd_prefix cmd_prefix'.value
   | SimpleCommand_CmdName_CmdSuffix (_, cmd_suffix') ->
-     io_redirect_list_of_cmd_suffix cmd_suffix'.value
+    io_redirect_list_of_cmd_suffix cmd_suffix'.value
   | SimpleCommand_CmdName _ ->
-     []
+    []

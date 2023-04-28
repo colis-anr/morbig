@@ -11,9 +11,9 @@
 
 let other_scripts_magic_strings =
   List.map Str.regexp [
-             "#![ ]*/usr/bin/perl.*";
-             "#![ ]*/bin/bash.*"
-           ]
+    "#![ ]*/usr/bin/perl.*";
+    "#![ ]*/bin/bash.*"
+  ]
 
 let is_other_script filename =
   (* check whether [filename] is a script other than /bin/sh *)
@@ -25,8 +25,8 @@ let is_other_script filename =
       (function r -> Str.string_match r firstline 0)
       other_scripts_magic_strings
   with End_of_file ->
-     (** An empty file is not considered as a script.*)
-     false
+    (** An empty file is not considered as a script.*)
+    false
 
 let elf_magic_number = Bytes.of_string  "\x7FELF"
 

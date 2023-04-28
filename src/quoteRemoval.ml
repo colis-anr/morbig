@@ -34,15 +34,15 @@ let on_string s =
   while !i<n do
     if s.[!i] = '\''
     then begin
-        (* skip the initial single quote *)
-        skip ();
-        (* scan and push on the buffer until next single quote *)
-        while (!i<n && s.[!i] <> '\'') do
-          keep ()
-        done;
-        (* skip the final single quote *)
-        if !i<n then skip ()
-      end
+      (* skip the initial single quote *)
+      skip ();
+      (* scan and push on the buffer until next single quote *)
+      while (!i<n && s.[!i] <> '\'') do
+        keep ()
+      done;
+      (* skip the final single quote *)
+      if !i<n then skip ()
+    end
     else if s.[!i] = '"'
     then
       (* just skip any double quote if we see it here (that is, not escaped
@@ -50,11 +50,11 @@ let on_string s =
       skip ()
     else if s.[!i] = '\\'
     then begin
-        (* skip the backslash *)
-        if followed_by_special_character () then skip ();
-        (* and push the next symbol on the buffer *)
-        if !i<n then keep ()
-      end
+      (* skip the backslash *)
+      if followed_by_special_character () then skip ();
+      (* and push the next symbol on the buffer *)
+      if !i<n then keep ()
+    end
     else keep ()
   done;
   Buffer.contents b
@@ -70,9 +70,9 @@ let backslash_as_in_doublequotes s =
   while !i < n do
     match !state with
     | Default ->
-       if s.[!i] = '\\'
-       then begin state := Backslash; skip () end
-       else keep ()
+      if s.[!i] = '\\'
+      then begin state := Backslash; skip () end
+      else keep ()
     | Backslash -> begin
         if List.mem s.[!i] ['$'; '\''; '"'; '\\'] then keep ()
         else begin pushbackslash(); keep () end;
@@ -85,4 +85,4 @@ let backslash_as_in_doublequotes s =
 let remove_tabs_at_linestart =
   let space = Str.regexp "^\t+" in
   fun s ->
-  Str.(global_replace space "" s)
+    Str.(global_replace space "" s)

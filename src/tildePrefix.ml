@@ -44,18 +44,18 @@ let find_login s =
 
 let rec make_tilde_prefix_explicit rhs_assignment = function
   | (WordLiteral s) as cst when s <> "" ->
-     if s.[0] = '~' then (
-       if rhs_assignment then
-         let s = String.split_on_char ':' s in
-         List.(flatten (map find_login s))
-       else
-         find_login s
-     ) else [cst]
+    if s.[0] = '~' then (
+      if rhs_assignment then
+        let s = String.split_on_char ':' s in
+        List.(flatten (map find_login s))
+      else
+        find_login s
+    ) else [cst]
   | WordAssignmentWord (name, Word (s, csts)) ->
-     let csts = recognize ~rhs_assignment:true csts in
-     [WordAssignmentWord (name, Word (s, csts))]
+    let csts = recognize ~rhs_assignment:true csts in
+    [WordAssignmentWord (name, Word (s, csts))]
   | cst ->
-     [cst]
+    [cst]
 
 and recognize ?(rhs_assignment=false) csts =
   List.(flatten (map (make_tilde_prefix_explicit rhs_assignment) csts))

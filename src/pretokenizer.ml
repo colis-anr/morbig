@@ -19,11 +19,11 @@ let make (current : PrelexerState.t) lexbuf =
   *)
   let q = Queue.create () in
   let push x = Queue.push x q in
-    let rec aux () =
-      try
-        Queue.take q
-      with Queue.Empty ->
-        List.iter (fun x -> Queue.push x q) (pretokenizer lexbuf);
-        aux ()
-    in
-    aux, push
+  let rec aux () =
+    try
+      Queue.take q
+    with Queue.Empty ->
+      List.iter (fun x -> Queue.push x q) (pretokenizer lexbuf);
+      aux ()
+  in
+  aux, push

@@ -18,15 +18,15 @@ type t =
 
 let to_string = function
   | Backquotes (c, level) ->
-     Printf.sprintf "@%c[%d]" c level
+    Printf.sprintf "@%c[%d]" c level
   | Parentheses ->
-     "("
+    "("
   | Braces ->
-     "{"
+    "{"
   | DQuotes ->
-     "\""
+    "\""
   | HereDocument (dashed, delimiter) ->
-     Printf.sprintf "HereDoc[%B, %s]" dashed delimiter
+    Printf.sprintf "HereDoc[%B, %s]" dashed delimiter
 
 let rec under_backquoted_style_command_substitution = function
   | [] -> false

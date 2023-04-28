@@ -33,3 +33,4 @@
 
 (generate_opam_files true)
 (using menhir 2.0)
+(formatting (enabled_for dune))

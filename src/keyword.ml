@@ -39,30 +39,30 @@ open Parser.MenhirInterpreter
 
 *)
 let keywords = [
-    "if",    If,     X (T T_If);
-    "then",  Then,   X (T T_Then);
-    "else",  Else,   X (T T_Else);
-    "elif",  Elif,   X (T T_Elif);
-    "fi",    Fi,     X (T T_Fi);
-    "do",    Do,     X (T T_Do);
-    "done",  Done,   X (T T_Done);
-    "case",  Case,   X (T T_Case);
-    "esac",  Esac,   X (T T_Esac);
-    "while", While,  X (T T_While);
-    "until", Until,  X (T T_Until);
-    "for",   For,    X (T T_For);
-    "{",     Lbrace, X (T T_Lbrace);
-    "}",     Rbrace, X (T T_Rbrace);
-    "!",     Bang,   X (T T_Bang);
-    "in",    In,     X (T T_In);
+  "if",    If,     X (T T_If);
+  "then",  Then,   X (T T_Then);
+  "else",  Else,   X (T T_Else);
+  "elif",  Elif,   X (T T_Elif);
+  "fi",    Fi,     X (T T_Fi);
+  "do",    Do,     X (T T_Do);
+  "done",  Done,   X (T T_Done);
+  "case",  Case,   X (T T_Case);
+  "esac",  Esac,   X (T T_Esac);
+  "while", While,  X (T T_While);
+  "until", Until,  X (T T_Until);
+  "for",   For,    X (T T_For);
+  "{",     Lbrace, X (T T_Lbrace);
+  "}",     Rbrace, X (T T_Rbrace);
+  "!",     Bang,   X (T T_Bang);
+  "in",    In,     X (T T_In);
 ]
 
 let keyword_of_string =
   let t = Hashtbl.create 13 in
   List.iter (fun (s, kwd, _) -> Hashtbl.add t s kwd) keywords;
   fun w -> FirstSuccessMonad.(
-    try return (Hashtbl.find t w) with Not_found -> fail
-  )
+      try return (Hashtbl.find t w) with Not_found -> fail
+    )
 
 let is_reserved_word w =
   FirstSuccessMonad.run (keyword_of_string w) <> None

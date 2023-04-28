@@ -30,19 +30,19 @@ end = struct
       here-document associated with the first operator shall be supplied
       first by the application and shall be read first by the shell.
 
-   *)
+  *)
 
   type delimiter_info = {
-        (** information about a delimiter of a here document: *)
-      word: string;
-        (** delimiting word, with quotes removed *)
-      quoted: bool;
-        (** parts of delimiting word quoted ? *)
-      dashed: bool;
-        (** here operator <<- ? *)
-      contents_placeholder: CST.word CST.located ref
-        (** placeholder for the contents of the here document *)
-    }
+    (** information about a delimiter of a here document: *)
+    word: string;
+    (** delimiting word, with quotes removed *)
+    quoted: bool;
+    (** parts of delimiting word quoted ? *)
+    dashed: bool;
+    (** here operator <<- ? *)
+    contents_placeholder: CST.word CST.located ref
+    (** placeholder for the contents of the here document *)
+  }
   let delimiters_queue = (Queue.create (): delimiter_info Queue.t)
   let dashed_tmp = ref (None: bool option)
   let word_ref_tmp = ref (None: word located ref option)
@@ -71,7 +71,7 @@ end = struct
        - they have not been assigned a value (state NoHereDocuments),
        - or they have been assigned a value which has been used up by
          push_here_document_delimiter (state GotDelimiter).
-     *)
+    *)
     assert (!dashed_tmp = None);
     dashed_tmp := Some dashed;
     assert (!word_ref_tmp = None);
@@ -81,7 +81,7 @@ end = struct
   let push_here_document_delimiter _w cst =
     (* we accept a push of a delimiting word only if we have already received
        information about an operator which has not yet been used.
-     *)
+    *)
     assert (!state = GotHereOperator);
     let quoted_flag = ref false in
     let dashed = match !dashed_tmp with
@@ -95,19 +95,19 @@ end = struct
       let rec unquote = function
         | [] -> ""
         | WordDoubleQuoted s :: w ->
-           quoted_flag := true;
-           QuoteRemoval.on_string (unword s) ^ unquote w
+          quoted_flag := true;
+          QuoteRemoval.on_string (unword s) ^ unquote w
         | WordSingleQuoted s :: w ->
-           quoted_flag := true;
-           unword s ^ unquote w
+          quoted_flag := true;
+          unword s ^ unquote w
         | (WordLiteral s | WordName s) :: w ->
-           let s' = Str.(global_replace (regexp "\\") "" s) in
-           if s <> s' then quoted_flag := true;
-           s' ^ unquote w
+          let s' = Str.(global_replace (regexp "\\") "" s) in
+          if s <> s' then quoted_flag := true;
+          s' ^ unquote w
         | WordVariable (VariableAtom (s, NoAttribute)) :: w ->
-           "$" ^ s ^ unquote w
+          "$" ^ s ^ unquote w
         | _ ->
-           failwith "Unsupported expansion in here document delimiter"
+          failwith "Unsupported expansion in here document delimiter"
       in
       unquote cst
     in
@@ -121,12 +121,12 @@ end = struct
           If any part of word is quoted, the delimiter shall be formed by
           performing quote removal on word, and the here-document lines shall
           not be expanded. Otherwise, the delimiter shall be the word itself.
-       *)
-        word = unquoted_w;
-        quoted;
-        dashed;
-        contents_placeholder = word_ref
-      } delimiters_queue;
+      *)
+      word = unquoted_w;
+      quoted;
+      dashed;
+      contents_placeholder = word_ref
+    } delimiters_queue;
     state := GotDelimiter
 
   let next_here_document lexbuf current =
@@ -135,7 +135,7 @@ end = struct
        the next <newline> and continues until there is a line containing only
        the delimiter and a <newline>, with no <blank> characters in
        between. Then the next here-document starts, if there is one.
-     *)
+    *)
     assert (!state = InsideHereDocuments);
     let delimiter_info =
       try
@@ -166,7 +166,7 @@ end = struct
         (*specification:
             If the redirection operator is "<<-", all leading <tab>
             characters shall be stripped from input lines ...
-         *)
+        *)
         if delimiter_info.dashed then
           QuoteRemoval.remove_tabs_at_linestart contents
         else
@@ -192,12 +192,12 @@ end = struct
       in
       match result with
       | [Pretoken.NEWLINE, p1, p2] ->
-         (* Special case for empty here document or ended by EOF. *)
-         (Word ("", []), p1, p2)
+        (* Special case for empty here document or ended by EOF. *)
+        (Word ("", []), p1, p2)
       | [Pretoken.EOF, _, pos] ->
-         raise (Errors.DuringParsing pos)
+        raise (Errors.DuringParsing pos)
       | result ->
-         located_word_of result
+        located_word_of result
     in
     store_here_document delimiter_info.word cst doc doc_start line_end;
     if Queue.is_empty delimiters_queue then state := NoHereDocuments;
@@ -205,7 +205,7 @@ end = struct
       Lexing.({ line_end with
                 pos_cnum = line_end.pos_cnum - 1;
                 pos_bol  = line_end.pos_bol  - 1;
-      })
+              })
     in
     (Pretoken.NEWLINE, before_stop, line_end)
 
@@ -217,7 +217,7 @@ end = struct
     (* if we have a value in dashed_tmp this means that we have read
        a here operator for which we have not yet seen the corresponding
        delimiting word.
-          *)
+    *)
     !dashed_tmp <> None
 
   let next_line_is_here_document () =

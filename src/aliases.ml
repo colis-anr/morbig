@@ -51,16 +51,16 @@ type state =
   | NextWordSubstituted
 
 type t = {
-    state       : state;
-    definitions : (string * string) list
-  }
+  state       : state;
+  definitions : (string * string) list
+}
 
 type aliases = t
 
 let empty = {
-    state       = NoRecentSubstitution;
-    definitions = []
-  }
+  state       = NoRecentSubstitution;
+  definitions = []
+}
 
 (** [bind_aliases to_bind aliases] returns an alias table obtained from
     [aliases] by adding all entries from [to_bind]. *)
@@ -86,29 +86,29 @@ let binder_from_alias (x:CST.cmd_suffix) =
   let open List in
   let wl = wordlist_of_cmd_suffix x in
   fold_right (fun a accu ->
-       let s = bounded_split (regexp "=") (on_located unWord a) 2 in
-       if List.length s < 2 then
-         accu
-       else
-         (hd s, hd (tl s)):: accu)
+      let s = bounded_split (regexp "=") (on_located unWord a) 2 in
+      if List.length s < 2 then
+        accu
+      else
+        (hd s, hd (tl s)):: accu)
     wl
     []
 
 let unalias_argument (x:CST.cmd_suffix) = CSTHelpers.(
-  List.map (on_located unWord) (wordlist_of_cmd_suffix x)
-)
+    List.map (on_located unWord) (wordlist_of_cmd_suffix x)
+  )
 
 let as_aliasing_related_command = function
   | SimpleCommand_CmdName_CmdSuffix ({ value = CmdName_Word w ; _ }, suffix) ->
     begin match w.value with
-    | Word ("alias", _) ->
-      let l = binder_from_alias suffix.value in
-      Some (Alias l)
-    | Word ("unalias", _) ->
-      let l = unalias_argument suffix.value in
-      Some (if l = ["-a"] then Reset else Unalias l)
-    | _ ->
-      None
+      | Word ("alias", _) ->
+        let l = binder_from_alias suffix.value in
+        Some (Alias l)
+      | Word ("unalias", _) ->
+        let l = unalias_argument suffix.value in
+        Some (if l = ["-a"] then Reset else Unalias l)
+      | _ ->
+        None
     end
   | SimpleCommand_CmdName _
   | SimpleCommand_CmdPrefix_CmdWord_CmdSuffix _
@@ -126,27 +126,27 @@ let interpret aliases cst =
   let level = ref 0 in
   let at_toplevel () = !level = 0 in
   let analyzer = object
-      inherit [_] CSTVisitors.iter as super
-      method! visit_compound_command env cmd =
-        incr level;
-        super # visit_compound_command env cmd;
-        decr level
+    inherit [_] CSTVisitors.iter as super
+    method! visit_compound_command env cmd =
+      incr level;
+      super # visit_compound_command env cmd;
+      decr level
 
-      method! visit_simple_command' _ cmd' =
-        match as_aliasing_related_command cmd'.value with
-        | Some alias_command ->
-          if at_toplevel () then match alias_command with
-            | Alias x -> aliases := bind_aliases x !aliases
-            | Unalias x -> aliases := unbind_aliases x !aliases
-            | Reset -> aliases := empty
-          else
-            raise (Errors.DuringAliasing(
-                       cmd'.position.start_p,
-                       "(un)alias in a nested command structure"
-                  ))
-        | None ->
-          ()
-    end
+    method! visit_simple_command' _ cmd' =
+      match as_aliasing_related_command cmd'.value with
+      | Some alias_command ->
+        if at_toplevel () then match alias_command with
+          | Alias x -> aliases := bind_aliases x !aliases
+          | Unalias x -> aliases := unbind_aliases x !aliases
+          | Reset -> aliases := empty
+        else
+          raise (Errors.DuringAliasing(
+              cmd'.position.start_p,
+              "(un)alias in a nested command structure"
+            ))
+      | None ->
+        ()
+  end
   in
   analyzer#visit_complete_command () cst;
   !aliases
@@ -161,10 +161,10 @@ let substitute aliases w =
 let rec about_to_reduce_cmd_name checkpoint =
   match checkpoint with
   | AboutToReduce (_, production) ->
-     if lhs production = X (N N_linebreak) || lhs production = X (N N_word) then
-       about_to_reduce_cmd_name (resume checkpoint)
-     else
-        lhs production = X (N N_cmd_name)
+    if lhs production = X (N N_linebreak) || lhs production = X (N N_word) then
+      about_to_reduce_cmd_name (resume checkpoint)
+    else
+      lhs production = X (N N_cmd_name)
   | InputNeeded _ ->
     let dummy = Lexing.dummy_pos in
     let token = NAME (Name "a_word"), dummy, dummy in
@@ -192,13 +192,13 @@ let rec about_to_reduce_word checkpoint =
     false
 
 (** [inside_a_substitution_combo state] is true if a sequence of alias
-   substitution is triggered by the following cornercase rule of the
-   standard.*)
+    substitution is triggered by the following cornercase rule of the
+    standard.*)
 (*specification:
- If the value of the alias replacing the word ends in a <blank>, the
- shell shall check the next command word for alias substitution; this
- process shall continue until a word is found that is not a valid alias
- or an alias value does not end in a <blank>.
+  If the value of the alias replacing the word ends in a <blank>, the
+  shell shall check the next command word for alias substitution; this
+  process shall continue until a word is found that is not a valid alias
+  or an alias value does not end in a <blank>.
 *)
 let inside_a_substitution_combo = function
   | CommandNameSubstituted | NextWordSubstituted -> true
@@ -232,15 +232,15 @@ let only_if_end_with_whitespace word aliases state =
 let alias_substitution aliases checkpoint word =
   perform (aliases, word) @@ fun () ->
   if about_to_reduce_cmd_name checkpoint
-     && not (Keyword.is_reserved_word word)
+  && not (Keyword.is_reserved_word word)
   then
     let word = substitute aliases word in
     only_if_end_with_whitespace word aliases CommandNameSubstituted
   else
-    if about_to_reduce_word checkpoint
-       && inside_a_substitution_combo aliases.state
-    then
-      let word' = substitute aliases word in
-      only_if_end_with_whitespace word' aliases NextWordSubstituted
-    else
-      (aliases, word)
+  if about_to_reduce_word checkpoint
+  && inside_a_substitution_combo aliases.state
+  then
+    let word' = substitute aliases word in
+    only_if_end_with_whitespace word' aliases NextWordSubstituted
+  else
+    (aliases, word)
