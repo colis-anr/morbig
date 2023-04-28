@@ -16,8 +16,8 @@
       systems = [ "x86_64-linux" ];
 
       imports = [
-        ./with-nixpkgs.nix
-        ./with-opam-nix.nix
+        .nix/with-nixpkgs.nix
+        .nix/with-opam-nix.nix
         inputs.pre-commit-hooks.flakeModule
       ];
 

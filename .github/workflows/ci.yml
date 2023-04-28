@@ -276,19 +276,19 @@ jobs:
 
       - name: Install Nix dependencies
         run: |
-          nix develop .github/nix#${{ matrix.package }} --command true
+          nix develop .#${{ matrix.package }} --command true
 
       - name: Build in development Shell
         run: |
-          nix develop .github/nix#${{ matrix.package }} --command make
+          nix develop .#${{ matrix.package }} --command make
 
       - name: Run tests in development Shell
         run: |
-          nix develop .github/nix#${{ matrix.package }} --command make check
+          nix develop .#${{ matrix.package }} --command make check
 
       - name: Build with Nix
         run: |
-          nix build .github/nix#${{ matrix.package }} --print-build-logs
+          nix build .#${{ matrix.package }} --print-build-logs
 
   nix-flake-checks:
     runs-on: ubuntu-latest
@@ -305,4 +305,4 @@ jobs:
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
       - name: Run flake checks
-        run: nix flake check .github/nix --print-build-logs
+        run: nix flake check . --print-build-logs

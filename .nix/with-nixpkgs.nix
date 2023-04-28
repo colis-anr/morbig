@@ -4,9 +4,9 @@
     in {
       packages.with-nixpkgs = pkgs.stdenv.mkDerivation {
         name = "morbig";
-        ## NOTE: The use of `../..` matters because the path is taken as relative to
-        ## the current file, and therefore to `.github/nix/`.
-        src = ../..;
+        ## NOTE: The use of `./..` matters because the path is taken as relative to
+        ## the current file, and therefore to `.nix/`.
+        src = ./..;
 
         nativeBuildInputs = with opkgs; [
           ## Basic ones, always necessary
