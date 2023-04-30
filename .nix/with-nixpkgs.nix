@@ -29,7 +29,7 @@
         '';
 
         installPhase = ''
-          make install PREFIX=$out
+          make install PREFIX=$out LIBDIR=$OCAMLFIND_DESTDIR
         '';
       };
     };
