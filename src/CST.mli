@@ -384,9 +384,6 @@ and character_class =
 and class_name =
   | ClassName of string (* Keyword in the current LC_CTYPE category. *)
 
-and character_range =
-  | Range of char list
-
 and variable =
   | VariableAtom of string * variable_attribute
 
