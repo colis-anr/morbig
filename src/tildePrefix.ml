@@ -37,9 +37,20 @@
 *)
 open CST
 
+(** Remove the ['~'] character at the beginning of the given string or fail with
+    [Invalid_arg] if the string is empty or does not start with a tilde. *)
+let strip_tilde s =
+  if s = "" || s.[0] != '~' then
+    invalid_arg "strip_tilde";
+  String.(sub s 1 (length s - 1))
+
 let find_login s =
   match String.split_on_char '/' s with
-  | login :: rem -> [WordTildePrefix login; WordLiteral (String.concat "/" rem)]
+  | login :: rem ->
+    [
+      WordTildePrefix (strip_tilde login);
+      WordLiteral (String.concat "/" rem)
+    ]
   | _ -> assert false (* Because there is slash, or not. *)
 
 let rec make_tilde_prefix_explicit rhs_assignment = function
