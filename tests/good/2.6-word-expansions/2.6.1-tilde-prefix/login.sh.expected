@@ -42,7 +42,7 @@
                         [
                           [
                             "WordTildePrefix",
-                            "~knuth"
+                            "knuth"
                           ],
                           [
                             "WordLiteral",
@@ -89,7 +89,7 @@
                         [
                           [
                             "WordTildePrefix",
-                            "~kn"
+                            "kn"
                           ],
                           [
                             "WordLiteral",
@@ -97,7 +97,7 @@
                           ],
                           [
                             "WordTildePrefix",
-                            "~"
+                            ""
                           ],
                           [
                             "WordLiteral",
@@ -105,7 +105,7 @@
                           ],
                           [
                             "WordTildePrefix",
-                            "~darkvador"
+                            "darkvador"
                           ],
                           [
                             "WordLiteral",
