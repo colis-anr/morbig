@@ -44,6 +44,9 @@ let strip_tilde s =
     invalid_arg "strip_tilde";
   String.(sub s 1 (length s - 1))
 
+(** Takes a string assumed to come from a [WordLiteral] and to start with ['~']
+    and splits it between a [WordTildePrefix] containing everything between
+    ['~'] and the first ['/'] and a [WordLiteral] containing everything else. *)
 let find_login s =
   match String.split_on_char '/' s with
   | login :: rem ->
@@ -51,8 +54,13 @@ let find_login s =
       WordTildePrefix (strip_tilde login);
       WordLiteral (String.concat "/" rem)
     ]
-  | _ -> assert false (* Because there is slash, or not. *)
+  | _ ->
+    (* [String.split_on_char] yields a list of at least one element. *)
+    assert false
 
+(** Analyse a [word_component] and lifts the [WordLiteral] that start with a
+    ['~'] in the right places to a [WordTildePrefix] followed by a
+    [WordLiteral]. *)
 let rec make_tilde_prefix_explicit rhs_assignment = function
   | (WordLiteral s) as cst when s <> "" ->
     if s.[0] = '~' then (
@@ -68,5 +76,7 @@ let rec make_tilde_prefix_explicit rhs_assignment = function
   | cst ->
     [cst]
 
+(** Crawls through the [word_component]s of a [word] and process them. See
+    {!make_tilde_prefix_explicit}. *)
 and recognize ?(rhs_assignment=false) csts =
   List.(flatten (map (make_tilde_prefix_explicit rhs_assignment) csts))
