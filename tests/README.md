@@ -1,8 +1,10 @@
-Morbig's Test Suite
-===================
+# Morbig's Test Suite
 
-Directories
------------
+## Golden tests
+
+Those are found in the `tests/golden/` directory.
+
+### Directories
 
 This test suite contains four top-level directories corresponding to four
 categories of tests, namely:
@@ -20,8 +22,7 @@ expectations file `expected.json`. Finally, tests may contain an `open` file
 that specifies that the test in question has an open issue attached to it; such
 tests are expected to fail.
 
-How to add tests
-----------------
+### How to add tests
 
 Tests are structured by the section of the policy concerned, whenever possible.
 Please add a comment at the beginning of the test file, explaining what is being

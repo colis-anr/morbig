@@ -19,7 +19,7 @@ find . \( -name '*.sjson' -o -name '*.morbigerror' \) -delete
 
 ## ========= Find morbig; either in this directory, or in the $PATH ========= ##
 
-localmorbig=../bin/morbig
+localmorbig=../../bin/morbig
 
 if [ -e "$localmorbig" ]; then
     morbig=$(realpath "$localmorbig")
