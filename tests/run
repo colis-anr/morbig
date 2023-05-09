@@ -70,16 +70,12 @@ printf_for_test () {
 ## there is not much to do about `unspecified` and `unknown` ones.
 for category in good bad; do
 
-    ## For all test files in the test category in question.
-    for test in $(find "$category" -type f -name '*.sh' | sort -n); do
-        test=${test%.sh}
+    ## For all test directories in the test category in question.
+    for test in $(find "$category" -type d -name '*.t' | sort -n); do
 
-        ## If the test file does not exist, then something is wrong, and it is
-        ## probably due to the fact that one test name contains spaces and was
-        ## therefore cut in two by the `$(find ...)` above.
-        if ! [ -f "$test.sh" ]; then
-            printf_for_test '[WARN] File `%s` does not exist or is not a file.
-Did you create a test whose name contains a space?\n' "$test"
+        ## If the test file does not exist, then something is wrong.
+        if ! [ -f "$test"/input.sh ]; then
+            printf_for_test '[WARN] File `%s` does not exist or is not a file.\n' "$test"/input.sh
             continue
         fi
 
@@ -87,12 +83,12 @@ Did you create a test whose name contains a space?\n' "$test"
         ## write `$category$open` and it will be either `good`, `good_open` or
         ## `bad`. The underscore therefore matters.
         open=
-        [ -e "$test.sh.open" ] && open=_open
+        [ -e "$test"/open ] && open=_open
 
         incr ${category}${open}_total
 
-        ## If Morbig succeeds, a file "$test.sh.sjson" gets created.
-        if "$morbig" --as simple "$test.sh" 2>/dev/null; then
+        ## If Morbig succeeds, a file "$test/input.sh.sjson" gets created.
+        if "$morbig" --as simple "$test"/input.sh 2>/dev/null; then
             case $category$open in
                 bad)
                     printf_for_test '[FAIL] Wrongly accepted: %s\n' "$test"
@@ -108,30 +104,30 @@ Did you create a test whose name contains a space?\n' "$test"
                     ## Normalise the output using `jq`. This ensures that our
                     ## tests do not fail just because Yojson changed its
                     ## printing behaviour.
-                    cat "$test.sh.sjson" | jq . > "$test.sh.sjson.clean"
-                    mv "$test.sh.sjson.clean" "$test.sh.sjson"
+                    cat "$test"/input.sh.sjson | jq . > "$test"/input.sh.sjson.clean
+                    mv "$test"/input.sh.sjson.clean "$test"/input.sh.sjson
 
-                    ## If there is no `.expected` file, then we complain, and we
+                    ## If there is no `expected.json` file, then we complain, and we
                     ## count this case as “unexpected”.
-                    if ! [ -f "$test.sh.expected" ]; then
-                        printf_for_test '[WARN] Missing `.expected` file: %s\n' "$test"
+                    if ! [ -f "$test"/expected.json ]; then
+                        printf_for_test '[WARN] Missing `expected.json` file in: %s\n' "$test"
                         incr good${open}_unexpected
 
                     ## Otherwise, if there is a difference between the produced
                     ## file and the expected one, then we complain.
-                    elif ! diff "$test.sh.sjson" "$test.sh.expected" 2>&1 >/dev/null; then
+                    elif ! diff "$test"/input.sh.sjson "$test"/expected.json 2>&1 >/dev/null; then
                         if [ -n "$open" ]; then
                             printf_for_test '[WARN] Open with wrong output: %s\n' "$test"
                         else
                             printf_for_test '[FAIL] Wrong output: %s\n' "$test"
                         fi
                         if [ -n "$VERBOSE" ]; then
-                            echo '** .sh'
-                            cat "$test.sh"
-                            echo '** .sh.sjson'
-                            cat "$test.sh.sjson"
-                            echo '** .sh.expected'
-                            cat "$test.sh.expected"
+                            echo '** input.sh'
+                            cat "$test"/input.sh
+                            echo '** input.sh.sjson'
+                            cat "$test"/input.sh.sjson
+                            echo '** expected.json'
+                            cat "$test"/expected.json
                         fi
                         incr good${open}_unexpected
 
@@ -156,8 +152,8 @@ Did you create a test whose name contains a space?\n' "$test"
                         printf_for_test '[FAIL] Wrongly rejected: %s\n' "$test"
                     fi
                     if [ -n "$VERBOSE" ]; then
-                        echo "** $test.sh"
-                        cat "$test.sh"
+                        echo '** input.sh'
+                        cat "$test"/input.sh
                     fi
             esac
         fi
