@@ -32,12 +32,20 @@
    %{targets}
    (run ./CST_derivings_generator.exe visitors))))
 
+(rule
+ (targets CSTPrinters.ml)
+ (deps CST.mli)
+ (action
+  (with-stdout-to
+   %{targets}
+   (run ./CST_derivings_generator.exe printers))))
+
 (library
  (name morbig)
  (public_name morbig)
  (libraries str menhirLib ppx_deriving_yojson.runtime visitors.runtime)
  (preprocess
-  (pps ppx_deriving_yojson visitors.ppx))
+  (pps ppx_deriving_yojson visitors.ppx ppx_deriving.std))
  (flags :standard -w -3) ; FIXME: remove this when Yojson and its PPX are fixed.
  (modules :standard \ morbigDriver CST_derivings_generator)
  (modules_without_implementation CST))
