@@ -1,6 +1,8 @@
 [
   "Program_LineBreak_CompleteCommands_LineBreak",
-  [ "LineBreak_Empty" ],
+  [
+    "LineBreak_Empty"
+  ],
   [
     "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
     [
@@ -12,7 +14,351 @@
           [
             "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
             [
-              "CompleteCommands_CompleteCommand",
+              "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
+              [
+                "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
+                [
+                  "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
+                  [
+                    "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
+                    [
+                      "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
+                      [
+                        "CompleteCommands_CompleteCommands_NewlineList_CompleteCommand",
+                        [
+                          "CompleteCommands_CompleteCommand",
+                          [
+                            "CompleteCommand_CList",
+                            [
+                              "CList_AndOr",
+                              [
+                                "AndOr_Pipeline",
+                                [
+                                  "Pipeline_PipeSequence",
+                                  [
+                                    "PipeSequence_Command",
+                                    [
+                                      "Command_SimpleCommand",
+                                      [
+                                        "SimpleCommand_CmdName_CmdSuffix",
+                                        [
+                                          "CmdName_Word",
+                                          [
+                                            "Word",
+                                            "echo",
+                                            [
+                                              [
+                                                "WordName",
+                                                "echo"
+                                              ]
+                                            ]
+                                          ]
+                                        ],
+                                        [
+                                          "CmdSuffix_Word",
+                                          [
+                                            "Word",
+                                            "~knuth/foo/bar",
+                                            [
+                                              [
+                                                "WordTildePrefix",
+                                                "knuth"
+                                              ],
+                                              [
+                                                "WordLiteral",
+                                                "/foo/bar"
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        [
+                          "NewLineList_NewLine"
+                        ],
+                        [
+                          "CompleteCommand_CList",
+                          [
+                            "CList_AndOr",
+                            [
+                              "AndOr_Pipeline",
+                              [
+                                "Pipeline_PipeSequence",
+                                [
+                                  "PipeSequence_Command",
+                                  [
+                                    "Command_SimpleCommand",
+                                    [
+                                      "SimpleCommand_CmdName_CmdSuffix",
+                                      [
+                                        "CmdName_Word",
+                                        [
+                                          "Word",
+                                          "echo",
+                                          [
+                                            [
+                                              "WordName",
+                                              "echo"
+                                            ]
+                                          ]
+                                        ]
+                                      ],
+                                      [
+                                        "CmdSuffix_Word",
+                                        [
+                                          "Word",
+                                          "~kn:~/bin:~darkvador/secret",
+                                          [
+                                            [
+                                              "WordTildePrefix",
+                                              "kn:~"
+                                            ],
+                                            [
+                                              "WordLiteral",
+                                              "/bin:~darkvador/secret"
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "NewLineList_NewLine"
+                      ],
+                      [
+                        "CompleteCommand_CList",
+                        [
+                          "CList_AndOr",
+                          [
+                            "AndOr_Pipeline",
+                            [
+                              "Pipeline_PipeSequence",
+                              [
+                                "PipeSequence_Command",
+                                [
+                                  "Command_SimpleCommand",
+                                  [
+                                    "SimpleCommand_CmdName_CmdSuffix",
+                                    [
+                                      "CmdName_Word",
+                                      [
+                                        "Word",
+                                        "echo",
+                                        [
+                                          [
+                                            "WordName",
+                                            "echo"
+                                          ]
+                                        ]
+                                      ]
+                                    ],
+                                    [
+                                      "CmdSuffix_Word",
+                                      [
+                                        "Word",
+                                        "~kn:/bonjour:~/bonsoir:and/this/one",
+                                        [
+                                          [
+                                            "WordTildePrefix",
+                                            "kn:"
+                                          ],
+                                          [
+                                            "WordLiteral",
+                                            "/bonjour:~/bonsoir:and/this/one"
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ],
+                    [
+                      "NewLineList_NewLine"
+                    ],
+                    [
+                      "CompleteCommand_CList",
+                      [
+                        "CList_AndOr",
+                        [
+                          "AndOr_Pipeline",
+                          [
+                            "Pipeline_PipeSequence",
+                            [
+                              "PipeSequence_Command",
+                              [
+                                "Command_SimpleCommand",
+                                [
+                                  "SimpleCommand_CmdName_CmdSuffix",
+                                  [
+                                    "CmdName_Word",
+                                    [
+                                      "Word",
+                                      "echo",
+                                      [
+                                        [
+                                          "WordName",
+                                          "echo"
+                                        ]
+                                      ]
+                                    ]
+                                  ],
+                                  [
+                                    "CmdSuffix_Word",
+                                    [
+                                      "Word",
+                                      "/bonjour:~kn:~/bonsoir:and/this/one",
+                                      [
+                                        [
+                                          "WordLiteral",
+                                          "/bonjour:~kn:~/bonsoir:and/this/one"
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "NewLineList_NewLine"
+                  ],
+                  [
+                    "CompleteCommand_CList",
+                    [
+                      "CList_AndOr",
+                      [
+                        "AndOr_Pipeline",
+                        [
+                          "Pipeline_PipeSequence",
+                          [
+                            "PipeSequence_Command",
+                            [
+                              "Command_SimpleCommand",
+                              [
+                                "SimpleCommand_CmdPrefix",
+                                [
+                                  "CmdPrefix_AssignmentWord",
+                                  [
+                                    [
+                                      "Name",
+                                      "W"
+                                    ],
+                                    [
+                                      "Word",
+                                      "~knuth/foo/bar",
+                                      [
+                                        [
+                                          "WordTildePrefix",
+                                          "knuth"
+                                        ],
+                                        [
+                                          "WordLiteral",
+                                          "/foo/bar"
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "NewLineList_NewLine"
+                ],
+                [
+                  "CompleteCommand_CList",
+                  [
+                    "CList_AndOr",
+                    [
+                      "AndOr_Pipeline",
+                      [
+                        "Pipeline_PipeSequence",
+                        [
+                          "PipeSequence_Command",
+                          [
+                            "Command_SimpleCommand",
+                            [
+                              "SimpleCommand_CmdPrefix",
+                              [
+                                "CmdPrefix_AssignmentWord",
+                                [
+                                  [
+                                    "Name",
+                                    "X"
+                                  ],
+                                  [
+                                    "Word",
+                                    "~kn:~/bin:~darkvador/secret",
+                                    [
+                                      [
+                                        "WordTildePrefix",
+                                        "kn"
+                                      ],
+                                      [
+                                        "WordLiteral",
+                                        ":"
+                                      ],
+                                      [
+                                        "WordTildePrefix",
+                                        ""
+                                      ],
+                                      [
+                                        "WordLiteral",
+                                        "/bin"
+                                      ],
+                                      [
+                                        "WordLiteral",
+                                        ":"
+                                      ],
+                                      [
+                                        "WordTildePrefix",
+                                        "darkvador"
+                                      ],
+                                      [
+                                        "WordLiteral",
+                                        "/secret"
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "NewLineList_NewLine"
+              ],
               [
                 "CompleteCommand_CList",
                 [
@@ -26,19 +372,51 @@
                         [
                           "Command_SimpleCommand",
                           [
-                            "SimpleCommand_CmdName_CmdSuffix",
+                            "SimpleCommand_CmdPrefix",
                             [
-                              "CmdName_Word",
-                              [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                            ],
-                            [
-                              "CmdSuffix_Word",
+                              "CmdPrefix_AssignmentWord",
                               [
-                                "Word",
-                                "~knuth/foo/bar",
                                 [
-                                  [ "WordTildePrefix", "knuth" ],
-                                  [ "WordLiteral", "/foo/bar" ]
+                                  "Name",
+                                  "Y"
+                                ],
+                                [
+                                  "Word",
+                                  "~kn:/bonjour:~/bonsoir:and/this/one",
+                                  [
+                                    [
+                                      "WordTildePrefix",
+                                      "kn"
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      ":"
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      "/bonjour"
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      ":"
+                                    ],
+                                    [
+                                      "WordTildePrefix",
+                                      ""
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      "/bonsoir"
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      ":"
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      "and/this/one"
+                                    ]
+                                  ]
                                 ]
                               ]
                             ]
@@ -50,7 +428,9 @@
                 ]
               ]
             ],
-            [ "NewLineList_NewLine" ],
+            [
+              "NewLineList_NewLine"
+            ],
             [
               "CompleteCommand_CList",
               [
@@ -64,19 +444,51 @@
                       [
                         "Command_SimpleCommand",
                         [
-                          "SimpleCommand_CmdName_CmdSuffix",
+                          "SimpleCommand_CmdPrefix",
                           [
-                            "CmdName_Word",
-                            [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
-                          ],
-                          [
-                            "CmdSuffix_Word",
+                            "CmdPrefix_AssignmentWord",
                             [
-                              "Word",
-                              "~kn:/bonjour:~/bonsoir:and/this/one",
                               [
-                                [ "WordTildePrefix", "kn:" ],
-                                [ "WordLiteral", "/bonjour:~/bonsoir:and/this/one" ]
+                                "Name",
+                                "Z"
+                              ],
+                              [
+                                "Word",
+                                "/bonjour:~kn:~/bonsoir:and/this/one",
+                                [
+                                  [
+                                    "WordLiteral",
+                                    "/bonjour"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    ":"
+                                  ],
+                                  [
+                                    "WordTildePrefix",
+                                    "kn"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    ":"
+                                  ],
+                                  [
+                                    "WordTildePrefix",
+                                    ""
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    "/bonsoir"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    ":"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    "and/this/one"
+                                  ]
+                                ]
                               ]
                             ]
                           ]
@@ -88,7 +500,9 @@
               ]
             ]
           ],
-          [ "NewLineList_NewLine" ],
+          [
+            "NewLineList_NewLine"
+          ],
           [
             "CompleteCommand_CList",
             [
@@ -105,15 +519,46 @@
                         "SimpleCommand_CmdName_CmdSuffix",
                         [
                           "CmdName_Word",
-                          [ "Word", "echo", [ [ "WordName", "echo" ] ] ]
+                          [
+                            "Word",
+                            "echo",
+                            [
+                              [
+                                "WordName",
+                                "echo"
+                              ]
+                            ]
+                          ]
                         ],
                         [
                           "CmdSuffix_Word",
                           [
                             "Word",
-                            "/bonjour:~kn:~/bonsoir:and/this/one",
+                            "W=~knuth/foo/bar",
                             [
-                              [ "WordLiteral", "/bonjour:~kn:~/bonsoir:and/this/one" ]
+                              [
+                                "WordAssignmentWord",
+                                [
+                                  [
+                                    "Name",
+                                    "W"
+                                  ],
+                                  [
+                                    "Word",
+                                    "~knuth/foo/bar",
+                                    [
+                                      [
+                                        "WordTildePrefix",
+                                        "knuth"
+                                      ],
+                                      [
+                                        "WordLiteral",
+                                        "/foo/bar"
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
                             ]
                           ]
                         ]
@@ -125,7 +570,9 @@
             ]
           ]
         ],
-        [ "NewLineList_NewLine" ],
+        [
+          "NewLineList_NewLine"
+        ],
         [
           "CompleteCommand_CList",
           [
@@ -139,21 +586,68 @@
                   [
                     "Command_SimpleCommand",
                     [
-                      "SimpleCommand_CmdPrefix",
+                      "SimpleCommand_CmdName_CmdSuffix",
                       [
-                        "CmdPrefix_AssignmentWord",
+                        "CmdName_Word",
                         [
-                          [ "Name", "X" ],
+                          "Word",
+                          "echo",
                           [
-                            "Word",
-                            "~kn:~/bin:~darkvador/secret",
                             [
-                              [ "WordTildePrefix", "kn" ],
-                              [ "WordLiteral", ":" ],
-                              [ "WordTildePrefix", "" ],
-                              [ "WordLiteral", "/bin:" ],
-                              [ "WordTildePrefix", "darkvador" ],
-                              [ "WordLiteral", "/secret" ]
+                              "WordName",
+                              "echo"
+                            ]
+                          ]
+                        ]
+                      ],
+                      [
+                        "CmdSuffix_Word",
+                        [
+                          "Word",
+                          "X=~kn:~/bin:~darkvador/secret",
+                          [
+                            [
+                              "WordAssignmentWord",
+                              [
+                                [
+                                  "Name",
+                                  "X"
+                                ],
+                                [
+                                  "Word",
+                                  "~kn:~/bin:~darkvador/secret",
+                                  [
+                                    [
+                                      "WordTildePrefix",
+                                      "kn"
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      ":"
+                                    ],
+                                    [
+                                      "WordTildePrefix",
+                                      ""
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      "/bin"
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      ":"
+                                    ],
+                                    [
+                                      "WordTildePrefix",
+                                      "darkvador"
+                                    ],
+                                    [
+                                      "WordLiteral",
+                                      "/secret"
+                                    ]
+                                  ]
+                                ]
+                              ]
                             ]
                           ]
                         ]
@@ -166,7 +660,9 @@
           ]
         ]
       ],
-      [ "NewLineList_NewLine" ],
+      [
+        "NewLineList_NewLine"
+      ],
       [
         "CompleteCommand_CList",
         [
@@ -180,19 +676,72 @@
                 [
                   "Command_SimpleCommand",
                   [
-                    "SimpleCommand_CmdPrefix",
+                    "SimpleCommand_CmdName_CmdSuffix",
                     [
-                      "CmdPrefix_AssignmentWord",
+                      "CmdName_Word",
                       [
-                        [ "Name", "Y" ],
+                        "Word",
+                        "echo",
                         [
-                          "Word",
-                          "~kn:/bonjour:~/bonsoir:and/this/one",
                           [
-                            [ "WordTildePrefix", "kn" ],
-                            [ "WordLiteral", ":/bonjour:" ],
-                            [ "WordTildePrefix", "" ],
-                            [ "WordLiteral", "/bonsoir:and/this/one" ]
+                            "WordName",
+                            "echo"
+                          ]
+                        ]
+                      ]
+                    ],
+                    [
+                      "CmdSuffix_Word",
+                      [
+                        "Word",
+                        "Y=~kn:/bonjour:~/bonsoir:and/this/one",
+                        [
+                          [
+                            "WordAssignmentWord",
+                            [
+                              [
+                                "Name",
+                                "Y"
+                              ],
+                              [
+                                "Word",
+                                "~kn:/bonjour:~/bonsoir:and/this/one",
+                                [
+                                  [
+                                    "WordTildePrefix",
+                                    "kn"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    ":"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    "/bonjour"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    ":"
+                                  ],
+                                  [
+                                    "WordTildePrefix",
+                                    ""
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    "/bonsoir"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    ":"
+                                  ],
+                                  [
+                                    "WordLiteral",
+                                    "and/this/one"
+                                  ]
+                                ]
+                              ]
+                            ]
                           ]
                         ]
                       ]
@@ -205,7 +754,9 @@
         ]
       ]
     ],
-    [ "NewLineList_NewLine" ],
+    [
+      "NewLineList_NewLine"
+    ],
     [
       "CompleteCommand_CList",
       [
@@ -219,20 +770,72 @@
               [
                 "Command_SimpleCommand",
                 [
-                  "SimpleCommand_CmdPrefix",
+                  "SimpleCommand_CmdName_CmdSuffix",
                   [
-                    "CmdPrefix_AssignmentWord",
+                    "CmdName_Word",
                     [
-                      [ "Name", "Z" ],
+                      "Word",
+                      "echo",
                       [
-                        "Word",
-                        "/bonjour:~kn:~/bonsoir:and/this/one",
                         [
-                          [ "WordLiteral", "/bonjour:" ],
-                          [ "WordTildePrefix", "kn" ],
-                          [ "WordLiteral", ":" ],
-                          [ "WordTildePrefix", "" ],
-                          [ "WordLiteral", "/bonsoir:and/this/one" ]
+                          "WordName",
+                          "echo"
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "CmdSuffix_Word",
+                    [
+                      "Word",
+                      "Z=/bonjour:~kn:~/bonsoir:and/this/one",
+                      [
+                        [
+                          "WordAssignmentWord",
+                          [
+                            [
+                              "Name",
+                              "Z"
+                            ],
+                            [
+                              "Word",
+                              "/bonjour:~kn:~/bonsoir:and/this/one",
+                              [
+                                [
+                                  "WordLiteral",
+                                  "/bonjour"
+                                ],
+                                [
+                                  "WordLiteral",
+                                  ":"
+                                ],
+                                [
+                                  "WordTildePrefix",
+                                  "kn"
+                                ],
+                                [
+                                  "WordLiteral",
+                                  ":"
+                                ],
+                                [
+                                  "WordTildePrefix",
+                                  ""
+                                ],
+                                [
+                                  "WordLiteral",
+                                  "/bonsoir"
+                                ],
+                                [
+                                  "WordLiteral",
+                                  ":"
+                                ],
+                                [
+                                  "WordLiteral",
+                                  "and/this/one"
+                                ]
+                              ]
+                            ]
+                          ]
                         ]
                       ]
                     ]
@@ -245,5 +848,7 @@
       ]
     ]
   ],
-  [ "LineBreak_Empty" ]
+  [
+    "LineBreak_Empty"
+  ]
 ]
