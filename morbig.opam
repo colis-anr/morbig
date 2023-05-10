@@ -21,7 +21,7 @@ bug-reports: "https://github.com/colis-anr/morbig/issues"
 depends: [
   "dune" {>= "2.5"}
   "conf-jq" {with-test}
-  "alcotest" {with-test}
+  "alcotest" {with-test & >= "1.7.0"}
   "menhir" {>= "20200211"}
   "ocaml" {>= "4.04"}
   "odoc" {with-doc}
