@@ -108,18 +108,21 @@ let check_good_test_case path = fun () ->
     )
 
 let rec collect_test_paths dir =
-  List.concat_map
+  List.flatten
     (
-      fun file ->
-        let file = Filename.concat dir file in
-        if Filename.check_suffix file ".t" then
-          [file]
-        else if Sys.is_directory file then
-          collect_test_paths file
-        else
-          []
+      List.map
+        (
+          fun file ->
+            let file = Filename.concat dir file in
+            if Filename.check_suffix file ".t" then
+              [file]
+            else if Sys.is_directory file then
+              collect_test_paths file
+            else
+              []
+        )
+        (Array.to_list (Sys.readdir dir))
     )
-    (Array.to_list (Sys.readdir dir))
 
 let bad_test_cases =
   List.map
