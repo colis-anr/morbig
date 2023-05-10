@@ -25,6 +25,8 @@ let spf = Format.sprintf
 module Sys = struct
   include Sys
   let commandf format = Format.ksprintf Sys.command format
+  let ignore_commandf format =
+    Format.ksprintf (fun string -> ignore (Sys.command string)) format
 end
 
 let check_bad_test_case path = fun () ->
@@ -61,8 +63,8 @@ let check_good_test_case path = fun () ->
     if rc != 0 then Alcotest.fail "Morbig was supposed to succeed and failed instead"
   );
   (
-    ignore (Sys.commandf "cat %s/input.sh.sjson | jq . > %s/input.sh.sjson.clean" qpath qpath);
-    ignore (Sys.commandf "mv %s/input.sh.sjson.clean %s/input.sh.sjson" qpath qpath);
+    Sys.ignore_commandf "cat %s/input.sh.sjson | jq . > %s/input.sh.sjson.clean" qpath qpath;
+    Sys.ignore_commandf "mv %s/input.sh.sjson.clean %s/input.sh.sjson" qpath qpath;
     let rc = Sys.commandf "diff %s/input.sh.sjson %s/expected.json 2>&1 >/dev/null" qpath qpath in
     if rc != 0 then Alcotest.fail "Diff is not happy with Morbig's output"
   )
