@@ -180,12 +180,16 @@ jobs:
         run: make
 
       ## No odoc in Debian stable, sadly, so no documentation!
+      ## REVIEW: Ubuntu 22.10 does have a package `ocaml-odoc` though.
 
       # - name: Try building documentation
       #   run: make doc
 
-      - name: Run tests
-        run: make check
+      ## Ubuntu 22.10 only has Alcotest 1.6 which is not recent enough for our
+      ## tests. Therefore, tests are disabled on this platform.
+
+      # - name: Run tests
+      #   run: make check
 
       - name: Try installing
         run: sudo make install
