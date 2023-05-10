@@ -308,6 +308,10 @@ jobs:
         run: |
           nix develop .#${{ matrix.package }} --command make
 
+      - name: Build documentation in development Shell
+        run: |
+          nix develop .#${{ matrix.package }} --command make doc
+
       - name: Run tests in development Shell
         run: |
           nix develop .#${{ matrix.package }} --command make check
