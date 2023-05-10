@@ -33,7 +33,7 @@ uninstall: build
 	dune uninstall $(INSTALL_ARGS)
 
 check: build
-	@ output=$$(./tests/run 2>&1) ;     \
+	@ output=$$(./tests/golden/run 2>&1) ;     \
 	  status=$$? ;                      \
 	  echo "$$output" | tee tests.org ; \
 	  exit $$status
@@ -48,7 +48,7 @@ clean:
 	dune clean
 	rm -f bin lib doc
 	rm -f tests.org
-	tests/run clean || true
+	tests/golden/run clean || true
 
 PACKAGE=$(shell echo morbig-`cat VERSION`)
 
@@ -64,4 +64,4 @@ publish-docker-image: docker-image
 	docker image push colisanr/morbig:latest
 
 headers:
-	headache -h .header $(shell find src/ -regex '.*\.ml[ily]?')
+	headache -h .header $(shell find src/ tests/ -regex '.*\.ml[ily]?')
