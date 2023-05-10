@@ -80,7 +80,7 @@ let compare_outputs path =
 let print_diff path =
   let qpath = Filename.quote path in
   pf "Diff is:@\n@.";
-  Sys.ignore_commandf "command -v jd >/dev/null && jd -color %s/output.json %s/expected.json || diff --color=always %s/output.json %s/expected.json" qpath qpath qpath qpath;
+  Sys.ignore_commandf "diff --color=always %s/output.json %s/expected.json" qpath qpath;
   pf "@."
 
 let check_bad_test_case path = fun () ->
