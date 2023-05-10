@@ -29,45 +29,83 @@ module Sys = struct
     Format.ksprintf (fun string -> ignore (Sys.command string)) format
 end
 
-let check_bad_test_case path = fun () ->
-  let qpath = Filename.quote path in
-  if Sys.file_exists (Filename.concat path "open") then
-    (
-      pf "Test has an open issue corresponding to it. Skipping.@.";
-      Alcotest.skip ()
-    );
-  (
-    pf "Running Morbig...@.";
-    let rc = Sys.commandf "%s %s/input.sh" !morbig_path qpath in
-    pf "Morbig terminated with return code %d.@." rc;
-    if rc = 0 then Alcotest.fail "Morbig was supposed to fail and succeeded instead"
-  )
+let bat_or_cat path =
+  Sys.ignore_commandf
+    "command -v bat >/dev/null && bat --force-colorization --style numbers %s || cat %s"
+    (Filename.quote path) (Filename.quote path)
 
-let check_good_test_case path = fun () ->
-  let qpath = Filename.quote path in
-  if Sys.file_exists (Filename.concat path "open") then
-    (
-      pf "Test has an open issue corresponding to it. Skipping.@.";
-      Alcotest.skip ()
-    );
+let skip_if_no_input path =
   if not (Sys.file_exists (Filename.concat path "input.sh")) then
     (
       (* FIXME: these tests should not be skipped but fixed or deleted. *)
       pf "Test does not have an `input.sh`. Skipping.@.";
       Alcotest.skip ()
-    );
-  (
-    pf "Running Morbig...@.";
-    let rc = Sys.commandf "%s %s/input.sh" !morbig_path qpath in
-    pf "Morbig terminated with return code %d.@." rc;
-    if rc != 0 then Alcotest.fail "Morbig was supposed to succeed and failed instead"
-  );
-  (
-    Sys.ignore_commandf "cat %s/input.sh.sjson | jq . > %s/input.sh.sjson.clean" qpath qpath;
-    Sys.ignore_commandf "mv %s/input.sh.sjson.clean %s/input.sh.sjson" qpath qpath;
-    let rc = Sys.commandf "diff %s/input.sh.sjson %s/expected.json 2>&1 >/dev/null" qpath qpath in
-    if rc != 0 then Alcotest.fail "Diff is not happy with Morbig's output"
-  )
+    )
+
+let print_input path =
+  pf "Input is:@\n@.";
+  bat_or_cat (Filename.concat path "input.sh");
+  pf "@."
+
+let skip_if_open path =
+  if Sys.file_exists (Filename.concat path "open") then
+    (
+      pf "Test has an open issue corresponding to it. Skipping.@.";
+      Alcotest.skip ()
+    )
+
+let run_morbig path =
+  let qpath = Filename.quote path in
+  pf "Running Morbig...@.";
+  let rc = Sys.commandf "%s --as simple %s/input.sh" !morbig_path qpath in
+  pf "Morbig terminated with return code %d.@." rc;
+  (* normalise with `jq` into `output.json` *)
+  Sys.ignore_commandf "if [ -e %s/input.sh.sjson ]; then cat %s/input.sh.sjson | jq . > %s/output.json; fi" qpath qpath qpath;
+  rc
+
+let print_output path =
+  pf "Output is:@\n@.";
+  bat_or_cat (Filename.concat path "output.json");
+  pf "@."
+
+let print_expected path =
+  pf "Expected is:@\n@.";
+  bat_or_cat (Filename.concat path "expected.json");
+  pf "@."
+
+let compare_outputs path =
+  let qpath = Filename.quote path in
+  Sys.commandf "diff %s/output.json %s/expected.json >/dev/null" qpath qpath
+
+let print_diff path =
+  let qpath = Filename.quote path in
+  pf "Diff is:@\n@.";
+  Sys.ignore_commandf "command -v jd >/dev/null && jd -color %s/output.json %s/expected.json || diff --color=always %s/output.json %s/expected.json" qpath qpath qpath qpath;
+  pf "@."
+
+let check_bad_test_case path = fun () ->
+  skip_if_no_input path;
+  print_input path;
+  skip_if_open path;
+  if run_morbig path = 0 then
+    (
+      print_output path;
+      Alcotest.fail "Morbig was supposed to fail and succeeded instead"
+    )
+
+let check_good_test_case path = fun () ->
+  skip_if_no_input path;
+  print_input path;
+  skip_if_open path;
+  if run_morbig path != 0 then
+    Alcotest.fail "Morbig was supposed to succeed and failed instead";
+  print_output path;
+  print_expected path;
+  if compare_outputs path != 0 then
+    (
+      print_diff path;
+      Alcotest.fail "Morbig's output isn't as expected"
+    )
 
 let rec collect_test_paths dir =
   List.concat_map
