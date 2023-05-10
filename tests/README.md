@@ -1,29 +1,28 @@
-Morbig's Test Suite
-===================
+# Morbig's Test Suite
 
-Directories
------------
+## Golden tests
+
+Those are found in the `tests/golden/` directory.
+
+### Directories
+
+This test suite contains four top-level directories corresponding to four
+categories of tests, namely:
 
 - `good/`: these adhere to the POSIX standard, and should be accepted.
-
 - `bad/`: these do not adhere to the standard, and should be rejected.
-
 - `unspecified/`: cases where the standard says that the behavior is unspecified
-
 - `unknown/`: cases where we could not figure out whether there are good, bad,
   or unspecified.
 
-Good tests contain an `.expected` result, to which the output of Morbig will be
-compared. A good test is said to yield un `unexpected` result if Morbig succeeds
-but the output is not what was expected. A good test is said to fail if Morbig
-fails.
+A test is a directory whose name finishes in `.t`. Such tests can be nested as
+subdirectories of the four top-level ones at an arbitrary depth. Test
+directories contain an input file `input.sh`. Good tests contain an additional
+expectations file `expected.json`. Finally, tests may contain an `open` file
+that specifies that the test in question has an open issue attached to it; such
+tests are expected to fail.
 
-Good and bad tests may contain an `.open` file that specifies that the test in
-question is “open”, that is there is an open issue corresponding to it. Those
-tests may fail or succeed without making the whole test suite fail or succeed.
-
-How to add tests
-----------------
+### How to add tests
 
 Tests are structured by the section of the policy concerned, whenever possible.
 Please add a comment at the beginning of the test file, explaining what is being

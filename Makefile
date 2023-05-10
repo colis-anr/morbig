@@ -33,7 +33,7 @@ uninstall: build
 	dune uninstall $(INSTALL_ARGS)
 
 check: build
-	@ output=$$(./tests/run 2>&1) ;     \
+	@ output=$$(./tests/golden/run 2>&1) ;     \
 	  status=$$? ;                      \
 	  echo "$$output" | tee tests.org ; \
 	  exit $$status
@@ -48,7 +48,7 @@ clean:
 	dune clean
 	rm -f bin lib doc
 	rm -f tests.org
-	tests/run clean || true
+	tests/golden/run clean || true
 
 PACKAGE=$(shell echo morbig-`cat VERSION`)
 
