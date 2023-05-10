@@ -28,6 +28,7 @@ module Sys = struct
 end
 
 let check_bad_test_case path = fun () ->
+  let qpath = Filename.quote path in
   if Sys.file_exists (Filename.concat path "open") then
     (
       pf "Test has an open issue corresponding to it. Skipping.@.";
@@ -35,12 +36,13 @@ let check_bad_test_case path = fun () ->
     );
   (
     pf "Running Morbig...@.";
-    let rc = Sys.commandf "%s %s/input.sh" !morbig_path path in
+    let rc = Sys.commandf "%s %s/input.sh" !morbig_path qpath in
     pf "Morbig terminated with return code %d.@." rc;
     if rc = 0 then Alcotest.fail "Morbig was supposed to fail and succeeded instead"
   )
 
 let check_good_test_case path = fun () ->
+  let qpath = Filename.quote path in
   if Sys.file_exists (Filename.concat path "open") then
     (
       pf "Test has an open issue corresponding to it. Skipping.@.";
@@ -54,14 +56,14 @@ let check_good_test_case path = fun () ->
     );
   (
     pf "Running Morbig...@.";
-    let rc = Sys.commandf "%s %s/input.sh" !morbig_path path in
+    let rc = Sys.commandf "%s %s/input.sh" !morbig_path qpath in
     pf "Morbig terminated with return code %d.@." rc;
     if rc != 0 then Alcotest.fail "Morbig was supposed to succeed and failed instead"
   );
   (
-    ignore (Sys.commandf "cat %s/input.sh.sjson | jq . > %s/input.sh.sjson.clean" path path);
-    ignore (Sys.commandf "mv %s/input.sh.sjson.clean %s/input.sh.sjson" path path);
-    let rc = Sys.commandf "diff %s/input.sh.sjson %s/expected.json 2>&1 >/dev/null" path path in
+    ignore (Sys.commandf "cat %s/input.sh.sjson | jq . > %s/input.sh.sjson.clean" qpath qpath);
+    ignore (Sys.commandf "mv %s/input.sh.sjson.clean %s/input.sh.sjson" qpath qpath);
+    let rc = Sys.commandf "diff %s/input.sh.sjson %s/expected.json 2>&1 >/dev/null" qpath qpath in
     if rc != 0 then Alcotest.fail "Diff is not happy with Morbig's output"
   )
 
