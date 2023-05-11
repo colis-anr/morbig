@@ -12,7 +12,7 @@ MAINTAINER Yann Regis-Gianas
 ## switch with the `--build-arg`.
 
 ARG switch=
-RUN [ -z "$switch" ] || opam switch create "$switch"
+RUN if [ -n "$switch" ]; then opam switch create "$switch"; fi
 
 ## Install dependencies. `opam depext` installs (in a distribution independant
 ## way) first the non-opam dependencies that are required and then the OPAM
@@ -24,13 +24,13 @@ RUN opam depext -i menhir yojson ppx_deriving_yojson visitors
 ## with `--build-arg doc=true`.
 
 ARG doc=false
-RUN $doc && opam depext -i odoc
+RUN if $doc; then opam depext -i odoc; fi
 
 ## Install tests dependencies. Disabled by default, but be enabled with
 ## `--build-arg tests=true`.
 
 ARG tests=false
-RUN $tests && opam depext -i conf-jq
+RUN if $tests; then opam depext -i conf-jq; fi
 
 ## Work in /home/opam/morbig, copy all the file there with the right
 ## owner and group.
