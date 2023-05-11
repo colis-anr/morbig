@@ -231,7 +231,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build . --tag morbig --build-arg tag=${{matrix.tag}}
+          docker build \
+            --tag morbig \
+            . \
+            --build-arg tag=${{matrix.tag}} \
+            --build-arg doc=${{matrix.doc != 'no-doc'}} \
+            --build-arg tests=${{matrix.tests != 'no-tests'}}
 
       - name: Run tests
         run: |
