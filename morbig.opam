@@ -20,6 +20,7 @@ homepage: "https://github.com/colis-anr/morbig"
 bug-reports: "https://github.com/colis-anr/morbig/issues"
 depends: [
   "dune" {>= "2.5"}
+  "conf-jq" {with-test}
   "menhir" {>= "20200211"}
   "ocaml" {>= "4.04"}
   "odoc" {with-doc}
