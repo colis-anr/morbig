@@ -25,24 +25,24 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { os: ubuntu, ocaml: 4.04.x }
-          - { os: ubuntu, ocaml: 4.05.x }
-          - { os: ubuntu, ocaml: 4.06.x }
-          - { os: ubuntu, ocaml: 4.07.x }
-          - { os: ubuntu, ocaml: 4.08.x } ## oldest version with 0install
-          - { os: ubuntu, ocaml: 4.08.x, lower-bounds: lower-bounds, doc: no-doc }
-          - { os: ubuntu, ocaml: 4.09.x }
-          - { os: ubuntu, ocaml: 4.10.x }
-          - { os: ubuntu, ocaml: 4.11.x }
-          - { os: ubuntu, ocaml: 4.12.x }
-          - { os: ubuntu, ocaml: 4.13.x }
-          # { os: ubuntu, ocaml: 4.14.x } ## main supported version
-          - { os: ubuntu, ocaml: 4.14.x, lower-bounds: lower-bounds, doc: no-doc }
-          - { os: ubuntu, ocaml: 4.14.x, deploy-doc: deploy-doc }
-          - { os: ubuntu, ocaml: 4.14.1, bytecode: bytecode }
-          - { os: macos,  ocaml: 4.14.x }
-          - { os: windows, ocaml: 4.14.x, tests: no-tests }
-          - { os: ubuntu, ocaml: 5.0.x }
+          - {os: ubuntu, ocaml: 4.04.x}
+          - {os: ubuntu, ocaml: 4.05.x}
+          - {os: ubuntu, ocaml: 4.06.x}
+          - {os: ubuntu, ocaml: 4.07.x}
+          - {os: ubuntu, ocaml: 4.08.x}  ## oldest version with 0install
+          - {os: ubuntu, ocaml: 4.08.x, lower-bounds: lower-bounds, doc: no-doc}
+          - {os: ubuntu, ocaml: 4.09.x}
+          - {os: ubuntu, ocaml: 4.10.x}
+          - {os: ubuntu, ocaml: 4.11.x}
+          - {os: ubuntu, ocaml: 4.12.x}
+          - {os: ubuntu, ocaml: 4.13.x}
+          # {os: ubuntu, ocaml: 4.14.x}  ## main supported version
+          - {os: ubuntu, ocaml: 4.14.x, lower-bounds: lower-bounds, doc: no-doc}
+          - {os: ubuntu, ocaml: 4.14.x, deploy-doc: deploy-doc}
+          - {os: ubuntu, ocaml: 4.14.1, bytecode: bytecode}
+          - {os: macos, ocaml: 4.14.x}
+          - {os: windows, ocaml: 4.14.x, tests: no-tests}
+          - {os: ubuntu, ocaml: 5.0.x}
           ## NOTE: The `ocaml/setup-ocaml@v2` action does not support `4.14.x`
           ## versions for `ocaml-variants` and such, hence the detailed version.
           ## NOTE: After OCaml 5.0.0, `ocaml-option-bytecode-only` can be used
@@ -213,17 +213,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { tag: alpine, deploy-image: deploy-image }
-          - { tag: archlinux }
-          - { tag: centos }
-          - { tag: debian }
-          - { tag: debian-testing }
-          - { tag: debian-unstable }
-          - { tag: fedora }
-          - { tag: opensuse }
-          - { tag: oraclelinux }
-          - { tag: ubuntu }
-          - { tag: ubuntu-lts }
+          - {tag: alpine, deploy-image: deploy-image}
+          - {tag: archlinux}
+          - {tag: centos}
+          - {tag: debian}
+          - {tag: debian-testing}
+          - {tag: debian-unstable}
+          - {tag: fedora}
+          - {tag: opensuse}
+          - {tag: oraclelinux}
+          - {tag: ubuntu}
+          - {tag: ubuntu-lts}
 
     runs-on: ubuntu-latest
 
