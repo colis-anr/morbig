@@ -212,7 +212,7 @@ jobs:
         include:
           - {tag: alpine, deploy-image: deploy-image}
           - {tag: archlinux}
-          - {tag: centos}
+          - {tag: centos, tests: no-tests}  ## only has Alcotest 1.6 (2023-05-11)
           - {tag: debian}
           - {tag: debian-testing}
           - {tag: debian-unstable}
