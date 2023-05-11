@@ -25,15 +25,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {os: ubuntu, ocaml: 4.04.x}
-          - {os: ubuntu, ocaml: 4.05.x}
-          - {os: ubuntu, ocaml: 4.06.x}
-          - {os: ubuntu, ocaml: 4.07.x}
-          - {os: ubuntu, ocaml: 4.08.x}  ## oldest version with 0install
-          - {os: ubuntu, ocaml: 4.08.x, lower-bounds: lower-bounds, doc: no-doc}
-          - {os: ubuntu, ocaml: 4.09.x}
-          - {os: ubuntu, ocaml: 4.10.x}
-          - {os: ubuntu, ocaml: 4.11.x}
+          - {os: ubuntu, ocaml: 4.11.x}  ## in Debian stable (2023-05-11)
+          - {os: ubuntu, ocaml: 4.11.x, lower-bounds: lower-bounds, doc: no-doc}
           - {os: ubuntu, ocaml: 4.12.x}
           - {os: ubuntu, ocaml: 4.13.x}
           # {os: ubuntu, ocaml: 4.14.x}  ## main supported version
