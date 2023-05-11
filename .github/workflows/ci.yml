@@ -61,6 +61,17 @@ jobs:
     runs-on: ${{ matrix.os }}-latest
 
     steps:
+      - name: Determine OPAM flags
+        shell: bash  ## for Windows
+        run: |
+          if ${{ matrix.doc != 'no-doc' }}; then
+            with_doc=--with-doc
+          fi
+          if ${{ matrix.tests != 'no-tests' }}; then
+            with_test=--with-test
+          fi
+          echo "OPAM_FLAGS=$with_doc $with_test" >> "$GITHUB_ENV"
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -80,16 +91,7 @@ jobs:
         run: opam install dune --yes
 
       - name: Install OPAM dependencies
-        run: |
-          ## Install dependencies. Include the installation of
-          ## documentation and tests only if specified.
-          if ${{ matrix.doc != 'no-doc' }}; then
-            with_doc=--with-doc
-          fi
-          if ${{ matrix.tests != 'no-tests' }}; then
-            with_test=--with-test
-          fi
-          opam install . --deps-only $with_test $with_doc
+        run: opam install . --deps-only $OPAM_FLAGS
 
       - name: (Lower bounds) Install OPAM-0install
         if: matrix.lower-bounds == 'lower-bounds'
@@ -105,7 +107,7 @@ jobs:
           ## Ask `opam-0install` to get us the oldest possible dependencies for
           ## Morbig, while keeping the exact same version of
           ## `ocaml-base-compiler`.
-          opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
+          opam exec -- opam-0install --prefer-oldest $OPAM_FLAGS morbig $obc > lower-bounds
           ## Log what we are aiming for
           printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
           printf '`opam-0install` suggests installing the following packages:\n'
