@@ -80,16 +80,23 @@ jobs:
         run: opam install dune --yes
 
       - name: Install OPAM dependencies
-        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> see after
-        run: opam install . --deps-only --with-test --with-doc
+        run: |
+          ## Install dependencies. Include the installation of
+          ## documentation and tests only if specified.
+          if ${{ matrix.doc != 'no-doc' }}; then
+            with_doc=--with-doc
+          fi
+          if ${{ matrix.tests != 'no-tests' }}; then
+            with_test=--with-test
+          fi
+          opam install . --deps-only $with_test $with_doc
 
-      - name: (Lower bounds) Install OPAM dependencies
+      - name: (Lower bounds) Install OPAM-0install
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
-          opam install . --deps-only --with-test
           opam install opam-0install
 
-      - name: (Lower bounds) Ask OPAM 0install for an install plan
+      - name: (Lower bounds) Ask OPAM-0install for an install plan
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
           ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
