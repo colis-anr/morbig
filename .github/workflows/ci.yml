@@ -30,23 +30,28 @@ jobs:
           - { os: ubuntu, ocaml: 4.06.x }
           - { os: ubuntu, ocaml: 4.07.x }
           - { os: ubuntu, ocaml: 4.08.x } ## oldest version with 0install
-          - { os: ubuntu, ocaml: 4.08.x, lower-bounds: lower-bounds }
+          - { os: ubuntu, ocaml: 4.08.x, lower-bounds: lower-bounds, doc: no-doc }
           - { os: ubuntu, ocaml: 4.09.x }
           - { os: ubuntu, ocaml: 4.10.x }
           - { os: ubuntu, ocaml: 4.11.x }
           - { os: ubuntu, ocaml: 4.12.x }
           - { os: ubuntu, ocaml: 4.13.x }
           # { os: ubuntu, ocaml: 4.14.x } ## main supported version
-          - { os: ubuntu, ocaml: 4.14.x, lower-bounds: lower-bounds }
+          - { os: ubuntu, ocaml: 4.14.x, lower-bounds: lower-bounds, doc: no-doc }
           - { os: ubuntu, ocaml: 4.14.x, deploy-doc: deploy-doc }
           - { os: ubuntu, ocaml: 4.14.1, bytecode: bytecode }
           - { os: macos,  ocaml: 4.14.x }
-          - { os: windows, ocaml: 4.14.x }
+          - { os: windows, ocaml: 4.14.x, tests: no-tests }
           - { os: ubuntu, ocaml: 5.0.x }
           ## NOTE: The `ocaml/setup-ocaml@v2` action does not support `4.14.x`
           ## versions for `ocaml-variants` and such, hence the detailed version.
           ## NOTE: After OCaml 5.0.0, `ocaml-option-bytecode-only` can be used
           ## directly with `ocaml-base-compiler`, probably?
+          ## NOTE: Tests are written in a Unix-like way and therefore cannot
+          ## run correctly on Windows.
+          ## NOTE: `lower-bounds` implies to not build the documentation because
+          ## `opam-0install`, the solver we use, does not support it. Therefore
+          ## we don't even install those dependencies to begin with.
 
     ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
     permissions:
@@ -81,9 +86,6 @@ jobs:
       - name: (Lower bounds) Install OPAM dependencies
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
-          ## NOTE: `lower-bounds` imply to not build the documentation because
-          ## `opam-0install`, the solver we use, does not support it. Therefore
-          ## we don't even install those dependencies to begin with.
           opam install . --deps-only --with-test
           opam install opam-0install
 
@@ -110,11 +112,11 @@ jobs:
         run: opam exec -- make
 
       - name: Try building documentation
-        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+        if: matrix.doc != 'no-doc'
         run: opam exec -- make doc
 
       - name: Run tests
-        if: runner.os != 'Windows'  ## Tests are written in a Unix-like way
+        if: matrix.tests != 'no-tests'
         run: opam exec -- make check
 
       - name: Try installing
@@ -133,11 +135,11 @@ jobs:
         run: opam exec -- make clean
 
       - name: Build documentation for auto-deployment
-        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+        if: matrix.doc != 'no-doc'
         run: opam exec -- make doc
 
       - name: Upload documentation artifact
-        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+        if: matrix.doc != 'no-doc'
         uses: actions/upload-pages-artifact@v1
         with:
           path: doc/
@@ -147,7 +149,6 @@ jobs:
         if: github.event_name == 'push'
             && github.ref == 'refs/heads/main'
             && matrix.deploy-doc == 'deploy-doc'
-            && matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
 
   ## ========================= [ APT-based CI ] ========================== ##
 
