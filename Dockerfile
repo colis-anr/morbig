@@ -20,15 +20,16 @@ RUN [ -z "$switch" ] || opam switch create "$switch"
 
 RUN opam depext -i menhir yojson ppx_deriving_yojson visitors
 
-## Install documentation dependencies. Can be disabled with `--build-arg
-## doc=false`.
+## Install documentation dependencies. Disabled by default, but can be enabled
+## with `--build-arg doc=true`.
 
-ARG doc=true
+ARG doc=false
 RUN $doc && opam depext -i odoc
 
-## Install tests dependencies. Can be disabled with `--build-arg tests=false`.
+## Install tests dependencies. Disabled by default, but be enabled with
+## `--build-arg tests=true`.
 
-ARG tests=true
+ARG tests=false
 RUN $tests && opam depext -i conf-jq
 
 ## Work in /home/opam/morbig, copy all the file there with the right
