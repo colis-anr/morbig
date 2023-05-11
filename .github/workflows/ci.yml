@@ -24,36 +24,34 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu]
-        ocaml-version:
-          - 4.04.x
-          - 4.05.x
-          - 4.06.x
-          - 4.07.x
-          # - 4.08.x ## oldest version with 0install; explicitly included later
-          - 4.09.x
-          - 4.10.x
-          - 4.11.x
-          - 4.12.x
-          - 4.13.x
-          # - 4.14.x ## main supported version; explicitly included later
-          - 5.0.x
         include:
-          ## - oldest version supported by 0install, with and without lower
-          ##   bounds checks
-          ## - main supported version with lower bounds checks, with
-          ##   documentation deployment, on Windows and on MacOS.
-          - { os: ubuntu,  ocaml-version: 4.08.x }
-          - { os: ubuntu,  ocaml-version: 4.08.x, lower-bounds: lower-bounds }
-          - { os: ubuntu,  ocaml-version: 4.14.x, lower-bounds: lower-bounds }
-          - { os: ubuntu,  ocaml-version: 4.14.x, deploy-doc: deploy-doc }
-          - { os: ubuntu,  ocaml-version: 4.14.1, bytecode: bytecode }
-          - { os: macos,   ocaml-version: 4.14.x }
-          - { os: windows, ocaml-version: 4.14.x }
+          - {os: ubuntu, ocaml: 4.04.x}
+          - {os: ubuntu, ocaml: 4.05.x}
+          - {os: ubuntu, ocaml: 4.06.x}
+          - {os: ubuntu, ocaml: 4.07.x}
+          - {os: ubuntu, ocaml: 4.08.x}  ## oldest version with 0install
+          - {os: ubuntu, ocaml: 4.08.x, lower-bounds: lower-bounds, doc: no-doc}
+          - {os: ubuntu, ocaml: 4.09.x}
+          - {os: ubuntu, ocaml: 4.10.x}
+          - {os: ubuntu, ocaml: 4.11.x}
+          - {os: ubuntu, ocaml: 4.12.x}
+          - {os: ubuntu, ocaml: 4.13.x}
+          # {os: ubuntu, ocaml: 4.14.x}  ## main supported version
+          - {os: ubuntu, ocaml: 4.14.x, lower-bounds: lower-bounds, doc: no-doc}
+          - {os: ubuntu, ocaml: 4.14.x, deploy-doc: deploy-doc}
+          - {os: ubuntu, ocaml: 4.14.1, bytecode: bytecode}
+          - {os: macos, ocaml: 4.14.x}
+          - {os: windows, ocaml: 4.14.x, tests: no-tests}
+          - {os: ubuntu, ocaml: 5.0.x}
           ## NOTE: The `ocaml/setup-ocaml@v2` action does not support `4.14.x`
           ## versions for `ocaml-variants` and such, hence the detailed version.
           ## NOTE: After OCaml 5.0.0, `ocaml-option-bytecode-only` can be used
           ## directly with `ocaml-base-compiler`, probably?
+          ## NOTE: Tests are written in a Unix-like way and therefore cannot
+          ## run correctly on Windows.
+          ## NOTE: `lower-bounds` implies to not build the documentation because
+          ## `opam-0install`, the solver we use, does not support it. Therefore
+          ## we don't even install those dependencies to begin with.
 
     ## Grant GITHUB_TOKEN the permissions required to make a pages deployment
     permissions:
@@ -63,38 +61,44 @@ jobs:
     runs-on: ${{ matrix.os }}-latest
 
     steps:
+      - name: Determine OPAM flags
+        shell: bash  ## for Windows
+        run: |
+          if ${{ matrix.doc != 'no-doc' }}; then
+            with_doc=--with-doc
+          fi
+          if ${{ matrix.tests != 'no-tests' }}; then
+            with_test=--with-test
+          fi
+          echo "OPAM_FLAGS=$with_doc $with_test" >> "$GITHUB_ENV"
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Use OCaml ${{ matrix.ocaml-version }}
+      - name: Use OCaml ${{ matrix.ocaml }}
         if: matrix.bytecode != 'bytecode'
         uses: ocaml/setup-ocaml@v2
         with:
-          ocaml-compiler: ${{ matrix.ocaml-version }}
+          ocaml-compiler: ${{ matrix.ocaml }}
 
-      - name: (Bytecode) Use OCaml ${{ matrix.ocaml-version }}
+      - name: (Bytecode) Use OCaml ${{ matrix.ocaml }}
         if: matrix.bytecode == 'bytecode'
         uses: ocaml/setup-ocaml@v2
         with:
-          ocaml-compiler: ocaml-variants.${{ matrix.ocaml-version }}+options,ocaml-option-bytecode-only
+          ocaml-compiler: ocaml-variants.${{ matrix.ocaml }}+options,ocaml-option-bytecode-only
 
       - name: Install Dune
         run: opam install dune --yes
 
       - name: Install OPAM dependencies
-        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> see after
-        run: opam install . --deps-only --with-test --with-doc
+        run: opam install . --deps-only ${{ env.OPAM_FLAGS }}
 
-      - name: (Lower bounds) Install OPAM dependencies
+      - name: (Lower bounds) Install OPAM-0install
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
-          ## NOTE: `lower-bounds` imply to not build the documentation because
-          ## `opam-0install`, the solver we use, does not support it. Therefore
-          ## we don't even install those dependencies to begin with.
-          opam install . --deps-only --with-test
           opam install opam-0install
 
-      - name: (Lower bounds) Ask OPAM 0install for an install plan
+      - name: (Lower bounds) Ask OPAM-0install for an install plan
         if: matrix.lower-bounds == 'lower-bounds'
         run: |
           ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
@@ -103,7 +107,7 @@ jobs:
           ## Ask `opam-0install` to get us the oldest possible dependencies for
           ## Morbig, while keeping the exact same version of
           ## `ocaml-base-compiler`.
-          opam exec -- opam-0install --prefer-oldest --with-test morbig $obc > lower-bounds
+          opam exec -- opam-0install --prefer-oldest $OPAM_FLAGS morbig $obc > lower-bounds
           ## Log what we are aiming for
           printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
           printf '`opam-0install` suggests installing the following packages:\n'
@@ -117,11 +121,11 @@ jobs:
         run: opam exec -- make
 
       - name: Try building documentation
-        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+        if: matrix.doc != 'no-doc'
         run: opam exec -- make doc
 
       - name: Run tests
-        if: runner.os != 'Windows'  ## Tests are written in a Unix-like way
+        if: matrix.tests != 'no-tests'
         run: opam exec -- make check
 
       - name: Try installing
@@ -140,11 +144,11 @@ jobs:
         run: opam exec -- make clean
 
       - name: Build documentation for auto-deployment
-        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+        if: matrix.doc != 'no-doc'
         run: opam exec -- make doc
 
       - name: Upload documentation artifact
-        if: matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
+        if: matrix.doc != 'no-doc'
         uses: actions/upload-pages-artifact@v1
         with:
           path: doc/
@@ -154,7 +158,6 @@ jobs:
         if: github.event_name == 'push'
             && github.ref == 'refs/heads/main'
             && matrix.deploy-doc == 'deploy-doc'
-            && matrix.lower-bounds != 'lower-bounds'  ## lower-bounds -> no doc
 
   ## ========================= [ APT-based CI ] ========================== ##
 
@@ -209,16 +212,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag:
-          - centos
-          - debian
-          - debian-testing
-          - debian-unstable
-          - opensuse
-          - ubuntu
-          - ubuntu-lts
         include:
-          - { tag: alpine, deploy-image: deploy-image }
+          - {tag: alpine, deploy-image: deploy-image}
+          - {tag: archlinux}
+          - {tag: centos}
+          - {tag: debian}
+          - {tag: debian-testing}
+          - {tag: debian-unstable}
+          - {tag: fedora}
+          - {tag: opensuse}
+          - {tag: oraclelinux}
+          - {tag: ubuntu}
+          - {tag: ubuntu-lts}
 
     runs-on: ubuntu-latest
 
@@ -228,7 +233,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build . --tag morbig --build-arg tag=${{matrix.tag}}
+          docker build \
+            --tag morbig \
+            . \
+            --build-arg tag=${{matrix.tag}} \
+            --build-arg doc=${{matrix.doc != 'no-doc'}} \
+            --build-arg tests=${{matrix.tests != 'no-tests'}}
 
       - name: Run tests
         run: |
@@ -236,7 +246,12 @@ jobs:
               set -e
               eval $(opam env)
               cd /home/opam/morbig
-              make check
+              if ${{ matrix.tests != 'no-tests' }}; then
+                make check
+              fi
+              if ${{ matrix.doc != 'no-doc' }}; then
+                make doc
+              fi
               make install
               make examples
               make uninstall
@@ -283,7 +298,7 @@ jobs:
 
       - name: Install Nix dependencies
         run: |
-          nix develop .#${{ matrix.package }} --command true
+          nix develop .#${{ matrix.package }} --print-build-logs --command true
 
       - name: Build in development Shell
         run: |

@@ -7,28 +7,30 @@ ARG image=ocaml/opam:$tag
 FROM $image
 MAINTAINER Yann Regis-Gianas
 
-## This Dockerfile is made to be built on various distributions. Therefore, we
-## just attempt to install dependencies with a bunch of package managers, and we
-## just assert at the end that the dependencies are indeed installed.
-
-RUN ! command -v apk || sudo apk add jq
-RUN ! command -v apt-get || sudo apt-get install -yq jq
-RUN ! command -v yum || { sudo yum install -y epel-release && sudo yum update -y && sudo yum install -y jq; }
-RUN ! command -v zypper || sudo zypper --non-interactive install jq
-RUN command -v jq
-
 ## Choose the right version of the OPAM switch. By default, we use the
 ## one coming from the dist image. But one can specify a specific
 ## switch with the `--build-arg`.
 
 ARG switch=
-RUN [ -z "$switch" ] || opam switch create "$switch"
+RUN if [ -n "$switch" ]; then opam switch create "$switch"; fi
 
 ## Install dependencies. `opam depext` installs (in a distribution independant
 ## way) first the non-opam dependencies that are required and then the OPAM
 ## packages.
 
 RUN opam depext -i menhir yojson ppx_deriving_yojson visitors
+
+## Install documentation dependencies. Disabled by default, but can be enabled
+## with `--build-arg doc=true`.
+
+ARG doc=false
+RUN if $doc; then opam depext -i odoc; fi
+
+## Install tests dependencies. Disabled by default, but be enabled with
+## `--build-arg tests=true`.
+
+ARG tests=false
+RUN if $tests; then opam depext -i conf-jq; fi
 
 ## Work in /home/opam/morbig, copy all the file there with the right
 ## owner and group.
