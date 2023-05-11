@@ -23,6 +23,9 @@
           visitors
           yojson
 
+          ## doc inputs
+          odoc
+
           ## check inputs
           alcotest
         ];
