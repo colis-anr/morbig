@@ -91,7 +91,7 @@ jobs:
         run: opam install dune --yes
 
       - name: Install OPAM dependencies
-        run: opam install . --deps-only $OPAM_FLAGS
+        run: opam install . --deps-only ${{ env.OPAM_FLAGS }}
 
       - name: (Lower bounds) Install OPAM-0install
         if: matrix.lower-bounds == 'lower-bounds'
