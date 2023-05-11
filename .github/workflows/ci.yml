@@ -24,32 +24,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu]
-        ocaml:
-          - 4.04.x
-          - 4.05.x
-          - 4.06.x
-          - 4.07.x
-          # - 4.08.x ## oldest version with 0install; explicitly included later
-          - 4.09.x
-          - 4.10.x
-          - 4.11.x
-          - 4.12.x
-          - 4.13.x
-          # - 4.14.x ## main supported version; explicitly included later
-          - 5.0.x
         include:
-          ## - oldest version supported by 0install, with and without lower
-          ##   bounds checks
-          ## - main supported version with lower bounds checks, with
-          ##   documentation deployment, on Windows and on MacOS.
-          - { os: ubuntu,  ocaml: 4.08.x }
-          - { os: ubuntu,  ocaml: 4.08.x, lower-bounds: lower-bounds }
-          - { os: ubuntu,  ocaml: 4.14.x, lower-bounds: lower-bounds }
-          - { os: ubuntu,  ocaml: 4.14.x, deploy-doc: deploy-doc }
-          - { os: ubuntu,  ocaml: 4.14.1, bytecode: bytecode }
-          - { os: macos,   ocaml: 4.14.x }
+          - { os: ubuntu, ocaml: 4.04.x }
+          - { os: ubuntu, ocaml: 4.05.x }
+          - { os: ubuntu, ocaml: 4.06.x }
+          - { os: ubuntu, ocaml: 4.07.x }
+          - { os: ubuntu, ocaml: 4.08.x } ## oldest version with 0install
+          - { os: ubuntu, ocaml: 4.08.x, lower-bounds: lower-bounds }
+          - { os: ubuntu, ocaml: 4.09.x }
+          - { os: ubuntu, ocaml: 4.10.x }
+          - { os: ubuntu, ocaml: 4.11.x }
+          - { os: ubuntu, ocaml: 4.12.x }
+          - { os: ubuntu, ocaml: 4.13.x }
+          # { os: ubuntu, ocaml: 4.14.x } ## main supported version
+          - { os: ubuntu, ocaml: 4.14.x, lower-bounds: lower-bounds }
+          - { os: ubuntu, ocaml: 4.14.x, deploy-doc: deploy-doc }
+          - { os: ubuntu, ocaml: 4.14.1, bytecode: bytecode }
+          - { os: macos,  ocaml: 4.14.x }
           - { os: windows, ocaml: 4.14.x }
+          - { os: ubuntu, ocaml: 5.0.x }
           ## NOTE: The `ocaml/setup-ocaml@v2` action does not support `4.14.x`
           ## versions for `ocaml-variants` and such, hence the detailed version.
           ## NOTE: After OCaml 5.0.0, `ocaml-option-bytecode-only` can be used
