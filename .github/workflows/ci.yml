@@ -242,6 +242,9 @@ jobs:
               if ${{ matrix.tests != 'no-tests' }}; then
                 make check
               fi
+              if ${{ matrix.doc != 'no-doc' }}; then
+                make doc
+              fi
               make install
               make examples
               make uninstall
