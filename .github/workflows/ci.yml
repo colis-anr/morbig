@@ -212,11 +212,14 @@ jobs:
       matrix:
         include:
           - { tag: alpine, deploy-image: deploy-image }
+          - { tag: archlinux }
           - { tag: centos }
           - { tag: debian }
           - { tag: debian-testing }
           - { tag: debian-unstable }
+          - { tag: fedora }
           - { tag: opensuse }
+          - { tag: oraclelinux }
           - { tag: ubuntu }
           - { tag: ubuntu-lts }
 
