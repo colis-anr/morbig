@@ -286,7 +286,7 @@ jobs:
 
       - name: Install Nix dependencies
         run: |
-          nix develop .#${{ matrix.package }} --command true
+          nix develop .#${{ matrix.package }} --print-build-logs --command true
 
       - name: Build in development Shell
         run: |
