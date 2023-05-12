@@ -25,7 +25,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {os: ubuntu, ocaml: 4.11.x}  ## in Debian stable (2023-05-11)
+          - {os: ubuntu, ocaml: 4.11.x}  ## in Debian stable (as of 2023-05-11)
           - {os: ubuntu, ocaml: 4.11.x, lower-bounds: lower-bounds, doc: no-doc}
           - {os: ubuntu, ocaml: 4.12.x}
           - {os: ubuntu, ocaml: 4.13.x}
@@ -205,7 +205,7 @@ jobs:
       - name: Try uninstalling
         run: sudo make uninstall
 
-      ## Not working at the moment (2023-03-31), `dune clean` complains about:
+      ## Not working (as of 2023-03-31), `dune clean` complains about:
       ##
       ##     Error: unlink: _build/default/.dune/configurator: Permission denied
       ##
@@ -224,7 +224,7 @@ jobs:
         include:
           - {tag: alpine, deploy-image: deploy-image}
           - {tag: archlinux}
-          - {tag: centos, tests: no-tests}  ## only has Alcotest 1.6 (2023-05-11)
+          - {tag: centos, tests: no-tests}  ## only has Alcotest 1.6 (as of 2023-05-11)
           - {tag: debian}
           - {tag: debian-testing}
           - {tag: debian-unstable}
