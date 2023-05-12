@@ -75,12 +75,12 @@ let print_expected path =
 
 let compare_outputs path =
   let qpath = Filename.quote path in
-  Sys.commandf "diff %s/output.json %s/expected.json >/dev/null" qpath qpath
+  Sys.commandf "diff %s/expected.json %s/output.json >/dev/null" qpath qpath
 
 let print_diff path =
   let qpath = Filename.quote path in
-  pf "Diff is:@\n@.";
-  Sys.ignore_commandf "diff --color=always %s/output.json %s/expected.json" qpath qpath;
+  pf "Diff is (\027[31m< expected\027[0m | \027[32m> output\027[0m):@\n@.";
+  Sys.ignore_commandf "diff --color=always %s/expected.json %s/output.json" qpath qpath;
   pf "@."
 
 let check_bad_test_case path = fun () ->
