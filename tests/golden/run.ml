@@ -31,7 +31,13 @@ end
 
 let bat_or_cat path =
   Sys.ignore_commandf
-    "command -v bat >/dev/null && bat --force-colorization --style numbers %s || cat %s"
+    {|
+      if command -v bat >/dev/null; then
+        bat --force-colorization --style numbers %s
+      else
+        cat %s
+      fi
+    |}
     (Filename.quote path) (Filename.quote path)
 
 let skip_if_no_input path =
@@ -60,7 +66,13 @@ let run_morbig path =
   let rc = Sys.commandf "%s --as simple %s/input.sh" !morbig_path qpath in
   pf "Morbig terminated with return code %d.@." rc;
   (* normalise with `jq` into `output.json` *)
-  Sys.ignore_commandf "if [ -e %s/input.sh.sjson ]; then cat %s/input.sh.sjson | jq . > %s/output.json; fi" qpath qpath qpath;
+  Sys.ignore_commandf
+    {|
+      if [ -e %s/input.sh.sjson ]; then
+        cat %s/input.sh.sjson | jq . > %s/output.json
+      fi
+    |}
+    qpath qpath qpath;
   rc
 
 let print_output path =
