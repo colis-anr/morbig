@@ -96,7 +96,7 @@ jobs:
         run: |
           ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
           ## Note the current version of `ocaml-base-compiler`
-          obc=ocaml-base-compiler.$(opam info --color=never --field=version ocaml-base-compiler)
+          obc=ocaml-base-compiler.$(opam exec -- ocamlc --version)
           ## Ask `opam-0install` to get us the oldest possible dependencies for
           ## Morbig, while keeping the exact same version of
           ## `ocaml-base-compiler`.
