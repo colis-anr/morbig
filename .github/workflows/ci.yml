@@ -100,7 +100,10 @@ jobs:
           ## Ask `opam-0install` to get us the oldest possible dependencies for
           ## Morbig, while keeping the exact same version of
           ## `ocaml-base-compiler`.
-          opam exec -- opam-0install --prefer-oldest $OPAM_FLAGS morbig $obc > lower-bounds
+          opam exec -- \
+              opam-0install --prefer-oldest $OPAM_FLAGS morbig.dev $obc \
+                  | sed 's|morbig.dev||' \
+                  > lower-bounds
           ## Log what we are aiming for
           printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
           printf '`opam-0install` suggests installing the following packages:\n'
