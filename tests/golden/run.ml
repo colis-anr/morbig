@@ -31,8 +31,17 @@ end
 
 let bat_or_cat path =
   Sys.ignore_commandf
-    "command -v bat >/dev/null && bat --force-colorization --style numbers %s || cat %s"
+    {|
+      if command -v bat >/dev/null; then
+        bat --force-colorization --style numbers %s
+      else
+        cat %s
+      fi
+    |}
     (Filename.quote path) (Filename.quote path)
+
+let print_test_info path =
+  pf "Test is:@\n@\n  %s@\n@." path
 
 let skip_if_no_input path =
   if not (Sys.file_exists (Filename.concat path "input.sh")) then
@@ -60,7 +69,13 @@ let run_morbig path =
   let rc = Sys.commandf "%s --as simple %s/input.sh" !morbig_path qpath in
   pf "Morbig terminated with return code %d.@." rc;
   (* normalise with `jq` into `output.json` *)
-  Sys.ignore_commandf "if [ -e %s/input.sh.sjson ]; then cat %s/input.sh.sjson | jq . > %s/output.json; fi" qpath qpath qpath;
+  Sys.ignore_commandf
+    {|
+      if [ -e %s/input.sh.sjson ]; then
+        cat %s/input.sh.sjson | jq . > %s/output.json
+      fi
+    |}
+    qpath qpath qpath;
   rc
 
 let print_output path =
@@ -75,15 +90,16 @@ let print_expected path =
 
 let compare_outputs path =
   let qpath = Filename.quote path in
-  Sys.commandf "diff %s/output.json %s/expected.json >/dev/null" qpath qpath
+  Sys.commandf "diff %s/expected.json %s/output.json >/dev/null" qpath qpath
 
 let print_diff path =
   let qpath = Filename.quote path in
-  pf "Diff is:@\n@.";
-  Sys.ignore_commandf "diff --color=always %s/output.json %s/expected.json" qpath qpath;
+  pf "Diff is (\027[31m< expected\027[0m | \027[32m> output\027[0m):@\n@.";
+  Sys.ignore_commandf "diff --color=always %s/expected.json %s/output.json" qpath qpath;
   pf "@."
 
 let check_bad_test_case path = fun () ->
+  print_test_info path;
   skip_if_no_input path;
   print_input path;
   skip_if_open path;
@@ -94,6 +110,7 @@ let check_bad_test_case path = fun () ->
     )
 
 let check_good_test_case path = fun () ->
+  print_test_info path;
   skip_if_no_input path;
   print_input path;
   skip_if_open path;
