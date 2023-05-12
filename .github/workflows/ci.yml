@@ -134,7 +134,16 @@ jobs:
         run: opam exec -- make examples
 
       - name: Try uninstalling
+        if: matrix.lower-bounds != 'lower-bounds'
         run: opam exec -- make uninstall
+
+      - name: (Lower bounds) Try uninstalling
+        ## NOTE: Old versions of Dune (< 3.1.0) fail when they cannot remove
+        ## `bin` or `lib/morbig` in the prefix. But `bin` is very rarely empty.
+        ## Until it is reasonable to require Dune >= 3.1.0, we keep this special
+        ## case for the part of the CI interested in lower bounds.
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: opam exec -- make uninstall || true
 
       - name: Try cleaning
         run: opam exec -- make clean
