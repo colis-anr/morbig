@@ -40,6 +40,9 @@ let bat_or_cat path =
     |}
     (Filename.quote path) (Filename.quote path)
 
+let print_test_info path =
+  pf "Test is:@\n@\n  %s@\n@." path
+
 let skip_if_no_input path =
   if not (Sys.file_exists (Filename.concat path "input.sh")) then
     (
@@ -96,6 +99,7 @@ let print_diff path =
   pf "@."
 
 let check_bad_test_case path = fun () ->
+  print_test_info path;
   skip_if_no_input path;
   print_input path;
   skip_if_open path;
@@ -106,6 +110,7 @@ let check_bad_test_case path = fun () ->
     )
 
 let check_good_test_case path = fun () ->
+  print_test_info path;
   skip_if_no_input path;
   print_input path;
   skip_if_open path;
