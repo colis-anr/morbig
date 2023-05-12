@@ -25,6 +25,7 @@
 
  (depends
   (conf-jq              :with-test)
+  (alcotest             (and :with-test (>= "1.7.0")))
   (menhir               (>= "20200211"))
   (ocaml                (>= "4.04"))
   (odoc                 :with-doc)

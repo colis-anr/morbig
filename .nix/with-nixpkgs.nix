@@ -22,6 +22,12 @@
           ppx_deriving_yojson
           visitors
           yojson
+
+          ## doc inputs
+          odoc
+
+          ## check inputs
+          alcotest
         ];
 
         buildPhase = ''

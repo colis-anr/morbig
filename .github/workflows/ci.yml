@@ -25,15 +25,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {os: ubuntu, ocaml: 4.04.x}
-          - {os: ubuntu, ocaml: 4.05.x}
-          - {os: ubuntu, ocaml: 4.06.x}
-          - {os: ubuntu, ocaml: 4.07.x}
-          - {os: ubuntu, ocaml: 4.08.x}  ## oldest version with 0install
-          - {os: ubuntu, ocaml: 4.08.x, lower-bounds: lower-bounds, doc: no-doc}
-          - {os: ubuntu, ocaml: 4.09.x}
-          - {os: ubuntu, ocaml: 4.10.x}
-          - {os: ubuntu, ocaml: 4.11.x}
+          - {os: ubuntu, ocaml: 4.11.x}  ## in Debian stable (as of 2023-05-11)
+          - {os: ubuntu, ocaml: 4.11.x, lower-bounds: lower-bounds, doc: no-doc}
           - {os: ubuntu, ocaml: 4.12.x}
           - {os: ubuntu, ocaml: 4.13.x}
           # {os: ubuntu, ocaml: 4.14.x}  ## main supported version
@@ -103,11 +96,14 @@ jobs:
         run: |
           ## Based on: https://sim642.eu/blog/2022/03/13/ocaml-dependencies-lower-bounds-ci/
           ## Note the current version of `ocaml-base-compiler`
-          obc=ocaml-base-compiler.$(opam info --color=never --field=version ocaml-base-compiler)
+          obc=ocaml-base-compiler.$(opam exec -- ocamlc --version)
           ## Ask `opam-0install` to get us the oldest possible dependencies for
           ## Morbig, while keeping the exact same version of
           ## `ocaml-base-compiler`.
-          opam exec -- opam-0install --prefer-oldest $OPAM_FLAGS morbig $obc > lower-bounds
+          opam exec -- \
+              opam-0install --prefer-oldest $OPAM_FLAGS morbig.dev $obc \
+                  | sed 's|morbig.dev||' \
+                  > lower-bounds
           ## Log what we are aiming for
           printf '\e[36m<><>\e[0m Packages to install \e[36m><><><><><><><><><><><><><><><><><><><><><><><><><><><>\e[0m\n'
           printf '`opam-0install` suggests installing the following packages:\n'
@@ -138,7 +134,16 @@ jobs:
         run: opam exec -- make examples
 
       - name: Try uninstalling
+        if: matrix.lower-bounds != 'lower-bounds'
         run: opam exec -- make uninstall
+
+      - name: (Lower bounds) Try uninstalling
+        ## NOTE: Old versions of Dune (< 3.1.0) fail when they cannot remove
+        ## `bin` or `lib/morbig` in the prefix. But `bin` is very rarely empty.
+        ## Until it is reasonable to require Dune >= 3.1.0, we keep this special
+        ## case for the part of the CI interested in lower bounds.
+        if: matrix.lower-bounds == 'lower-bounds'
+        run: opam exec -- make uninstall || true
 
       - name: Try cleaning
         run: opam exec -- make clean
@@ -180,12 +185,16 @@ jobs:
         run: make
 
       ## No odoc in Debian stable, sadly, so no documentation!
+      ## REVIEW: Ubuntu 22.10 does have a package `ocaml-odoc` though.
 
       # - name: Try building documentation
       #   run: make doc
 
-      - name: Run tests
-        run: make check
+      ## Ubuntu 22.10 only has Alcotest 1.6 which is not recent enough for our
+      ## tests. Therefore, tests are disabled on this platform.
+
+      # - name: Run tests
+      #   run: make check
 
       - name: Try installing
         run: sudo make install
@@ -196,7 +205,7 @@ jobs:
       - name: Try uninstalling
         run: sudo make uninstall
 
-      ## Not working at the moment (2023-03-31), `dune clean` complains about:
+      ## Not working (as of 2023-03-31), `dune clean` complains about:
       ##
       ##     Error: unlink: _build/default/.dune/configurator: Permission denied
       ##
@@ -215,7 +224,7 @@ jobs:
         include:
           - {tag: alpine, deploy-image: deploy-image}
           - {tag: archlinux}
-          - {tag: centos}
+          - {tag: centos, tests: no-tests}  ## only has Alcotest 1.6 (as of 2023-05-11)
           - {tag: debian}
           - {tag: debian-testing}
           - {tag: debian-unstable}
@@ -303,6 +312,10 @@ jobs:
       - name: Build in development Shell
         run: |
           nix develop .#${{ matrix.package }} --command make
+
+      - name: Build documentation in development Shell
+        run: |
+          nix develop .#${{ matrix.package }} --command make doc
 
       - name: Run tests in development Shell
         run: |

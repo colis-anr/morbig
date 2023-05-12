@@ -32,11 +32,8 @@ install: build
 uninstall: build
 	dune uninstall $(INSTALL_ARGS)
 
-check: build
-	@ output=$$(./tests/golden/run 2>&1) ;     \
-	  status=$$? ;                      \
-	  echo "$$output" | tee tests.org ; \
-	  exit $$status
+check:
+	dune test
 
 examples:
 	find examples -name 'Makefile' | \
@@ -47,8 +44,6 @@ clean:
 	rm -f src/c/dune
 	dune clean
 	rm -f bin lib doc
-	rm -f tests.org
-	tests/golden/run clean || true
 
 PACKAGE=$(shell echo morbig-`cat VERSION`)
 

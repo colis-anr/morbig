@@ -1,0 +1,7 @@
+(test
+ (name run)
+ (libraries alcotest)
+ (deps
+  (source_tree .))
+ (action
+  (run %{test} --morbig %{bin:morbig})))
