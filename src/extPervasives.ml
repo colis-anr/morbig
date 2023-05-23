@@ -44,6 +44,7 @@ let split_list is_delim l =
   in
   List.filter (fun x -> x <> []) (aux [] [] l)
 
+(* REVIEW: How is this different from [List.sort_uniq compare]? *)
 let uniq l =
   let rec remove_dup = function
     | [] -> []
@@ -73,10 +74,12 @@ let histogram projector l =
   in
   count 0 None (List.sort compare_options l)
 
+(* REVIEW: Since 4.08, there is [Option.iter]. *)
 let option_iter o f = match o with
   | None -> ()
   | Some x -> f x
 
+(* REVIEW: Since 4.08, there is [Option.map]. *)
 let option_map o f = match o with
   | None -> None
   | Some x -> Some (f x)
