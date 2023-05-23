@@ -9,10 +9,22 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-let () =
-  Alcotest.run
-    "unit"
-    [
-      ("Name", Name.test_cases);
-      ("ExtPervasives", ExtPervasives.test_cases);
-    ]
+module MEP = Morbig__.ExtPervasives
+
+let smlc_slc =
+  QCheck_alcotest.to_alcotest
+    QCheck.(
+      Test.make
+        ~count:1000
+        ~name:"string_minus_last_char ^ string_last_char"
+        string
+        (fun s ->
+           assume (s <> "");
+           s = MEP.(string_minus_last_char s
+                    ^ String.make 1 (string_last_char s))
+        )
+    )
+
+let test_cases = [
+  smlc_slc;
+]

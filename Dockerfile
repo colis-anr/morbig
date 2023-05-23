@@ -30,7 +30,7 @@ RUN if $doc; then opam depext -i odoc; fi
 ## `--build-arg tests=true`.
 
 ARG tests=false
-RUN if $tests; then opam depext -i conf-jq alcotest; fi
+RUN if $tests; then opam depext -i conf-jq alcotest qcheck qcheck-alcotest; fi
 
 ## Work in /home/opam/morbig, copy all the file there with the right
 ## owner and group.
