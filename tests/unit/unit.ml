@@ -13,5 +13,5 @@ let () =
   Alcotest.run
     "unit"
     [
-      ("name", Name.test_cases);
+      ("Name", Name.test_cases);
     ]
