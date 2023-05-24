@@ -28,6 +28,8 @@
 
           ## check inputs
           alcotest
+          qcheck
+          qcheck-alcotest
         ];
 
         buildPhase = ''
