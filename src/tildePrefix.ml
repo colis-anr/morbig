@@ -9,6 +9,8 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+open ExtPervasives
+
 (*specification
 
   A "tilde-prefix" consists of an unquoted <tilde> character at the
@@ -81,24 +83,6 @@ let extract_tilde_prefix_from_word_if_present (word : word_cst) : word_cst =
     extract_tilde_prefix_from_literal literal @ word
   | word -> word
 
-(** Extracts the first and last elements of a list; returns a triple consisting
-    of the first element, the “body” of the list and the last element. Assumes
-    that the list has at least two elements or raises [Invalid_arg]. *)
-let extract_list_head_and_foot (list : 'a list) : 'a * 'a list * 'a =
-  let rec extract_list_foot (list : 'a list) : 'a list * 'a =
-    match list with
-    | [] -> assert false
-    | [foot] -> ([], foot)
-    | first :: rest ->
-      let (body, foot) = extract_list_foot rest in
-      (first :: body, foot)
-  in
-  match list with
-  | [] | [_] -> invalid_arg "extract_list_head_and_foot"
-  | head :: rest ->
-    let (body, foot) = extract_list_foot rest in
-    (head, body, foot)
-
 (** Splits the given word on each literal colon character, returning a list of
     words. A word semantically equivalent can be re-obtained by interspersing a
     [WordLiteral ":"] between all the words. *)
@@ -112,16 +96,18 @@ let split_word_on_colon (word_to_process : word_cst) : word_cst list =
     =
     match word_to_process with
     | WordLiteral literal :: word_to_process when String.contains literal ':' ->
+      (* Because [literal] contains [':'], then [subliterals] is guaranteed to
+         be of size at least 2, and therefore [List.hd], [List.cr], and
+         [List.tl] will not fail. *)
       let subliterals = String.split_on_char ':' literal in
-      let (first, body, foot) = extract_list_head_and_foot subliterals in
       let processed_words_rev =
-        List.rev_map (fun literal -> [WordLiteral literal]) body
-        @ [List.rev (WordLiteral first :: current_word_rev)]
+        List.rev_map (fun literal -> [WordLiteral literal]) (List.cr subliterals)
+        @ [List.rev (WordLiteral (List.hd subliterals) :: current_word_rev)]
         @ processed_words_rev
       in
       split_word_component_on_colon
         ~processed_words_rev
-        ~current_word_rev:[WordLiteral foot]
+        ~current_word_rev:[WordLiteral (List.ft subliterals)]
         ~word_to_process
 
     | word_component :: word_to_process ->
