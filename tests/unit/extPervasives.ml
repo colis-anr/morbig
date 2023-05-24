@@ -16,7 +16,7 @@ let smlc_slc =
     QCheck.(
       Test.make
         ~count:1000
-        ~name:"string_minus_last_char ^ string_last_char"
+        ~name:"string_minus_last_char ^ string_last_char = id"
         string
         (fun s ->
            assume (s <> "");
@@ -25,6 +25,41 @@ let smlc_slc =
         )
     )
 
+module List = struct
+  module MEPL = Morbig__.ExtPervasives.List
+
+  let bd_tl =
+    QCheck_alcotest.to_alcotest
+      QCheck.(
+        Test.make
+          ~count:1000
+          ~name:"List.(bd @ [tl] = id)"
+          (list int)
+          (fun l ->
+             assume (List.compare_length_with l 2 >= 0);
+             l = MEPL.(bd l @ [ft l])
+          )
+      )
+
+  let hd_cr_tl =
+    QCheck_alcotest.to_alcotest
+      QCheck.(
+        Test.make
+          ~count:1000
+          ~name:"List.([hd] @ cr @ [tl] = id)"
+          (list int)
+          (fun l ->
+             assume (List.compare_length_with l 2 >= 0);
+             l = MEPL.([hd l] @ cr l @ [ft l])
+          )
+      )
+
+  let test_cases = [
+    bd_tl;
+    hd_cr_tl;
+  ]
+end
+
 let test_cases = [
   smlc_slc;
-]
+] @ List.test_cases
