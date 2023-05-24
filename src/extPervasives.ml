@@ -94,10 +94,16 @@ let string_cut_at k s = String.(
 
 exception InvalidSuffix of string * string
 
+(** [string_split k s] cuts the string [s] in two, returning a pair of strings
+    consisting of the [k] first elements of [s] and the rest. Raises [Failure
+    "string_split"] if [s] does not have length at least [k]. *)
 let string_split k s =
   let n = String.length s in
   let k = min k n in
-  try String.sub s 0 k, String.sub s k (n - k) with _ -> assert false
+  try
+    (String.sub s 0 k, String.sub s k (n - k))
+  with
+    _ -> failwith "string_split"
 
 let string_remove_suffix suffix s = String.(
     let k = length s - length suffix in
