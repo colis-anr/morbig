@@ -30,8 +30,8 @@
   (ocaml                (>= "4.04"))
   (odoc                 :with-doc)
    ppx_deriving_yojson
-  (qcheck               (and :with-test (>= "0.9")))
-  (qcheck-alcotest      (and :with-test (>= "0.9")))
+  (qcheck               (and :with-test (>= "0.18")))
+  (qcheck-alcotest      (and :with-test (>= "0.18")))
   (visitors             (>= "20200207"))
   (yojson               (>= "1.6.0"))))
 
