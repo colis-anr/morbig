@@ -71,11 +71,10 @@ let merge_leading_literals : word_cst -> word_cst =
     | rest -> rest
   in
   fun word ->
-    Buffer.reset buf;
     let rest = extract_leading_literals word in
-    match Buffer.contents buf with
-    | "" -> word
-    | lit -> WordLiteral lit :: rest
+    let lit = Buffer.contents buf in
+    Buffer.reset buf;
+    if lit = "" then word else WordLiteral lit :: rest
 
 (** Extracts the tilde-prefix at the beginning of the given word CST if there is
     one. Otherwise, returns the word as-is. *)
