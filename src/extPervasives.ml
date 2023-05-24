@@ -281,3 +281,31 @@ let lines s =
 
 let string_last_line s =
   lines s |> list_last
+
+module List = struct
+  include List
+
+  (** Returns the “foot” of the list, that is the last element. Linear in the
+      size of the list. Raises [Failure "ft"] if the list is empty. *)
+  let rec ft = function
+    | [] -> failwith "ft"
+    | [e] -> e
+    | _ :: t -> ft t
+
+  (** Returns the “body” of the list, that is the list without its last element.
+      Linear in the size of the list. Raises [Failure "bd"] if the list is
+      empty. *)
+  let bd l =
+    let rec bd acc = function
+      | [] -> failwith "bd"
+      | [_] -> rev acc
+      | h :: t -> bd (h :: acc) t
+    in
+    bd [] l
+
+  (** Returns the “core” of the list, that is the list without its first and
+      last elements. Linear in the size of the list. Raises [Failure "cr"] if
+      the list does not have at least two elements. *)
+  let cr l =
+    try tl (bd l) with Failure _ -> failwith "cr"
+end
