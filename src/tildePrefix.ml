@@ -62,10 +62,18 @@ let extract_tilde_prefix_from_literal (literal : string) : word_cst =
     [WordTildePrefix (strip_tilde first); WordLiteral rest]
 
 (** Merges several leading [WordLiteral] into one. *)
-let rec merge_leading_literals : word_cst -> word_cst = function
-  | WordLiteral literal1 :: WordLiteral literal2 :: word ->
-    merge_leading_literals (WordLiteral (literal1 ^ literal2) :: word)
-  | word -> word
+let merge_leading_literals : word_cst -> word_cst =
+  let buf = Buffer.create 80 in
+  let rec aux = function
+    | WordLiteral lit :: word ->
+      Buffer.add_string buf lit;
+      aux word
+    | word ->
+      match Buffer.contents buf with
+      | "" -> word
+      | lit -> WordLiteral lit :: word
+  in
+  fun word -> Buffer.reset buf; aux word
 
 (** Extracts the tilde-prefix at the beginning of the given word CST if there is
     one. Otherwise, returns the word as-is. *)
