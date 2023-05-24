@@ -132,8 +132,9 @@ let rec concat_words_with_colon (words : word_cst list) : word_cst =
   | [word] -> word
   | word :: words -> word @ [WordLiteral ":"] @ concat_words_with_colon words
 
-(** Recognises tilde prefixes in a word. The [rhs_assignment] parameter
-    influences the behaviour of the recognition as described by the standard. *)
+(** Recognises tilde prefixes in a word, that is recognises eg. [WordLiteral
+    "~foo"] and replaces it by [WordTildePrefix "foo"] when in the right
+    position. *)
 let recognize (word : word_cst) =
   match word with
   | [WordAssignmentWord (name, Word (s, word))] ->
