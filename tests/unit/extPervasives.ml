@@ -25,6 +25,38 @@ let smlc_slc =
         )
     )
 
+(** Generates a string and an index comprised within the string. *)
+let gen_string_and_index =
+  QCheck2.Gen.(
+    string >>= fun s ->
+    int_range 0 (String.length s) >>= fun n ->
+    return (n, s)
+  )
+
+let string_split_id =
+  QCheck_alcotest.to_alcotest
+    QCheck2.(
+      Test.make
+        ~count:1000
+        ~name:"(^) % string_split = id"
+        gen_string_and_index
+        (fun (k, s) ->
+           let (s1, s2) = MEP.string_split k s in
+           s = s1 ^ s2)
+    )
+
+let string_split_right_size =
+  QCheck_alcotest.to_alcotest
+    QCheck2.(
+      Test.make
+        ~count:1000
+        ~name:"string_split has right size"
+        gen_string_and_index
+        (fun (k, s) ->
+           let (s1, _) = MEP.string_split k s in
+           String.length s1 = k)
+    )
+
 module List = struct
   module MEPL = Morbig__.ExtPervasives.List
 
@@ -62,4 +94,6 @@ end
 
 let test_cases = [
   smlc_slc;
+  string_split_id;
+  string_split_right_size;
 ] @ List.test_cases
