@@ -55,19 +55,11 @@ let strip_tilde string =
 let extract_tilde_prefix_from_literal (literal : string) : word_cst =
   if not (starts_with_tilde literal) then
     invalid_arg "extract_tilde_prefix_from_literal";
-  match String.split_on_char '/' literal with
-  | [] ->
-    (* [String.split_on_char] yields a list of at least one element. *)
-    assert false
-  | [first] ->
-    [
-      WordTildePrefix (strip_tilde first);
-    ]
-  | first :: rest ->
-    [
-      WordTildePrefix (strip_tilde first);
-      WordLiteral ("/" ^ String.concat "/" rest);
-    ]
+  match String.index_opt literal '/' with
+  | None -> [WordTildePrefix (strip_tilde literal)]
+  | Some i ->
+    let (first, rest) = ExtPervasives.string_split i literal in
+    [WordTildePrefix (strip_tilde first); WordLiteral rest]
 
 (** Merges several leading [WordLiteral] into one. *)
 let rec merge_leading_literals : word_cst -> word_cst = function
