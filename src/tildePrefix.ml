@@ -9,6 +9,8 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
+open ExtPervasives
+
 (*specification
 
   A "tilde-prefix" consists of an unquoted <tilde> character at the
@@ -37,25 +39,109 @@
 *)
 open CST
 
-let find_login s =
-  match String.split_on_char '/' s with
-  | login :: rem -> [WordTildePrefix login; WordLiteral (String.concat "/" rem)]
-  | _ -> assert false (* Because there is slash, or not. *)
+(** Tests whether the given string starts with a tilde character. *)
+let starts_with_tilde string =
+  string != "" && string.[0] = '~'
 
-let rec make_tilde_prefix_explicit rhs_assignment = function
-  | (WordLiteral s) as cst when s <> "" ->
-    if s.[0] = '~' then (
-      if rhs_assignment then
-        let s = String.split_on_char ':' s in
-        List.(flatten (map find_login s))
-      else
-        find_login s
-    ) else [cst]
-  | WordAssignmentWord (name, Word (s, csts)) ->
-    let csts = recognize ~rhs_assignment:true csts in
-    [WordAssignmentWord (name, Word (s, csts))]
-  | cst ->
-    [cst]
+(** Removes the ['~'] character at the beginning of the given string or fail
+    with [Invalid_arg] if the string does not start with a tilde. *)
+let strip_tilde string =
+  if not (starts_with_tilde string) then
+    invalid_arg "strip_tilde";
+  String.(sub string 1 (length string - 1))
 
-and recognize ?(rhs_assignment=false) csts =
-  List.(flatten (map (make_tilde_prefix_explicit rhs_assignment) csts))
+(** Extracts the tilde-prefix at the beginning of the given literal string or
+    fail with [Invalid_arg] if it does not start with a tilde. *)
+let extract_tilde_prefix_from_literal (literal : string) : word_cst =
+  if not (starts_with_tilde literal) then
+    invalid_arg "extract_tilde_prefix_from_literal";
+  match String.index_opt literal '/' with
+  | None -> [WordTildePrefix (strip_tilde literal)]
+  | Some i ->
+    let (first, rest) = ExtPervasives.string_split i literal in
+    [WordTildePrefix (strip_tilde first); WordLiteral rest]
+
+(** Merges several leading [WordLiteral] into one. *)
+let merge_leading_literals : word_cst -> word_cst =
+  let buf = Buffer.create 80 in
+  let rec extract_leading_literals = function
+    | WordLiteral lit :: rest ->
+      Buffer.add_string buf lit;
+      extract_leading_literals rest
+    | rest -> rest
+  in
+  fun word ->
+    let rest = extract_leading_literals word in
+    let lit = Buffer.contents buf in
+    Buffer.reset buf;
+    if lit = "" then word else WordLiteral lit :: rest
+
+(** Extracts the tilde-prefix at the beginning of the given word CST if there is
+    one. Otherwise, returns the word as-is. *)
+let extract_tilde_prefix_from_word_if_present (word : word_cst) : word_cst =
+  match merge_leading_literals word with
+  | WordLiteral literal :: word when starts_with_tilde literal ->
+    extract_tilde_prefix_from_literal literal @ word
+  | word -> word
+
+(** Splits the given word on each literal colon character, returning a list of
+    words. A word semantically equivalent can be re-obtained by interspersing a
+    [WordLiteral ":"] between all the words. *)
+(* REVIEW: this might make sense on its own as one of the CST helpers. *)
+let split_word_on_colon (word_to_process : word_cst) : word_cst list =
+  let rec split_word_component_on_colon
+      ~(processed_words_rev : word_cst list)
+      ~(current_word_rev : word_cst)
+      ~(word_to_process : word_cst)
+    : word_cst list
+    =
+    match word_to_process with
+    | WordLiteral literal :: word_to_process when String.contains literal ':' ->
+      (* Because [literal] contains [':'], then [subliterals] is guaranteed to
+         be of size at least 2, and therefore [List.hd], [List.cr], and
+         [List.tl] will not fail. *)
+      let subliterals = String.split_on_char ':' literal in
+      let processed_words_rev =
+        List.rev_map (fun literal -> [WordLiteral literal]) (List.cr subliterals)
+        @ [List.rev (WordLiteral (List.hd subliterals) :: current_word_rev)]
+        @ processed_words_rev
+      in
+      split_word_component_on_colon
+        ~processed_words_rev
+        ~current_word_rev:[WordLiteral (List.ft subliterals)]
+        ~word_to_process
+
+    | word_component :: word_to_process ->
+      split_word_component_on_colon
+        ~processed_words_rev
+        ~current_word_rev:(word_component :: current_word_rev)
+        ~word_to_process
+
+    | [] ->
+      List.rev ((List.rev current_word_rev) :: processed_words_rev)
+  in
+  split_word_component_on_colon
+    ~processed_words_rev:[]
+    ~current_word_rev:[]
+    ~word_to_process
+
+(** Concatenates the given list of words into one, interspersing it with literal
+    colon characters. *)
+let rec concat_words_with_colon (words : word_cst list) : word_cst =
+  match words with
+  | [] -> []
+  | [word] -> word
+  | word :: words -> word @ [WordLiteral ":"] @ concat_words_with_colon words
+
+(** Recognises tilde prefixes in a word, that is recognises eg. [WordLiteral
+    "~foo"] and replaces it by [WordTildePrefix "foo"] when in the right
+    position. *)
+let recognize (word : word_cst) =
+  match word with
+  | [WordAssignmentWord (name, Word (s, word))] ->
+    let words = split_word_on_colon word in
+    let words = List.map extract_tilde_prefix_from_word_if_present words in
+    let word = concat_words_with_colon words in
+    [WordAssignmentWord (name, Word (s, word))]
+  | _ ->
+    extract_tilde_prefix_from_word_if_present word

@@ -38,6 +38,11 @@ let placeholders_content =
       intro_derivers = "[@@deriving yojson]" ;
       cst_derivers = "[@@deriving yojson]" }
 
+  | "printers" ->
+    { prelude = "" ;
+      intro_derivers = "[@@deriving show {with_path=false}]" ;
+      cst_derivers = "[@@deriving show {with_path=false}]" }
+
   | "visitors" ->
     {
       prelude = {|
