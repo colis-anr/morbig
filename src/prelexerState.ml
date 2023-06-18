@@ -287,46 +287,6 @@ let is_assignment_mark = function
   | AssignmentMark -> true
   | _ -> false
 
-let recognize_assignment current =
-  let rhs, prefix = take_until is_assignment_mark (buffer current) in
-  if prefix = buffer current then (
-    current
-  ) else
-    let buffer = AtomBuffer.make (rhs @ List.tl prefix) in
-    let current' = { current with buffer } in
-    match prefix with
-    | AssignmentMark :: WordComponent (s, _) :: prefix ->
-      assert (s.[String.length s - 1] = '='); (* By after_equal unique call. *)
-      (* [s] is a valid name. We have an assignment here. *)
-      let lhs = try String.(sub s 0 (length s - 1)) with _ -> assert false in
-
-      (* FIXME: The following check could be done directly with
-         ocamllex rules, right?*)
-
-      if Name.is_name lhs then (
-        let rhs_string = contents_of_atom_list rhs in
-        let crhs = components_of_atom_list rhs in
-        let cst =  WordComponent (
-            s ^ rhs_string,
-            WordAssignmentWord (Name lhs, Word (rhs_string, crhs)))
-        in
-        let buffer = AtomBuffer.make (cst :: prefix) in
-        { current with buffer }
-      ) else
-         (*
-            If [lhs] is not a name, then the corresponding word
-            literal must be merged with the preceding one, if it exists.
-          *) (
-        begin match List.rev rhs with
-          | WordComponent (s_rhs, WordLiteral s_rhs') :: rev_rhs ->
-            let word = WordComponent (s ^ s_rhs, WordLiteral (s ^ s_rhs')) in
-            let buffer = AtomBuffer.make (List.rev rev_rhs @ word :: prefix) in
-            { current with buffer }
-          | _ ->
-            current'
-        end)
-    | _ -> current'
-
 (** [(return ?with_newline lexbuf current tokens)] returns a list of
     pretokens consisting of, in that order:
 
@@ -348,8 +308,6 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
   assert (
     not (List.exists (function (Pretoken.PreWord _)->true |_-> false) tokens)
   );
-
-  let current = recognize_assignment current in
 
   let flush_word b =
     let buf = Buffer.create 13 in

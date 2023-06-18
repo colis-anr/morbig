@@ -41,18 +41,33 @@ open Name
 
 *)
 
-let recognize_assignment checkpoint pretoken word_cst = FirstSuccessMonad.(
+let recognize_assignment checkpoint pretoken (Word (word_str, word_cst)) =
+  FirstSuccessMonad.(
     match word_cst with
-    | [WordAssignmentWord ((Name n) as name, w)] ->
-      if is_name n then
-        let (_, pstart, pstop) = pretoken in
-        let token = ASSIGNMENT_WORD (name, w) in
-        if accepted_token checkpoint (token, pstart, pstop) <> Wrong then
-          return token
-        else
-          fail
-      else
-        fail
-    | _ ->
-      fail
+    | WordLiteral literal :: word_cst_leftover ->
+      (
+        match String.index_opt literal '=' with
+        | None | Some 0 -> fail
+        | Some i ->
+          let name = String.sub literal 0 i in
+          if is_name name then
+            let (_, pstart, pstop) = pretoken in
+            let literal_leftover = String.sub literal (i + 1) (String.length literal - i - 1) in
+            let word_str_leftover = String.sub word_str (i + 1) (String.length word_str - i - 1) in
+            let word_cst =
+              if literal_leftover = "" then
+                word_cst_leftover
+              else
+                WordLiteral literal_leftover :: word_cst_leftover
+            in
+            let word = Word (word_str_leftover, word_cst) in
+            let token = ASSIGNMENT_WORD (Name name, word) in
+            if accepted_token checkpoint (token, pstart, pstop) <> Wrong then
+              return token
+            else
+              fail
+          else
+            fail
+      )
+    | _ -> fail
   )

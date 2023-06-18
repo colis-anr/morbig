@@ -139,8 +139,8 @@ let unName (Name s) = s
 
 let word_of_name (Name w) = Word (w, [WordName w])
 
-let word_of_assignment_word (Name n, (Word (s, _) as w)) =
-  Word (n ^ "=" ^ s, [WordAssignmentWord (Name n, w)])
+let word_of_assignment_word (Name name, Word (word_str, word_cst)) =
+  Word (name ^ "=" ^ word_str, WordLiteral (name ^ "=") :: word_cst)
 
 let string_of_word (Word (s, _)) = s
 
