@@ -121,12 +121,10 @@ let rec concat_words_with_colon (words : word_cst list) : word_cst =
 (** Recognises tilde prefixes in a word, that is recognises eg. [WordLiteral
     "~foo"] and replaces it by [WordTildePrefix "foo"] when in the right
     position. *)
-let recognize (word : word_cst) =
-  match word with
-  | [WordAssignmentWord (name, Word (s, word))] ->
+let recognize ~in_assignment (word : word_cst) =
+  if in_assignment then
     let words = split_word_on_colon word in
     let words = List.map extract_tilde_prefix_from_word_if_present words in
-    let word = concat_words_with_colon words in
-    [WordAssignmentWord (name, Word (s, word))]
-  | _ ->
+    concat_words_with_colon words
+  else
     extract_tilde_prefix_from_word_if_present word
