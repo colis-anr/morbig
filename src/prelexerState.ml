@@ -366,7 +366,9 @@ let return ?(with_newline=false) lexbuf (current : prelexer_state) tokens =
             | QuotingMark _ -> []
           ) (buffer current)))
       in
-      let csts = TildePrefix.recognize ~in_assignment:false csts in (* FIXME: sometimes should be true *)
+      (* At this point, we cannot say whether this will be an assignment word,
+         so we do a minimal tilde prefixes recognition. *)
+      let csts = TildePrefix.recognize ~in_assignment:false csts in
       [Pretoken.PreWord (w, csts)]
   in
   let tokens = if with_newline then tokens @ [Pretoken.NEWLINE] else tokens in

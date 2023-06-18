@@ -60,6 +60,9 @@ let recognize_assignment checkpoint pretoken (Word (word_str, word_cst)) =
               else
                 WordLiteral literal_leftover :: word_cst_leftover
             in
+            (* Now that we know we're in an assignment, we know there are
+               potentially more tilde prefixes to recognize. *)
+            let word_cst = TildePrefix.recognize ~in_assignment:true word_cst in
             let word = Word (word_str_leftover, word_cst) in
             let token = ASSIGNMENT_WORD (Name name, word) in
             if accepted_token checkpoint (token, pstart, pstop) <> Wrong then
