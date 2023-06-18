@@ -230,3 +230,17 @@ let io_redirect_list_of_simple_command = function
     io_redirect_list_of_cmd_suffix cmd_suffix'.value
   | SimpleCommand_CmdName _ ->
     []
+
+let merge_leading_literals =
+  let buf = Buffer.create 80 in
+  let rec extract_leading_literals = function
+    | WordLiteral lit :: rest ->
+      Buffer.add_string buf lit;
+      extract_leading_literals rest
+    | rest -> rest
+  in
+  fun word ->
+    let rest = extract_leading_literals word in
+    let lit = Buffer.contents buf in
+    Buffer.reset buf;
+    if lit = "" then word else WordLiteral lit :: rest
