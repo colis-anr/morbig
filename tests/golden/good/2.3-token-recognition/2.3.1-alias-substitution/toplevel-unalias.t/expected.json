@@ -45,29 +45,18 @@
                             "foo='ls -l'",
                             [
                               [
-                                "WordAssignmentWord",
+                                "WordLiteral",
+                                "foo="
+                              ],
+                              [
+                                "WordSingleQuoted",
                                 [
+                                  "Word",
+                                  "ls -l",
                                   [
-                                    "Name",
-                                    "foo"
-                                  ],
-                                  [
-                                    "Word",
-                                    "'ls -l'",
                                     [
-                                      [
-                                        "WordSingleQuoted",
-                                        [
-                                          "Word",
-                                          "ls -l",
-                                          [
-                                            [
-                                              "WordLiteral",
-                                              "ls -l"
-                                            ]
-                                          ]
-                                        ]
-                                      ]
+                                      "WordLiteral",
+                                      "ls -l"
                                     ]
                                   ]
                                 ]

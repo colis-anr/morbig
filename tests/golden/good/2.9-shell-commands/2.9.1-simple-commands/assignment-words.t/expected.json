@@ -102,23 +102,8 @@
                           "CC=cc",
                           [
                             [
-                              "WordAssignmentWord",
-                              [
-                                [
-                                  "Name",
-                                  "CC"
-                                ],
-                                [
-                                  "Word",
-                                  "cc",
-                                  [
-                                    [
-                                      "WordLiteral",
-                                      "cc"
-                                    ]
-                                  ]
-                                ]
-                              ]
+                              "WordLiteral",
+                              "CC=cc"
                             ]
                           ]
                         ]

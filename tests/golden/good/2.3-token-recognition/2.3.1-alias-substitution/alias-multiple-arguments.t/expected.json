@@ -47,23 +47,8 @@
                               "show=echo",
                               [
                                 [
-                                  "WordAssignmentWord",
-                                  [
-                                    [
-                                      "Name",
-                                      "show"
-                                    ],
-                                    [
-                                      "Word",
-                                      "echo",
-                                      [
-                                        [
-                                          "WordLiteral",
-                                          "echo"
-                                        ]
-                                      ]
-                                    ]
-                                  ]
+                                  "WordLiteral",
+                                  "show=echo"
                                 ]
                               ]
                             ]
@@ -73,23 +58,8 @@
                             "list=ls",
                             [
                               [
-                                "WordAssignmentWord",
-                                [
-                                  [
-                                    "Name",
-                                    "list"
-                                  ],
-                                  [
-                                    "Word",
-                                    "ls",
-                                    [
-                                      [
-                                        "WordLiteral",
-                                        "ls"
-                                      ]
-                                    ]
-                                  ]
-                                ]
+                                "WordLiteral",
+                                "list=ls"
                               ]
                             ]
                           ]
@@ -99,23 +69,8 @@
                           "coocoo=kiki",
                           [
                             [
-                              "WordAssignmentWord",
-                              [
-                                [
-                                  "Name",
-                                  "coocoo"
-                                ],
-                                [
-                                  "Word",
-                                  "kiki",
-                                  [
-                                    [
-                                      "WordLiteral",
-                                      "kiki"
-                                    ]
-                                  ]
-                                ]
-                              ]
+                              "WordLiteral",
+                              "coocoo=kiki"
                             ]
                           ]
                         ]

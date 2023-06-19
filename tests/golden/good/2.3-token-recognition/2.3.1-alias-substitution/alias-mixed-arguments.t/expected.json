@@ -45,23 +45,8 @@
                             "titi=TITI",
                             [
                               [
-                                "WordAssignmentWord",
-                                [
-                                  [
-                                    "Name",
-                                    "titi"
-                                  ],
-                                  [
-                                    "Word",
-                                    "TITI",
-                                    [
-                                      [
-                                        "WordLiteral",
-                                        "TITI"
-                                      ]
-                                    ]
-                                  ]
-                                ]
+                                "WordLiteral",
+                                "titi=TITI"
                               ]
                             ]
                           ]
@@ -71,23 +56,8 @@
                           "toto=TOTO",
                           [
                             [
-                              "WordAssignmentWord",
-                              [
-                                [
-                                  "Name",
-                                  "toto"
-                                ],
-                                [
-                                  "Word",
-                                  "TOTO",
-                                  [
-                                    [
-                                      "WordLiteral",
-                                      "TOTO"
-                                    ]
-                                  ]
-                                ]
-                              ]
+                              "WordLiteral",
+                              "toto=TOTO"
                             ]
                           ]
                         ]
@@ -143,23 +113,8 @@
                               "tata=TATA",
                               [
                                 [
-                                  "WordAssignmentWord",
-                                  [
-                                    [
-                                      "Name",
-                                      "tata"
-                                    ],
-                                    [
-                                      "Word",
-                                      "TATA",
-                                      [
-                                        [
-                                          "WordLiteral",
-                                          "TATA"
-                                        ]
-                                      ]
-                                    ]
-                                  ]
+                                  "WordLiteral",
+                                  "tata=TATA"
                                 ]
                               ]
                             ]
@@ -180,23 +135,8 @@
                           "tutu=TUTU",
                           [
                             [
-                              "WordAssignmentWord",
-                              [
-                                [
-                                  "Name",
-                                  "tutu"
-                                ],
-                                [
-                                  "Word",
-                                  "TUTU",
-                                  [
-                                    [
-                                      "WordLiteral",
-                                      "TUTU"
-                                    ]
-                                  ]
-                                ]
-                              ]
+                              "WordLiteral",
+                              "tutu=TUTU"
                             ]
                           ]
                         ]
