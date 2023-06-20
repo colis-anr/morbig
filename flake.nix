@@ -44,25 +44,7 @@
           ocp-indent.enable = true;
           nixfmt.enable = true;
           deadnix.enable = true;
-
-          ## NOTE: The version of the `dune-fmt` hook in `pre-commit-hooks.nix`
-          ## forgets to bring OCaml in the environment. In the meantime, we use
-          ## our own; will change back to `dune-fmt.enable = true` later.
-          tmp-dune-fmt = {
-            enable = true;
-            name = "dune-fmt";
-            description = "Runs Dune's formatters on the code tree.";
-            entry = let
-              dune-fmt = pkgs.writeShellApplication {
-                name = "dune-fmt";
-                text = ''
-                  export PATH=${pkgs.ocaml}/bin:$PATH
-                  exec ${pkgs.dune_3}/bin/dune fmt "$@"
-                '';
-              };
-            in "${dune-fmt}/bin/dune-fmt";
-            pass_filenames = false;
-          };
+          dune-fmt.enable = true;
         };
       };
 
