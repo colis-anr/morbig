@@ -31,12 +31,15 @@
 
         packages.default = self'.packages.with-nixpkgs;
 
-        devShells.default = pkgs.mkShell {
-          buildInputs = (with pkgs; [ headache ])
-            ++ (with pkgs.ocamlPackages; [ ocaml-lsp ocp-indent ]);
-          inputsFrom = [ self'.packages.default ];
-          shellHook = config.pre-commit.installationScript;
-        };
+        ## For each package, we define a corresponding devShell using its inputs
+        ## and adding pre-commit hooks and development tools on top.
+        devShells = builtins.mapAttrs (_: package:
+          pkgs.mkShell {
+            buildInputs = (with pkgs; [ headache ])
+              ++ (with pkgs.ocamlPackages; [ ocaml-lsp ocp-indent ]);
+            inputsFrom = [ package ];
+            shellHook = config.pre-commit.installationScript;
+          }) self'.packages;
 
         pre-commit.settings.hooks = {
           dune-opam-sync.enable = true;
