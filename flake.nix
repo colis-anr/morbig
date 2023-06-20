@@ -29,7 +29,9 @@
       perSystem = { self', pkgs, config, ... }: {
         formatter = pkgs.nixfmt;
 
-        packages.default = self'.packages.with-nixpkgs;
+        packages.default = self'.packages.with-nixpkgs // {
+          meta.description = "Alias for `with-nixpkgs`.";
+        };
 
         ## For each package, we define a corresponding devShell using its inputs
         ## and adding pre-commit hooks and development tools on top.
