@@ -32,11 +32,8 @@
         packages.default = self'.packages.with-nixpkgs;
 
         devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs.ocamlPackages; [
-            ocaml-lsp
-            ocp-indent
-            headache
-          ];
+          buildInputs = (with pkgs; [ headache ])
+            ++ (with pkgs.ocamlPackages; [ ocaml-lsp ocp-indent ]);
           inputsFrom = [ self'.packages.default ];
           shellHook = config.pre-commit.installationScript;
         };
