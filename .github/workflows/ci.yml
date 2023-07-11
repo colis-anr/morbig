@@ -154,7 +154,7 @@ jobs:
 
       - name: Upload documentation artifact
         if: matrix.doc != 'no-doc'
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2
         with:
           path: doc/
 
