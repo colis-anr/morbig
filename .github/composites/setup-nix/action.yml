@@ -21,7 +21,7 @@ runs:
     - name: Setup Nix caches
       uses: cachix/cachix-action@v12
       with:
-        name: scd-niols-fr
+        name: morbig
         ## This auth token will give write access to the cache, meaning that
         ## everything that happens in CI will be pushed at the end of the job.
         authToken: "${{ inputs.cachixAuthToken }}"
