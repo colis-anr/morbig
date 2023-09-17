@@ -537,27 +537,8 @@
                             "W=~knuth/foo/bar",
                             [
                               [
-                                "WordAssignmentWord",
-                                [
-                                  [
-                                    "Name",
-                                    "W"
-                                  ],
-                                  [
-                                    "Word",
-                                    "~knuth/foo/bar",
-                                    [
-                                      [
-                                        "WordTildePrefix",
-                                        "knuth"
-                                      ],
-                                      [
-                                        "WordLiteral",
-                                        "/foo/bar"
-                                      ]
-                                    ]
-                                  ]
-                                ]
+                                "WordLiteral",
+                                "W=~knuth/foo/bar"
                               ]
                             ]
                           ]
@@ -607,47 +588,8 @@
                           "X=~kn:~/bin:~darkvador/secret",
                           [
                             [
-                              "WordAssignmentWord",
-                              [
-                                [
-                                  "Name",
-                                  "X"
-                                ],
-                                [
-                                  "Word",
-                                  "~kn:~/bin:~darkvador/secret",
-                                  [
-                                    [
-                                      "WordTildePrefix",
-                                      "kn"
-                                    ],
-                                    [
-                                      "WordLiteral",
-                                      ":"
-                                    ],
-                                    [
-                                      "WordTildePrefix",
-                                      ""
-                                    ],
-                                    [
-                                      "WordLiteral",
-                                      "/bin"
-                                    ],
-                                    [
-                                      "WordLiteral",
-                                      ":"
-                                    ],
-                                    [
-                                      "WordTildePrefix",
-                                      "darkvador"
-                                    ],
-                                    [
-                                      "WordLiteral",
-                                      "/secret"
-                                    ]
-                                  ]
-                                ]
-                              ]
+                              "WordLiteral",
+                              "X=~kn:~/bin:~darkvador/secret"
                             ]
                           ]
                         ]
@@ -697,51 +639,8 @@
                         "Y=~kn:/bonjour:~/bonsoir:and/this/one",
                         [
                           [
-                            "WordAssignmentWord",
-                            [
-                              [
-                                "Name",
-                                "Y"
-                              ],
-                              [
-                                "Word",
-                                "~kn:/bonjour:~/bonsoir:and/this/one",
-                                [
-                                  [
-                                    "WordTildePrefix",
-                                    "kn"
-                                  ],
-                                  [
-                                    "WordLiteral",
-                                    ":"
-                                  ],
-                                  [
-                                    "WordLiteral",
-                                    "/bonjour"
-                                  ],
-                                  [
-                                    "WordLiteral",
-                                    ":"
-                                  ],
-                                  [
-                                    "WordTildePrefix",
-                                    ""
-                                  ],
-                                  [
-                                    "WordLiteral",
-                                    "/bonsoir"
-                                  ],
-                                  [
-                                    "WordLiteral",
-                                    ":"
-                                  ],
-                                  [
-                                    "WordLiteral",
-                                    "and/this/one"
-                                  ]
-                                ]
-                              ]
-                            ]
+                            "WordLiteral",
+                            "Y=~kn:/bonjour:~/bonsoir:and/this/one"
                           ]
                         ]
                       ]
@@ -791,51 +690,8 @@
                       "Z=/bonjour:~kn:~/bonsoir:and/this/one",
                       [
                         [
-                          "WordAssignmentWord",
-                          [
-                            [
-                              "Name",
-                              "Z"
-                            ],
-                            [
-                              "Word",
-                              "/bonjour:~kn:~/bonsoir:and/this/one",
-                              [
-                                [
-                                  "WordLiteral",
-                                  "/bonjour"
-                                ],
-                                [
-                                  "WordLiteral",
-                                  ":"
-                                ],
-                                [
-                                  "WordTildePrefix",
-                                  "kn"
-                                ],
-                                [
-                                  "WordLiteral",
-                                  ":"
-                                ],
-                                [
-                                  "WordTildePrefix",
-                                  ""
-                                ],
-                                [
-                                  "WordLiteral",
-                                  "/bonsoir"
-                                ],
-                                [
-                                  "WordLiteral",
-                                  ":"
-                                ],
-                                [
-                                  "WordLiteral",
-                                  "and/this/one"
-                                ]
-                              ]
-                            ]
-                          ]
+                          "WordLiteral",
+                          "Z=/bonjour:~kn:~/bonsoir:and/this/one"
                         ]
                       ]
                     ]

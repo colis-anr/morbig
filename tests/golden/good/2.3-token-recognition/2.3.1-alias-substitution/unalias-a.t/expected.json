@@ -47,23 +47,8 @@
                               "tata=TATA",
                               [
                                 [
-                                  "WordAssignmentWord",
-                                  [
-                                    [
-                                      "Name",
-                                      "tata"
-                                    ],
-                                    [
-                                      "Word",
-                                      "TATA",
-                                      [
-                                        [
-                                          "WordLiteral",
-                                          "TATA"
-                                        ]
-                                      ]
-                                    ]
-                                  ]
+                                  "WordLiteral",
+                                  "tata=TATA"
                                 ]
                               ]
                             ]
@@ -73,23 +58,8 @@
                             "titi=TITI",
                             [
                               [
-                                "WordAssignmentWord",
-                                [
-                                  [
-                                    "Name",
-                                    "titi"
-                                  ],
-                                  [
-                                    "Word",
-                                    "TITI",
-                                    [
-                                      [
-                                        "WordLiteral",
-                                        "TITI"
-                                      ]
-                                    ]
-                                  ]
-                                ]
+                                "WordLiteral",
+                                "titi=TITI"
                               ]
                             ]
                           ]

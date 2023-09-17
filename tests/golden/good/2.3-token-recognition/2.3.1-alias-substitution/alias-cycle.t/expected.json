@@ -41,29 +41,18 @@
                         "ls='ls -h -t -l'",
                         [
                           [
-                            "WordAssignmentWord",
+                            "WordLiteral",
+                            "ls="
+                          ],
+                          [
+                            "WordSingleQuoted",
                             [
+                              "Word",
+                              "ls -h -t -l",
                               [
-                                "Name",
-                                "ls"
-                              ],
-                              [
-                                "Word",
-                                "'ls -h -t -l'",
                                 [
-                                  [
-                                    "WordSingleQuoted",
-                                    [
-                                      "Word",
-                                      "ls -h -t -l",
-                                      [
-                                        [
-                                          "WordLiteral",
-                                          "ls -h -t -l"
-                                        ]
-                                      ]
-                                    ]
-                                  ]
+                                  "WordLiteral",
+                                  "ls -h -t -l"
                                 ]
                               ]
                             ]

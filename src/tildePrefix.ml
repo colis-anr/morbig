@@ -61,25 +61,10 @@ let extract_tilde_prefix_from_literal (literal : string) : word_cst =
     let (first, rest) = ExtPervasives.string_split i literal in
     [WordTildePrefix (strip_tilde first); WordLiteral rest]
 
-(** Merges several leading [WordLiteral] into one. *)
-let merge_leading_literals : word_cst -> word_cst =
-  let buf = Buffer.create 80 in
-  let rec extract_leading_literals = function
-    | WordLiteral lit :: rest ->
-      Buffer.add_string buf lit;
-      extract_leading_literals rest
-    | rest -> rest
-  in
-  fun word ->
-    let rest = extract_leading_literals word in
-    let lit = Buffer.contents buf in
-    Buffer.reset buf;
-    if lit = "" then word else WordLiteral lit :: rest
-
 (** Extracts the tilde-prefix at the beginning of the given word CST if there is
     one. Otherwise, returns the word as-is. *)
 let extract_tilde_prefix_from_word_if_present (word : word_cst) : word_cst =
-  match merge_leading_literals word with
+  match CSTHelpers.merge_leading_literals word with
   | WordLiteral literal :: word when starts_with_tilde literal ->
     extract_tilde_prefix_from_literal literal @ word
   | word -> word
@@ -136,12 +121,10 @@ let rec concat_words_with_colon (words : word_cst list) : word_cst =
 (** Recognises tilde prefixes in a word, that is recognises eg. [WordLiteral
     "~foo"] and replaces it by [WordTildePrefix "foo"] when in the right
     position. *)
-let recognize (word : word_cst) =
-  match word with
-  | [WordAssignmentWord (name, Word (s, word))] ->
+let recognize ~in_assignment (word : word_cst) =
+  if in_assignment then
     let words = split_word_on_colon word in
     let words = List.map extract_tilde_prefix_from_word_if_present words in
-    let word = concat_words_with_colon words in
-    [WordAssignmentWord (name, Word (s, word))]
-  | _ ->
+    concat_words_with_colon words
+  else
     extract_tilde_prefix_from_word_if_present word
