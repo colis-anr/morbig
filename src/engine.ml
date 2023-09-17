@@ -336,7 +336,7 @@ module Lexer (U : sig end) : Lexer = struct
             | _ -> false
         in
         let token = FirstSuccessMonad.(
-            (recognize_assignment checkpoint p cst)
+            (recognize_assignment checkpoint p (Word (w0, cst)))
             +> (recognize_reserved_word_if_relevant
                   well_delimited_keyword checkpoint p w)
             +> return word

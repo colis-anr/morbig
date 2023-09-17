@@ -319,7 +319,6 @@ and word_cst = word_component list
 and word_component =
   | WordSubshell of subshell_kind * program located
   | WordName of string
-  | WordAssignmentWord of assignment_word
   | WordDoubleQuoted of word
   | WordSingleQuoted of word
   | WordTildePrefix of string

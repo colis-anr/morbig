@@ -41,23 +41,8 @@
                         "foo=for",
                         [
                           [
-                            "WordAssignmentWord",
-                            [
-                              [
-                                "Name",
-                                "foo"
-                              ],
-                              [
-                                "Word",
-                                "for",
-                                [
-                                  [
-                                    "WordLiteral",
-                                    "for"
-                                  ]
-                                ]
-                              ]
-                            ]
+                            "WordLiteral",
+                            "foo=for"
                           ]
                         ]
                       ]

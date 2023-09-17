@@ -66,7 +66,7 @@ jobs:
           echo "OPAM_FLAGS=$with_doc $with_test" >> "$GITHUB_ENV"
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Use OCaml ${{ matrix.ocaml }}
         if: matrix.bytecode != 'bytecode'
@@ -154,7 +154,7 @@ jobs:
 
       - name: Upload documentation artifact
         if: matrix.doc != 'no-doc'
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2
         with:
           path: doc/
 
@@ -179,7 +179,7 @@ jobs:
               libyojson-ocaml-dev
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Try building
         run: make
@@ -238,7 +238,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Docker image
         run: |
@@ -268,7 +268,7 @@ jobs:
 
       - name: Login to Docker Hub
         if: github.event_name == 'push' && matrix.deploy-image == 'deploy-image'
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
@@ -296,14 +296,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install Nix
-        uses: cachix/install-nix-action@v22
+      - name: Setup Nix
+        uses: ./.github/composites/setup-nix
         with:
-          extra_nix_config: |
-            ## Access token to avoid triggering GitHub's rate limiting.
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+          githubAccessToken: ${{ secrets.GITHUB_TOKEN }}
+          cachixAuthToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
       - name: Install Nix dependencies
         run: |
@@ -330,14 +329,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install Nix
-        uses: cachix/install-nix-action@v22
+      - name: Setup Nix
+        uses: ./.github/composites/setup-nix
         with:
-          extra_nix_config: |
-            ## Access token to avoid triggering GitHub's rate limiting.
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+          githubAccessToken: ${{ secrets.GITHUB_TOKEN }}
+          cachixAuthToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
       - name: Run flake checks
         run: nix flake check . --print-build-logs

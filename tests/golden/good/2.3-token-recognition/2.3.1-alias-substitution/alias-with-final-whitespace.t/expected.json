@@ -51,29 +51,18 @@
                                   "x='echo '",
                                   [
                                     [
-                                      "WordAssignmentWord",
+                                      "WordLiteral",
+                                      "x="
+                                    ],
+                                    [
+                                      "WordSingleQuoted",
                                       [
+                                        "Word",
+                                        "echo ",
                                         [
-                                          "Name",
-                                          "x"
-                                        ],
-                                        [
-                                          "Word",
-                                          "'echo '",
                                           [
-                                            [
-                                              "WordSingleQuoted",
-                                              [
-                                                "Word",
-                                                "echo ",
-                                                [
-                                                  [
-                                                    "WordLiteral",
-                                                    "echo "
-                                                  ]
-                                                ]
-                                              ]
-                                            ]
+                                            "WordLiteral",
+                                            "echo "
                                           ]
                                         ]
                                       ]
@@ -126,29 +115,18 @@
                                 "z='a '",
                                 [
                                   [
-                                    "WordAssignmentWord",
+                                    "WordLiteral",
+                                    "z="
+                                  ],
+                                  [
+                                    "WordSingleQuoted",
                                     [
+                                      "Word",
+                                      "a ",
                                       [
-                                        "Name",
-                                        "z"
-                                      ],
-                                      [
-                                        "Word",
-                                        "'a '",
                                         [
-                                          [
-                                            "WordSingleQuoted",
-                                            [
-                                              "Word",
-                                              "a ",
-                                              [
-                                                [
-                                                  "WordLiteral",
-                                                  "a "
-                                                ]
-                                              ]
-                                            ]
-                                          ]
+                                          "WordLiteral",
+                                          "a "
                                         ]
                                       ]
                                     ]

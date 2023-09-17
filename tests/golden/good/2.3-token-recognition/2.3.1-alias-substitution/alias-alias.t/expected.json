@@ -43,23 +43,8 @@
                           "rename=alias",
                           [
                             [
-                              "WordAssignmentWord",
-                              [
-                                [
-                                  "Name",
-                                  "rename"
-                                ],
-                                [
-                                  "Word",
-                                  "alias",
-                                  [
-                                    [
-                                      "WordLiteral",
-                                      "alias"
-                                    ]
-                                  ]
-                                ]
-                              ]
+                              "WordLiteral",
+                              "rename=alias"
                             ]
                           ]
                         ]
@@ -109,23 +94,8 @@
                         "time=date",
                         [
                           [
-                            "WordAssignmentWord",
-                            [
-                              [
-                                "Name",
-                                "time"
-                              ],
-                              [
-                                "Word",
-                                "date",
-                                [
-                                  [
-                                    "WordLiteral",
-                                    "date"
-                                  ]
-                                ]
-                              ]
-                            ]
+                            "WordLiteral",
+                            "time=date"
                           ]
                         ]
                       ]

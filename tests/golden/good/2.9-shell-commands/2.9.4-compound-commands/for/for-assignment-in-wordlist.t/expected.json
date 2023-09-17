@@ -35,23 +35,8 @@
                         "BOOT_START=start_on_boot",
                         [
                           [
-                            "WordAssignmentWord",
-                            [
-                              [
-                                "Name",
-                                "BOOT_START"
-                              ],
-                              [
-                                "Word",
-                                "start_on_boot",
-                                [
-                                  [
-                                    "WordLiteral",
-                                    "start_on_boot"
-                                  ]
-                                ]
-                              ]
-                            ]
+                            "WordLiteral",
+                            "BOOT_START=start_on_boot"
                           ]
                         ]
                       ]

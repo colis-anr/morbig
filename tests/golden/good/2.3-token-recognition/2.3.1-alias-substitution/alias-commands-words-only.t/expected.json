@@ -41,23 +41,8 @@
                         "show=echo",
                         [
                           [
-                            "WordAssignmentWord",
-                            [
-                              [
-                                "Name",
-                                "show"
-                              ],
-                              [
-                                "Word",
-                                "echo",
-                                [
-                                  [
-                                    "WordLiteral",
-                                    "echo"
-                                  ]
-                                ]
-                              ]
-                            ]
+                            "WordLiteral",
+                            "show=echo"
                           ]
                         ]
                       ]

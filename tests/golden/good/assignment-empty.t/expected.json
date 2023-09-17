@@ -18,17 +18,18 @@
               [
                 "Command_SimpleCommand",
                 [
-                  "SimpleCommand_CmdName",
+                  "SimpleCommand_CmdPrefix",
                   [
-                    "CmdName_Word",
+                    "CmdPrefix_AssignmentWord",
                     [
-                      "Word",
-                      "A=",
                       [
-                        [
-                          "WordLiteral",
-                          "A="
-                        ]
+                        "Name",
+                        "A"
+                      ],
+                      [
+                        "Word",
+                        "",
+                        []
                       ]
                     ]
                   ]

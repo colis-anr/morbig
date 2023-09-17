@@ -39,23 +39,8 @@
                       "b=c",
                       [
                         [
-                          "WordAssignmentWord",
-                          [
-                            [
-                              "Name",
-                              "b"
-                            ],
-                            [
-                              "Word",
-                              "c",
-                              [
-                                [
-                                  "WordLiteral",
-                                  "c"
-                                ]
-                              ]
-                            ]
-                          ]
+                          "WordLiteral",
+                          "b=c"
                         ]
                       ]
                     ]
