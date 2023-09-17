@@ -66,7 +66,7 @@ jobs:
           echo "OPAM_FLAGS=$with_doc $with_test" >> "$GITHUB_ENV"
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Use OCaml ${{ matrix.ocaml }}
         if: matrix.bytecode != 'bytecode'
@@ -179,7 +179,7 @@ jobs:
               libyojson-ocaml-dev
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Try building
         run: make
@@ -238,7 +238,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Docker image
         run: |
@@ -296,7 +296,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Nix
         uses: ./.github/composites/setup-nix
@@ -329,7 +329,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Nix
         uses: ./.github/composites/setup-nix
