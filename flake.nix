@@ -71,11 +71,8 @@
     };
 
   nixConfig = {
-    extra-trusted-substituters = [
-      "https://morbig.cachix.org/"
-    ];
-    extra-trusted-public-keys = [
-      "morbig.cachix.org-1:l6jrpCfkt03SwhxnK7VNDgrnMDW9OA92BTcuZTNw60I="
-    ];
+    extra-trusted-substituters = [ "https://morbig.cachix.org/" ];
+    extra-trusted-public-keys =
+      [ "morbig.cachix.org-1:l6jrpCfkt03SwhxnK7VNDgrnMDW9OA92BTcuZTNw60I=" ];
   };
 }
