@@ -39,6 +39,9 @@
         installPhase = ''
           make install PREFIX=$out LIBDIR=$OCAMLFIND_DESTDIR
         '';
+
+        meta.description =
+          "Morbig, where all the dependencies come from `nixpkgs`.";
       };
     };
 }
