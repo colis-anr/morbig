@@ -159,7 +159,7 @@ jobs:
           path: doc/
 
       - name: Deploy to GitHub pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
         if: github.event_name == 'push'
             && github.ref == 'refs/heads/main'
             && matrix.deploy-doc == 'deploy-doc'
