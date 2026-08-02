@@ -10,14 +10,6 @@
 (**************************************************************************)
 
 open Parser.MenhirInterpreter
-open MenhirLib.General
-
-let current_items parsing_state =
-  match Lazy.force (stack parsing_state) with
-  | Nil ->
-    []
-  | Cons (Element (s, _, _, _), _) ->
-    items s
 
 type 'a status =
   | AcceptedNow of 'a
