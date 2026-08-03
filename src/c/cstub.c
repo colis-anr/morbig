@@ -17,6 +17,10 @@
 #include <caml/mlvalues.h>
 #include <caml/callback.h>
 #include <caml/alloc.h>
+#ifdef _WIN32
+#include <caml/memory.h>
+#include <caml/osdeps.h>
+#endif
 
 typedef value cst_t;
 typedef value position_t;
@@ -145,5 +149,29 @@ void dummy_external () {
 }
 
 void initialize_morbig (char** argv) {
+#ifdef _WIN32
+  size_t argc = 0;
+  char_os** os_argv;
+
+  while (argv[argc] != NULL)
+    argc++;
+
+  os_argv = malloc ((argc + 1) * sizeof (*os_argv));
+  if (os_argv == NULL) {
+    fprintf (stderr, "Cannot allocate OCaml runtime arguments.\n");
+    exit (EXIT_FAILURE);
+  }
+
+  for (size_t i = 0; i < argc; i++)
+    os_argv[i] = caml_stat_strdup_to_os (argv[i]);
+  os_argv[argc] = NULL;
+
+  caml_startup (os_argv);
+
+  for (size_t i = 0; i < argc; i++)
+    caml_stat_free (os_argv[i]);
+  free (os_argv);
+#else
   caml_startup (argv);
+#endif
 }
