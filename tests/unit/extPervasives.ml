@@ -65,10 +65,10 @@ module List = struct
       QCheck.(
         Test.make
           ~count:1000
-          ~name:"List.(bd @ [tl] = id)"
+          ~name:"List.(bd @ [ft] = id)"
           (list int)
           (fun l ->
-             assume (List.compare_length_with l 2 >= 0);
+             assume (List.compare_length_with l 1 >= 0);
              l = MEPL.(bd l @ [ft l])
           )
       )
