@@ -154,12 +154,12 @@ jobs:
 
       - name: Upload documentation artifact
         if: matrix.doc != 'no-doc'
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: doc/
 
       - name: Deploy to GitHub pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
         if: github.event_name == 'push'
             && github.ref == 'refs/heads/main'
             && matrix.deploy-doc == 'deploy-doc'
@@ -174,7 +174,7 @@ jobs:
       - name: Install OCaml & dependencies
         run: |
           sudo apt-get install                                                 \
-              build-essential ocaml dune menhir libmenhir-ocaml-dev            \
+              build-essential ocaml ocaml-dune menhir libmenhir-ocaml-dev      \
               libppx-deriving-yojson-ocaml-dev libppx-visitors-ocaml-dev       \
               libyojson-ocaml-dev
 
