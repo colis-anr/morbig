@@ -197,13 +197,13 @@ jobs:
       #   run: make check
 
       - name: Try installing
-        run: sudo make install PREFIX=/usr/local
+        run: sudo make install LIBDIR="$(ocamlfind printconf destdir)"
 
       - name: Try building examples
         run: make examples
 
       - name: Try uninstalling
-        run: sudo make uninstall PREFIX=/usr/local
+        run: sudo make uninstall LIBDIR="$(ocamlfind printconf destdir)"
 
       ## Not working (as of 2023-03-31), `dune clean` complains about:
       ##
