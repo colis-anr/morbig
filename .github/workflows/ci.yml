@@ -36,7 +36,7 @@ jobs:
           - {os: macos, ocaml: 4.14.x}
           - {os: windows, ocaml: 4.14.x, tests: no-tests}
           - {os: ubuntu, ocaml: 5.0.x}
-          ## NOTE: The `ocaml/setup-ocaml@v2` action does not support `4.14.x`
+          ## NOTE: The `ocaml/setup-ocaml@v3` action does not support `4.14.x`
           ## versions for `ocaml-variants` and such, hence the detailed version.
           ## NOTE: After OCaml 5.0.0, `ocaml-option-bytecode-only` can be used
           ## directly with `ocaml-base-compiler`, probably?
@@ -70,13 +70,13 @@ jobs:
 
       - name: Use OCaml ${{ matrix.ocaml }}
         if: matrix.bytecode != 'bytecode'
-        uses: ocaml/setup-ocaml@v2
+        uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml }}
 
       - name: (Bytecode) Use OCaml ${{ matrix.ocaml }}
         if: matrix.bytecode == 'bytecode'
-        uses: ocaml/setup-ocaml@v2
+        uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ocaml-variants.${{ matrix.ocaml }}+options,ocaml-option-bytecode-only
 
@@ -197,13 +197,13 @@ jobs:
       #   run: make check
 
       - name: Try installing
-        run: sudo make install
+        run: sudo make install PREFIX=/usr/local
 
       - name: Try building examples
         run: make examples
 
       - name: Try uninstalling
-        run: sudo make uninstall
+        run: sudo make uninstall PREFIX=/usr/local
 
       ## Not working (as of 2023-03-31), `dune clean` complains about:
       ##
