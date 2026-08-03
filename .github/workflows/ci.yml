@@ -36,7 +36,7 @@ jobs:
           - {os: macos, ocaml: 4.14.x}
           - {os: windows, ocaml: 4.14.x, tests: no-tests}
           - {os: ubuntu, ocaml: 5.0.x}
-          ## NOTE: The `ocaml/setup-ocaml@v2` action does not support `4.14.x`
+          ## NOTE: The `ocaml/setup-ocaml@v3` action does not support `4.14.x`
           ## versions for `ocaml-variants` and such, hence the detailed version.
           ## NOTE: After OCaml 5.0.0, `ocaml-option-bytecode-only` can be used
           ## directly with `ocaml-base-compiler`, probably?
@@ -70,18 +70,26 @@ jobs:
 
       - name: Use OCaml ${{ matrix.ocaml }}
         if: matrix.bytecode != 'bytecode'
-        uses: ocaml/setup-ocaml@v2
+        uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml }}
 
       - name: (Bytecode) Use OCaml ${{ matrix.ocaml }}
         if: matrix.bytecode == 'bytecode'
-        uses: ocaml/setup-ocaml@v2
+        uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ocaml-variants.${{ matrix.ocaml }}+options,ocaml-option-bytecode-only
 
       - name: Install Dune
         run: opam install dune --yes
+
+      # Remove these temporary pins once the current Menhir and Yojson
+      # compatibility changes have landed.
+      - name: Pin compatible dependency versions
+        if: matrix.lower-bounds != 'lower-bounds'
+        run: |
+          opam pin add --no-action menhir 20240715
+          opam pin add --no-action yojson 2.2.2
 
       - name: Install OPAM dependencies
         run: opam install . --deps-only ${{ env.OPAM_FLAGS }}
@@ -154,12 +162,12 @@ jobs:
 
       - name: Upload documentation artifact
         if: matrix.doc != 'no-doc'
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: doc/
 
       - name: Deploy to GitHub pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
         if: github.event_name == 'push'
             && github.ref == 'refs/heads/main'
             && matrix.deploy-doc == 'deploy-doc'
@@ -174,7 +182,7 @@ jobs:
       - name: Install OCaml & dependencies
         run: |
           sudo apt-get install                                                 \
-              build-essential ocaml dune menhir libmenhir-ocaml-dev            \
+              build-essential ocaml ocaml-dune menhir libmenhir-ocaml-dev      \
               libppx-deriving-yojson-ocaml-dev libppx-visitors-ocaml-dev       \
               libyojson-ocaml-dev
 
@@ -197,13 +205,13 @@ jobs:
       #   run: make check
 
       - name: Try installing
-        run: sudo make install
+        run: sudo make install PREFIX=/usr/local LIBDIR="$(ocamlfind printconf destdir)"
 
       - name: Try building examples
         run: make examples
 
       - name: Try uninstalling
-        run: sudo make uninstall
+        run: sudo make uninstall PREFIX=/usr/local LIBDIR="$(ocamlfind printconf destdir)"
 
       ## Not working (as of 2023-03-31), `dune clean` complains about:
       ##
