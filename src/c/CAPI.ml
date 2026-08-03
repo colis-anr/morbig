@@ -28,10 +28,6 @@ let ccst_of_json_program j =
       Location (start_p, end_p, aux v)
     | `List (`String k :: children) ->
       Node (k, aux' (`List children))
-    | `Variant (k, None) ->
-      Node (k, [||])
-    | `Variant (k, Some children) ->
-      Node (k, aux' children)
     | `String s ->
       Data s
     | `List l ->

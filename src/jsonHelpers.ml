@@ -9,7 +9,8 @@
 (*  the POSIX standard. Please refer to the file COPYING for details.     *)
 (**************************************************************************)
 
-let rec json_filter_positions = function
+let rec json_filter_positions (json : Yojson.Safe.t) : Yojson.Safe.t =
+  match json with
   | `Assoc sjl ->
     if List.for_all (fun (s, _j) -> s = "value" || s = "position") sjl then
       let (_, j) = List.find (fun (s, _) -> s = "value") sjl in
@@ -25,13 +26,12 @@ let rec json_filter_positions = function
   | `List jl -> `List (List.map json_filter_positions jl)
   | `Null -> `Null
   | `String s -> `String s
-  | `Tuple jl -> `Tuple (List.map json_filter_positions jl)
-  | `Variant (s, None) -> `Variant (s, None)
-  | `Variant (s, Some j) -> `Variant (s, Some (json_filter_positions j))
+  | json -> json
+[@@warning "-11"]
 
 let convert_to_json simplified csts =
-  CSTSerializers.program_to_yojson csts
-  |> (if simplified then json_filter_positions else function x-> x)
+  let json : Yojson.Safe.t = CSTSerializers.program_to_yojson csts in
+  if simplified then json_filter_positions json else json
 
 let save_as_json simplified cout csts =
   convert_to_json simplified csts

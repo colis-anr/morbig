@@ -18,11 +18,7 @@ RUN if [ -n "$switch" ]; then opam switch create "$switch"; fi
 ## way) first the non-opam dependencies that are required and then the OPAM
 ## packages.
 
-## Remove these temporary pins once the current Menhir and Yojson
-## compatibility changes have landed.
-RUN opam pin add --no-action menhir 20240715 && \
-    opam pin add --no-action yojson 2.2.2 && \
-    opam depext -i menhir yojson ppx_deriving_yojson visitors
+RUN opam depext -i menhir yojson ppx_deriving_yojson visitors
 
 ## Install documentation dependencies. Disabled by default, but can be enabled
 ## with `--build-arg doc=true`.
