@@ -83,6 +83,14 @@ jobs:
       - name: Install Dune
         run: opam install dune --yes
 
+      # Remove these temporary pins once the current Menhir and Yojson
+      # compatibility changes have landed.
+      - name: Pin compatible dependency versions
+        if: matrix.lower-bounds != 'lower-bounds'
+        run: |
+          opam pin add --no-action menhir 20240715
+          opam pin add --no-action yojson 2.2.2
+
       - name: Install OPAM dependencies
         run: opam install . --deps-only ${{ env.OPAM_FLAGS }}
 
