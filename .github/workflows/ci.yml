@@ -153,7 +153,9 @@ jobs:
         run: opam exec -- make doc
 
       - name: Upload documentation artifact
-        if: matrix.doc != 'no-doc'
+        if: github.event_name == 'push'
+            && github.ref == 'refs/heads/main'
+            && matrix.deploy-doc == 'deploy-doc'
         uses: actions/upload-pages-artifact@v3
         with:
           path: doc/
