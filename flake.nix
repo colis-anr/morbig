@@ -2,11 +2,16 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    opam-nix.url = "github:tweag/opam-nix";
-    opam-nix.inputs.nixpkgs.follows = "nixpkgs";
+    opam-nix = {
+      url = "github:tweag/opam-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "";
+    };
 
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
@@ -24,17 +29,19 @@
       perSystem = { self', pkgs, config, ... }: {
         formatter = pkgs.nixfmt;
 
-        packages.default = self'.packages.with-nixpkgs;
-
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs.ocamlPackages; [
-            ocaml-lsp
-            ocp-indent
-            headache
-          ];
-          inputsFrom = [ self'.packages.default ];
-          shellHook = config.pre-commit.installationScript;
+        packages.default = self'.packages.with-nixpkgs // {
+          meta.description = "Alias for `with-nixpkgs`.";
         };
+
+        ## For each package, we define a corresponding devShell using its inputs
+        ## and adding pre-commit hooks and development tools on top.
+        devShells = builtins.mapAttrs (_: package:
+          pkgs.mkShell {
+            buildInputs = (with pkgs; [ headache ])
+              ++ (with pkgs.ocamlPackages; [ ocaml-lsp ocp-indent ]);
+            inputsFrom = [ package ];
+            shellHook = config.pre-commit.installationScript;
+          }) self'.packages;
 
         pre-commit.settings.hooks = {
           dune-opam-sync.enable = true;
@@ -42,25 +49,7 @@
           ocp-indent.enable = true;
           nixfmt.enable = true;
           deadnix.enable = true;
-
-          ## NOTE: The version of the `dune-fmt` hook in `pre-commit-hooks.nix`
-          ## forgets to bring OCaml in the environment. In the meantime, we use
-          ## our own; will change back to `dune-fmt.enable = true` later.
-          tmp-dune-fmt = {
-            enable = true;
-            name = "dune-fmt";
-            description = "Runs Dune's formatters on the code tree.";
-            entry = let
-              dune-fmt = pkgs.writeShellApplication {
-                name = "dune-fmt";
-                text = ''
-                  export PATH=${pkgs.ocaml}/bin:$PATH
-                  exec ${pkgs.dune_3}/bin/dune fmt "$@"
-                '';
-              };
-            in "${dune-fmt}/bin/dune-fmt";
-            pass_filenames = false;
-          };
+          dune-fmt.enable = true;
         };
       };
 

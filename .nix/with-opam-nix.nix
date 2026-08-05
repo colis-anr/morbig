@@ -8,5 +8,11 @@
         resolveArgs.with-doc = true;
         resolveArgs.with-test = true;
       } "morbig" ./.. { ocaml-base-compiler = "*"; };
-    in { packages.with-opam-nix = scope.morbig // { inherit scope; }; };
+    in {
+      packages.with-opam-nix = scope.morbig // {
+        inherit scope;
+        meta.description =
+          "Morbig, where all the dependencies are handled by `opam-nix`.";
+      };
+    };
 }
