@@ -482,7 +482,6 @@ rule token current = parse
 | "}" {
   debug ~rule:"parameter-closing-brace" lexbuf current;
   if under_braces current then
-    let current = pop_quotation OpeningBrace current in
     let _ =   debug ~rule:"parameter-closing-brace-after-pop" lexbuf current in
     return lexbuf current []
   else
