@@ -8,11 +8,11 @@
   "Yann Régis-Gianas <yann.regis-gianas@irif.fr>"
   "Ralf Treinen <ralf.treinen@irif.fr>"
   "Nicolas Jeannerod <niols@niols.fr>")
-(license GPL3-only)
+(license GPL-3.0-only)
 
 (package
  (name morbig)
- (version 0.11.0)
+ (version 0.12.0)
 
  (synopsis "A trustworthy parser for POSIX shell")
  (description

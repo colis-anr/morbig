@@ -45,10 +45,11 @@ clean:
 	dune clean
 	rm -f bin lib doc
 
-PACKAGE=$(shell echo morbig-`cat VERSION`)
+VERSION=$(shell grep -m1 version dune-project | tr -dc '0-9.\n')
+PACKAGE=morbig-$(VERSION)
 
 dist: clean
-	git archive -o $(PACKAGE).tar --format tar --prefix $(PACKAGE)/  master
+	git archive -o $(PACKAGE).tar --format tar --prefix $(PACKAGE)/ HEAD
 	gzip -9 $(PACKAGE).tar
 
 docker-image: Dockerfile
